@@ -1,2 +1,1 @@
-# admin
-Admin plugin for Flextype
+# Admin Plugin for [Flextype](http://flextype.org/)

@@ -16,19 +16,33 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 
-
-    <style media="screen">
-    .CodeMirror {
-        height: auto!important;
-        min-height: 10px!important;
-    }
-    </style>
+    <link rel="stylesheet" href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/codemirror/lib/codemirror.css">
 
     <!-- Bootstrap core CSS -->
 	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
 	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/css/theme.css" rel="stylesheet">
+
+    <style media="screen">
+        .editor-toolbar {
+            border-top: 1px solid #000!important;
+            border-left: 1px solid #000!important;
+            border-right: 1px solid #000!important;
+            border-radius: 0!important;
+        }
+
+        .editor-toolbar a {
+            color: #000!important;
+        }
+
+        .CodeMirror {
+            height: auto!important;
+            min-height: 10px!important;
+            border: 1px solid #000!important;
+        }
+    </style>
+
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>
   <body>

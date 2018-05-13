@@ -32,7 +32,6 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
     </div>
     <br>
     <button class="btn btn-lg btn-dark" name="create_page" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></button>
-    <a class="btn btn-lg btn-dark" href="<?php echo Http::getBaseUrl(); ?>/admin/pages"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></a>
 </form>
 
 <?php Themes::template('admin/views/partials/footer')->display(); ?>

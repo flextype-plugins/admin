@@ -21,5 +21,3 @@ echo (
 );
 
 Themes::template('admin/views/partials/footer')->display();
-
-?>

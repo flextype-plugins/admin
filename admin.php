@@ -1,5 +1,7 @@
 <?php
 
+namespace Flextype;
+
 /**
  *
  * Flextype Admin Plugin
@@ -11,18 +13,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Flextype;
-
-use Flextype\Component\{Arr\Arr, Http\Http, Filesystem\Filesystem, Session\Session};
+use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry};
 use Symfony\Component\Yaml\Yaml;
-
-
 
 //
 // Add listner for onPageBeforeRender event
 //
 if (Http::getUriSegment(0) == 'admin') {
-    Events::addListener('onPageBeforeRender', function () {
+    Event::addListener('onPageBeforeRender', function () {
         Admin::instance();
     });
 }
@@ -69,6 +67,7 @@ class Admin {
 
     protected static function init()
     {
+
         if (static::isLoggedIn()) {
             static::getAdminPage();
         } else {
@@ -120,7 +119,7 @@ class Admin {
                     }
                 }
 
-                View::factory('admin/templates/pages/add')
+                Themes::template('admin/views/templates/pages/add')
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;
@@ -139,7 +138,7 @@ class Admin {
                 $page = trim(Filesystem::getFileContent(PAGES_PATH . '/' . Http::get('page') . '/page.md'));
                 $page = explode('---', $page, 3);
 
-                View::factory('admin/templates/pages/editor')
+                Themes::template('admin/views/templates/pages/editor')
                     ->assign('page_slug', Http::get('page'))
                     ->assign('page_frontmatter', $page[1])
                     ->assign('page_content', $page[2])
@@ -148,7 +147,7 @@ class Admin {
             default:
                 $pages_list = Pages::getPages('', false , 'title');
 
-                View::factory('admin/templates/pages/list')
+                Themes::template('admin/views/templates/pages/list')
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;

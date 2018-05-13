@@ -140,6 +140,7 @@ class Admin {
 
                 Themes::template('admin/views/templates/pages/editor')
                     ->assign('page_slug', Http::get('page'))
+                    ->assign('page_frontmatter_data', Yaml::parse($page[1]))
                     ->assign('page_frontmatter', $page[1])
                     ->assign('page_content', $page[2])
                     ->display();

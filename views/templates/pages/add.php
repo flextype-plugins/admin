@@ -24,7 +24,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
            <select class="form-control" id="formGroupParentPageInput" name="parent_page">
              <option value="">/</option>
              <?php foreach($pages_list as $page) { ?>
-             <option value="<?php echo $page['slug']; ?>"><?php echo $page['slug']; ?></option>
+             <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('site.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('site.pages.main'); ?></option>
              <?php } ?>
            </select>
          </div>

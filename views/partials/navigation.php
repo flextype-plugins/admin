@@ -2,7 +2,7 @@
 namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow">
+<nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow">
 <div class="container">
   <a class="navbar-brand" href="<?php echo Http::getBaseUrl(); ?>/admin"><?php echo Registry::get('site.title'); ?></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -49,6 +49,38 @@ a:focus {
     padding-top: 40px;
 }
 
+.navbar {
+    background: #000;
+}
+
+.navbar-light .navbar-brand {
+    color: white;
+}
+
+.navbar-light .navbar-brand:hover {
+    color: white;
+}
+
+.navbar-light a {
+    color: white;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: white;
+}
+
+.navbar-light .navbar-toggler {
+    color: rgba(255,255,255,1);
+    border-color: rgba(255,255,255,1);
+    background-color: rgba(255,255,255,1);
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-color: rgba(255,255,255,1);
+}
+
 .navbar-brand {
     letter-spacing: 3px;
     text-transform: uppercase;

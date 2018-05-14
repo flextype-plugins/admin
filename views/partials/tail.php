@@ -17,9 +17,9 @@ use Flextype\Component\{Http\Http, Event\Event};
               matchBrackets: true,
               viewportMargin: Infinity,
               indentUnit: 4,
-              mode:  "'.$mode.'",
+              mode:  "YAML",
               indentWithTabs: true,
-              theme: "'.CodeMirror::$theme.'"
+              theme: "default"
           });
       });
 

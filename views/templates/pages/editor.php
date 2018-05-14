@@ -11,7 +11,7 @@ echo (
     Html::heading($page_frontmatter_data['title'], 2, ['class' => 'page-heading']).
     Form::open().
     Form::hidden('slug', $page_slug).
-    Html::heading($page_frontmatter_data['title'], 3).
+    Html::heading(I18n::find('admin_pages_frontmatter', 'admin', Registry::get('site.locale')), 3).
     Form::textarea('frontmatter', $page_frontmatter).
     Html::br().
     Html::heading('Content', 3).

@@ -5,22 +5,22 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
 <?php Themes::template('admin/views/partials/head')->display(); ?>
 
 <h2 class="page-heading">
-    Create New Page
+    <?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?>
 </h2>
 
 <form method="post">
     <div class="row">
       <div class="col-4">
         <div class="form-group">
-          <label for="formGroupPageTitleInput">Page title</label>
+          <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('site.locale')); ?></label>
           <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="">
         </div>
         <div class="form-group">
-          <label for="formGroupPageTitleInput">Page slug (url)</label>
+          <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_slug', 'admin', Registry::get('site.locale')); ?></label>
           <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="">
         </div>
         <div class="form-group">
-           <label for="formGroupParentPageInput">Parent page</label>
+           <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_parent_page', 'admin', Registry::get('site.locale')); ?></label>
            <select class="form-control" id="formGroupParentPageInput" name="parent_page">
              <option value="">/</option>
              <?php foreach($pages_list as $page) { ?>
@@ -28,10 +28,10 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
              <?php } ?>
            </select>
          </div>
+         <br>
+         <button class="btn btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_create', 'admin', Registry::get('site.locale')); ?></button>
       </div>
     </div>
-    <br>
-    <button class="btn btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></button>
 </form>
 
 <?php Themes::template('admin/views/partials/footer')->display(); ?>

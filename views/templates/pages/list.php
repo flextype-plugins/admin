@@ -3,7 +3,6 @@ namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n};
 ?>
 
-
 <?php Themes::template('admin/views/partials/head')->display(); ?>
 
 <h2 class="page-heading">

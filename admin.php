@@ -62,7 +62,6 @@ class Admin {
     protected function __construct()
     {
         static::init();
-        //Session::destroy();
     }
 
     protected static function init()

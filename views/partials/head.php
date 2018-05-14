@@ -36,6 +36,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
             height: auto!important;
             min-height: 10px!important;
             border: 1px solid #000!important;
+            border-radius: 0!important;
         }
     </style>
 

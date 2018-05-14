@@ -1,0 +1,37 @@
+//
+// Nav
+//
+
+.navbar-light {
+    background: $black;
+
+    .navbar-brand {
+        color: $white;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+    a {
+       color: $white;
+    }
+
+    .navbar-toggler {
+        color: rgba(255,255,255,1);
+        border-color: rgba(255,255,255,1);
+        background-color: rgba(255,255,255,1);
+    }
+
+    .navbar-toggler-icon {
+        background-color: rgba(255,255,255,1);
+    }
+
+    .navbar-nav .nav-link,
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        color: $white;
+    }
+}

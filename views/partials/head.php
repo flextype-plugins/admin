@@ -18,11 +18,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
     <link rel="stylesheet" href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/codemirror/lib/codemirror.css">
 
-    <!-- Bootstrap core CSS -->
-	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/css/theme.css" rel="stylesheet">
+	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/css/simple.css" rel="stylesheet">
 
     <style media="screen">
         .editor-toolbar {

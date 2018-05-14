@@ -1,0 +1,36 @@
+//
+// Container
+//
+
+.page-heading {
+    margin-bottom: 40px;
+}
+
+.content {
+    padding-top: 40px;
+}
+
+.form-control {
+    border-color: rgba(0,0,0,1);
+    color: black;
+    border-radius: 0;
+    outline: none;
+}
+
+.btn-black {
+    background-color: rgba(0,0,0,1);
+    color: white;
+    border-radius: 0;
+}
+
+.btn-black:hover {
+    background-color: rgba(0,0,0,.9);
+    color: white;
+}
+
+.table thead th,
+.table td,
+.table th {
+    border-top: none;
+    border-bottom: 1px solid #e9e9e9;
+}

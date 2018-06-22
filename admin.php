@@ -17,10 +17,10 @@ use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, 
 use Symfony\Component\Yaml\Yaml;
 
 //
-// Add listner for onPageBeforeRender event
+// Add listner for onCurrentPageBeforeProcessed event
 //
 if (Http::getUriSegment(0) == 'admin') {
-    Event::addListener('onPageBeforeRender', function () {
+    Event::addListener('onShortcodesInitialized', function () {
         Admin::instance();
     });
 }
@@ -97,19 +97,19 @@ class Admin {
         switch (Http::getUriSegment(2)) {
             case 'delete':
                 if (Http::get('page') != '') {
-                    Filesystem::deleteDir(PAGES_PATH . '/' . Http::get('page'));
+                    Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
                     Http::redirect('admin/pages');
                 }
             break;
             case 'add':
 
 
-                $pages_list = Pages::getPages('', false , 'slug');
+                $pages_list = Content::getPages('', false , 'slug');
 
                 $create_page = Http::post('create_page');
 
                 if (isset($create_page)) {
-                    if (Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('parent_page') . '/' . Http::post('slug') . '/page.md',
+                    if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('slug') . '/page.html',
                                               '---'."\n".
                                               'title: '.Http::post('title')."\n".
                                               '---'."\n")) {
@@ -118,7 +118,7 @@ class Admin {
                     }
                 }
 
-                Themes::template('admin/views/templates/pages/add')
+                Themes::view('admin/views/templates/pages/add')
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;
@@ -127,17 +127,17 @@ class Admin {
                 $save_page = Http::post('save_page');
 
                 if (isset($save_page)) {
-                    Filesystem::setFileContent(PAGES_PATH . '/' . Http::post('slug') . '/page.md',
+                    Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
                                               '---'."\n".
                                               Http::post('frontmatter').
                                               '---'."\n".
                                               Http::post('editor'));
                 }
 
-                $page = trim(Filesystem::getFileContent(PAGES_PATH . '/' . Http::get('page') . '/page.md'));
+                $page = trim(Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html'));
                 $page = explode('---', $page, 3);
 
-                Themes::template('admin/views/templates/pages/editor')
+                Themes::view('admin/views/templates/pages/editor')
                     ->assign('page_slug', Http::get('page'))
                     ->assign('page_frontmatter_data', Yaml::parse($page[1]))
                     ->assign('page_frontmatter', $page[1])
@@ -145,9 +145,9 @@ class Admin {
                     ->display();
             break;
             default:
-                $pages_list = Pages::getPages('', false , 'title');
+                $pages_list = Content::getPages('', false , 'title');
 
-                Themes::template('admin/views/templates/pages/list')
+                Themes::view('admin/views/templates/pages/list')
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;

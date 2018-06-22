@@ -43,5 +43,5 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>
   <body>
-  <?php Themes::template('admin/views/partials/navigation')->display(); ?>
+  <?php Themes::view('admin/views/partials/navigation')->display(); ?>
   <main role="main" class="container content">

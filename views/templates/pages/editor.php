@@ -4,7 +4,7 @@ namespace Flextype;
 
 use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
 
-Themes::template('admin/views/partials/head')->display();
+Themes::view('admin/views/partials/head')->display();
 
 // Create editor form using Form and Html components
 echo (
@@ -20,4 +20,4 @@ echo (
     Form::close()
 );
 
-Themes::template('admin/views/partials/footer')->display();
+Themes::view('admin/views/partials/footer')->display();

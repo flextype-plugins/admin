@@ -2,7 +2,7 @@
 namespace Flextype;
 use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
 ?>
-<?php Themes::template('admin/views/partials/head')->display(); ?>
+<?php Themes::view('admin/views/partials/head')->display(); ?>
 
 <h2 class="page-heading">
     <?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?>
@@ -34,4 +34,4 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
     </div>
 </form>
 
-<?php Themes::template('admin/views/partials/footer')->display(); ?>
+<?php Themes::view('admin/views/partials/footer')->display(); ?>

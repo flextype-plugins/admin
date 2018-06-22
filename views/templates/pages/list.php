@@ -3,7 +3,7 @@ namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n};
 ?>
 
-<?php Themes::template('admin/views/partials/head')->display(); ?>
+<?php Themes::view('admin/views/partials/head')->display(); ?>
 
 <h2 class="page-heading">
     <?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('site.locale')); ?>
@@ -29,4 +29,4 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n};
   </tbody>
 </table>
 
-<?php Themes::template('admin/views/partials/footer')->display(); ?>
+<?php Themes::view('admin/views/partials/footer')->display(); ?>

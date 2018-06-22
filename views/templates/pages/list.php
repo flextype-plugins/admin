@@ -7,7 +7,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n};
 
 <h2 class="page-heading">
     <?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('site.locale')); ?>
-    <a class="btn pull-right btn-black" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?></a>
+    <a class="btn float-right btn-black" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?></a>
 </h2>
 
 <table class="table">

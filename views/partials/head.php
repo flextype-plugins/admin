@@ -21,22 +21,17 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/css/simple.css" rel="stylesheet">
 
     <style media="screen">
-        .editor-toolbar {
-            border-top: 1px solid #000!important;
-            border-left: 1px solid #000!important;
-            border-right: 1px solid #000!important;
-            border-radius: 0!important;
-        }
-
-        .editor-toolbar a {
-            color: #000!important;
-        }
-
         .CodeMirror {
             height: auto!important;
             min-height: 10px!important;
-            border: 1px solid #000!important;
+            border: 0;
             border-radius: 0!important;
+            font-size: 20px;
+            outline: none!important;
+        }
+        :focus {
+            outline-style: none!important;
+            outline-width: 0px!important;
         }
     </style>
 

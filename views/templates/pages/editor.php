@@ -21,9 +21,9 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
           <?php echo Form::textarea('editor', $page_content); ?>
         </div>
          <br>
-         <button class="btn btn-black btn-editor" name="save_page" type="submit"><?php echo I18n::find('admin_save_and_exit', 'admin', Registry::get('site.locale')); ?></button>
+         <button class="btn btn-black btn-editor" name="save_page_and_exit" type="submit"><?php echo I18n::find('admin_save_and_exit', 'admin', Registry::get('site.locale')); ?></button>
          <button class="btn btn-black btn-editor" name="save_page" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></button>
-         <button class="btn btn-black btn-black-default btn-editor" name="save_page" type="submit"><?php echo I18n::find('admin_cancel', 'admin', Registry::get('site.locale')); ?></button>
+         <a href="index.php?id=pages" class="btn btn-black btn-black-default btn-editor"><?php echo I18n::find('admin_cancel', 'admin', Registry::get('site.locale')); ?></a>
       </div>
     </div>
 </form>

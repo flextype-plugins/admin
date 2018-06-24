@@ -21,13 +21,27 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/css/simple.css" rel="stylesheet">
 
     <style media="screen">
-        .CodeMirror {
+        .CodeMirror,
+        .medium-editor-element {
             height: auto!important;
-            min-height: 10px!important;
-            border: 0;
+            min-height: 400px!important;
+            border: 2px solid #000!important;
             border-radius: 0!important;
             font-size: 20px;
+            padding: 10px;
             outline: none!important;
+
+        }
+        .form-control {
+            border: 2px solid #000!important;
+            font-size: 20px;
+            color: #000;
+        }
+        .form-control:focus {
+            outline-style: none!important;
+            outline-width: 0px!important;
+            border-color: none;
+            box-shadow: none;
         }
         :focus {
             outline-style: none!important;

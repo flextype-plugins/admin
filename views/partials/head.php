@@ -35,7 +35,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
         .form-control {
             border: 2px solid #000!important;
             font-size: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #000;
         }
         .form-control:focus {
@@ -47,6 +47,31 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
         :focus {
             outline-style: none!important;
             outline-width: 0px!important;
+        }
+        .admin-panel {
+            border: 2px solid #000;
+        }
+
+        .admin-panel-header {
+            border-bottom: 2px solid #000;
+            padding: 10px;
+            background: #000;
+            color: #fff;
+        }
+
+        .admin-panel-header .h3 {
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .admin-panel-footer {
+            padding: 10px;
+            border-top: 2px solid #000;
+        }
+
+        .admin-panel-body {
+            padding: 10px;
         }
     </style>
 

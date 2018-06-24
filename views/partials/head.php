@@ -35,6 +35,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
         .form-control {
             border: 2px solid #000!important;
             font-size: 20px;
+            margin-bottom: 20px;
             color: #000;
         }
         .form-control:focus {

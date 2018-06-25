@@ -170,11 +170,6 @@ class Admin {
         }
     }
 
-    protected static function getSettingsPage()
-    {
-        include 'templates/settings.php';
-    }
-
     protected static function getAuthPage()
     {
 

@@ -74,7 +74,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
         .admin-panel-header {
             border-bottom: 2px solid #000;
-            padding: 11px 10px;
+            padding: 18px 10px;
             background: #000;
             color: #fff;
         }
@@ -101,6 +101,70 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
         .padding-hard {
             padding: 0;
         }
+
+        .navbar-light .navbar-nav .nav-link {
+            padding: 16.5px 14px;
+        }
+
+        .dropdown-menu {
+            background-color: #282828;
+            border-top: 2px solid #282828;
+            border-left: 2px solid #282828;
+            border-bottom: 2px solid #282828;
+            border-right: 2px solid #282828;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+
+            position: absolute;
+            top: 57px;
+
+        }
+
+        .nav-item.dropdown.show {
+            background: #282828;
+            color: #fff;
+        }
+
+        .dropdown-item {
+            padding: 16.5px 12px;
+        }
+
+        .navbar-light .navbar-nav .show > .nav-link,
+        .navbar-light .navbar-text a {
+            color: #fff;
+        }
+
+        .dropdown-item.active,
+        .dropdown-item:active {
+            color: #fff;
+            text-decoration: none;
+            background-color: #282828;
+        }
+
+.table td,
+.table th,
+.table thead th {
+border-bottom: 1px solid #333;
+}
+
+.table tr:last-of-type td {
+border-bottom: none;
+}
+
+.table td, .table th {
+padding: 16px 10px;
+vertical-align: middle;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.table {
+    margin: 0;
+}
+
     </style>
 
 	<?php Event::dispatch('onAdminThemeHeader'); ?>

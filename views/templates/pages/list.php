@@ -12,7 +12,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n};
             <a class="float-right" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?></a>
         </h3>
     </div>
-    <div class="admin-panel-body">
+    <div class="admin-panel-body padding-hard">
         <table class="table">
           <thead>
             <tr>

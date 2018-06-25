@@ -24,7 +24,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
         .CodeMirror,
         .medium-editor-element {
             height: auto!important;
-            min-height: 400px!important;
+            min-height: 500px!important;
             border: 2px solid #000!important;
             border-radius: 0!important;
             font-size: 18px;
@@ -74,7 +74,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
         .admin-panel-header {
             border-bottom: 2px solid #000;
-            padding: 10px;
+            padding: 11px 10px;
             background: #000;
             color: #fff;
         }

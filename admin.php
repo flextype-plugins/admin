@@ -102,8 +102,6 @@ class Admin {
                 }
             break;
             case 'add':
-
-
                 $pages_list = Content::getPages('', false , 'slug');
 
                 $create_page = Http::post('create_page');
@@ -127,25 +125,43 @@ class Admin {
                 $save_page = Http::post('save_page');
 
                 if (isset($save_page)) {
+
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
+
+                    Arr::set($page, 'title', Http::post('title'));
+                    Arr::set($page, 'keywords', Http::post('keywords'));
+                    Arr::set($page, 'description', Http::post('description'));
+                    Arr::set($page, 'visibility', Http::post('visibility'));
+                    Arr::set($page, 'template', Http::post('template'));
+
+                    Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
+                    Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
+                    Arr::delete($page, 'slug');     // do not save 'slug' into the frontmatter
+
+                    $page_frontmatter = Yaml::dump($page);
+
                     Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
                                               '---'."\n".
-                                              Http::post('frontmatter').
+                                              $page_frontmatter."\n".
                                               '---'."\n".
                                               Http::post('editor'));
                 }
 
-                $page = trim(Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html'));
-                $page = explode('---', $page, 3);
+                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
                 Themes::view('admin/views/templates/pages/editor')
                     ->assign('page_slug', Http::get('page'))
-                    ->assign('page_frontmatter_data', Yaml::parse($page[1]))
-                    ->assign('page_frontmatter', $page[1])
-                    ->assign('page_content', $page[2])
+                    ->assign('page_title', $page['title'])
+                    ->assign('page_keywords', (isset($page['keywords']) ? $page['keywords'] : ''))
+                    ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
+                    ->assign('page_template',(isset($page['temlate']) ? $page['template'] : ''))
+                    ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
+                    ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
+                    ->assign('page_content', $page['content'])
                     ->display();
             break;
             default:
-                $pages_list = Content::getPages('', false , 'title');
+                $pages_list = Content::getPages('', false , 'slug');
 
                 Themes::view('admin/views/templates/pages/list')
                     ->assign('pages_list', $pages_list)

@@ -86,8 +86,8 @@ class Admin {
             case 'pages':
                 static::getPagesManagerPage();
             break;
-            case 'settings':
-                static::getSettingsPage();
+            default:
+                Http::redirect('admin/pages/');
             break;
         }
     }
@@ -136,7 +136,7 @@ class Admin {
 
                     Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
                     Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
-                    Arr::delete($page, 'slug');     // do not save 'slug' into the frontmatter
+                    Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
 
                     $page_frontmatter = Yaml::dump($page);
 

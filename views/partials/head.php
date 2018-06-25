@@ -27,14 +27,14 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
             min-height: 400px!important;
             border: 2px solid #000!important;
             border-radius: 0!important;
-            font-size: 20px;
+            font-size: 18px;
             padding: 10px;
             outline: none!important;
 
         }
         .form-control {
             border: 2px solid #000!important;
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 25px;
             color: #000;
         }
@@ -48,6 +48,26 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
             outline-style: none!important;
             outline-width: 0px!important;
         }
+
+        select.form-control {
+             -webkit-appearance: none;
+             appearance: none;
+             font-size: 18px;
+             height: 43px!important;
+             outline: 0;
+             color: #000;
+             border-color: #000;
+
+             border-radius: 0px;
+             background: linear-gradient(#000, #000) no-repeat,
+                         linear-gradient(-135deg, rgba(255,255,255,0) 50%, white 50%) no-repeat,
+                         linear-gradient(-225deg, rgba(255,255,255,0) 50%, white 50%) no-repeat,
+                         linear-gradient(#000, #000) no-repeat;
+             background-color: white;
+             background-size: 2px 100%, 20px 25px, 20px 35px, 20px 60%;
+             background-position: right 25px center, right bottom, right bottom, right bottom;
+        }
+
         .admin-panel {
             border: 2px solid #000;
         }
@@ -56,6 +76,10 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
             border-bottom: 2px solid #000;
             padding: 10px;
             background: #000;
+            color: #fff;
+        }
+
+        .admin-panel-header a {
             color: #fff;
         }
 
@@ -72,6 +96,10 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
         .admin-panel-body {
             padding: 10px;
+        }
+
+        .padding-hard {
+            padding: 0;
         }
     </style>
 

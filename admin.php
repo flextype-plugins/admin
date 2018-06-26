@@ -86,6 +86,10 @@ class Admin {
             case 'pages':
                 static::getPagesManagerPage();
             break;
+            case 'logout':
+                Session::destroy();
+                Http::redirect('admin');
+            break;
             default:
                 Http::redirect('admin/pages/');
             break;
@@ -180,7 +184,7 @@ class Admin {
         $login = Http::post('login');
 
         if (isset($login)) {
-            if (Filesystem::fileExists($_user_file = ACCOUNTS_PATH . '/' . Http::post('username') . '.yml')) {
+            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yml')) {
                 $user_file = Yaml::parseFile($_user_file);
                 var_dump($user_file);
                 Session::set('username', $user_file['username']);
@@ -188,7 +192,8 @@ class Admin {
             }
         }
 
-        include 'templates/auth/login.php';
+        Themes::view('admin/views/templates/auth/login')
+            ->display();
     }
 
     protected static function getRegistrationPage()
@@ -197,7 +202,7 @@ class Admin {
         $registration = Http::post('registration');
 
         if (isset($registration)) {
-            if (Filesystem::fileExists($_user_file = ACCOUNTS_PATH . '/' . Http::post('username') . '.yml')) {
+            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yml')) {
 
             } else {
                 $user = ['username' => Http::post('username'),
@@ -205,19 +210,21 @@ class Admin {
                          'role'  => 'admin',
                          'state' => 'enabled'];
 
-                Filesystem::setFileContent(ACCOUNTS_PATH . '/' . Http::post('username') . '.yml', Yaml::dump($user));
+                Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yml', Yaml::dump($user));
 
                 Http::redirect('admin');
             }
         }
 
-        include 'templates/auth/registration.php';
+        Themes::view('admin/views/templates/auth/registration')
+            ->display();
     }
 
     public static function isUsersExists()
     {
-        $users = Filesystem::getFilesList(ACCOUNTS_PATH, 'yml');
-        if (count($users) > 0) {
+        $users = Filesystem::getFilesList(PATH['site'] . '/accounts/', 'yaml');
+
+        if ($users && count($users) > 0) {
             return true;
         } else {
             return false;
@@ -226,13 +233,11 @@ class Admin {
 
     public static function isLoggedIn()
     {
-        return true;
-        //echo Session::get('role');
-        //if (Session::exists('role') && Session::get('role') == 'admin') {
-        //    return true;
-        //} else {
-        //    return false;
-        //}
+        if (Session::exists('role') && Session::get('role') == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

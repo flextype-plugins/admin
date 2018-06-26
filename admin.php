@@ -92,6 +92,10 @@ class Admin {
         }
     }
 
+    public static function addNavLink() {
+
+    }
+
     protected static function getPagesManagerPage()
     {
         switch (Http::getUriSegment(2)) {

@@ -15,7 +15,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
               <label for="inputUsername"><?php echo I18n::find('admin_username', 'admin', Registry::get('site.locale')); ?></label>
               <input type="input" name="username" placeholder="lowercase chars only, e.g. 'admin'" id="inputUsername" class="form-control" required autofocus>
               <label for="inputUsername"><?php echo I18n::find('admin_email', 'admin', Registry::get('site.locale')); ?></label>
-              <input type="input" name="email" placeholder="valid email address" id="inputUsername" class="form-control" required autofocus>
+              <input type="email" name="email" placeholder="valid email address" id="inputUsername" class="form-control" required autofocus>
               <label for="inputPassword"><?php echo I18n::find('admin_password', 'admin', Registry::get('site.locale')); ?></label>
               <input type="password" name="password" placeholder="complex string at least 8 chars long" id="inputPassword" class="form-control" required>
           </div>

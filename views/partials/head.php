@@ -170,5 +170,7 @@ vertical-align: middle;
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>
   <body>
-  <?php Themes::view('admin/views/partials/navigation')->display(); ?>
+<?php if (Admin::isLoggedIn()) { ?>
+<?php Themes::view('admin/views/partials/navigation')->display(); ?>
+<? } ?>
   <main role="main" class="container content">

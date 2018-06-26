@@ -184,9 +184,8 @@ class Admin {
         $login = Http::post('login');
 
         if (isset($login)) {
-            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yml')) {
+            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
                 $user_file = Yaml::parseFile($_user_file);
-                var_dump($user_file);
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
             }
@@ -202,15 +201,16 @@ class Admin {
         $registration = Http::post('registration');
 
         if (isset($registration)) {
-            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yml')) {
+            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
 
             } else {
                 $user = ['username' => Http::post('username'),
                          'password' => Http::post('password'),
+                         'email' => Http::post('email'),
                          'role'  => 'admin',
                          'state' => 'enabled'];
 
-                Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yml', Yaml::dump($user));
+                Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yaml', Yaml::dump($user));
 
                 Http::redirect('admin');
             }

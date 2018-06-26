@@ -1,26 +1,30 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<?php
+namespace Flextype;
+use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
+?>
+<?php Themes::view('admin/views/partials/head')->display(); ?>
 
-    <title><?php echo Flextype\I18n::find('admin_login', 'admin', Flextype\Config::get('site.locale')); ?></title>
+<form class="form-signin" method="post">
+<div class="row">
+  <div class="col-4" style="margin: 0 auto;">
+      <div class="admin-panel">
+          <div class="admin-panel-header">
+              <h3 class="h3"><?php echo I18n::find('admin_users_create_new', 'admin', Registry::get('site.locale')); ?></h3>
+          </div>
+          <div class="admin-panel-body">
+              <label for="inputUsername"><?php echo I18n::find('admin_username', 'admin', Registry::get('site.locale')); ?></label>
+              <input type="input" name="username" placeholder="lowercase chars only, e.g. 'admin'" id="inputUsername" class="form-control" required autofocus>
+              <label for="inputUsername"><?php echo I18n::find('admin_email', 'admin', Registry::get('site.locale')); ?></label>
+              <input type="input" name="email" placeholder="valid email address" id="inputUsername" class="form-control" required autofocus>
+              <label for="inputPassword"><?php echo I18n::find('admin_password', 'admin', Registry::get('site.locale')); ?></label>
+              <input type="password" name="password" placeholder="complex string at least 8 chars long" id="inputPassword" class="form-control" required>
+          </div>
+          <div class="admin-panel-footer">
+              <button class="btn btn-black btn-block" name="registration" type="submit"><?php echo I18n::find('admin_users_create', 'admin', Registry::get('site.locale')); ?></button>
+          </div>
+      </div>
+    </div>
+</div>
+</form>
 
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="<?php echo Flextype\Component\Http\Http::getBaseUrl(); ?>/site/plugins/admin/css/auth.css" rel="stylesheet">
-  </head>
-  <body class="text-center">
-    <form class="form-signin" method="post">
-      <label for="inputUsername" class="sr-only"><?php echo Flextype\I18n::find('admin_username', 'admin', Flextype\Config::get('site.locale')); ?></label>
-      <input type="input" name="username" id="inputUsername" class="form-control" placeholder="<?php echo Flextype\I18n::find('admin_username', 'admin', Flextype\Config::get('site.locale')); ?>" required autofocus>
-      <label for="inputPassword" class="sr-only"><?php echo Flextype\I18n::find('admin_password', 'admin', Flextype\Config::get('site.locale')); ?></label>
-      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="<?php echo Flextype\I18n::find('admin_password', 'admin', Flextype\Config::get('site.locale')); ?>" required>
-      <button class="btn btn-lg btn-dark btn-block" name="registration" type="submit"><?php echo Flextype\I18n::find('admin_registration', 'admin', Flextype\Config::get('site.locale')); ?></button>
-    </form>
-  </body>
-</html>
+<?php Themes::view('admin/views/partials/footer')->display(); ?>

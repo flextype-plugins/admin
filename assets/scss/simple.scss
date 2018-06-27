@@ -17,11 +17,13 @@
 // Objects
 // Abstractions, Objects and design patterns
 @import "objects/container";
+@import "objects/buttons";
 
 // Components
 // Discrete, complete chunks of UI
 @import "components/nav";
 @import "components/footer";
+@import "components/panels";
 
 // Thumps
 // High-specificity, very explicit selectors. Overrides and helper classes

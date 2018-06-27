@@ -6,7 +6,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
 
 <form method="post">
     <div class="row">
-      <div class="col-4">
+      <div class="col-4" style="margin: 0 auto;">
           <div class="admin-panel">
               <div class="admin-panel-header">
                   <h3 class="h3"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?></h3>

@@ -74,7 +74,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
         .admin-panel-header {
             border-bottom: 2px solid #000;
-            padding: 18px 10px;
+            padding: 11px 10px;
             background: #000;
             color: #fff;
         }
@@ -153,7 +153,7 @@ border-bottom: none;
 }
 
 .table td, .table th {
-padding: 16px 10px;
+padding: 9px 10px;
 vertical-align: middle;
 }
 

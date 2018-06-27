@@ -130,43 +130,62 @@ class Admin {
             break;
             case 'edit':
 
-                $save_page = Http::post('save_page');
+                if (Http::get('expert') && Http::get('expert') == 'true') {
 
-                if (isset($save_page)) {
+                    $save_page = Http::post('save_page_expert');
 
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
+                    if (isset($save_page)) {
 
-                    Arr::set($page, 'title', Http::post('title'));
-                    Arr::set($page, 'keywords', Http::post('keywords'));
-                    Arr::set($page, 'description', Http::post('description'));
-                    Arr::set($page, 'visibility', Http::post('visibility'));
-                    Arr::set($page, 'template', Http::post('template'));
+                        Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
+                                                  Http::post('editor'));
+                    }
 
-                    Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
-                    Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
-                    Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
+                    $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
-                    $page_frontmatter = Yaml::dump($page);
+                    Themes::view('admin/views/templates/pages/editor-expert')
+                        ->assign('page_slug', Http::get('page'))
+                        ->assign('page_content', $page_content)
+                        ->display();
+                } else {
 
-                    Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
-                                              '---'."\n".
-                                              $page_frontmatter."\n".
-                                              '---'."\n".
-                                              Http::post('editor'));
+                    $save_page = Http::post('save_page');
+
+                    if (isset($save_page)) {
+
+                        $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
+
+                        Arr::set($page, 'title', Http::post('title'));
+                        Arr::set($page, 'keywords', Http::post('keywords'));
+                        Arr::set($page, 'description', Http::post('description'));
+                        Arr::set($page, 'visibility', Http::post('visibility'));
+                        Arr::set($page, 'template', Http::post('template'));
+
+                        Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
+                        Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
+                        Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
+
+                        $page_frontmatter = Yaml::dump($page);
+
+                        Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
+                                                  '---'."\n".
+                                                  $page_frontmatter."\n".
+                                                  '---'."\n".
+                                                  Http::post('editor'));
+                    }
+
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
+
+                    Themes::view('admin/views/templates/pages/editor')
+                        ->assign('page_slug', Http::get('page'))
+                        ->assign('page_title', $page['title'])
+                        ->assign('page_keywords', (isset($page['keywords']) ? $page['keywords'] : ''))
+                        ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
+                        ->assign('page_template',(isset($page['temlate']) ? $page['template'] : ''))
+                        ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
+                        ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
+                        ->assign('page_content', $page['content'])
+                        ->display();
                 }
-
-                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
-
-                Themes::view('admin/views/templates/pages/editor')
-                    ->assign('page_slug', Http::get('page'))
-                    ->assign('page_title', $page['title'])
-                    ->assign('page_keywords', (isset($page['keywords']) ? $page['keywords'] : ''))
-                    ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
-                    ->assign('page_template',(isset($page['temlate']) ? $page['template'] : ''))
-                    ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
-                    ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
-                    ->assign('page_content', $page['content'])
-                    ->display();
             break;
             default:
                 $pages_list = Content::getPages('', false , 'slug', 'ASC');

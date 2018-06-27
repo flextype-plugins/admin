@@ -10,7 +10,7 @@ use Flextype\Component\{Http\Http, Event\Event};
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/themes/default.css" type="text/css" media="screen" charset="utf-8">
 <script>
     $(document).ready(function() {
-          var editor = CodeMirror.fromTextArea(document.getElementById("frontmatter"), {
+          var editor = CodeMirror.fromTextArea(document.getElementById("editor-codemirror"), {
               lineNumbers: false,
               styleActiveLine: true,
               matchBrackets: true,

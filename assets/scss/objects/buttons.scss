@@ -1,0 +1,14 @@
+//
+// Buttons
+//
+
+.btn-black {
+    background-color: rgba(0,0,0,1);
+    color: white;
+    border-radius: 0;
+
+    &:hover {
+        background-color: rgba(0,0,0,.9);
+        color: white;
+    }
+}

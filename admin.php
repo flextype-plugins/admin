@@ -137,7 +137,7 @@ class Admin {
                     if (isset($save_page)) {
 
                         Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
-                                                  Http::post('editor'));
+                                                  Http::post('editor-codemirror'));
                     }
 
                     $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
@@ -155,7 +155,6 @@ class Admin {
                         $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
 
                         Arr::set($page, 'title', Http::post('title'));
-                        Arr::set($page, 'keywords', Http::post('keywords'));
                         Arr::set($page, 'description', Http::post('description'));
                         Arr::set($page, 'visibility', Http::post('visibility'));
                         Arr::set($page, 'template', Http::post('template'));
@@ -178,7 +177,6 @@ class Admin {
                     Themes::view('admin/views/templates/pages/editor')
                         ->assign('page_slug', Http::get('page'))
                         ->assign('page_title', $page['title'])
-                        ->assign('page_keywords', (isset($page['keywords']) ? $page['keywords'] : ''))
                         ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
                         ->assign('page_template',(isset($page['temlate']) ? $page['template'] : ''))
                         ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))

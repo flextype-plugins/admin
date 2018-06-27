@@ -16,7 +16,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
             <div class="admin-panel-body">
                 <div class="form-group">
                   <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('site.locale')); ?></label>
-                  <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_title; ?>" placeholder="">
+                  <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_title; ?>" placeholder="" required>
                 </div>
                 <div class="form-group">
                   <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_content', 'admin', Registry::get('site.locale')); ?></label>

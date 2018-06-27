@@ -14,11 +14,11 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
               <div class="admin-panel-body">
                   <div class="form-group">
                     <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('site.locale')); ?></label>
-                    <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="">
+                    <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
                   </div>
                   <div class="form-group">
                     <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_slug', 'admin', Registry::get('site.locale')); ?></label>
-                    <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="">
+                    <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
                   </div>
                   <div class="form-group">
                      <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_parent_page', 'admin', Registry::get('site.locale')); ?></label>

@@ -31,7 +31,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
                    </div>
               </div>
               <div class="dark-panel-footer">
-                  <button class="btn btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_create', 'admin', Registry::get('site.locale')); ?></button>
+                  <button class="btn btn-block btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_create', 'admin', Registry::get('site.locale')); ?></button>
               </div>
           </div>
       </div>

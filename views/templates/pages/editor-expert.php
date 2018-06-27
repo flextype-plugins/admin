@@ -21,8 +21,8 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                   <?php echo Form::textarea('editor-codemirror', $page_content); ?>
                 </div>
             </div>
-            <div class="dark-panel-footer">
-                <button class="btn btn-black btn-editor btn-block" name="save_page_expert" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></button>
+            <div class="dark-panel-footer text-center">
+                <button class="btn btn-black btn-editor col-4" name="save_page_expert" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></button>
             </div>
         </div>
       </div>

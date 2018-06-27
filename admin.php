@@ -88,10 +88,10 @@ class Admin {
             break;
             case 'logout':
                 Session::destroy();
-                Http::redirect('admin');
+                Http::redirect(Http::getBaseUrl().'/admin/login');
             break;
             default:
-                Http::redirect('admin/pages/');
+                Http::redirect(Http::getBaseUrl().'/admin/pages');
             break;
         }
     }
@@ -106,7 +106,7 @@ class Admin {
             case 'delete':
                 if (Http::get('page') != '') {
                     Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
-                    Http::redirect('admin/pages');
+                    Http::redirect(Http::getBaseUrl().'/admin/pages');
                 }
             break;
             case 'add':
@@ -120,7 +120,7 @@ class Admin {
                                               'title: '.Http::post('title')."\n".
                                               '---'."\n")) {
 
-                                        Http::redirect('admin/pages/');
+                                        Http::redirect(Http::getBaseUrl().'/admin/pages/');
                     }
                 }
 
@@ -188,6 +188,8 @@ class Admin {
                 $user_file = Yaml::parseFile($_user_file);
                 Session::set('username', $user_file['username']);
                 Session::set('role', $user_file['role']);
+
+                Http::redirect(Http::getBaseUrl().'/admin/pages');
             }
         }
 
@@ -212,7 +214,7 @@ class Admin {
 
                 Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yaml', Yaml::dump($user));
 
-                Http::redirect('admin');
+                Http::redirect(Http::getBaseUrl().'/admin/pages');
             }
         }
 
@@ -233,8 +235,6 @@ class Admin {
 
     public static function isLoggedIn()
     {
-        return true;
-
         if (Session::exists('role') && Session::get('role') == 'admin') {
             return true;
         } else {

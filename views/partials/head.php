@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
+use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets};
 ?>
 <!doctype html>
 <html lang="<?php echo Registry::get('site.locale'); ?>">
@@ -16,9 +16,12 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event};
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/codemirror/lib/codemirror.css">
-
-	<link href="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/css/simple.css" rel="stylesheet">
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/bootstrap.min.css', 'admin', 1); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/codemirror.min.css', 'admin', 2); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin.min.css', 'admin', 3); ?>
+    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
+        <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
+    <?php } } ?>
 
     <style media="screen">
         .CodeMirror,

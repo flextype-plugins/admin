@@ -21,59 +21,55 @@ use Symfony\Component\Yaml\Yaml;
 //
 if (Http::getUriSegment(0) == 'admin') {
     Event::addListener('onShortcodesInitialized', function () {
-        Admin::instance();
+        Admin::getInstance();
     });
 }
 
 
-class Admin {
-
+class Admin
+{
     /**
      * An instance of the Admin class
      *
      * @var object
-     * @access  protected
+     * @access private
      */
-    protected static $instance = null;
+    private static $instance = null;
 
     /**
-     * Is logged in
+     * Private clone method to enforce singleton behavior.
      *
-     * @var bool
-     * @access  protected
+     * @access private
      */
-    protected static $isLoggedIn = false;
+    private function __clone() { }
 
     /**
-     * Protected clone method to enforce singleton behavior.
+     * Private wakeup method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
-    protected function __clone()
-    {
-        // Nothing here.
-    }
+    private function __wakeup() { }
 
     /**
-     * Protected constructor since this is a static class.
+     * Private construct method to enforce singleton behavior.
      *
-     * @access  protected
+     * @access private
      */
     protected function __construct()
     {
-        static::init();
+        Admin::init();
     }
 
     protected static function init()
     {
 
-        if (static::isLoggedIn()) {
-            static::getAdminPage();
+        if (Admin::isLoggedIn()) {
+            Admin::getAdminPage();
         } else {
-            if (static::isUsersExists()) {
-                static::getAuthPage();
+            if (Admin::isUsersExists()) {
+                Admin::getAuthPage();
             } else {
-                static::getRegistrationPage();
+                Admin::getRegistrationPage();
             }
         }
 
@@ -84,7 +80,7 @@ class Admin {
     {
         switch (Http::getUriSegment(1)) {
             case 'pages':
-                static::getPagesManagerPage();
+                Admin::getPagesManagerPage();
             break;
             case 'logout':
                 Session::destroy();
@@ -260,14 +256,17 @@ class Admin {
     }
 
     /**
-     * Return the Admin instance.
-     * Create it if it's not already created.
+     * Get the Admin instance.
      *
      * @access public
      * @return object
      */
-    public static function instance()
-    {
-        return !isset(self::$instance) and self::$instance = new Admin();
-    }
+     public static function getInstance()
+     {
+        if (is_null(Admin::$instance)) {
+            Admin::$instance = new self;
+        }
+
+        return Admin::$instance;
+     }
 }

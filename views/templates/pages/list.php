@@ -5,14 +5,14 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n};
 
 <?php Themes::view('admin/views/partials/head')->display(); ?>
 
-<div class="admin-panel">
-    <div class="admin-panel-header">
+<div class="dark-panel">
+    <div class="dark-panel-header">
         <h3 class="h3">
             <?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('site.locale')); ?>
             <a class="float-right" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?></a>
         </h3>
     </div>
-    <div class="admin-panel-body padding-hard">
+    <div class="dark-panel-body padding-hard">
         <table class="table">
           <thead>
             <tr>

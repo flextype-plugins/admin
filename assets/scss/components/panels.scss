@@ -2,32 +2,33 @@
 // Panels
 //
 
-.admin-panel {
-    border: 2px solid #000;
+.dark-panel {
+    border: 2px solid black;
 }
 
-.admin-panel-header {
-    border-bottom: 2px solid #000;
+.dark-panel-header {
+    color: black;
     padding: 11px 10px;
-    background: #000;
-    color: #fff;
+    background: black;
+    border-bottom: 2px solid black;
+
+    a {
+        color: white;
+    }
+
+    .h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        color: white;
+    }
 }
 
-.admin-panel-header a {
-    color: #fff;
-}
-
-.admin-panel-header .h3 {
-    padding: 0;
-    margin: 0;
-    font-size: 16px;
-}
-
-.admin-panel-footer {
+.dark-panel-footer {
     padding: 10px;
     border-top: 2px solid #000;
 }
 
-.admin-panel-body {
+.dark-panel-body {
     padding: 10px;
 }

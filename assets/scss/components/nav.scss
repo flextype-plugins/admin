@@ -16,7 +16,7 @@
     }
 
     a {
-       color: $white;
+        color: $white;
     }
 
     .navbar-toggler {
@@ -30,8 +30,8 @@
     }
 
     .navbar-nav .nav-link,
-    .navbar-nav .nav-link:hover,
-    .navbar-nav .nav-link.active {
+    .navbar-nav .nav-link.active,
+    .navbar-nav .nav-link:hover {
         color: $white;
     }
 }

@@ -9,11 +9,11 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
     <div class="row">
       <div class="col-9">
         <?php echo Form::hidden('slug', $page_slug); ?>
-        <div class="admin-panel">
-            <div class="admin-panel-header">
+        <div class="dark-panel">
+            <div class="dark-panel-header">
                 <h3 class="h3"><?php echo I18n::find('admin_pages_edit', 'admin', Registry::get('site.locale')); ?></h3>
             </div>
-            <div class="admin-panel-body">
+            <div class="dark-panel-body">
                 <div class="form-group">
                   <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('site.locale')); ?></label>
                   <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_title; ?>" placeholder="" required>
@@ -26,11 +26,11 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
         </div>
       </div>
       <div class="col-3">
-          <div class="admin-panel">
-              <div class="admin-panel-header">
+          <div class="dark-panel">
+              <div class="dark-panel-header">
                   <h3 class="h3">Publish</h3>
               </div>
-              <div class="admin-panel-body">
+              <div class="dark-panel-body">
                   <div class="form-group">
                      <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_visibility', 'admin', Registry::get('site.locale')); ?></label>
                      <?php echo Form::select('visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, array('class' => 'form-control', 'id' => 'formGroupParentPageInput')); ?>
@@ -40,18 +40,18 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
                      <input type="text" name="date" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_date; ?>" placeholder="">
                    </div>
               </div>
-              <div class="admin-panel-footer">
+              <div class="dark-panel-footer">
                   <button class="btn btn-black btn-editor btn-block" name="save_page" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('site.locale')); ?></button>
               </div>
           </div>
 
           <br>
 
-          <div class="admin-panel">
-              <div class="admin-panel-header">
+          <div class="dark-panel">
+              <div class="dark-panel-header">
                   <h3 class="h3">Page Attributes</h3>
               </div>
-              <div class="admin-panel-body">
+              <div class="dark-panel-body">
                   <div class="form-group">
                     <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_keywords', 'admin', Registry::get('site.locale')); ?></label>
                     <input type="text" name="keywords" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_keywords; ?>" placeholder="">
@@ -69,7 +69,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form};
               </div>
           </div>
       </div>
-    </div>
+      </div>
 </form>
 
 <?php Themes::view('admin/views/partials/footer')->display(); ?>

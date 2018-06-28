@@ -13,7 +13,7 @@ namespace Flextype;
  * file that was distributed with this source code.
  */
 
-use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry};
+use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token};
 use Symfony\Component\Yaml\Yaml;
 
 //
@@ -84,7 +84,7 @@ class Admin
             break;
             case 'logout':
                 Session::destroy();
-                Http::redirect(Http::getBaseUrl().'/admin/login');
+                Http::redirect(Http::getBaseUrl().'/admin');
             break;
             default:
                 Http::redirect(Http::getBaseUrl().'/admin/pages');
@@ -111,13 +111,15 @@ class Admin
                 $create_page = Http::post('create_page');
 
                 if (isset($create_page)) {
-                    if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('slug') . '/page.html',
-                                              '---'."\n".
-                                              'title: '.Http::post('title')."\n".
-                                              '---'."\n")) {
+                    if (Token::check((Http::post('token')))) {
+                        if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('slug') . '/page.html',
+                                                  '---'."\n".
+                                                  'title: '.Http::post('title')."\n".
+                                                  '---'."\n")) {
 
-                                        Http::redirect(Http::getBaseUrl().'/admin/pages/');
-                    }
+                                            Http::redirect(Http::getBaseUrl().'/admin/pages/');
+                        }
+                    } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                 }
 
                 Themes::view('admin/views/templates/pages/add')
@@ -131,9 +133,10 @@ class Admin
                     $save_page = Http::post('save_page_expert');
 
                     if (isset($save_page)) {
-
-                        Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
-                                                  Http::post('editor-codemirror'));
+                        if (Token::check((Http::post('token')))) {
+                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
+                                                      Http::post('editor-codemirror'));
+                        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
                     $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
@@ -147,25 +150,27 @@ class Admin
                     $save_page = Http::post('save_page');
 
                     if (isset($save_page)) {
+                        if (Token::check((Http::post('token')))) {
 
-                        $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
+                            $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
 
-                        Arr::set($page, 'title', Http::post('title'));
-                        Arr::set($page, 'description', Http::post('description'));
-                        Arr::set($page, 'visibility', Http::post('visibility'));
-                        Arr::set($page, 'template', Http::post('template'));
+                            Arr::set($page, 'title', Http::post('title'));
+                            Arr::set($page, 'description', Http::post('description'));
+                            Arr::set($page, 'visibility', Http::post('visibility'));
+                            Arr::set($page, 'template', Http::post('template'));
 
-                        Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
-                        Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
-                        Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
+                            Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
+                            Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
+                            Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
 
-                        $page_frontmatter = Yaml::dump($page);
+                            $page_frontmatter = Yaml::dump($page);
 
-                        Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
-                                                  '---'."\n".
-                                                  $page_frontmatter."\n".
-                                                  '---'."\n".
-                                                  Http::post('editor'));
+                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
+                                                      '---'."\n".
+                                                      $page_frontmatter."\n".
+                                                      '---'."\n".
+                                                      Http::post('editor'));
+                        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
@@ -197,13 +202,15 @@ class Admin
         $login = Http::post('login');
 
         if (isset($login)) {
-            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
-                $user_file = Yaml::parseFile($_user_file);
-                Session::set('username', $user_file['username']);
-                Session::set('role', $user_file['role']);
+            if (Token::check((Http::post('token')))) {
+                if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
+                    $user_file = Yaml::parseFile($_user_file);
+                    Session::set('username', $user_file['username']);
+                    Session::set('role', $user_file['role']);
 
-                Http::redirect(Http::getBaseUrl().'/admin/pages');
-            }
+                    Http::redirect(Http::getBaseUrl().'/admin/pages');
+                }
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
 
         Themes::view('admin/views/templates/auth/login')
@@ -216,19 +223,21 @@ class Admin
         $registration = Http::post('registration');
 
         if (isset($registration)) {
-            if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
+            if (Token::check((Http::post('token')))) {
+                if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
 
-            } else {
-                $user = ['username' => Http::post('username'),
-                         'password' => Http::post('password'),
-                         'email' => Http::post('email'),
-                         'role'  => 'admin',
-                         'state' => 'enabled'];
+                } else {
+                    $user = ['username' => Http::post('username'),
+                             'password' => Http::post('password'),
+                             'email' => Http::post('email'),
+                             'role'  => 'admin',
+                             'state' => 'enabled'];
 
-                Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yaml', Yaml::dump($user));
+                    Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yaml', Yaml::dump($user));
 
-                Http::redirect(Http::getBaseUrl().'/admin/pages');
-            }
+                    Http::redirect(Http::getBaseUrl().'/admin/pages');
+                }
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
 
         Themes::view('admin/views/templates/auth/registration')

@@ -1,10 +1,11 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http};
+use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Token\Token};
 ?>
 <?php Themes::view('admin/views/partials/head')->display(); ?>
 
 <form class="form-signin" method="post">
+<?php echo Form::hidden('token', Token::generate()); ?>
 <div class="row">
   <div class="col-4" style="margin: 0 auto;">
       <div class="dark-panel">

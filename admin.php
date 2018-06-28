@@ -83,8 +83,10 @@ class Admin
                 Admin::getPagesManagerPage();
             break;
             case 'logout':
-                Session::destroy();
-                Http::redirect(Http::getBaseUrl().'/admin');
+                if (Token::check((Http::get('token')))) {
+                    Session::destroy();
+                    Http::redirect(Http::getBaseUrl().'/admin');
+                }
             break;
             default:
                 Http::redirect(Http::getBaseUrl().'/admin/pages');
@@ -101,8 +103,10 @@ class Admin
         switch (Http::getUriSegment(2)) {
             case 'delete':
                 if (Http::get('page') != '') {
-                    Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
-                    Http::redirect(Http::getBaseUrl().'/admin/pages');
+                    if (Token::check((Http::post('token')))) {
+                        Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
+                        Http::redirect(Http::getBaseUrl().'/admin/pages');
+                    }
                 }
             break;
             case 'add':

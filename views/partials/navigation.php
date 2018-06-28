@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n};
+use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, Token\Token};
 ?>
 <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow">
     <div class="container">
@@ -20,7 +20,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n};
                     <a class="nav-link" target="_blank" href="<?php echo Http::getBaseUrl(); ?>"><?php echo I18n::find('admin_menu_view_site', 'admin', Registry::get('site.locale')); ?></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/logout"><?php echo I18n::find('admin_menu_logout', 'admin', Registry::get('site.locale')); ?></a>
+                    <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/logout?token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_menu_logout', 'admin', Registry::get('site.locale')); ?></a>
                 </li>
             </ul>
         </div>

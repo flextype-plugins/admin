@@ -11,7 +11,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
   <div class="col-4" style="margin: 0 auto;">
       <div class="dark-panel">
           <div class="dark-panel-header">
-              <h3 class="h3"><?php echo I18n::find('admin_users_create_new', 'admin', Registry::get('site.locale')); ?></h3>
+              <h3 class="h3"><?php echo I18n::find('admin_login', 'admin', Registry::get('site.locale')); ?></h3>
           </div>
           <div class="dark-panel-body">
               <label for="inputUsername"><?php echo I18n::find('admin_username', 'admin', Registry::get('site.locale')); ?></label>

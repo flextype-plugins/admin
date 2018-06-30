@@ -49,14 +49,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
 
                 </div>
 
-                                <div class="row">
 
-                 <div class="form-group col-12">
-                   <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_description', 'admin', Registry::get('system.locale')); ?></label>
-                   <input type="text" name="description" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_description; ?>" placeholder="">
-                 </div>
-
-</div>
             </div>
 
             <div class="dark-panel-footer text-center">

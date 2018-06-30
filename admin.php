@@ -20,11 +20,10 @@ use Symfony\Component\Yaml\Yaml;
 // Add listner for onCurrentPageBeforeProcessed event
 //
 if (Http::getUriSegment(0) == 'admin') {
-    Event::addListener('onShortcodesInitialized', function () {
+    Event::addListener('onCurrentPageBeforeLoaded', function () {
         Admin::getInstance();
     });
 }
-
 
 class Admin
 {
@@ -62,9 +61,8 @@ class Admin
 
     protected static function init()
     {
-
         if (Admin::isLoggedIn()) {
-            Admin::getAdminPage();
+            Admin::getAdminArea();
         } else {
             if (Admin::isUsersExists()) {
                 Admin::getAuthPage();
@@ -76,26 +74,26 @@ class Admin
         Http::requestShutdown();
     }
 
-    protected static function getAdminPage()
+    protected static function getAdminArea()
     {
-        switch (Http::getUriSegment(1)) {
-            case 'pages':
-                Admin::getPagesManagerPage();
-            break;
-            case 'logout':
-                if (Token::check((Http::get('token')))) {
-                    Session::destroy();
-                    Http::redirect(Http::getBaseUrl().'/admin');
-                }
-            break;
-            default:
-                Http::redirect(Http::getBaseUrl().'/admin/pages');
-            break;
+        Http::getUriSegment(1) == ''       and Admin::getDashboard();
+        Http::getUriSegment(1) == 'pages'  and Admin::getPagesManagerPage();
+        Http::getUriSegment(1) == 'logout' and Admin::logout();
+
+        // Event: onAdminArea
+        Event::dispatch('onAdminArea');
+    }
+
+    protected static function logout()
+    {
+        if (Token::check((Http::get('token')))) {
+            Session::destroy();
+            Http::redirect(Http::getBaseUrl().'/admin');
         }
     }
 
-    public static function addNavLink() {
-
+    protected static function getDashboard() {
+        Http::redirect(Http::getBaseUrl().'/admin/pages');
     }
 
     protected static function getPagesManagerPage()

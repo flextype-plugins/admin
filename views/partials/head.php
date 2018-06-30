@@ -3,7 +3,7 @@ namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets};
 ?>
 <!doctype html>
-<html lang="<?php echo Registry::get('site.locale'); ?>">
+<html lang="<?php echo Registry::get('system.locale'); ?>">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

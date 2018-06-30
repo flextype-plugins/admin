@@ -10,19 +10,19 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
       <div class="col-4" style="margin: 0 auto;">
           <div class="dark-panel">
               <div class="dark-panel-header">
-                  <h3 class="h3"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('site.locale')); ?></h3>
+                  <h3 class="h3"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></h3>
               </div>
               <div class="dark-panel-body">
                   <div class="form-group">
-                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('site.locale')); ?></label>
+                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')); ?></label>
                     <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
                   </div>
                   <div class="form-group">
-                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_slug', 'admin', Registry::get('site.locale')); ?></label>
+                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_slug', 'admin', Registry::get('system.locale')); ?></label>
                     <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
                   </div>
                   <div class="form-group">
-                     <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_parent_page', 'admin', Registry::get('site.locale')); ?></label>
+                     <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_parent_page', 'admin', Registry::get('system.locale')); ?></label>
                      <select class="form-control" id="formGroupParentPageInput" name="parent_page">
                        <option value="">/</option>
                        <?php foreach($pages_list as $page) { ?>
@@ -32,7 +32,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                    </div>
               </div>
               <div class="dark-panel-footer">
-                  <button class="btn btn-block btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_create', 'admin', Registry::get('site.locale')); ?></button>
+                  <button class="btn btn-block btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_create', 'admin', Registry::get('system.locale')); ?></button>
               </div>
           </div>
       </div>

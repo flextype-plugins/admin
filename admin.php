@@ -13,7 +13,7 @@ namespace Flextype;
  * file that was distributed with this source code.
  */
 
-use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token};
+use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text};
 use Symfony\Component\Yaml\Yaml;
 
 //
@@ -114,7 +114,7 @@ class Admin
 
                 if (isset($create_page)) {
                     if (Token::check((Http::post('token')))) {
-                        if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('slug') . '/page.html',
+                        if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug')) . '/page.html',
                                                   '---'."\n".
                                                   'title: '.Http::post('title')."\n".
                                                   '---'."\n")) {
@@ -207,10 +207,12 @@ class Admin
             if (Token::check((Http::post('token')))) {
                 if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
                     $user_file = Yaml::parseFile($_user_file);
-                    Session::set('username', $user_file['username']);
-                    Session::set('role', $user_file['role']);
 
-                    Http::redirect(Http::getBaseUrl().'/admin/pages');
+                    if (Text::encryptString(Http::post('password') == $user_file['password'])) {
+                        Session::set('username', $user_file['username']);
+                        Session::set('role', $user_file['role']);
+                        Http::redirect(Http::getBaseUrl().'/admin/pages');
+                    }
                 }
             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
@@ -226,11 +228,11 @@ class Admin
 
         if (isset($registration)) {
             if (Token::check((Http::post('token')))) {
-                if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
+                if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Text::safeString(Http::post('username')) . '.yaml')) {
 
                 } else {
-                    $user = ['username' => Http::post('username'),
-                             'password' => Http::post('password'),
+                    $user = ['username' => Text::safeString(Http::post('username')),
+                             'password' => Text::encryptString(Http::post('password')),
                              'email' => Http::post('email'),
                              'role'  => 'admin',
                              'state' => 'enabled'];

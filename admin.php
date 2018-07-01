@@ -101,7 +101,7 @@ class Admin
         switch (Http::getUriSegment(2)) {
             case 'delete':
                 if (Http::get('page') != '') {
-                    if (Token::check((Http::post('token')))) {
+                    if (Token::check((Http::get('token')))) {
                         Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
                         Http::redirect(Http::getBaseUrl().'/admin/pages');
                     }
@@ -128,6 +128,63 @@ class Admin
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;
+            case 'rename';
+                $rename_page = Http::post('rename_page');
+
+                if (isset($rename_page)) {
+                    if (Token::check((Http::post('token')))) {
+
+                        $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_path_current') . '/page.html');
+
+                        Arr::set($page, 'title', Http::post('title'));
+                        $content = Arr::get($page, 'content');
+                        Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
+
+                        $page_frontmatter = Yaml::dump($page);
+
+                        $page_path_current = PATH['pages'] . '/' . Http::post('page_path_current') . '/page.html';
+                        $page_new_current = PATH['pages'] . '/' . (Http::post('parent_page') == '/' ? '' : '/') . Http::post('slug') . '/page.html';
+
+                        Filesystem::setFileContent($page_path_current,
+                                                  '---'."\n".
+                                                  $page_frontmatter."\n".
+                                                  '---'."\n".
+                                                  $content);
+
+
+                        $path = pathinfo($page_new_current);
+
+                        if (!file_exists($path['dirname'])) {
+                            mkdir($path['dirname'], 0777, true);
+                        }
+
+                        if (Filesystem::copyFile($page_path_current, $page_new_current)) {
+                            Filesystem::deleteFile($page_path_current);
+                        }
+
+                        Http::redirect(Http::getBaseUrl().'/admin/pages');
+
+                    } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+                }
+
+                $_pages_list = Content::getPages('', false , 'slug');
+                $pages_list['/'] = '/';
+                foreach ($_pages_list as $_page) {
+                    if ($_page['slug'] != '') {
+                        $pages_list[$_page['slug']] = $_page['slug'];
+                    } else {
+                        $pages_list[Registry::get('system.pages.main')] = Registry::get('system.pages.main');
+                    }
+                }
+
+                Themes::view('admin/views/templates/pages/rename')
+                    ->assign('page_slug', Arr::last(explode("/", Http::get('page'))))
+                    ->assign('page_title', Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html')['title'])
+                    ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
+                    ->assign('page_path_current', Http::get('page'))
+                    ->assign('pages_list', $pages_list)
+                    ->display();
+            break;
             case 'edit':
 
                 if (Http::get('expert') && Http::get('expert') == 'true') {
@@ -138,6 +195,9 @@ class Admin
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
                                                       Http::post('editor-codemirror'));
+
+                            Http::redirect(Http::getBaseUrl().'/admin/pages');
+                            
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
@@ -172,6 +232,9 @@ class Admin
                                                       $page_frontmatter."\n".
                                                       '---'."\n".
                                                       Http::post('editor'));
+
+                            Http::redirect(Http::getBaseUrl().'/admin/pages');
+
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 

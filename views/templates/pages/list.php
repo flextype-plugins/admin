@@ -26,7 +26,11 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
             <tr>
               <td scope="row"><a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a></td>
               <td scope="row"><a target="_blank"  href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>">/<?php echo $page['slug']; ?></a></td>
-              <td scope="row" class="text-right"><a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', 'admin', Registry::get('system.locale')); ?></a></td>
+              <td scope="row" class="text-right">
+                  <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo I18n::find('admin_pages_rename', 'admin', Registry::get('system.locale')); ?></a>
+                  &nbsp;
+                  <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', 'admin', Registry::get('system.locale')); ?></a>
+              </td>
             </tr>
             <?php } ?>
           </tbody>

@@ -1,11 +1,12 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http\Http};
+use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http\Http, Token\Token};
 ?>
 
 <?php Themes::view('admin/views/partials/head')->display(); ?>
 
 <form method="post">
+    <?php echo Form::hidden('token', Token::generate()); ?>
     <div class="row">
       <div class="col-12">
         <?php echo Form::hidden('slug', $page_slug); ?>

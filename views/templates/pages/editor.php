@@ -5,33 +5,32 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
 
 <?php Themes::view('admin/views/partials/head')->display(); ?>
 
-<form method="post">
+<?php echo Form::open(); ?>
     <?php echo Form::hidden('token', Token::generate()); ?>
+    <?php echo Form::hidden('page_name', $page_name); ?>
     <div class="row">
       <div class="col-9">
-        <?php echo Form::hidden('slug', $page_slug); ?>
         <div class="dark-panel">
             <div class="dark-panel-header">
                 <h3 class="h3">
-                    <?php echo I18n::find('admin_pages_edit', 'admin', Registry::get('system.locale')); ?>
-                    <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_slug; ?>&expert=true" class="float-right">Switch to expert mode</a>
+                    <?php echo I18n::find('admin_pages_edit_page', 'admin', Registry::get('system.locale')); ?>
+                    <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right"><?php echo I18n::find('admin_pages_switch_to_expert_mode', 'admin', Registry::get('system.locale')); ?></a>
                 </h3>
             </div>
             <div class="dark-panel-body">
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('title', I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
-                            Form::input('title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
+                            Form::label('page_title', I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
                         );
                     ?>
                 </div>
-
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('editor', I18n::find('admin_pages_content', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
-                            Form::textarea('editor', $page_content, ['class' => 'form-control margin-hard-bottom', 'id' => 'pageContent'])
+                            Form::label('page_content', I18n::find('admin_pages_content', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'id' => 'pageContent'])
                         );
                     ?>
                 </div>
@@ -47,29 +46,36 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
               </div>
               <div class="dark-panel-body">
                   <div class="form-group">
-                  <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_visibility', 'admin', Registry::get('system.locale')); ?></label>
-                  <?php echo Form::select('visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, array('class' => 'form-control', 'id' => 'formGroupParentPageInput')); ?>
+                      <?php
+                          echo (
+                              Form::label('page_visibility', I18n::find('admin_pages_visibility', 'admin', Registry::get('system.locale')),  ['for' => 'pageTitle']).
+                              Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
+                          );
+                      ?>
                   </div>
-
                   <div class="form-group">
-                  <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_template', 'admin', Registry::get('system.locale')); ?></label>
-                  <select class="form-control" id="formGroupParentPageInput" name="template">
-                  <option value="default">default</option>
-                  </select>
+                      <?php
+                          echo (
+                              Form::label('page_template', I18n::find('admin_pages_template', 'admin', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
+                              Form::select('page_template', ['default' => 'default'], 'default', ['class' => 'form-control', 'id' => 'pageTemplate'])
+                          );
+                      ?>
                   </div>
-
                   <div class="form-group">
-                  <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_date', 'admin', Registry::get('system.locale')); ?></label>
-                  <input type="text" name="date" class="form-control" id="formGroupPageTitleInput" value="<?php echo $page_date; ?>" placeholder="">
+                      <?php
+                          echo (
+                              Form::label('page_date', I18n::find('admin_pages_date', 'admin', Registry::get('system.locale')), ['for' => 'pageDate']).
+                              Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
+                          );
+                      ?>
                   </div>
-
               </div>
               <div class="dark-panel-footer text-center">
-                  <button class="btn btn-black btn-editor btn-block" name="save_page" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('system.locale')); ?></button>
+                  <?php echo Form::submit('page_save', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black btn-editor btn-block']); ?>
               </div>
           </div>
       </div>
       </div>
-</form>
+<?php echo Form::close(); ?>
 
 <?php Themes::view('admin/views/partials/footer')->display(); ?>

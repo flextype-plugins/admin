@@ -209,17 +209,16 @@ class Admin
                         ->display();
                 } else {
 
-                    $save_page = Http::post('save_page');
+                    $page_save = Http::post('page_save');
 
-                    if (isset($save_page)) {
+                    if (isset($page_save)) {
                         if (Token::check((Http::post('token')))) {
 
-                            $page = Content::processPage(PATH['pages'] . '/' . Http::post('slug') . '/page.html');
+                            $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html');
 
-                            Arr::set($page, 'title', Http::post('title'));
-                            Arr::set($page, 'description', Http::post('description'));
-                            Arr::set($page, 'visibility', Http::post('visibility'));
-                            Arr::set($page, 'template', Http::post('template'));
+                            Arr::set($page, 'title', Http::post('page_title'));
+                            Arr::set($page, 'visibility', Http::post('page_visibility'));
+                            Arr::set($page, 'template', Http::post('page_template'));
 
                             Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
                             Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
@@ -227,11 +226,11 @@ class Admin
 
                             $page_frontmatter = Yaml::dump($page);
 
-                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
+                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
                                                       '---'."\n".
                                                       $page_frontmatter."\n".
                                                       '---'."\n".
-                                                      Http::post('editor'));
+                                                      Http::post('page_content'));
 
                             Http::redirect(Http::getBaseUrl().'/admin/pages');
 
@@ -241,7 +240,7 @@ class Admin
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
                     Themes::view('admin/views/templates/pages/editor')
-                        ->assign('page_slug', Http::get('page'))
+                        ->assign('page_name', Http::get('page'))
                         ->assign('page_title', $page['title'])
                         ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
                         ->assign('page_template',(isset($page['temlate']) ? $page['template'] : ''))

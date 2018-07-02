@@ -34,7 +34,7 @@ use Flextype\Component\{Http\Http, Event\Event};
 
 </script>
 <script>
-var editor = new MediumEditor('#editor', {
+var editor = new MediumEditor('#pageContent', {
     disableDoubleReturn: true
     /*toolbar: {
         buttons: ['bold', 'italic', 'underline', 'anchor']

@@ -178,7 +178,7 @@ class Admin
                 }
 
                 Themes::view('admin/views/templates/pages/rename')
-                    ->assign('page_slug', Arr::last(explode("/", Http::get('page'))))
+                    ->assign('page_name', Arr::last(explode("/", Http::get('page'))))
                     ->assign('page_title', Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html')['title'])
                     ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
                     ->assign('page_path_current', Http::get('page'))
@@ -197,7 +197,7 @@ class Admin
                                                       Http::post('editor-codemirror'));
 
                             Http::redirect(Http::getBaseUrl().'/admin/pages');
-                            
+
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 

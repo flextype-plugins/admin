@@ -2,13 +2,11 @@
 // Main
 //
 
-html,
-body {
+body,
+html {
     font-family: $base-font-family;
     font-size: $base-font-size;
-
     height: 100%;
-
     color: $black;
     background: $white;
 }
@@ -16,12 +14,11 @@ body {
 body,
 button,
 input,
+p,
 select,
-textarea,
-p {
+textarea {
     font-family: $base-font-family;
     font-weight: 400;
-
     color: $black;
 }
 
@@ -38,9 +35,13 @@ pre {
 a {
     color: $black;
 
-    &:hover,
-    &:focus {
+    &:focus,
+    &:hover {
         text-decoration: none;
         color: $gray-darker;
     }
+}
+
+.margin-hard-bottom {
+    margin-bottom: 0!important;
 }

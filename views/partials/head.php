@@ -28,7 +28,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
         .medium-editor-element {
             height: auto!important;
             min-height: 500px!important;
-            border: 2px solid #000!important;
+            border: 1px solid #000!important;
             border-radius: 0!important;
             font-size: 18px;
             padding: 10px;
@@ -36,7 +36,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
 
         }
         .form-control {
-            border: 2px solid #000!important;
+            border: 1px solid #000!important;
             font-size: 18px;
             margin-bottom: 25px;
             color: #000;
@@ -47,6 +47,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
             border-color: none;
             box-shadow: none;
         }
+
         :focus {
             outline-style: none!important;
             outline-width: 0px!important;
@@ -67,7 +68,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
                          linear-gradient(-225deg, rgba(255,255,255,0) 50%, white 50%) no-repeat,
                          linear-gradient(#000, #000) no-repeat;
              background-color: white;
-             background-size: 2px 100%, 20px 25px, 20px 35px, 20px 60%;
+             background-size: 1px 100%, 20px 30px, 25px 35px, 20px 60%;
              background-position: right 25px center, right bottom, right bottom, right bottom;
         }
 
@@ -81,10 +82,10 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
 
         .dropdown-menu {
             background-color: #282828;
-            border-top: 2px solid #282828;
-            border-left: 2px solid #282828;
-            border-bottom: 2px solid #282828;
-            border-right: 2px solid #282828;
+            border-top: 1px solid #282828;
+            border-left: 1px solid #282828;
+            border-bottom: 1px solid #282828;
+            border-right: 1px solid #282828;
             padding: 0;
             margin: 0;
             border-radius: 0;

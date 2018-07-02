@@ -3,14 +3,14 @@
 //
 
 .dark-panel {
-    border: 2px solid black;
+    border: 1px solid black;
 }
 
 .dark-panel-header {
     color: black;
     padding: 11px 10px;
     background: black;
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
 
     a {
         color: white;
@@ -26,7 +26,7 @@
 
 .dark-panel-footer {
     padding: 10px;
-    border-top: 2px solid #000;
+    border-top: 1px solid #000;
 }
 
 .dark-panel-body {

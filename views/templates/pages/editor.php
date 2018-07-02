@@ -31,7 +31,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                     <?php
                         echo (
                             Form::label('editor', I18n::find('admin_pages_content', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
-                            Form::textarea('editor', $page_content, ['class' => 'form-control', 'id' => 'pageContent'])
+                            Form::textarea('editor', $page_content, ['class' => 'form-control margin-hard-bottom', 'id' => 'pageContent'])
                         );
                     ?>
                 </div>

@@ -186,15 +186,14 @@ class Admin
                     ->display();
             break;
             case 'edit':
-
                 if (Http::get('expert') && Http::get('expert') == 'true') {
 
-                    $save_page = Http::post('save_page_expert');
+                    $page_save = Http::post('page_save_expert');
 
-                    if (isset($save_page)) {
+                    if (isset($page_save)) {
                         if (Token::check((Http::post('token')))) {
-                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('slug') . '/page.html',
-                                                      Http::post('editor-codemirror'));
+                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page') . '/page.html',
+                                                      Http::post('page_content'));
 
                             Http::redirect(Http::getBaseUrl().'/admin/pages');
 
@@ -204,7 +203,7 @@ class Admin
                     $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
                     Themes::view('admin/views/templates/pages/editor-expert')
-                        ->assign('page_slug', Http::get('page'))
+                        ->assign('page_name', Http::get('page'))
                         ->assign('page_content', $page_content)
                         ->display();
                 } else {

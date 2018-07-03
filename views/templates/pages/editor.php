@@ -74,10 +74,25 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                   <?php echo Form::submit('page_save', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black btn-editor btn-block']); ?>
               </div>
           </div>
+<?php echo Form::close(); ?>
+
           <div class="dark-panel">
               <div class="dark-panel-header">
                   <h3 class="h3">
                       <?php echo I18n::find('admin_pages_files', 'admin', Registry::get('system.locale')); ?>
+                      <?php
+                          echo (
+                              Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline')).
+                              Form::hidden('token', Token::generate())
+                          );
+                      ?>
+                      <input type="file" name="file"></span>
+                      <?php
+                          echo (
+                              Form::submit('upload_file', 'Upload', array('class' => 'btn btn-primary')).
+                              Form::close()
+                          )
+                      ?>
                       <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_files_upload', 'admin', Registry::get('system.locale')); ?></a>
                   </h3>
               </div>
@@ -98,6 +113,6 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
           </div>
       </div>
       </div>
-<?php echo Form::close(); ?>
+
 
 <?php Themes::view('admin/views/partials/footer')->display(); ?>

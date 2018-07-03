@@ -238,7 +238,46 @@ class Admin
 
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
+                    // Array of forbidden types
+                    $forbidden_types = array('html', 'htm', 'js', 'jsb', 'mhtml', 'mht',
+                                             'php', 'phtml', 'php3', 'php4', 'php5', 'phps',
+                                             'shtml', 'jhtml', 'pl', 'py', 'cgi', 'sh', 'ksh', 'bsh', 'c', 'htaccess', 'htpasswd',
+                                             'exe', 'scr', 'dll', 'msi', 'vbs', 'bat', 'com', 'pif', 'cmd', 'vxd', 'cpl', 'empty');
 
+                    // Array of image types
+                    $image_types = array('jpg', 'png', 'bmp', 'gif', 'tif');
+
+                    $files_path = PATH['pages'] . '/' . Http::get('page') . '/';
+
+                    if (Http::post('upload_file')) {
+
+                        if (Token::check(Http::post('token'))) {
+
+                            $error = false;
+                            if ($_FILES['file']) {
+                                if ( ! in_array(Filesystem::fileExt($_FILES['file']['name']), $forbidden_types)) {
+                                    $filepath = $files_path.Text::safeString(basename($_FILES['file']['name'], Filesystem::fileExt($_FILES['file']['name']))).'.'.Filesystem::fileExt($_FILES['file']['name']);
+                                    $uploaded = move_uploaded_file($_FILES['file']['tmp_name'], $filepath);
+                                    if ($uploaded !== false && is_file($filepath)) {
+                                        //Notification::set('success', __('File was uploaded', 'filesmanager'));
+                                    } else {
+                                        $error = 'File was not uploaded';
+                                    }
+                                } else {
+                                    $error = 'Forbidden file type';
+                                }
+                            } else {
+                                $error = 'File was not uploaded';
+                            }
+
+                            if ($error) {
+                                //Notification::set('error', __($error, 'filesmanager'));
+                            }
+
+                            //Request::redirect($site_url.'/admin/index.php?id=filesmanager&path='.$path);
+
+                        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+                    }
 
                     Themes::view('admin/views/templates/pages/editor')
                         ->assign('page_name', Http::get('page'))

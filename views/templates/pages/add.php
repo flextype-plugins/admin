@@ -18,7 +18,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                     <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
                   </div>
                   <div class="form-group">
-                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_slug', 'admin', Registry::get('system.locale')); ?></label>
+                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></label>
                     <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
                   </div>
                   <div class="form-group">

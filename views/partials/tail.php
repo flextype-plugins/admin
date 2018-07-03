@@ -16,20 +16,10 @@ use Flextype\Component\{Http\Http, Event\Event};
               matchBrackets: true,
               viewportMargin: Infinity,
               indentUnit: 4,
-              mode:  "YAML",
-              indentWithTabs: true,
-              theme: "default"
-          });
-          /*var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-              lineNumbers: false,
-              styleActiveLine: true,
-              matchBrackets: true,
-              viewportMargin: Infinity,
-              indentUnit: 4,
               mode:  "HTML",
               indentWithTabs: true,
               theme: "default"
-          });*/
+          });
       });
 
 </script>

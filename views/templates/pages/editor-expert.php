@@ -13,7 +13,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
             <div class="dark-panel">
                 <div class="dark-panel-header">
                     <h3 class="h3">
-                        <?php echo I18n::find('admin_pages_edit', 'admin', Registry::get('system.locale')); ?>
+                        <?php echo I18n::find('admin_pages_edit_page', 'admin', Registry::get('system.locale')); ?>
                         <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>" class="float-right">Switch back to editor mode</a>
                     </h3>
                 </div>
@@ -23,7 +23,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                     </div>
                 </div>
                 <div class="dark-panel-footer text-center">
-                    <button class="btn btn-black btn-editor col-4" name="page_save_expert" type="submit"><?php echo I18n::find('admin_save', 'admin', Registry::get('system.locale')); ?></button>
+                    <?php echo Form::submit('page_save_expert', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black btn-editor btn-block col-4']); ?>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
     <div class="dark-panel-header">
         <h3 class="h3">
             <?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale')); ?>
-            <a class="float-right" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></a>
+            <a class="float-right panel-header-button" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></a>
         </h3>
     </div>
     <div class="dark-panel-body padding-hard">

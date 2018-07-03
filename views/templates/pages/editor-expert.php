@@ -14,7 +14,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="dark-panel-header">
                     <h3 class="h3">
                         <?php echo I18n::find('admin_pages_edit_page', 'admin', Registry::get('system.locale')); ?>
-                        <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>" class="float-right">Switch back to editor mode</a>
+                        <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>" class="float-right panel-header-button">Switch back to editor mode</a>
                     </h3>
                 </div>
                 <div class="dark-panel-body">

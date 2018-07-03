@@ -14,7 +14,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
             <div class="dark-panel-header">
                 <h3 class="h3">
                     <?php echo I18n::find('admin_pages_edit_page', 'admin', Registry::get('system.locale')); ?>
-                    <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right"><?php echo I18n::find('admin_pages_switch_to_expert_mode', 'admin', Registry::get('system.locale')); ?></a>
+                    <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_switch_to_expert_mode', 'admin', Registry::get('system.locale')); ?></a>
                 </h3>
             </div>
             <div class="dark-panel-body">
@@ -78,6 +78,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
               <div class="dark-panel-header">
                   <h3 class="h3">
                       <?php echo I18n::find('admin_pages_files', 'admin', Registry::get('system.locale')); ?>
+                      <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_files_upload', 'admin', Registry::get('system.locale')); ?></a>
                   </h3>
               </div>
               <div class="dark-panel-body">

@@ -192,7 +192,7 @@ class Admin
 
                     if (isset($page_save)) {
                         if (Token::check((Http::post('token')))) {
-                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page') . '/page.html',
+                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
                                                       Http::post('page_content'));
 
                             Http::redirect(Http::getBaseUrl().'/admin/pages');
@@ -238,6 +238,8 @@ class Admin
 
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
+
+
                     Themes::view('admin/views/templates/pages/editor')
                         ->assign('page_name', Http::get('page'))
                         ->assign('page_title', $page['title'])
@@ -246,6 +248,7 @@ class Admin
                         ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
                         ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
                         ->assign('page_content', $page['content'])
+                        ->assign('files', Filesystem::getFilesList(PATH['pages'] . '/' . Http::get('page'), 'jpg'))
                         ->display();
                 }
             break;

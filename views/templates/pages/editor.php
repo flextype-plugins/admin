@@ -81,8 +81,19 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                       <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_files_upload', 'admin', Registry::get('system.locale')); ?></a>
                   </h3>
               </div>
-              <div class="dark-panel-body">
-
+              <div class="dark-panel-body padding-hard" style="max-height:200px; overflow-y: scroll;">
+              <table class="table">
+                  <?php foreach ($files as $file) { ?>
+                  <tr>
+                      <td>
+                          <a href="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>"><?php echo basename($file); ?></a>
+                      </td>
+                      <td>
+                          <a href="#">X</a>
+                      </td>
+                  </tr>
+                  <?php } ?>
+              </table>
               </div>
           </div>
       </div>

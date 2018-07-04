@@ -5,36 +5,56 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
 
 <?php Themes::view('admin/views/partials/head')->display(); ?>
 
-<div class="dark-panel">
-    <div class="dark-panel-header">
-        <h3 class="h3">
-            <?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale')); ?>
-            <a class="float-right panel-header-button" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></a>
-        </h3>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-fixed">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <a class="navbar-brand" href="#pablo"> <?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale')); ?> </a>
+        </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <a class="float-right btn btn-black" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add" role="button"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></a>
     </div>
-    <div class="dark-panel-body padding-hard">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col"><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></th>
-              <th scope="col"><?php echo I18n::find('admin_pages_url', 'admin', Registry::get('system.locale')); ?></th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach($pages_list as $page) { ?>
-            <tr>
-              <td scope="row"><a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a></td>
-              <td scope="row"><a target="_blank"  href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>">/<?php echo $page['slug']; ?></a></td>
-              <td scope="row" class="text-right">
-                  <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo I18n::find('admin_pages_rename', 'admin', Registry::get('system.locale')); ?></a>
-                  &nbsp;
-                  <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', 'admin', Registry::get('system.locale')); ?></a>
-              </td>
-            </tr>
-            <?php } ?>
-          </tbody>
-        </table>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-body table-full-width table-responsive no-margin padding-hard">
+                        <table class="table table-hover padding-hard no-margin">
+                            <thead>
+                                <tr>
+                                    <th><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></th>
+                                    <th><?php echo I18n::find('admin_pages_url', 'admin', Registry::get('system.locale')); ?></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($pages_list as $page) { ?>
+                                <tr>
+                                    <td><a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a></td>
+                                    <td><a target="_blank"  href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>">/<?php echo $page['slug']; ?></a></td>
+                                    <td class="text-right">
+                                        <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo I18n::find('admin_pages_rename', 'admin', Registry::get('system.locale')); ?></a>
+                                        &nbsp;
+                                        <a onclick="demo.showSwal('warning-message-and-confirmation')" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', 'admin', Registry::get('system.locale')); ?></a>
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 

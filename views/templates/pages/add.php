@@ -2,41 +2,71 @@
 namespace Flextype;
 use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Token\Token};
 ?>
+
 <?php Themes::view('admin/views/partials/head')->display(); ?>
 
-<form method="post">
-    <?php echo Form::hidden('token', Token::generate()); ?>
-    <div class="row">
-      <div class="col-4" style="margin: 0 auto;">
-          <div class="dark-panel">
-              <div class="dark-panel-header">
-                  <h3 class="h3"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></h3>
-              </div>
-              <div class="dark-panel-body">
-                  <div class="form-group">
-                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')); ?></label>
-                    <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></label>
-                    <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
-                  </div>
-                  <div class="form-group">
-                     <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_parent_page', 'admin', Registry::get('system.locale')); ?></label>
-                     <select class="form-control" id="formGroupParentPageInput" name="parent_page">
-                       <option value="">/</option>
-                       <?php foreach($pages_list as $page) { ?>
-                       <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
-                       <?php } ?>
-                     </select>
-                   </div>
-              </div>
-              <div class="dark-panel-footer">
-                  <button class="btn btn-block btn-black" name="create_page" type="submit"><?php echo I18n::find('admin_create', 'admin', Registry::get('system.locale')); ?></button>
-              </div>
-          </div>
-      </div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-fixed">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <a class="navbar-brand" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/"><?php echo I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale')); ?></a>
+            &nbsp;/&nbsp;
+            <a class="navbar-brand" href="#"><?php echo I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale')); ?></a>
+        </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
     </div>
-</form>
+</nav>
+<!-- End Navbar -->
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5" style="margin: 0 auto;">
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <?php echo Form::open(); ?>
+                        <?php echo Form::hidden('token', Token::generate()); ?>
+
+                        <div class="form-group">
+                          <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')); ?></label>
+                          <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupPageTitleInput"><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></label>
+                          <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                           <label for="formGroupParentPageInput"><?php echo I18n::find('admin_pages_parent_page', 'admin', Registry::get('system.locale')); ?></label>
+                           <select class="form-control" id="formGroupParentPageInput" name="parent_page">
+                             <option value="">/</option>
+                             <?php foreach($pages_list as $page) { ?>
+                             <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
+                             <?php } ?>
+                           </select>
+                         </div>
+
+                     </div>
+
+                     <div class="card-footer text-center">
+                         <?php echo Form::submit('create_page', I18n::find('admin_create', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
+                     </div>
+
+
+                     <?php echo Form::close(); ?>
+
+                 </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php Themes::view('admin/views/partials/footer')->display(); ?>

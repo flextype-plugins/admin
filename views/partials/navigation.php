@@ -2,129 +2,133 @@
 namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, Token\Token};
 ?>
-
 <div class="sidebar">
-    <div class="logo">
-        FLEXTYPE
-    </div>
-    <div class="accordion sidebar-nav-accordion" id="accordionExample">
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h5 class="mb-0">
-            <a class="card-header-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <i class="far fa-file"></i> Content
+    <div class="sidebar-wrapper">
+        <div class="flextype-logo">
+            <a href="<?php echo Http::getBaseUrl(); ?>/admin">
+                FLEXTYPE
             </a>
-          </h5>
         </div>
-
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-          <div class="card-body">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <span class="sidebar-mini">P</span>
-                        <span class="siderbar-normal">Pages</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span class="sidebar-mini">B</span>
-                        <span class="siderbar-normal">Blocks</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span class="sidebar-mini">G</span>
-                        <span class="siderbar-normal">Gallery</span>
-                    </a>
-                </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header" id="headingTwo">
-          <h5 class="mb-0">
-            <a class="card-header-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              <i class="fas fa-plug"></i> Extends
-            </a>
-          </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-          <div class="card-body">
+          <ul class="nav">
               <li class="nav-item">
-                  <a class="nav-link active" href="#">
-                      <span class="sidebar-mini">P</span>
-                      <span class="siderbar-normal">Plugins</span>
+                  <a class="nav-link" data-toggle="collapse" href="#user">
+                      <i class="fas fa-user-circle"></i>
+                      <p>
+                          Sergey Romanenko
+                          <b class="caret"></b>
+                      </p>
                   </a>
+                  <div class="collapse " id="user">
+                      <ul class="nav">
+                          <li class="nav-item ">
+                              <a class="nav-link" href="#">
+                                  <span class="sidebar-normal">Edit Profile</span>
+                              </a>
+                          </li>
+                          <li class="nav-item ">
+                              <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/logout?token=<?php echo Token::generate(); ?>">
+                                  <span class="sidebar-normal"><?php echo I18n::find('admin_menu_logout', 'admin', Registry::get('system.locale')); ?></span>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">
-                      <span class="sidebar-mini">T</span>
-                      <span class="siderbar-normal">Themes</span>
-                  </a>
-              </li>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header" id="headingThree">
-          <h5 class="mb-0">
-            <a class="card-header-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              <i class="fas fa-cog"></i> System
-            </a>
-          </h5>
-        </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-          <div class="card-body">
-              <li class="nav-item">
-                  <a class="nav-link active" href="#">
-                      <span class="sidebar-mini">S</span>
-                      <span class="siderbar-normal">Settings</span>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">
-                      <span class="sidebar-mini">B</span>
-                      <span class="siderbar-normal">Backups</span>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">
-                      <span class="sidebar-mini">I</span>
-                      <span class="siderbar-normal">Information</span>
-                  </a>
-              </li>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header" id="headingFour">
-          <h5 class="mb-0">
-            <a class="card-header-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="headingFour">
-              <i class="fas fa-info-circle"></i> Help
-            </a>
-          </h5>
-        </div>
-        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
-          <div class="card-body">
-              <li class="nav-item">
-                  <a class="nav-link active" href="#">
-                      <span class="sidebar-mini">D</span>
-                      <span class="siderbar-normal">Documentation</span>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">
-                      <span class="sidebar-mini">S</span>
-                      <span class="siderbar-normal">Support Forum</span>
-                  </a>
-              </li>
-          </div>
-        </div>
-      </div>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#content">
+                    <i class="far fa-file"></i>
+                    <p>
+                        Content
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse " id="content">
+                    <ul class="nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/pages">
+                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_pages', 'admin', Registry::get('system.locale')); ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#extends">
+                    <i class="fas fa-plug"></i>
+                    <p>
+                        Extends
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="extends">
+                    <ul class="nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Plugins</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Themes</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#system">
+                    <i class="fas fa-cog"></i>
+                    <p>
+                        System
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse" id="system">
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Settings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Backups</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Information</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#help">
+                    <i class="fas fa-info-circle"></i>
+                    <p>
+                        Help
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse " id="help">
+                    <ul class="nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Documentation</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">
+                                <span class="sidebar-normal">Support Forum</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
     </div>
 </div>
+<div class="sidebar-off-canvas"></div>
 
 <!--
 <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow">

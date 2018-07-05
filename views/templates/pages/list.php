@@ -44,7 +44,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
                                     <td class="text-right">
                                         <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo I18n::find('admin_pages_rename', 'admin', Registry::get('system.locale')); ?></a>
                                         &nbsp;
-                                        <a onclick="demo.showSwal('warning-message-and-confirmation')" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', 'admin', Registry::get('system.locale')); ?></a>
+                                        <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', 'admin', Registry::get('system.locale')); ?></a>
                                     </td>
                                 </tr>
                                 <?php } ?>

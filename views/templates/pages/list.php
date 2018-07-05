@@ -6,15 +6,15 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['pages' => ['url' => '#', 'title' => I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale'))]])
+        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale'))]])
         ->assign('buttons', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/add', 'title' => I18n::find('admin_pages_create_new', 'admin', Registry::get('system.locale'))]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card strpied-tabled-with-hover">
-    <div class="card-body table-full-width table-responsive no-margin padding-hard">
-        <table class="table table-hover padding-hard no-margin">
+<div class="card">
+    <div class="card-body no-margin padding-hard">
+        <table class="table padding-hard no-margin">
             <thead>
                 <tr>
                     <th><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></th>

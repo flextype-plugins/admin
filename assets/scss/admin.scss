@@ -13,6 +13,8 @@
 // Abstractions, Objects and design patterns
 @import "objects/container";
 @import "objects/buttons";
+@import "objects/table";
+@import "objects/form-control";
 
 // Components
 // Discrete, complete chunks of UI
@@ -20,6 +22,7 @@
 @import "components/sidebar";
 @import "components/footer";
 @import "components/panels";
+@import "components/card";
 
 // Thumps
 // High-specificity, very explicit selectors. Overrides and helper classes

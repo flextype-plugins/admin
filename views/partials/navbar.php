@@ -21,11 +21,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
                 <?php } ?>
             <?php } ?>
         </div>
+        <div class="navbar-buttons">
         <?php if(isset($buttons)) { ?>
             <?php foreach ($buttons as $button) { ?>
-                <a class="float-right btn btn-black" href="<?php echo $button['url']; ?>"><?php echo $button['title']; ?></a>
+                <a class="float-right btn  <?php if (isset($button['class'])) echo $button['class']; ?>" href="<?php echo $button['url']; ?>"><?php echo $button['title']; ?></a>
             <?php } ?>
         <?php } ?>
+        </div>
     </div>
 </nav>
 <!-- End Navbar -->

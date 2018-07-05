@@ -85,13 +85,8 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 <div class="collapse" id="system">
                     <ul class="nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/settings">
                                 <span class="sidebar-normal">Settings</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-normal">Backups</span>
                             </a>
                         </li>
                         <li class="nav-item ">

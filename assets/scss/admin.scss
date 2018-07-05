@@ -1,7 +1,5 @@
-//
 // Admin Theme main SCSS
 // (c) Sergey Romanenko <https://github.com/Awilum>
-//
 
 // Generic
 // Low-specificity, far-reaching rulesets
@@ -19,6 +17,7 @@
 // Components
 // Discrete, complete chunks of UI
 @import "components/nav";
+@import "components/sidebar";
 @import "components/footer";
 @import "components/panels";
 

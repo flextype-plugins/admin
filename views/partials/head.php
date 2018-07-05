@@ -37,14 +37,6 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
             outline: none!important;
 
         }
-
-        .padding-hard {
-            padding: 0!important;
-        }
-
-        .no-margin {
-            margin: 0!important;
-        }
     </style>
 
 	<?php Event::dispatch('onAdminThemeHeader'); ?>

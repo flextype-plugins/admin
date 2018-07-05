@@ -13,8 +13,8 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
 ?>
 
 <div class="card">
-    <div class="card-body no-margin padding-hard">
-        <table class="table padding-hard no-margin">
+    <div class="card-body no-padding">
+        <table class="table no-margin">
             <thead>
                 <tr>
                     <th><?php echo I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')); ?></th>

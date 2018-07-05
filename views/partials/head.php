@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets};
+use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets, I18n\I18n};
 ?>
 <!doctype html>
 <html lang="<?php echo Registry::get('system.locale'); ?>">
@@ -14,7 +14,9 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
 
 	<title>FLEXTYPE</title>
 
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
 
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/bootstrap.min.css', 'admin', 1); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/codemirror.min.css', 'admin', 2); ?>
@@ -35,116 +37,159 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
             outline: none!important;
 
         }
-        .form-control {
-            border: 1px solid #000!important;
-            font-size: 18px;
-            margin-bottom: 25px;
-            color: #000;
-        }
-        .form-control:focus {
-            outline-style: none!important;
-            outline-width: 0px!important;
-            border-color: none;
-            box-shadow: none;
-        }
-
-        :focus {
-            outline-style: none!important;
-            outline-width: 0px!important;
-        }
-
-        select.form-control {
-             -webkit-appearance: none;
-             appearance: none;
-             font-size: 18px;
-             height: 43px!important;
-             outline: 0;
-             color: #000;
-             border-color: #000;
-
-             border-radius: 0px;
-             background: linear-gradient(#000, #000) no-repeat,
-                         linear-gradient(-135deg, rgba(255,255,255,0) 50%, white 50%) no-repeat,
-                         linear-gradient(-225deg, rgba(255,255,255,0) 50%, white 50%) no-repeat,
-                         linear-gradient(#000, #000) no-repeat;
-             background-color: white;
-             background-size: 1px 100%, 20px 30px, 25px 35px, 20px 60%;
-             background-position: right 25px center, right bottom, right bottom, right bottom;
-        }
 
         .padding-hard {
-            padding: 0;
+            padding: 0!important;
         }
 
-        .navbar-light .navbar-nav .nav-link {
-            padding: 16.5px 14px;
+        .no-margin {
+            margin: 0!important;
         }
-
-        .dropdown-menu {
-            background-color: #282828;
-            border-top: 1px solid #282828;
-            border-left: 1px solid #282828;
-            border-bottom: 1px solid #282828;
-            border-right: 1px solid #282828;
-            padding: 0;
-            margin: 0;
-            border-radius: 0;
-
-            position: absolute;
-            top: 57px;
-
-        }
-
-        .nav-item.dropdown.show {
-            background: #282828;
-            color: #fff;
-        }
-
-        .dropdown-item {
-            padding: 16.5px 12px;
-        }
-
-        .navbar-light .navbar-nav .show > .nav-link,
-        .navbar-light .navbar-text a {
-            color: #fff;
-        }
-
-        .dropdown-item.active,
-        .dropdown-item:active {
-            color: #fff;
-            text-decoration: none;
-            background-color: #282828;
-        }
-
-.table td,
-.table th,
-.table thead th {
-border-bottom: 1px solid #333;
-}
-
-.table tr:last-of-type td {
-border-bottom: none;
-}
-
-.table td, .table th {
-padding: 9px 10px;
-vertical-align: middle;
-}
-
-.navbar {
-    padding: 0;
-}
-
-.table {
-    margin: 0;
-}
-
     </style>
 
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>
   <body>
+      <div class="wrapper">
+              <div class="sidebar">
+                  <div class="sidebar-wrapper">
+                      <div class="flextype-logo">
+                          <a href="#">
+                              FLEXTYPE
+                          </a>
+                      </div>
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#user">
+                                    <i class="fas fa-user-circle"></i>
+                                    <p>
+                                        Sergey Romanenko
+                                        <b class="caret"></b>
+                                    </p>
+                                </a>
+                                <div class="collapse " id="user">
+                                    <ul class="nav">
+                                        <li class="nav-item ">
+                                            <a class="nav-link" href="#">
+                                                <span class="sidebar-normal">Edit Profile</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" href="#">
+                                                <span class="sidebar-normal">Logout</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                          <li class="nav-item">
+                              <a class="nav-link" data-toggle="collapse" href="#content">
+                                  <i class="far fa-file"></i>
+                                  <p>
+                                      Content
+                                      <b class="caret"></b>
+                                  </p>
+                              </a>
+                              <div class="collapse " id="content">
+                                  <ul class="nav">
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Pages</span>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Blocks</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" data-toggle="collapse" href="#extends">
+                                  <i class="fas fa-plug"></i>
+                                  <p>
+                                      Extends
+                                      <b class="caret"></b>
+                                  </p>
+                              </a>
+                              <div class="collapse" id="extends">
+                                  <ul class="nav">
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Plugins</span>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Themes</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" data-toggle="collapse" href="#system">
+                                  <i class="fas fa-cog"></i>
+                                  <p>
+                                      System
+                                      <b class="caret"></b>
+                                  </p>
+                              </a>
+                              <div class="collapse" id="system">
+                                  <ul class="nav">
+                                      <li class="nav-item active">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Settings</span>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Backups</span>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Information</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" data-toggle="collapse" href="#help">
+                                  <i class="fas fa-info-circle"></i>
+                                  <p>
+                                      Help
+                                      <b class="caret"></b>
+                                  </p>
+                              </a>
+                              <div class="collapse " id="help">
+                                  <ul class="nav">
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Documentation</span>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ">
+                                          <a class="nav-link" href="#">
+                                              <span class="sidebar-normal">Support Forum</span>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
+          </div>
+          <div class="sidebar-off-canvas">
+
+          </div>
+
+          <div class="main-panel">
+
+
+
 <?php if (Admin::isLoggedIn()) { ?>
-<?php Themes::view('admin/views/partials/navigation')->display(); ?>
+<?php //Themes::view('admin/views/partials/navigation')->display(); ?>
 <? } ?>
-  <main role="main" class="container content">

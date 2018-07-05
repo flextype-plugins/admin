@@ -30,5 +30,19 @@ var editor = new MediumEditor('#pageContent', {
         buttons: ['bold', 'italic', 'underline', 'anchor']
     }*/
 });
+
+
+$(document).ready(function() {
+    $('.navbar-toggler').click(function () {
+        $('.sidebar').addClass('show-sidebar');
+        $('.sidebar-off-canvas').addClass('show-sidebar-off-canvas');
+    });
+
+    $('.sidebar-off-canvas').click(function () {
+        $('.sidebar').removeClass('show-sidebar');
+        $('.sidebar-off-canvas').removeClass('show-sidebar-off-canvas');
+    });
+});
+
 </script>
 <?php Event::dispatch('onAdminThemeFooter'); ?>

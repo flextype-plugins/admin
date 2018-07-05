@@ -22,6 +22,13 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
 </nav>
 <!-- End Navbar -->
 
+<?php
+    Themes::view('admin/views/templates/pages/partials/navbar')
+        ->assign('links', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale'))],
+                                      ['url' => '#', 'title' => I18n::find('admin_pages_rename_page', 'admin', Registry::get('system.locale'))]])
+        ->display();
+?>
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">

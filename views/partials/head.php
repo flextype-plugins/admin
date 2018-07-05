@@ -51,5 +51,5 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
   </head>
   <body>
       <div class="wrapper">
-        <?php Admin::isLoggedIn() and Themes::view('admin/views/partials/navigation')->display(); ?>
+        <?php Admin::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display(); ?>
         <div class="main-panel">

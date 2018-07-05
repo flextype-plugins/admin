@@ -34,9 +34,11 @@
         letter-spacing: 3px;
         color: white;
         display: block;
-        padding-top: 8px;
-        padding-bottom: 8px;
+        padding-top: 18px;
+        padding-bottom: 18px;
         text-align: center;
+        border-bottom: 1px solid #3b3b3b;
+        margin-bottom: 18px;
 
         &:focus,
         &:hover {

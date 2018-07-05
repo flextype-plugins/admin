@@ -17,69 +17,31 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card">
-    <div class="card-header">
-        admin_settings_site
-    </div>
-    <div class="card-body no-padding">
-        <table class="table no-margin">
-            <tbody>
-                <tr>
-                    <td>Flextype Version</td>
-                    <td><?php echo Flextype::VERSION; ?></td>
-                </tr>
-                <tr>
-                    <td>Debugging</td>
-                    <td><?php if (Registry::get('system.errors.display')) echo 'on'; else echo 'off'; ?></td>
-                </tr>
-                <tr>
-                    <td>Cache</td>
-                    <td><?php if (Registry::get('system.cache.enabled')) echo 'on'; else echo 'off'; ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+<div class="row">
 
-<div class="card">
-    <div class="card-header">
-        admin_settings_site
-    </div>
-    <div class="card-body no-padding">
-        <table class="table no-margin">
-            <tbody>
-                <tr>
-                    <td>PHP version</td>
-                    <td><?php echo PHP_VERSION; ?></td>
-                </tr>
-                <tr>
-                    <td>PHP Built On</td>
-                    <td><?php echo php_uname(); ?></td>
-                </tr>
-                <tr>
-                    <td>Web Server</td>
-                    <td><?php echo (isset($_SERVER['SERVER_SOFTWARE'])) ? $_SERVER['SERVER_SOFTWARE'] : @getenv('SERVER_SOFTWARE'); ?></td>
-                </tr>
-                <tr>
-                    <td>WebServer to PHP Interface</td>
-                    <td><?php echo php_sapi_name(); ?></td>
-                </tr>
-                <?php
-                    if (function_exists('apache_get_modules')) {
-                        if ( ! in_array('mod_rewrite',apache_get_modules())) {
-                            echo '<tr><td>'.'Apache Mod Rewrite'.'</td><td>'.'Not Installed'.'</td></tr>';
-                        } else {
-                            echo '<tr><td>'.'Apache Mod Rewrite'.'</td><td>'.'Installed'.'</td></tr>';
-                        }
-                    } else {
-                        echo '<tr><td>'.'Apache Mod Rewrite'.'</td><td>'.'Installed'.'</td></tr>';
-                    }
-                ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                admin_settings_site
+            </div>
+            <div class="card-body">
 
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                admin_settings_system
+            </div>
+            <div class="card-body">
+                
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

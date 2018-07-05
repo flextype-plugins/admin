@@ -95,7 +95,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/information">
                                 <span class="sidebar-normal">Information</span>
                             </a>
                         </li>

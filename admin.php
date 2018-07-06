@@ -76,9 +76,11 @@ class Admin
 
     protected static function getAdminArea()
     {
-        Http::getUriSegment(1) == ''       and Admin::getDashboard();
-        Http::getUriSegment(1) == 'pages'  and Admin::getPagesManagerPage();
-        Http::getUriSegment(1) == 'logout' and Admin::logout();
+        Http::getUriSegment(1) == ''             and Admin::getDashboard();
+        Http::getUriSegment(1) == 'pages'        and Admin::getPagesManagerPage();
+        Http::getUriSegment(1) == 'information'  and Admin::getInformationPage();
+        Http::getUriSegment(1) == 'settings'     and Admin::getSettingsPage();
+        Http::getUriSegment(1) == 'logout'       and Admin::logout();
 
         // Event: onAdminArea
         Event::dispatch('onAdminArea');
@@ -94,6 +96,41 @@ class Admin
 
     protected static function getDashboard() {
         Http::redirect(Http::getBaseUrl().'/admin/pages');
+    }
+
+    protected static function getInformationPage()
+    {
+        Themes::view('admin/views/templates/information/list')
+            ->display();
+    }
+
+
+    protected static function getSettingsPage()
+    {
+
+        $site_settings = [];
+        $system_settings = [];
+
+
+        // Set site items if site config exists
+        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
+            $site_settings = Yaml::parseFile($site_config);
+        } else {
+            throw new \RuntimeException("Flextype site config file does not exist.");
+        }
+
+
+        // Set site items if system config exists
+        if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'system.yaml')) {
+            $system_settings = Yaml::parseFile($system_config);
+        } else {
+            throw new \RuntimeException("Flextype system config file does not exist.");
+        }
+
+        Themes::view('admin/views/templates/settings/list')
+            ->assign('site_settings', $site_settings)
+            ->assign('system_settings', $system_settings)
+            ->display();
     }
 
     protected static function getPagesManagerPage()

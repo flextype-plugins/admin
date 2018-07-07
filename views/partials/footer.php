@@ -1,6 +1,8 @@
 <?php namespace Flextype; ?>
-<?php Themes::view('admin/views/partials/tail')->display(); ?>
+
             </div> <!-- .main-panel -->
         </div> <!-- .wrapper -->
+        
+<?php Themes::view('admin/views/partials/tail')->display(); ?>
     </body>
 </html>

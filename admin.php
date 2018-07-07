@@ -108,9 +108,21 @@ class Admin
     protected static function getSettingsPage()
     {
 
+        $settings_form = Http::post('settingsForm');
+
+        if (isset($settings_form)) {
+
+            print_r($_POST);
+
+            if (Token::check((Http::post('token')))) {
+
+                //Http::redirect(Http::getBaseUrl().'/admin/pages');
+
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+        }
+
         $site_settings = [];
         $system_settings = [];
-
 
         // Set site items if site config exists
         if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
@@ -118,7 +130,6 @@ class Admin
         } else {
             throw new \RuntimeException("Flextype site config file does not exist.");
         }
-
 
         // Set site items if system config exists
         if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'system.yaml')) {

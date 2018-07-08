@@ -7,22 +7,19 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links',   ['settings' => ['url' => Http::getBaseUrl() . '/admin/settings', 'title' => I18n::find('admin_settings_heading', 'admin', Registry::get('system.locale'))]])
-        ->assign('buttons', ['settings' => ['url' => 'javascript:;',
-                                            'title' => I18n::find('admin_save', 'admin', Registry::get('system.locale')),
-                                            'class' => 'settings-save'],
-                                           ['url' => Http::getBaseUrl() . '/admin/settings',
+        ->assign('buttons', ['settings' =>
+                                            ['url' => Http::getBaseUrl() . '/admin/settings',
                                             'title' => I18n::find('admin_clear_cache', 'admin', Registry::get('system.locale')),
                                             'class' => 'btn-light']])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?php echo Form::open('settings', ['name' => 'settingsForm']); ?>
-<?php echo Form::hidden('token', Token::generate()); ?>
-<?php echo Form::hidden('settingsForm', 'settingsForm'); ?>
 <div class="row">
     <div class="col-md-6">
         <div class="card">
+            <?php echo Form::open('settings', ['name' => 'settingsSiteForm']); ?>
+            <?php echo Form::hidden('token', Token::generate()); ?>
             <div class="card-header">
                 admin_settings_site
             </div>
@@ -51,11 +48,17 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
                     <?php } ?>
                 <?php } ?>
             </div>
+             <div class="card-footer text-left">
+                 <?php echo Form::submit('admin_settings_site_save', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
+             </div>
+             <?php echo Form::close(); ?>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="card">
+            <?php echo Form::open('', ['name' => 'settingsSystemForm']); ?>
+            <?php echo Form::hidden('token', Token::generate()); ?>
             <div class="card-header">
                 admin_settings_system
             </div>
@@ -95,13 +98,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
                     <?php } ?>
                 <?php } ?>
             </div>
+            <div class="card-footer text-left">
+                <?php echo Form::submit('admin_settings_system_save', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
+            </div>
+            <?php echo Form::close(); ?>
         </div>
     </div>
 </div>
-<?php echo Form::close(); ?>
-
-
-
 
 <?php
 

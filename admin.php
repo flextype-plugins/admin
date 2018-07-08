@@ -108,15 +108,36 @@ class Admin
     protected static function getSettingsPage()
     {
 
-        $settings_form = Http::post('settingsForm');
+        $admin_settings_site_save = Http::post('admin_settings_site_save');
+        $admin_settings_system_save = Http::post('admin_settings_system_save');
 
-        if (isset($settings_form)) {
-
-            print_r($_POST);
-
+        if (isset($admin_settings_site_save)) {
             if (Token::check((Http::post('token')))) {
 
-                //Http::redirect(Http::getBaseUrl().'/admin/pages');
+                Arr::delete($_POST, 'token');
+                Arr::delete($_POST, 'admin_settings_site_save');
+
+                $settings = Yaml::dump($_POST);
+
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', $settings)) {
+                    Http::redirect(Http::getBaseUrl().'/admin/settings');
+                }
+
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+        }
+
+
+        if (isset($admin_settings_system_save)) {
+            if (Token::check((Http::post('token')))) {
+
+                Arr::delete($_POST, 'token');
+                Arr::delete($_POST, 'admin_settings_system_save');
+
+                $settings = Yaml::dump($_POST);
+
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', $settings)) {
+                    Http::redirect(Http::getBaseUrl().'/admin/settings');
+                }
 
             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }

@@ -13,7 +13,7 @@ namespace Flextype;
  * file that was distributed with this source code.
  */
 
-use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text};
+use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text, Form\Form};
 use Symfony\Component\Yaml\Yaml;
 
 //
@@ -454,4 +454,27 @@ class Admin
 
         return Admin::$instance;
      }
+}
+
+
+class formgenerator
+{
+    public static function display(array $fields, array $values = [])
+    {
+        echo Form::open();
+
+        foreach ($fields as $key => $element) {
+
+            $form_value = Arr::keyExists($values, $key) ? Arr::get($values, $key) : '';
+
+            $form_label   = Form::label($key, $key);
+            $form_element = Form::input($key, $form_value, ['class' => 'form-control']);
+
+            echo '<div class="form-group">';
+            echo $form_label . $form_element;
+            echo '</div>';
+    }
+
+        echo Form::close();
+    }
 }

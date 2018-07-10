@@ -13,7 +13,7 @@ namespace Flextype;
  * file that was distributed with this source code.
  */
 
-use Flextype\Component\{Arr\Arr, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text, Form\Form, I18n\I18n};
+use Flextype\Component\{Arr\Arr, Debug\Debug, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text, Form\Form, I18n\I18n};
 use Symfony\Component\Yaml\Yaml;
 
 //
@@ -462,25 +462,26 @@ class formgenerator
     public static function display(array $form, array $values = [])
     {
         echo Form::open($form['attributes']['action'], $form['attributes']);
+        echo Form::hidden('token', Token::generate());
 
         foreach ($form['fields'] as $element => $property) {
 
-            echo '<div class="form-group">';
-
             $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
 
-            $form_label = Form::label($element, I18n::find($property['title'], 'admin', Registry::get('system.locale')));
+            $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
 
             if ($property['type'] == 'textarea') {
                 $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
             } elseif ($property['type'] == 'submit') {
-                $form_element = Form::submit($element, I18n::find($property['title'], 'admin', Registry::get('system.locale')), $property['attributes']);
+                $form_element = Form::submit($element, I18n::find($property['title'], Registry::get('system.locale')), $property['attributes']);
+            } elseif ($property['type'] == 'hidden') {
+                $form_element = Form::hidden($element, $form_value);
             } else {
                 $form_element =  $form_label . Form::input($element, $form_value, $property['attributes']);
             }
 
+            echo '<div class="form-group">';
             echo $form_element;
-
             echo '</div>';
         }
 

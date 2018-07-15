@@ -1,4 +1,7 @@
 admin: "Admin"
+admin_title: "Title"
+admin_description: "Description"
+admin_keywords: "Keywords"
 admin_username: "Username"
 admin_password: "Password"
 admin_login: "Login"

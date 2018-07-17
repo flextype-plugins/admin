@@ -8,3 +8,56 @@ author:
 homepage: https://github.com/flextype-plugins/admin
 bugs: https://github.com/flextype-plugins/admin/issues
 license: MIT
+
+forms:
+    site_settings:
+        attributes:
+            action: ''
+            name: 'site_settings'
+        fields:
+            title:
+                title: 'admin_title'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            description:
+                title: 'admin_description'
+                type: 'textarea'
+                attributes:
+                    class: 'form-control'
+                    style: 'height: 80px;'
+            keywords:
+                title: 'admin_keywords'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            robots:
+                title: 'admin_robots'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            author.name:
+                title: 'admin_author_name'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            author.email:
+                title: 'admin_author_email'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            admin_settings_site_save:
+                title: 'admin_save'
+                type: 'submit'
+                attributes:
+                    class: 'btn'
+    system_settings:
+        attributes:
+            action: ''
+            name: 'site_settings'
+            fields:
+                title:
+                    title: 'admin_title'
+                    type: 'text'
+                    attributes:
+                        class: 'form-control'

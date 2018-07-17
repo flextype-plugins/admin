@@ -7,8 +7,8 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
 
 <?php
     Themes::view('admin/views/partials/navbar')
-        ->assign('links', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => I18n::find('admin_pages_heading', 'admin', Registry::get('system.locale'))],
-                                      ['url' => '#', 'title' => I18n::find('admin_pages_rename_page', 'admin', Registry::get('system.locale'))]])
+        ->assign('links', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => I18n::find('admin_pages_heading', Registry::get('system.locale'))],
+                                      ['url' => '#', 'title' => I18n::find('admin_pages_rename_page', Registry::get('system.locale'))]])
         ->display();
 ?>
 
@@ -28,7 +28,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                         <div class="form-group">
                             <?php
                                 echo (
-                                    Form::label('title', I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                                    Form::label('title', I18n::find('admin_pages_title', Registry::get('system.locale')), ['for' => 'pageTitle']).
                                     Form::input('title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
                                 );
                             ?>
@@ -37,7 +37,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                         <div class="form-group">
                             <?php
                                 echo (
-                                    Form::label('name', I18n::find('admin_pages_name', 'admin', Registry::get('system.locale')), ['for' => 'pageName']).
+                                    Form::label('name', I18n::find('admin_pages_name', Registry::get('system.locale')), ['for' => 'pageName']).
                                     Form::input('name', $page_name, ['class' => 'form-control', 'id' => 'pageName', 'required'])
                                 );
                             ?>
@@ -46,7 +46,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                         <div class="form-group">
                            <?php
                                echo (
-                                   Form::label('parent_page', I18n::find('admin_pages_parent_page', 'admin', Registry::get('system.locale'))).
+                                   Form::label('parent_page', I18n::find('admin_pages_parent_page', Registry::get('system.locale'))).
                                    Form::select('parent_page', $pages_list, $page_parent, array('class' => 'form-control'))
                                );
                            ?>
@@ -57,7 +57,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                      </div>
 
                      <div class="card-footer text-center">
-                         <?php echo Form::submit('rename_page', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
+                         <?php echo Form::submit('rename_page', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
                      </div>
 
                  </div>

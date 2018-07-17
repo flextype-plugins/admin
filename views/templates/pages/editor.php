@@ -13,15 +13,15 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
         <div class="dark-panel">
             <div class="dark-panel-header">
                 <h3 class="h3">
-                    <?php echo I18n::find('admin_pages_edit_page', 'admin', Registry::get('system.locale')); ?>
-                    <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_switch_to_expert_mode', 'admin', Registry::get('system.locale')); ?></a>
+                    <?php echo I18n::find('admin_pages_edit_page', Registry::get('system.locale')); ?>
+                    <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_switch_to_expert_mode', Registry::get('system.locale')); ?></a>
                 </h3>
             </div>
             <div class="dark-panel-body">
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_title', I18n::find('admin_pages_title', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::label('page_title', I18n::find('admin_pages_title', Registry::get('system.locale')), ['for' => 'pageTitle']).
                             Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
                         );
                     ?>
@@ -29,7 +29,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_content', I18n::find('admin_pages_content', 'admin', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::label('page_content', I18n::find('admin_pages_content', Registry::get('system.locale')), ['for' => 'pageTitle']).
                             Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'id' => 'pageContent'])
                         );
                     ?>
@@ -41,14 +41,14 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
           <div class="dark-panel">
               <div class="dark-panel-header">
                   <h3 class="h3">
-                      <?php echo I18n::find('admin_pages_publish', 'admin', Registry::get('system.locale')); ?>
+                      <?php echo I18n::find('admin_pages_publish', Registry::get('system.locale')); ?>
                   </h3>
               </div>
               <div class="dark-panel-body">
                   <div class="form-group">
                       <?php
                           echo (
-                              Form::label('page_visibility', I18n::find('admin_pages_visibility', 'admin', Registry::get('system.locale')),  ['for' => 'pageTitle']).
+                              Form::label('page_visibility', I18n::find('admin_pages_visibility', Registry::get('system.locale')),  ['for' => 'pageTitle']).
                               Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
                           );
                       ?>
@@ -56,7 +56,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                   <div class="form-group">
                       <?php
                           echo (
-                              Form::label('page_template', I18n::find('admin_pages_template', 'admin', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
+                              Form::label('page_template', I18n::find('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
                               Form::select('page_template', ['default' => 'default'], 'default', ['class' => 'form-control', 'id' => 'pageTemplate'])
                           );
                       ?>
@@ -64,14 +64,14 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                   <div class="form-group">
                       <?php
                           echo (
-                              Form::label('page_date', I18n::find('admin_pages_date', 'admin', Registry::get('system.locale')), ['for' => 'pageDate']).
+                              Form::label('page_date', I18n::find('admin_pages_date', Registry::get('system.locale')), ['for' => 'pageDate']).
                               Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
                           );
                       ?>
                   </div>
               </div>
               <div class="dark-panel-footer text-center">
-                  <?php echo Form::submit('page_save', I18n::find('admin_save', 'admin', Registry::get('system.locale')), ['class' => 'btn btn-black btn-editor btn-block']); ?>
+                  <?php echo Form::submit('page_save', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black btn-editor btn-block']); ?>
               </div>
           </div>
 <?php echo Form::close(); ?>
@@ -79,7 +79,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
           <div class="dark-panel">
               <div class="dark-panel-header">
                   <h3 class="h3">
-                      <?php echo I18n::find('admin_pages_files', 'admin', Registry::get('system.locale')); ?>
+                      <?php echo I18n::find('admin_pages_files', Registry::get('system.locale')); ?>
                       <?php
                           echo (
                               Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline')).
@@ -93,7 +93,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                               Form::close()
                           )
                       ?>
-                      <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_files_upload', 'admin', Registry::get('system.locale')); ?></a>
+                      <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_files_upload', Registry::get('system.locale')); ?></a>
                   </h3>
               </div>
               <div class="dark-panel-body padding-hard" style="max-height:200px; overflow-y: scroll;">

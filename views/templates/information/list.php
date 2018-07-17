@@ -6,7 +6,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['information' => ['url' => Http::getBaseUrl() . '/admin/information', 'title' => I18n::find('admin_information_heading', 'admin', Registry::get('system.locale'))]])
+        ->assign('links',   ['information' => ['url' => Http::getBaseUrl() . '/admin/information', 'title' => I18n::find('admin_information_heading', Registry::get('system.locale'))]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>

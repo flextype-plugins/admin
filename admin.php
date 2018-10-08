@@ -464,39 +464,41 @@ class formgenerator
         echo Form::open($form['attributes']['action'], $form['attributes']);
         echo Form::hidden('token', Token::generate());
 
-        foreach ($form['fields'] as $element => $property) {
+        if (isset($form['fields']) > 0) {
+            foreach ($form['fields'] as $element => $property) {
 
-            $pos = strpos($element, '.');
+                $pos = strpos($element, '.');
 
-            if ($pos === false) {
-                $form_element_name = $element;
-            } else {
-                $form_element_name = str_replace(".", "][", "$element").']';
+                if ($pos === false) {
+                    $form_element_name = $element;
+                } else {
+                    $form_element_name = str_replace(".", "][", "$element").']';
+                }
+
+                $pos = strpos($form_element_name, ']');
+
+                if ($pos !== false) {
+                    $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
+                }
+
+                $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
+
+                $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
+
+                if ($property['type'] == 'textarea') {
+                    $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
+                } elseif ($property['type'] == 'submit') {
+                    $form_element = Form::submit($element, I18n::find($property['title'], Registry::get('system.locale')), $property['attributes']);
+                } elseif ($property['type'] == 'hidden') {
+                    $form_element = Form::hidden($element, $form_value);
+                } else {
+                    $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
+                }
+
+                echo '<div class="form-group">';
+                echo $form_element;
+                echo '</div>';
             }
-
-            $pos = strpos($form_element_name, ']');
-
-            if ($pos !== false) {
-                $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
-            }
-
-            $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
-
-            $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
-
-            if ($property['type'] == 'textarea') {
-                $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
-            } elseif ($property['type'] == 'submit') {
-                $form_element = Form::submit($element, I18n::find($property['title'], Registry::get('system.locale')), $property['attributes']);
-            } elseif ($property['type'] == 'hidden') {
-                $form_element = Form::hidden($element, $form_value);
-            } else {
-                $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
-            }
-
-            echo '<div class="form-group">';
-            echo $form_element;
-            echo '</div>';
         }
 
         echo Form::close();

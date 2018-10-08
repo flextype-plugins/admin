@@ -30,8 +30,8 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
         .medium-editor-element {
             height: auto!important;
             min-height: 500px!important;
-            border: 1px solid #000!important;
-            border-radius: 0!important;
+            //border: 1px solid #000!important;
+            //border-radius: 0!important;
             font-size: 18px;
             padding: 10px;
             outline: none!important;

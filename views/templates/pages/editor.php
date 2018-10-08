@@ -63,45 +63,44 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
     </div>
 <?php echo Form::close(); ?>
 
+<br><br>
 
-          <div class="dark-panel">
-              <div class="dark-panel-header">
-                  <h3 class="h3">
-                      <?php echo I18n::find('admin_pages_files', Registry::get('system.locale')); ?>
-                      <?php
-                          echo (
-                              Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline')).
-                              Form::hidden('token', Token::generate())
-                          );
-                      ?>
-                      <input type="file" name="file"></span>
-                      <?php
-                          echo (
-                              Form::submit('upload_file', 'Upload', array('class' => 'btn btn-primary')).
-                              Form::close()
-                          )
-                      ?>
-                      <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>&expert=true" class="float-right panel-header-button"><?php echo I18n::find('admin_pages_files_upload', Registry::get('system.locale')); ?></a>
-                  </h3>
-              </div>
-              <div class="dark-panel-body padding-hard" style="max-height:200px; overflow-y: scroll;">
-              <table class="table">
-                  <?php foreach ($files as $file) { ?>
-                  <tr>
-                      <td>
-                          <a href="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>"><?php echo basename($file); ?></a>
-                      </td>
-                      <td>
-                          <a href="#">X</a>
-                      </td>
-                  </tr>
-                  <?php } ?>
-              </table>
-              </div>
-          </div>
-      </div>
-      </div>
+<?php
+    echo (
+        Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline')).
+        Form::hidden('token', Token::generate())
+    );
+?>
+<input type="file" name="file">
+<?php
+    echo (
+        Form::submit('upload_file', 'Upload', array('class' => 'btn btn-primary')).
+        Form::close()
+    )
+?>
 
+<div class="card">
+    <div class="card-body no-padding">
+        <table class="table no-margin">
+            <thead>
+                <tr>
+                    <th><?php echo I18n::find('admin_pages_files', Registry::get('system.locale')); ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($files as $file) { ?>
+                <tr>
+                    <td><a href="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>"><?php echo basename($file); ?></a></td>
+                    <td class="text-right">
+                        <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', Registry::get('system.locale')); ?></a>
+                    </td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <?php
   Themes::view('admin/views/partials/content-end')->display();

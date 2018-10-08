@@ -19,7 +19,12 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
     <div class="row">
         <div class="col-12">
             <div class="form-group">
-                <?php echo Form::textarea('page_content', $page_content, ['class' => 'form-control', 'style' => 'height:400px;', 'id' => 'pageContentExpert']); ?>
+                <?php
+                    echo (
+                        Form::label('page_content', I18n::find('admin_pages_page', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                        Form::textarea('page_content', $page_content, ['class' => 'form-control', 'style' => 'height:400px;', 'id' => 'pageContentExpert'])
+                    );
+                ?>
             </div>
             <?php echo Form::submit('page_save_expert', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
         </div>

@@ -55,9 +55,64 @@ forms:
         attributes:
             action: ''
             name: 'site_settings'
-            fields:
-                title:
-                    title: 'admin_title'
-                    type: 'text'
-                    attributes:
-                        class: 'form-control'
+        fields:
+            timezone:
+                title: 'admin_timezone'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            date_format:
+                title: 'admin_date_format'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            charset:
+                title: 'admin_charset'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            theme:
+                title: 'admin_theme'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            locale:
+                title: 'admin_locale'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            pages.main:
+                title: 'admin_pages_main'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            errors.display:
+                title: 'admin_errors_display'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            cache.enabled:
+                title: 'admin_cache_enabled'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            cache.prefix:
+                title: 'admin_cache_prefix'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            cache.driver:
+                title: 'admin_cache_driver'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            cache.lifetime:
+                title: 'admin_cache_lifetime'
+                type: 'text'
+                attributes:
+                    class: 'form-control'
+            admin_settings_site_save:
+                title: 'admin_save'
+                type: 'submit'
+                attributes:
+                    class: 'btn'

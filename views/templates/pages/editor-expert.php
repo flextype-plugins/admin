@@ -3,31 +3,30 @@ namespace Flextype;
 use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http\Http, Token\Token};
 ?>
 
-<?php Themes::view('admin/views/partials/head')->display(); ?>
+<?php
+    Themes::view('admin/views/partials/head')->display();
+    Themes::view('admin/views/partials/navbar')
+        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => I18n::find('admin_pages_edit_page', Registry::get('system.locale'))]])
+        ->assign('buttons', ['pages' =>
+                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => 'Switch back to editor mode']])
+        ->display();
+    Themes::view('admin/views/partials/content-start')->display();
+?>
 
 <?php echo Form::open(); ?>
     <?php echo Form::hidden('token', Token::generate()); ?>
     <?php echo Form::hidden('page_name', $page_name); ?>
     <div class="row">
         <div class="col-12">
-            <div class="dark-panel">
-                <div class="dark-panel-header">
-                    <h3 class="h3">
-                        <?php echo I18n::find('admin_pages_edit_page', Registry::get('system.locale')); ?>
-                        <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page_name; ?>" class="float-right panel-header-button">Switch back to editor mode</a>
-                    </h3>
-                </div>
-                <div class="dark-panel-body">
-                    <div class="form-group">
-                        <?php echo Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'id' => 'pageContentExpert']); ?>
-                    </div>
-                </div>
-                <div class="dark-panel-footer text-center">
-                    <?php echo Form::submit('page_save_expert', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black btn-editor btn-block col-4']); ?>
-                </div>
+            <div class="form-group">
+                <?php echo Form::textarea('page_content', $page_content, ['class' => 'form-control', 'style' => 'height:400px;', 'id' => 'pageContentExpert']); ?>
             </div>
+            <?php echo Form::submit('page_save_expert', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
         </div>
     </div>
 <?php echo Form::close(); ?>
 
-<?php Themes::view('admin/views/partials/footer')->display(); ?>
+<?php
+    Themes::view('admin/views/partials/content-end')->display();
+    Themes::view('admin/views/partials/footer')->display();
+?>

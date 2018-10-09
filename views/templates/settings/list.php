@@ -19,7 +19,6 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
     <div class="col-md-6">
         <?php Formgenerator::display(Registry::get('plugins.admin.forms.site_settings'), $site_settings); ?>
     </div>
-
 <pre>
 <?php
     //print_r($site_settings);

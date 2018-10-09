@@ -4,32 +4,24 @@ use Flextype\Component\{Http\Http, Event\Event};
 ?>
 <script src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/admin.min.js"></script>
 <script src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/node_modules/codemirror/lib/codemirror.js"></script>
-<script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/themes/default.css" type="text/css" media="screen" charset="utf-8">
+
 <script>
     $(document).ready(function() {
-         /* var editor = CodeMirror.fromTextArea(document.getElementById("pageContentExpert"), {
-              lineNumbers: false,
-              styleActiveLine: true,
-              matchBrackets: true,
-              viewportMargin: Infinity,
-              indentUnit: 4,
-              mode:  "HTML",
-              indentWithTabs: true,
-              theme: "default"
-          });*/
-      });
-
+        CodeMirror.fromTextArea(document.getElementById("pageContent"), {
+            lineNumbers: false,
+            styleActiveLine: true,
+            matchBrackets: true,
+            viewportMargin: Infinity,
+            indentUnit: 4,
+            mode:  "HTML",
+            indentWithTabs: true,
+            theme: "default"
+        });
+        $('.CodeMirror').addClass('form-control'); // tmp
+     });
 </script>
-<script>
-var editor = new MediumEditor('#pageContent', {
-    disableDoubleReturn: true
-    /*toolbar: {
-        buttons: ['bold', 'italic', 'underline', 'anchor']
-    }*/
-});
 
+<script>
 $(document).ready(function() {
     $('.navbar-toggler').click(function () {
         $('.sidebar').addClass('show-sidebar');

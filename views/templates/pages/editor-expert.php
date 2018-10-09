@@ -22,7 +22,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <?php
                     echo (
                         Form::label('page_content', I18n::find('admin_pages_page', Registry::get('system.locale')), ['for' => 'pageTitle']).
-                        Form::textarea('page_content', $page_content, ['class' => 'form-control', 'style' => 'height:400px;', 'id' => 'pageContentExpert'])
+                        Form::textarea('page_content', $page_content, ['class' => 'form-control', 'style' => 'height:400px;', 'id' => 'pageContent'])
                     );
                 ?>
             </div>

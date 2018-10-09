@@ -26,16 +26,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets
     <?php } } ?>
 
     <style media="screen">
-        .CodeMirror,
-        .medium-editor-element {
+        .CodeMirror {
             height: auto!important;
             min-height: 500px!important;
-            //border: 1px solid #000!important;
-            //border-radius: 0!important;
-            font-size: 18px;
             padding: 10px;
+            font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 14px;
             outline: none!important;
-
         }
     </style>
 

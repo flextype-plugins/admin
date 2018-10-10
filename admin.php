@@ -318,6 +318,13 @@ class Admin
 
                     $files_path = PATH['pages'] . '/' . Http::get('page') . '/';
 
+                    if (Http::get('delete_file') != '') {
+                        if (Token::check((Http::get('token')))) {
+                            Filesystem::deleteFile($files_path . Http::get('delete_file'));
+                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
+                        }
+                    }
+
                     if (Http::post('upload_file')) {
 
                         if (Token::check(Http::post('token'))) {

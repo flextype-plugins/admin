@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, Token\Token};
+use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, Token\Token, Session\Session};
 ?>
 <div class="sidebar">
     <div class="sidebar-wrapper">
@@ -14,7 +14,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                   <a class="nav-link" data-toggle="collapse" href="#user">
                       <i class="fas fa-user-circle"></i>
                       <p>
-                          Sergey Romanenko
+                          <?php echo Session::get('username'); ?>
                           <b class="caret"></b>
                       </p>
                   </a>
@@ -38,11 +38,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 </a>
                 <div class="collapse " id="content">
                     <ul class="nav">
-                        <li class="nav-item ">
-                            <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/pages">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_pages', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
+                        <?php foreach (Admin::getSidebarMenu('content') as $item) { ?>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo $item['link']; ?>">
+                                    <span class="sidebar-normal"><?php echo $item['title']; ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </li>
@@ -56,16 +58,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 </a>
                 <div class="collapse" id="extends">
                     <ul class="nav">
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_extends_plugins', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_extends_themes', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
+                        <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo $item['link']; ?>">
+                                    <span class="sidebar-normal"><?php echo $item['title']; ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </li>
@@ -79,16 +78,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 </a>
                 <div class="collapse" id="system">
                     <ul class="nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/settings">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_system_settings', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/information">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_system_information', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
+                        <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo $item['link']; ?>">
+                                    <span class="sidebar-normal"><?php echo $item['title']; ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </li>
@@ -102,16 +98,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 </a>
                 <div class="collapse " id="help">
                     <ul class="nav">
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_help_documentaion', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
-                                <span class="sidebar-normal"><?php echo I18n::find('admin_menu_help_support_forum', Registry::get('system.locale')); ?></span>
-                            </a>
-                        </li>
+                        <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo $item['link']; ?>">
+                                    <span class="sidebar-normal"><?php echo $item['title']; ?></span>
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </li>

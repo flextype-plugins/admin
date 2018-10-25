@@ -78,7 +78,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 </a>
                 <div class="collapse" id="system">
                     <ul class="nav">
-                        <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
+                        <?php foreach (Admin::getSidebarMenu('settings') as $item) { ?>
                             <li class="nav-item ">
                                 <a class="nav-link" href="<?php echo $item['link']; ?>">
                                     <span class="sidebar-normal"><?php echo $item['title']; ?></span>
@@ -98,7 +98,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                 </a>
                 <div class="collapse " id="help">
                     <ul class="nav">
-                        <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
+                        <?php foreach (Admin::getSidebarMenu('help') as $item) { ?>
                             <li class="nav-item ">
                                 <a class="nav-link" href="<?php echo $item['link']; ?>">
                                     <span class="sidebar-normal"><?php echo $item['title']; ?></span>

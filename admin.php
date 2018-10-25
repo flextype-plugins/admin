@@ -104,7 +104,6 @@ class Admin
             ->display();
     }
 
-
     protected static function getSettingsPage()
     {
 
@@ -447,6 +446,17 @@ class Admin
         }
     }
 
+    public static function addSidebarMenu(string $area, string $item, string $title, string $link)
+    {
+        Registry::set("sidebar_menu.{$area}.{$item}.title", $title);
+        Registry::set("sidebar_menu.{$area}.{$item}.link", $link);
+    }
+
+    public static function getSidebarMenu(string $area)
+    {
+        return Registry::get("sidebar_menu.{$area}");
+    }
+
     /**
      * Get the Admin instance.
      *
@@ -463,6 +473,13 @@ class Admin
      }
 }
 
+Admin::addSidebarMenu('content', 'pages', I18n::find('admin_menu_content_pages', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/pages');
+Admin::addSidebarMenu('extends', 'plugins', I18n::find('admin_menu_extends_plugins', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/plugins');
+Admin::addSidebarMenu('extends', 'themes', I18n::find('admin_menu_extends_themes', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/themes');
+Admin::addSidebarMenu('settings', 'settings', I18n::find('admin_menu_settings_themes', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/settings');
+Admin::addSidebarMenu('settings', 'infomation', I18n::find('admin_menu_settings_information', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/information');
+Admin::addSidebarMenu('help', 'documentation', I18n::find('admin_menu_help_documentation', Registry::get('system.locale')), '#');
+Admin::addSidebarMenu('help', 'support_forum', I18n::find('admin_menu_help_support_forum', Registry::get('system.locale')), '#');
 
 class formgenerator
 {

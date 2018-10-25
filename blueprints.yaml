@@ -10,6 +10,11 @@ bugs: https://github.com/flextype-plugins/admin/issues
 license: MIT
 
 forms:
+    page_expert_mode:
+        attributes:
+            action: ''
+            name: 'page_expert'
+        fields:
     site_settings:
         attributes:
             action: ''

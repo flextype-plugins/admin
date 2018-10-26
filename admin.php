@@ -369,7 +369,7 @@ class Admin
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
-                    Themes::view('admin/views/templates/pages/editor')
+                    Themes::view('admin/views/templates/content/pages/editor')
                         ->assign('page_name', Http::get('page'))
                         ->assign('page_title', $page['title'])
                         ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))

@@ -78,6 +78,8 @@ class Admin
     {
         Http::getUriSegment(1) == ''             and Admin::getDashboard();
         Http::getUriSegment(1) == 'pages'        and Admin::getPagesManagerPage();
+        Http::getUriSegment(1) == 'plugins'      and Admin::getPluginsPage();
+        Http::getUriSegment(1) == 'themes'       and Admin::getThemesPage();
         Http::getUriSegment(1) == 'information'  and Admin::getInformationPage();
         Http::getUriSegment(1) == 'settings'     and Admin::getSettingsPage();
         Http::getUriSegment(1) == 'logout'       and Admin::logout();
@@ -100,7 +102,20 @@ class Admin
 
     protected static function getInformationPage()
     {
-        Themes::view('admin/views/templates/information/list')
+        Themes::view('admin/views/templates/system/information/list')
+            ->display();
+    }
+
+    protected static function getPluginsPage()
+    {
+        Themes::view('admin/views/templates/extends/plugins/list')
+            ->display();
+    }
+
+
+    protected static function getThemesPage()
+    {
+        Themes::view('admin/views/templates/extends/themes/list')
             ->display();
     }
 
@@ -158,7 +173,7 @@ class Admin
             throw new \RuntimeException("Flextype system config file does not exist.");
         }
 
-        Themes::view('admin/views/templates/settings/list')
+        Themes::view('admin/views/templates/system/settings/list')
             ->assign('site_settings', $site_settings)
             ->assign('system_settings', $system_settings)
             ->display();
@@ -192,7 +207,7 @@ class Admin
                     } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                 }
 
-                Themes::view('admin/views/templates/pages/add')
+                Themes::view('admin/views/templates/content/pages/add')
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;
@@ -245,7 +260,7 @@ class Admin
                     }
                 }
 
-                Themes::view('admin/views/templates/pages/rename')
+                Themes::view('admin/views/templates/content/pages/rename')
                     ->assign('page_name', Arr::last(explode("/", Http::get('page'))))
                     ->assign('page_title', Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html')['title'])
                     ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
@@ -270,7 +285,7 @@ class Admin
 
                     $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
-                    Themes::view('admin/views/templates/pages/editor-expert')
+                    Themes::view('admin/views/templates/content/pages/editor-expert')
                         ->assign('page_name', Http::get('page'))
                         ->assign('page_content', $page_content)
                         ->display();
@@ -369,7 +384,7 @@ class Admin
             default:
                 $pages_list = Content::getPages('', false , 'slug', 'ASC');
 
-                Themes::view('admin/views/templates/pages/list')
+                Themes::view('admin/views/templates/content/pages/list')
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;

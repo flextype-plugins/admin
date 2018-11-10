@@ -407,7 +407,7 @@ class Admin
                 if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
                     $user_file = Yaml::parseFile($_user_file);
 
-                    if (Text::encryptString(Http::post('password') == $user_file['password'])) {
+                    if (Text::encryptPassword(Http::post('password')) == $user_file['password']) {
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);
                         Http::redirect(Http::getBaseUrl().'/admin/pages');

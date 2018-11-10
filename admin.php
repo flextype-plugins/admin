@@ -431,7 +431,7 @@ class Admin
 
                 } else {
                     $user = ['username' => Text::safeString(Http::post('username')),
-                             'password' => Text::encryptString(Http::post('password')),
+                             'password' => Text::encryptPassword(Http::post('password')),
                              'email' => Http::post('email'),
                              'role'  => 'admin',
                              'state' => 'enabled'];

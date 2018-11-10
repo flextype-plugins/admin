@@ -122,14 +122,15 @@ class Admin
     protected static function getSettingsPage()
     {
 
-        $admin_settings_site_save = Http::post('admin_settings_site_save');
-        $admin_settings_system_save = Http::post('admin_settings_system_save');
+        $settings_site_save = Http::post('settings_site_save');
+        $settings_system_save = Http::post('settings_system_save');
 
-        if (isset($admin_settings_site_save)) {
+
+        if (isset($settings_site_save)) {
             if (Token::check((Http::post('token')))) {
 
                 Arr::delete($_POST, 'token');
-                Arr::delete($_POST, 'admin_settings_site_save');
+                Arr::delete($_POST, 'settings_site_save');
 
                 $settings = Yaml::dump($_POST);
 
@@ -141,11 +142,15 @@ class Admin
         }
 
 
-        if (isset($admin_settings_system_save)) {
+        if (isset($settings_system_save)) {
             if (Token::check((Http::post('token')))) {
 
                 Arr::delete($_POST, 'token');
-                Arr::delete($_POST, 'admin_settings_system_save');
+                Arr::delete($_POST, 'settings_system_save');
+
+                Arr::set($_POST, 'errors.display', (Http::post('errors.display') == '1' ? true : false));
+                Arr::set($_POST, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
+                Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
 
                 $settings = Yaml::dump($_POST);
 
@@ -172,6 +177,7 @@ class Admin
         } else {
             throw new \RuntimeException("Flextype system config file does not exist.");
         }
+
 
         Themes::view('admin/views/templates/system/settings/list')
             ->assign('site_settings', $site_settings)

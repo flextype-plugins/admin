@@ -6,10 +6,10 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['settings' => ['url' => Http::getBaseUrl() . '/admin/settings', 'title' => I18n::find('admin_settings_heading', Registry::get('system.locale'))]])
+        ->assign('links',   ['settings' => ['url' => Http::getBaseUrl() . '/admin/settings', 'title' => I18n::find('admin_system_settings_heading', Registry::get('system.locale'))]])
         ->assign('buttons', ['settings' =>
                                             ['url' => Http::getBaseUrl() . '/admin/settings',
-                                            'title' => I18n::find('admin_clear_cache', Registry::get('system.locale')),
+                                            'title' => I18n::find('admin_system_clear_cache', Registry::get('system.locale')),
                                             'class' => 'btn-light']])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
@@ -63,7 +63,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
             <div class="form-group">
                 <?php
                     echo (
-                        Form::label('author[email]', I18n::find('admin_system_settings_site_author_name', Registry::get('system.locale')), ['for' => 'systemSettingsSiteAuthorEmail']).
+                        Form::label('author[email]', I18n::find('admin_system_settings_site_author_email', Registry::get('system.locale')), ['for' => 'systemSettingsSiteAuthorEmail']).
                         Form::input('author[email]', $site_settings['author']['email'], ['class' => 'form-control', 'id' => 'systemSettingsSiteAuthorEmail', 'required'])
                     );
                 ?>

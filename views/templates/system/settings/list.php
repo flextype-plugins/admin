@@ -171,26 +171,6 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
     </div>
 </div>
 
-
-
-<div class="row">
-    <div class="col-md-6">
-        <?php Formgenerator::display(Registry::get('plugins.admin.forms.site_settings'), $site_settings); ?>
-    </div>
-<pre>
-<?php
-    print_r($site_settings);
-?>
-<?php
-    print_r($system_settings);
-?>
-</pre>
-
-    <div class="col-md-6">
-        <?php Formgenerator::display(Registry::get('plugins.admin.forms.system_settings'), $system_settings); ?>
-    </div>
-</div>
-
 <?php
     Themes::view('admin/views/partials/content-end')->display();
     Themes::view('admin/views/partials/footer')->display();

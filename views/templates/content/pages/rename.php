@@ -52,13 +52,13 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Toke
                            ?>
                          </div>
 
-                         <?php echo Form::close(); ?>
-
                      </div>
 
                      <div class="card-footer text-center">
                          <?php echo Form::submit('rename_page', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
                      </div>
+
+                     <?php echo Form::close(); ?>
 
                  </div>
 

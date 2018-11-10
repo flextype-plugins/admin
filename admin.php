@@ -232,7 +232,7 @@ class Admin
                         $page_frontmatter = Yaml::dump($page);
 
                         $page_path_current = PATH['pages'] . '/' . Http::post('page_path_current') . '/page.html';
-                        $page_new_current = PATH['pages'] . '/' . (Http::post('parent_page') == '/' ? '' : '/') . Http::post('slug') . '/page.html';
+                        $page_new_current = PATH['pages'] . '/' . (Http::post('parent_page') == '/' ? '' : '/') . Http::post('name') . '/page.html';
 
                         Filesystem::setFileContent($page_path_current,
                                                   '---'."\n".
@@ -247,7 +247,7 @@ class Admin
                             mkdir($path['dirname'], 0777, true);
                         }
 
-                        if (Filesystem::copyFile($page_path_current, $page_new_current)) {
+                        if (Filesystem::copy($page_path_current, $page_new_current)) {
                             Filesystem::deleteFile($page_path_current);
                         }
 

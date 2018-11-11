@@ -34,6 +34,10 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                     );
                 ?>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
             <div class="form-group">
                 <?php
                     echo (
@@ -42,6 +46,8 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                     );
                 ?>
             </div>
+        </div>
+        <div class="col-4">
             <div class="form-group">
                 <?php
                     echo (
@@ -50,6 +56,8 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                     );
                 ?>
             </div>
+        </div>
+        <div class="col-4">
             <div class="form-group">
                 <?php
                     echo (
@@ -58,6 +66,10 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                     );
                 ?>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <?php echo Form::submit('page_save', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
         </div>
     </div>
@@ -65,19 +77,6 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
 
 <br><br>
 
-<?php
-    echo (
-        Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline')).
-        Form::hidden('token', Token::generate())
-    );
-?>
-<input type="file" name="file">
-<?php
-    echo (
-        Form::submit('upload_file', 'Upload', array('class' => 'btn btn-primary')).
-        Form::close()
-    )
-?>
 
 <div class="card">
     <div class="card-body no-padding">
@@ -85,13 +84,27 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
             <thead>
                 <tr>
                     <th><?php echo I18n::find('admin_pages_files', Registry::get('system.locale')); ?></th>
-                    <th></th>
+                    <th class="text-right">
+                        <?php
+                            echo (
+                                Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline form-upload')).
+                                Form::hidden('token', Token::generate())
+                            );
+                        ?>
+                        <input type="file" name="file">
+                        <?php
+                            echo (
+                                Form::submit('upload_file', 'Upload', array('class' => '')).
+                                Form::close()
+                            )
+                        ?>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($files as $file) { ?>
                 <tr>
-                    <td><a href="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>"><?php echo basename($file); ?></a></td>
+                    <td><a href="javascript:;" class="js-pages-image-preview" data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>"><?php echo basename($file); ?></a></td>
                     <td class="text-right">
                         <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', Registry::get('system.locale')); ?></a>
                     </td>
@@ -100,6 +113,24 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
             </tbody>
         </table>
     </div>
+</div>
+
+<div class="modal fade" id="pagesImagePreview" tabindex="-1" role="dialog" aria-labelledby="pagesImagePreviewLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pagesImagePreviewLabel"><?php echo I18n::find('admin_pages_image_preview', Registry::get('system.locale')); ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="" class="js-page-image-preview-placeholder img-fluid">
+        <br><br>
+        <div class="alert alert-dark js-page-image-url-placeholder" role="alert"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <?php

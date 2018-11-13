@@ -36,15 +36,5 @@ gulp.task('bootstrap-css', function() {
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
-gulp.task('codemirror-css', function() {
-    return gulp.src('node_modules/codemirror/lib/codemirror.css')
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
-        .pipe(csso())
-        .pipe(concat('codemirror.min.css'))
-        .pipe(gulp.dest('assets/dist/css/'));
-});
 
-gulp.task('default', ['css', 'js', 'bootstrap-css', 'codemirror-css']);
+gulp.task('default', ['css', 'js', 'bootstrap-css']);

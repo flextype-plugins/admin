@@ -12,7 +12,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Http\Http, Form\Form, Html
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card">
+<div class="card card-400">
     <div class="card-body">
 
         <?php echo Form::open(); ?>

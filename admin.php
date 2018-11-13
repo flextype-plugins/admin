@@ -17,9 +17,9 @@ use Flextype\Component\{Arr\Arr, Number\Number, Http\Http, Event\Event, Filesyst
 use Symfony\Component\Yaml\Yaml;
 
 //
-// Add listner for onCurrentPageBeforeProcessed event
+// Add listner for onCurrentPageBeforeLoaded event
 //
-if (Http::getUriSegment(0) == 'admin') {
+if (Admin::isAdminArea()) {
     Event::addListener('onCurrentPageBeforeLoaded', function () {
         Admin::getInstance();
     });
@@ -76,6 +76,9 @@ class Admin
 
     protected static function getAdminArea()
     {
+        // Event: onAdminArea
+        Event::dispatch('onAdminArea');
+
         Http::getUriSegment(1) == ''             and Admin::getDashboard();
         Http::getUriSegment(1) == 'pages'        and Admin::getPagesManagerPage();
         Http::getUriSegment(1) == 'plugins'      and Admin::getPluginsPage();
@@ -83,9 +86,6 @@ class Admin
         Http::getUriSegment(1) == 'information'  and Admin::getInformationPage();
         Http::getUriSegment(1) == 'settings'     and Admin::getSettingsPage();
         Http::getUriSegment(1) == 'logout'       and Admin::logout();
-
-        // Event: onAdminArea
-        Event::dispatch('onAdminArea');
     }
 
     protected static function logout()
@@ -109,6 +109,7 @@ class Admin
     protected static function getPluginsPage()
     {
         Themes::view('admin/views/templates/extends/plugins/list')
+            ->assign('plugins_list', Registry::get('plugins'))
             ->display();
     }
 
@@ -476,6 +477,14 @@ class Admin
     public static function getSidebarMenu(string $area)
     {
         return Registry::get("sidebar_menu.{$area}");
+    }
+
+    public static function isAdminArea() {
+        if (Http::getUriSegment(0) == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

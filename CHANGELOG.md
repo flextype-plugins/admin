@@ -1,2 +1,2 @@
-# v0.0.0, 2018-XX-XX
+# v0.1.0, 2018-11-16
 * Initial release

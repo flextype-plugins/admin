@@ -11,6 +11,10 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
+<form>
+    <input type="hidden" name="url" value="<?php echo Http::getBaseUrl() . '/admin/plugins'; ?>">
+</form>
+
 <div class="card">
     <div class="card-body no-padding">
         <table class="table no-margin">
@@ -21,17 +25,19 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($plugins_list as $plugin) { ?>
+                <?php foreach($plugins_list as $key => $plugin) { ?>
+
                 <tr>
                     <td><?php echo $plugin['name']; ?></td>
                     <td class="text-right">
-                        <?php
-                            if ($plugin['enabled']) {
-                                echo I18n::find('admin_plugins_status_enabled', Registry::get('system.locale'));
-                            } else {
-                                echo I18n::find('admin_plugins_status_disabled', Registry::get('system.locale'));
-                            }
-                        ?>
+
+                        <div class="form-group no-margin">
+                          <span class="switch switch-sm">
+                            <input id="switch-sm-<?php echo $plugin['name']; ?>" type="checkbox" class="switch js-switch" data-plugin="<?php echo $key; ?>" data-token="<?php echo Token::generate(); ?>" <?php if ($plugin['enabled'] == 'true') echo 'checked'; else echo ''; ?> >
+                            <label for="switch-sm-<?php echo $plugin['name']; ?>"></label>
+                          </span>
+                        </div>
+
                     </td>
                 </tr>
                 <?php } ?>

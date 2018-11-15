@@ -61,6 +61,10 @@ class Admin
 
     protected static function init()
     {
+        Event::addListener('onAdminArea', function () {
+            Admin::_pluginsChangeStatusAjax();
+        });
+
         if (Admin::isLoggedIn()) {
             Admin::getAdminArea();
         } else {
@@ -76,6 +80,7 @@ class Admin
 
     protected static function getAdminArea()
     {
+
         // Event: onAdminArea
         Event::dispatch('onAdminArea');
 
@@ -86,6 +91,27 @@ class Admin
         Http::getUriSegment(1) == 'information'  and Admin::getInformationPage();
         Http::getUriSegment(1) == 'settings'     and Admin::getSettingsPage();
         Http::getUriSegment(1) == 'logout'       and Admin::logout();
+    }
+
+    /**
+     * _pluginsChangeStatusAjax
+     */
+    protected static function _pluginsChangeStatusAjax()
+    {
+        if (Http::post('plugin_change_status')) {
+
+            if (Token::check((Http::post('token')))) {
+
+                $plugin_settings = Yaml::parseFile(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml');
+
+                Arr::set($plugin_settings, 'enabled', (Http::post('status') == 'true' ? true : false));
+
+                $plugin_settings = Yaml::dump($plugin_settings);
+
+                Filesystem::setFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml', $plugin_settings);
+
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+        }
     }
 
     protected static function logout()

@@ -589,4 +589,3 @@ Admin::addSidebarMenu('extends', 'plugins', I18n::find('admin_menu_extends_plugi
 Admin::addSidebarMenu('settings', 'settings', I18n::find('admin_menu_system_settings', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/settings');
 Admin::addSidebarMenu('settings', 'infomation', I18n::find('admin_menu_system_information', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/information');
 Admin::addSidebarMenu('help', 'documentation', I18n::find('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation');
-Admin::addSidebarMenu('help', 'support_forum', I18n::find('admin_menu_help_support_forum', Registry::get('system.locale')), 'http://forum.flextype.org');

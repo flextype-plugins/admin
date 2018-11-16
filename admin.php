@@ -412,8 +412,8 @@ class Admin
                     $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
 
                     foreach ($_templates as $template) {
-                        if (!is_bool(Admin::strrevpos($template, '/templates/'))) {
-                            $_t = str_replace('.php', '', substr($template, Admin::strrevpos($template, '/templates/')+strlen('/templates/')));
+                        if (!is_bool(Admin::_strrevpos($template, '/templates/'))) {
+                            $_t = str_replace('.php', '', substr($template, Admin::_strrevpos($template, '/templates/')+strlen('/templates/')));
                             $templates[$_t] = $_t;
                         }
                     }
@@ -441,7 +441,7 @@ class Admin
         }
     }
 
-    private function strrevpos($instr, $needle)
+    private static function _strrevpos($instr, $needle)
     {
         $rev_pos = strpos(strrev($instr), strrev($needle));
         if ($rev_pos===false) return false;

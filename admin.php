@@ -36,6 +36,46 @@ class Admin
     private static $instance = null;
 
     /**
+     * Locales array
+     *
+     * @var array
+     */
+    private static $locales = [
+        'ar' => 'العربية',
+        'bg' => 'Български',
+        'ca' => 'Català',
+        'cs' => 'Česky',
+        'da' => 'Dansk',
+        'de' => 'Deutsch',
+        'el' => 'Ελληνικά',
+        'en' => 'English',
+        'es' => 'Español',
+        'fa' => 'Farsi',
+        'fi' => 'Suomi',
+        'fr' => 'Français',
+        'gl' => 'Galego',
+        'ka-ge' => 'Georgian',
+        'hu' => 'Magyar',
+        'it' => 'Italiano',
+        'id' => 'Bahasa Indonesia',
+        'ja' => '日本語',
+        'lt' => 'Lietuvių',
+        'nl' => 'Nederlands',
+        'no' => 'Norsk',
+        'pl' => 'Polski',
+        'pt' => 'Português',
+        'pt-br' => 'Português do Brasil',
+        'ru' => 'Русский',
+        'sk' => 'Slovenčina',
+        'sl' => 'Slovenščina',
+        'sv' => 'Svenska',
+        'sr' => 'Srpski',
+        'tr' => 'Türkçe',
+        'uk' => 'Українська',
+        'zh-cn' => '简体中文',
+    ];
+
+    /**
      * Private clone method to enforce singleton behavior.
      *
      * @access private
@@ -152,7 +192,6 @@ class Admin
         $settings_site_save = Http::post('settings_site_save');
         $settings_system_save = Http::post('settings_system_save');
 
-
         if (isset($settings_site_save)) {
             if (Token::check((Http::post('token')))) {
 
@@ -209,6 +248,7 @@ class Admin
         Themes::view('admin/views/templates/system/settings/list')
             ->assign('site_settings', $site_settings)
             ->assign('system_settings', $system_settings)
+            ->assign('locales', Admin::$locales)
             ->display();
     }
 

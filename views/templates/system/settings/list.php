@@ -112,7 +112,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
                 <?php
                     echo (
                         Form::label('locale', I18n::find('admin_system_settings_system_locale', Registry::get('system.locale')), ['for' => 'systemSettingsSystemLocale']).
-                        Form::input('locale', $system_settings['locale'], ['class' => 'form-control', 'id' => 'systemSettingsSystemLocale', 'required'])
+                        Form::select('locale', $locales, $system_settings['locale'], ['class' => 'form-control', 'id' => 'pageTemplate'])
                     );
                 ?>
             </div>

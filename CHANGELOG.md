@@ -5,8 +5,10 @@
 * English translates updates
 * Page editor: fix issue with locales
 * Russian translates added
+* German translates added - Thanks to Andreas Lenhardt
 * Clear Cache functionality added
 * Clear Cache on plugin activation/deactivation
+* Plugins Manager: don't allow to deactivate admin plugin
 
 # v0.1.0, 2018-11-16
 * Initial release

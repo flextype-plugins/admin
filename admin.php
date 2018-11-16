@@ -110,6 +110,8 @@ class Admin
 
                 Filesystem::setFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml', $plugin_settings);
 
+                Cache::clear();
+
             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
     }

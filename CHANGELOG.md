@@ -1,3 +1,6 @@
+# v0.1.2, 2018-11-17
+* Fixed critical issue with `_strrevpos()` method
+
 # v0.1.1, 2018-11-17
 * Page editor: fix issue with getting theme templates
 * System Settings: added ability to select locales from list

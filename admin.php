@@ -244,7 +244,6 @@ class Admin
             throw new \RuntimeException("Flextype system config file does not exist.");
         }
 
-
         Themes::view('admin/views/templates/system/settings/list')
             ->assign('site_settings', $site_settings)
             ->assign('system_settings', $system_settings)
@@ -306,7 +305,6 @@ class Admin
                                                   $page_frontmatter."\n".
                                                   '---'."\n".
                                                   $content);
-
 
                         $path = pathinfo($page_new_current);
 
@@ -442,18 +440,11 @@ class Admin
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
-                    function strrevpos($instr, $needle)
-                    {
-                        $rev_pos = strpos(strrev($instr), strrev($needle));
-                        if ($rev_pos===false) return false;
-                        else return strlen($instr) - $rev_pos - strlen($needle);
-                    }
-
                     $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
 
                     foreach ($_templates as $template) {
-                        if (!is_bool(strrevpos($template, '/templates/'))) {
-                            $_t = str_replace('.php', '', substr($template, strrevpos($template, '/templates/')+strlen('/templates/')));
+                        if (!is_bool(Admin::strrevpos($template, '/templates/'))) {
+                            $_t = str_replace('.php', '', substr($template, Admin::strrevpos($template, '/templates/')+strlen('/templates/')));
                             $templates[$_t] = $_t;
                         }
                     }
@@ -479,6 +470,13 @@ class Admin
                     ->display();
             break;
         }
+    }
+
+    private function strrevpos($instr, $needle)
+    {
+        $rev_pos = strpos(strrev($instr), strrev($needle));
+        if ($rev_pos===false) return false;
+        else return strlen($instr) - $rev_pos - strlen($needle);
     }
 
     protected static function getAuthPage()

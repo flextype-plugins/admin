@@ -8,7 +8,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
     Themes::view('admin/views/partials/navbar')
         ->assign('links',   ['settings' => ['url' => Http::getBaseUrl() . '/admin/settings', 'title' => I18n::find('admin_system_settings_heading', Registry::get('system.locale'))]])
         ->assign('buttons', ['settings' =>
-                                            ['url' => Http::getBaseUrl() . '/admin/settings',
+                                            ['url' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
                                             'title' => I18n::find('admin_system_clear_cache', Registry::get('system.locale')),
                                             'class' => 'btn-light']])
         ->display();

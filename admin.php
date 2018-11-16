@@ -36,46 +36,6 @@ class Admin
     private static $instance = null;
 
     /**
-     * Locales array
-     *
-     * @var array
-     */
-    private static $locales = [
-        'ar' => 'العربية',
-        'bg' => 'Български',
-        'ca' => 'Català',
-        'cs' => 'Česky',
-        'da' => 'Dansk',
-        'de' => 'Deutsch',
-        'el' => 'Ελληνικά',
-        'en' => 'English',
-        'es' => 'Español',
-        'fa' => 'Farsi',
-        'fi' => 'Suomi',
-        'fr' => 'Français',
-        'gl' => 'Galego',
-        'ka-ge' => 'Georgian',
-        'hu' => 'Magyar',
-        'it' => 'Italiano',
-        'id' => 'Bahasa Indonesia',
-        'ja' => '日本語',
-        'lt' => 'Lietuvių',
-        'nl' => 'Nederlands',
-        'no' => 'Norsk',
-        'pl' => 'Polski',
-        'pt' => 'Português',
-        'pt-br' => 'Português do Brasil',
-        'ru' => 'Русский',
-        'sk' => 'Slovenčina',
-        'sl' => 'Slovenščina',
-        'sv' => 'Svenska',
-        'sr' => 'Srpski',
-        'tr' => 'Türkçe',
-        'uk' => 'Українська',
-        'zh-cn' => '简体中文',
-    ];
-
-    /**
      * Private clone method to enforce singleton behavior.
      *
      * @access private
@@ -192,6 +152,13 @@ class Admin
         $settings_site_save = Http::post('settings_site_save');
         $settings_system_save = Http::post('settings_system_save');
 
+        // Clear cache
+        if (Http::get('clear_cache')) {
+            if (Token::check((Http::get('token')))) {
+                Cache::clear();
+            }
+        }
+
         if (isset($settings_site_save)) {
             if (Token::check((Http::post('token')))) {
 
@@ -247,7 +214,7 @@ class Admin
         Themes::view('admin/views/templates/system/settings/list')
             ->assign('site_settings', $site_settings)
             ->assign('system_settings', $system_settings)
-            ->assign('locales', Admin::$locales)
+            ->assign('locales', Plugins::getLocales())
             ->display();
     }
 
@@ -367,7 +334,7 @@ class Admin
                     if (isset($page_save)) {
                         if (Token::check((Http::post('token')))) {
 
-                            $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html');
+                            $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html', false, true);
 
                             Arr::set($page, 'title', Http::post('page_title'));
                             Arr::set($page, 'visibility', Http::post('page_visibility'));
@@ -390,7 +357,7 @@ class Admin
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html');
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
                     // Array of forbidden types
                     $forbidden_types = array('html', 'htm', 'js', 'jsb', 'mhtml', 'mht',

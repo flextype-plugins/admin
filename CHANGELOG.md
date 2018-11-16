@@ -6,6 +6,7 @@
 * Page editor: fix issue with locales
 * Russian translates added
 * German translates added - Thanks to Andreas Lenhardt
+* Ukraine translates added - Thanks to Shakhrom Mukumov
 * Clear Cache functionality added
 * Clear Cache on plugin activation/deactivation
 * Plugins Manager: don't allow to deactivate admin plugin

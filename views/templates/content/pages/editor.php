@@ -94,7 +94,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                         <input type="file" name="file">
                         <?php
                             echo (
-                                Form::submit('upload_file', 'Upload', array('class' => '')).
+                                Form::submit('upload_file', I18n::find('admin_pages_files_upload', Registry::get('system.locale')), array('class' => '')).
                                 Form::close()
                             )
                         ?>
@@ -114,10 +114,6 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
         </table>
     </div>
 </div>
-
-<pre>
-    <?php print_r($templates); ?>
-</pre>
 
 <div class="modal fade" id="pagesImagePreview" tabindex="-1" role="dialog" aria-labelledby="pagesImagePreviewLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

@@ -52,7 +52,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <?php
                     echo (
                         Form::label('page_template', I18n::find('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
-                        Form::select('page_template', ['default' => 'default'], 'default', ['class' => 'form-control', 'id' => 'pageTemplate'])
+                        Form::select('page_template', $templates, $page_template, ['class' => 'form-control', 'id' => 'pageTemplate'])
                     );
                 ?>
             </div>
@@ -114,6 +114,10 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
         </table>
     </div>
 </div>
+
+<pre>
+    <?php print_r($templates); ?>
+</pre>
 
 <div class="modal fade" id="pagesImagePreview" tabindex="-1" role="dialog" aria-labelledby="pagesImagePreviewLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

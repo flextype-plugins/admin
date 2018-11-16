@@ -402,14 +402,31 @@ class Admin
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
 
+                    function strrevpos($instr, $needle)
+                    {
+                        $rev_pos = strpos(strrev($instr), strrev($needle));
+                        if ($rev_pos===false) return false;
+                        else return strlen($instr) - $rev_pos - strlen($needle);
+                    }
+
+                    $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
+
+                    foreach ($_templates as $template) {
+                        if (!is_bool(strrevpos($template, '/templates/'))) {
+                            $_t = str_replace('.php', '', substr($template, strrevpos($template, '/templates/')+strlen('/templates/')));
+                            $templates[$_t] = $_t;
+                        }
+                    }
+
                     Themes::view('admin/views/templates/content/pages/editor')
                         ->assign('page_name', Http::get('page'))
                         ->assign('page_title', $page['title'])
                         ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
-                        ->assign('page_template',(isset($page['temlate']) ? $page['template'] : ''))
+                        ->assign('page_template',(isset($page['template']) ? $page['template'] : 'default'))
                         ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
                         ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
                         ->assign('page_content', $page['content'])
+                        ->assign('templates', $templates)
                         ->assign('files', Filesystem::getFilesList(PATH['pages'] . '/' . Http::get('page'), 'jpg'))
                         ->display();
                 }

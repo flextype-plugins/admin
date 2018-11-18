@@ -29,7 +29,7 @@
 .form-control {
     background-color: #FFFFFF;
     border: 1px solid #E3E3E3;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: .875rem;
     color: #565656;
     padding: 8px 12px;
@@ -101,14 +101,14 @@ $theme-colors: (
 $switch-height: calc(#{$input-height} * .8) !default;
 $switch-height-sm: calc(#{$input-height-sm} * .8) !default;
 $switch-height-lg: calc(#{$input-height-lg} * .8) !default;
-$switch-border-radius: $switch-height !default;
+$switch-border-radius: 0 !default;
 $switch-bg: $custom-control-indicator-bg !default;
 $switch-checked-bg: map-get($theme-colors, 'primary') !default;
 $switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
 $switch-disabled-color: $custom-control-description-disabled-color !default;
 $switch-thumb-bg: $white !default;
-$switch-thumb-border-radius: 50% !default;
-$switch-thumb-padding: 2px !default;
+$switch-thumb-border-radius: 0 !default;
+$switch-thumb-padding: 3px !default;
 $switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, 'primary'), .25);
 $switch-transition: .2s all !default;
 

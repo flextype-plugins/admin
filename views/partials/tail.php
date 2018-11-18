@@ -53,6 +53,7 @@ use Flextype\Component\{Http\Http, Event\Event};
             $('#pagesImagePreview').modal();
             $('.js-page-image-preview-placeholder').attr('src', $(this).attr('data-image-url'));
             $('.js-page-image-url-placeholder').html($(this).attr('data-image-url'));
+            $('.js-page-image-delete-url-placeholder').attr('href', $(this).attr('data-image-delete-url'));
         });
     });
 </script>

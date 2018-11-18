@@ -77,7 +77,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
 
 <br><br>
 
-
+<!--
 <div class="card">
     <div class="card-body no-padding">
         <table class="table no-margin">
@@ -104,7 +104,11 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
             <tbody>
                 <?php foreach ($files as $file) { ?>
                 <tr>
-                    <td><a href="javascript:;" class="js-pages-image-preview" data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>"><?php echo basename($file); ?></a></td>
+                    <td class="text-center" width="64">
+                        <a href="javascript:;" class="js-pages-image-preview" data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>">
+                            <img height="64" src="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>" alt="">
+                        </a>
+                    </td>
                     <td class="text-right">
                         <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', Registry::get('system.locale')); ?></a>
                     </td>
@@ -112,6 +116,49 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <?php } ?>
             </tbody>
         </table>
+    </div>
+</div>
+-->
+
+
+<br><br>
+
+<div class="card filesmanager">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-3">
+                Files
+            </div>
+            <div class="col-sm-9">
+                <?php
+                    echo (
+                        Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline form-upload')).
+                        Form::hidden('token', Token::generate())
+                    );
+                ?>
+                <input type="file" name="file">
+                <?php
+                    echo (
+                        Form::submit('upload_file', I18n::find('admin_pages_files_upload', Registry::get('system.locale')), array('class' => '')).
+                        Form::close()
+                    )
+                ?>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <?php foreach ($files as $file) { ?>
+                <div class="col-sm-2 item">
+                    <a href="javascript:;"
+                       style="background-image: url('<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>')"
+                       class="img-item js-pages-image-preview"
+                       data-image-delete-url="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&token=<?php echo Token::generate(); ?>"
+                       data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>">
+                    </a>
+                </div>
+            <?php } ?>
+        </div>
     </div>
 </div>
 
@@ -128,6 +175,9 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
         <img src="" alt="" class="js-page-image-preview-placeholder img-fluid">
         <br><br>
         <div class="alert alert-dark js-page-image-url-placeholder" role="alert"></div>
+      </div>
+      <div class="modal-footer">
+          <a href="#" class="js-page-image-delete-url-placeholder btn btn-primary">Delete</a>
       </div>
     </div>
   </div>

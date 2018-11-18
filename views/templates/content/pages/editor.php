@@ -13,69 +13,72 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?php echo Form::open(); ?>
-    <?php echo Form::hidden('token', Token::generate()); ?>
-    <?php echo Form::hidden('page_name', $page_name); ?>
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <?php
-                    echo (
-                        Form::label('page_title', I18n::find('admin_pages_title', Registry::get('system.locale')), ['for' => 'pageTitle']).
-                        Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
-                    );
-                ?>
+<div class="card">
+    <div class="card-header">
+        <?php echo I18n::find('admin_pages_page', Registry::get('system.locale')); ?>
+    </div>
+    <div class="card-body">
+        <?php echo Form::open(); ?>
+        <?php echo Form::hidden('token', Token::generate()); ?>
+        <?php echo Form::hidden('page_name', $page_name); ?>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <?php
+                        echo (
+                            Form::label('page_title', I18n::find('admin_pages_title', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
+                        );
+                    ?>
+                </div>
+                <div class="form-group">
+                    <?php
+                        echo (
+                            Form::label('page_content', I18n::find('admin_pages_content', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'style' => 'height:400px;', 'id' => 'pageContent'])
+                        );
+                    ?>
+                </div>
             </div>
-            <div class="form-group">
-                <?php
-                    echo (
-                        Form::label('page_content', I18n::find('admin_pages_content', Registry::get('system.locale')), ['for' => 'pageTitle']).
-                        Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'style' => 'height:400px;', 'id' => 'pageContent'])
-                    );
-                ?>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <?php
+                        echo (
+                            Form::label('page_visibility', I18n::find('admin_pages_visibility', Registry::get('system.locale')),  ['for' => 'pageTitle']).
+                            Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
+                        );
+                    ?>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <?php
+                        echo (
+                            Form::label('page_template', I18n::find('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
+                            Form::select('page_template', $templates, $page_template, ['class' => 'form-control', 'id' => 'pageTemplate'])
+                        );
+                    ?>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <?php
+                        echo (
+                            Form::label('page_date', I18n::find('admin_pages_date', Registry::get('system.locale')), ['for' => 'pageDate']).
+                            Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
+                        );
+                    ?>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-4">
-            <div class="form-group">
-                <?php
-                    echo (
-                        Form::label('page_visibility', I18n::find('admin_pages_visibility', Registry::get('system.locale')),  ['for' => 'pageTitle']).
-                        Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
-                    );
-                ?>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <?php
-                    echo (
-                        Form::label('page_template', I18n::find('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
-                        Form::select('page_template', $templates, $page_template, ['class' => 'form-control', 'id' => 'pageTemplate'])
-                    );
-                ?>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <?php
-                    echo (
-                        Form::label('page_date', I18n::find('admin_pages_date', Registry::get('system.locale')), ['for' => 'pageDate']).
-                        Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
-                    );
-                ?>
-            </div>
-        </div>
+    <div class="card-footer text-right">
+        <?php echo Form::submit('page_save', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
+        <?php echo Form::close(); ?>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <?php echo Form::submit('page_save', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
-        </div>
-    </div>
-<?php echo Form::close(); ?>
-
-<br><br>
+</div>
 
 <!--
 <div class="card">
@@ -119,9 +122,6 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
     </div>
 </div>
 -->
-
-
-<br><br>
 
 <div class="card filesmanager">
     <div class="card-header">

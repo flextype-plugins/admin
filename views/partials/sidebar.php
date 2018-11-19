@@ -21,6 +21,11 @@ use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, I18n\I18n, To
                   <div class="collapse " id="user">
                       <ul class="nav">
                           <li class="nav-item ">
+                              <a class="nav-link" target="_blank" href="<?php echo Http::getBaseUrl(); ?>">
+                                  <span class="sidebar-normal"><?php echo I18n::find('admin_view_site', Registry::get('system.locale')); ?></span>
+                              </a>
+                          </li>
+                          <li class="nav-item ">
                               <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/logout?token=<?php echo Token::generate(); ?>">
                                   <span class="sidebar-normal"><?php echo I18n::find('admin_menu_logout', Registry::get('system.locale')); ?></span>
                               </a>

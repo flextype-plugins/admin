@@ -518,10 +518,11 @@ class Admin
         }
     }
 
-    public static function addSidebarMenu(string $area, string $item, string $title, string $link)
+    public static function addSidebarMenu(string $area, string $item, string $title, string $link, array $attributes = [])
     {
         Registry::set("sidebar_menu.{$area}.{$item}.title", $title);
         Registry::set("sidebar_menu.{$area}.{$item}.link", $link);
+        Registry::set("sidebar_menu.{$area}.{$item}.attributes", $attributes);
     }
 
     public static function getSidebarMenu(string $area)
@@ -553,8 +554,8 @@ class Admin
      }
 }
 
-Admin::addSidebarMenu('content', 'pages', I18n::find('admin_menu_content_pages', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/pages');
-Admin::addSidebarMenu('extends', 'plugins', I18n::find('admin_menu_extends_plugins', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/plugins');
-Admin::addSidebarMenu('settings', 'settings', I18n::find('admin_menu_system_settings', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/settings');
-Admin::addSidebarMenu('settings', 'infomation', I18n::find('admin_menu_system_information', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/information');
-Admin::addSidebarMenu('help', 'documentation', I18n::find('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation');
+Admin::addSidebarMenu('content', 'pages', I18n::find('admin_menu_content_pages', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/pages', ['class' => 'nav-link']);
+Admin::addSidebarMenu('extends', 'plugins', I18n::find('admin_menu_extends_plugins', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
+Admin::addSidebarMenu('settings', 'settings', I18n::find('admin_menu_system_settings', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
+Admin::addSidebarMenu('settings', 'infomation', I18n::find('admin_menu_system_information', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
+Admin::addSidebarMenu('help', 'documentation', I18n::find('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);

@@ -362,13 +362,13 @@ class Admin
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
                     // Array of forbidden types
-                    $forbidden_types = array('html', 'htm', 'js', 'jsb', 'mhtml', 'mht',
+                    $forbidden_types = ['html', 'htm', 'js', 'jsb', 'mhtml', 'mht',
                                              'php', 'phtml', 'php3', 'php4', 'php5', 'phps',
                                              'shtml', 'jhtml', 'pl', 'py', 'cgi', 'sh', 'ksh', 'bsh', 'c', 'htaccess', 'htpasswd',
-                                             'exe', 'scr', 'dll', 'msi', 'vbs', 'bat', 'com', 'pif', 'cmd', 'vxd', 'cpl', 'empty');
+                                             'exe', 'scr', 'dll', 'msi', 'vbs', 'bat', 'com', 'pif', 'cmd', 'vxd', 'cpl', 'empty'];
 
                     // Array of image types
-                    $image_types = array('jpg', 'png', 'bmp', 'gif', 'tif');
+                    $image_types = ['jpg', 'png', 'bmp', 'gif', 'tif'];
 
                     $files_path = PATH['pages'] . '/' . Http::get('page') . '/';
 
@@ -427,7 +427,7 @@ class Admin
                         ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
                         ->assign('page_content', $page['content'])
                         ->assign('templates', $templates)
-                        ->assign('files', Filesystem::getFilesList(PATH['pages'] . '/' . Http::get('page'), 'jpg'))
+                        ->assign('files', Filesystem::getFilesList(PATH['pages'] . '/' . Http::get('page'), $image_types))
                         ->display();
                 }
             break;

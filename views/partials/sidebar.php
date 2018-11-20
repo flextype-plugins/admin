@@ -45,7 +45,7 @@ use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Event\Event, I1
                     <ul class="nav">
                         <?php foreach (Admin::getSidebarMenu('content') as $item) { ?>
                             <li class="nav-item">
-                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], ['class' => 'nav-link']); ?>
+                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
                         <?php } ?>
                     </ul>
@@ -63,7 +63,7 @@ use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Event\Event, I1
                     <ul class="nav">
                         <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
                             <li class="nav-item">
-                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], ['class' => 'nav-link']); ?>
+                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
                         <?php } ?>
                     </ul>
@@ -81,7 +81,7 @@ use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Event\Event, I1
                     <ul class="nav">
                         <?php foreach (Admin::getSidebarMenu('settings') as $item) { ?>
                             <li class="nav-item">
-                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], ['class' => 'nav-link']); ?>
+                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
                         <?php } ?>
                     </ul>
@@ -99,7 +99,7 @@ use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Event\Event, I1
                     <ul class="nav">
                         <?php foreach (Admin::getSidebarMenu('help') as $item) { ?>
                             <li class="nav-item">
-                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], ['class' => 'nav-link']); ?>
+                                <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
                         <?php } ?>
                     </ul>

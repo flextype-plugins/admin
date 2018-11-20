@@ -20,7 +20,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Site
+                <?php echo  I18n::find('admin_site', Registry::get('system.locale')); ?>
             </div>
             <div class="card-body">
 
@@ -87,7 +87,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                System
+                <?php echo  I18n::find('admin_settings', Registry::get('system.locale')); ?>
             </div>
             <div class="card-body">
                 <?php echo Form::open(); ?>
@@ -144,7 +144,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
                     <?php
                         echo (
                             Form::label('errors[display]', I18n::find('admin_system_settings_system_errors_display', Registry::get('system.locale')), ['for' => 'systemSettingsSystemErrorsDisplay']).
-                            Form::select('errors[display]', [0 => 'true', 1 => 'false'], $system_settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required'])
+                            Form::select('errors[display]', [0 => 'false', 1 => 'true'], $system_settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required'])
                         );
                     ?>
                 </div>
@@ -152,7 +152,7 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token, Fo
                     <?php
                         echo (
                             Form::label('cache[enabled]', I18n::find('admin_system_settings_system_cache_enabled', Registry::get('system.locale')), ['for' => 'systemSettingsSystemCacheEnabled']).
-                            Form::select('cache[enabled]', [0 => 'true', 1 => 'false'], $system_settings['cache']['enabled'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheEnabled', 'required'])
+                            Form::select('cache[enabled]', [0 => 'false', 1 => 'true'], $system_settings['cache']['enabled'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheEnabled', 'required'])
                         );
                     ?>
                 </div>

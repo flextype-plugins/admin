@@ -418,6 +418,18 @@ class Admin
                         }
                     }
 
+                    $files = [];
+                    $_files = array_diff(scandir(PATH['pages'] . '/' . Http::get('page')), array('..', '.'));
+
+                    foreach ($_files as $file) {
+                        $file_ext = substr(strrchr($file, '.'), 1);
+                        if (in_array($file_ext, $image_types)) {
+                            if (strpos($file, $file_ext, 1)) {
+                                $files[] = $file;
+                            }
+                        }
+                    }
+
                     Themes::view('admin/views/templates/content/pages/editor')
                         ->assign('page_name', Http::get('page'))
                         ->assign('page_title', $page['title'])
@@ -427,7 +439,7 @@ class Admin
                         ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
                         ->assign('page_content', $page['content'])
                         ->assign('templates', $templates)
-                        ->assign('files', Filesystem::getFilesList(PATH['pages'] . '/' . Http::get('page'), $image_types))
+                        ->assign('files', $files)
                         ->display();
                 }
             break;

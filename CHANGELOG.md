@@ -1,3 +1,13 @@
+# v0.2.0, 2018-11-24
+* General: Link to site preview added #11
+* General: Square borders interface #12
+* General: Twitter bootstrap Card UI for every page UI implemented #18
+* General: Left navigation improvements #22
+* General: Link for Documentation will opened in the new window #20
+* Page Editor: Files manager issue with image formats - fixed #19
+* Page Editor: Files previews improvements #5
+* Settings Manager: issue with select dropdown logic - fixed #21
+
 # v0.1.2, 2018-11-17
 * Fixed critical issue with `_strrevpos()` method
 

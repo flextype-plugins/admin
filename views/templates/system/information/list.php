@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
+use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Filesystem\Filesystem, Token\Token};
 ?>
 
 <?php
@@ -73,6 +73,37 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
         </table>
     </div>
 </div>
+
+<?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess') or
+          Filesystem::isFileWritable(ROOT_DIR . '/index.php') or
+          Registry::get('system.errors.display') === true) { ?>
+<div class="card">
+    <div class="card-header">
+        <?php echo I18n::find('admin_security_check_results', Registry::get('system.locale')); ?>
+    </div>
+    <div class="card-body no-padding">
+        <table class="table no-margin">
+            <tbody>
+                <?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess')) { ?>
+                <tr>
+                    <td><?php echo I18n::find('admin_security_check_results_htaccess', Registry::get('system.locale'), [':path' => ROOT_DIR . '/.htaccess']); ?></td>
+                </tr>
+                <?php } ?>
+                <?php if (Filesystem::isFileWritable(ROOT_DIR . '/index.php')) { ?>
+                <tr>
+                    <td><?php echo I18n::find('admin_security_check_results_index', Registry::get('system.locale'), [':path' => ROOT_DIR . '/index.php']); ?></td>
+                </tr>
+                <?php } ?>
+                <?php if (Registry::get('system.errors.display') === true) { ?>
+                <tr>
+                    <td><?php echo I18n::find('admin_security_check_results_debug', Registry::get('system.locale')); ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php } ?>
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

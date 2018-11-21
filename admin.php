@@ -252,6 +252,16 @@ class Admin
                     ->assign('pages_list', $pages_list)
                     ->display();
             break;
+            case 'clone':
+                if (Http::get('page') != '') {
+                    if (Token::check((Http::get('token')))) {
+                        $new_cloned_page_dir = PATH['pages'] . '/' . Http::get('page') . '-clone-' . date("Ymd_His");
+                        Filesystem::createDir($new_cloned_page_dir);
+                        Filesystem::copy(PATH['pages'] . '/' . Http::get('page') . '/page.html', $new_cloned_page_dir . '/page.html');
+                        Http::redirect(Http::getBaseUrl().'/admin/pages/');
+                    } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+                }
+            break;
             case 'rename';
                 $rename_page = Http::post('rename_page');
 

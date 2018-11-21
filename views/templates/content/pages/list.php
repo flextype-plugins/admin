@@ -30,20 +30,15 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
                     </td>
                     <td><a target="_blank"  href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>">/<?php echo $page['slug']; ?></a></td>
                     <td class="text-right">
-
                         <div class="btn-group">
-                          <button type="button" class="btn btn-danger">Edit</button>
-                          <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo I18n::find('admin_pages_edit', Registry::get('system.locale')); ?></a>
+                          <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="<?php echo Http::getBaseUrl() . '/admin/pages/add'; ?>"><?php echo I18n::find('admin_pages_add', Registry::get('system.locale')); ?></a>
-                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_clone', Registry::get('system.locale')); ?></a>
+                            <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add"><?php echo I18n::find('admin_pages_add', Registry::get('system.locale')); ?></a>
+                            <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/clone?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_clone', Registry::get('system.locale')); ?></a>
                             <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo I18n::find('admin_pages_rename', Registry::get('system.locale')); ?></a>
-                            <div class="dropdown-divider"></div>
-                            <li class="dropdown-header"><?php echo I18n::find('admin_pages_visibility', Registry::get('system.locale')); ?></li>
-                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_visible', Registry::get('system.locale')); ?></a>
-                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_draft', Registry::get('system.locale')); ?></a>
                           </div>
                         </div>
                         <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo I18n::find('admin_pages_delete', Registry::get('system.locale')); ?></a>

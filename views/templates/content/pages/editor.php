@@ -84,7 +84,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
     <div class="card-header">
         <div class="row">
             <div class="col-sm-3">
-                Files
+                <?php echo I18n::find('admin_pages_files', Registry::get('system.locale')); ?>
             </div>
             <div class="col-sm-9">
                 <?php

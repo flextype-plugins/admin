@@ -37,13 +37,13 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
                             <span class="sr-only">Toggle Dropdown</span>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Add</a>
-                            <a class="dropdown-item" href="#">Clone</a>
-                            <a class="dropdown-item" href="#">Rename</a>
+                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_add', Registry::get('system.locale')); ?></a>
+                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_clone', Registry::get('system.locale')); ?></a>
+                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_rename', Registry::get('system.locale')); ?></a>
                             <div class="dropdown-divider"></div>
-                            <li class="dropdown-header">Visibility</li>
-                            <a class="dropdown-item" href="#">Visible</a>
-                            <a class="dropdown-item" href="#">Drat</a>
+                            <li class="dropdown-header"><?php echo I18n::find('admin_pages_visibility', Registry::get('system.locale')); ?></li>
+                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_visible', Registry::get('system.locale')); ?></a>
+                            <a class="dropdown-item" href="#"><?php echo I18n::find('admin_pages_draft', Registry::get('system.locale')); ?></a>
                           </div>
                         </div>
 

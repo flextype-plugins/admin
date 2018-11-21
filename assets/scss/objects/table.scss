@@ -32,9 +32,14 @@
     border-top: 0;
 }
 
+.table tbody tr:hover td,
+.table tbody tr:hover th {
+    background-color: rgba(0,0,0,.03);
+}
+
 .table {
     .btn {
         margin: 0;
-        padding: 1px 10px;
+        padding: 1px 13px;
     }
 }

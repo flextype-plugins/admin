@@ -61,11 +61,12 @@ class Admin
 
     protected static function init()
     {
-        Event::addListener('onAdminArea', function () {
-            Admin::_pluginsChangeStatusAjax();
-        });
-
         if (Admin::isLoggedIn()) {
+
+            Event::addListener('onAdminArea', function () {
+                Admin::_pluginsChangeStatusAjax();
+            });
+
             Admin::getAdminArea();
         } else {
             if (Admin::isUsersExists()) {

@@ -41,7 +41,7 @@ use function Flextype\Component\I18n\__;
                             data-homepage="<?php echo $plugin['homepage']; ?>"
                             data-bugs="<?php echo $plugin['bugs']; ?>"
                             data-license="<?php echo $plugin['license']; ?>"
-                            >Info</a>
+                            ><?php echo __('admin_plugins_info', Registry::get('system.locale')); ?></a>
                     </td>
                     <td class="text-right">
                         <?php if ($key !== 'admin') { ?>

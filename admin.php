@@ -101,16 +101,13 @@ class Admin
     protected static function _pluginsChangeStatusAjax()
     {
         if (Http::post('plugin_change_status')) {
-
             if (Token::check((Http::post('token')))) {
 
                 $plugin_settings = Yaml::parseFile(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml');
 
                 Arr::set($plugin_settings, 'enabled', (Http::post('status') == 'true' ? true : false));
 
-                $plugin_settings = Yaml::dump($plugin_settings);
-
-                Filesystem::setFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml', $plugin_settings);
+                Filesystem::setFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml', Yaml::dump($plugin_settings));
 
                 Cache::clear();
 
@@ -168,9 +165,7 @@ class Admin
                 Arr::delete($_POST, 'token');
                 Arr::delete($_POST, 'settings_site_save');
 
-                $settings = Yaml::dump($_POST);
-
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', $settings)) {
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', Yaml::dump($_POST))) {
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
 
@@ -188,9 +183,7 @@ class Admin
                 Arr::set($_POST, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
                 Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
 
-                $settings = Yaml::dump($_POST);
-
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', $settings)) {
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', Yaml::dump($_POST))) {
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
 
@@ -233,8 +226,6 @@ class Admin
                 }
             break;
             case 'add':
-                $pages_list = Content::getPages('', false , 'slug');
-
                 $create_page = Http::post('create_page');
 
                 if (isset($create_page)) {
@@ -250,7 +241,7 @@ class Admin
                 }
 
                 Themes::view('admin/views/templates/content/pages/add')
-                    ->assign('pages_list', $pages_list)
+                    ->assign('pages_list', Content::getPages('', false , 'slug'))
                     ->display();
             break;
             case 'clone':
@@ -377,7 +368,6 @@ class Admin
 
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
-
                     $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
 
                     foreach ($_templates as $template) {
@@ -402,20 +392,11 @@ class Admin
                 }
             break;
             default:
-                $pages_list = Content::getPages('', false , 'slug', 'ASC');
-
                 Themes::view('admin/views/templates/content/pages/list')
-                    ->assign('pages_list', $pages_list)
+                    ->assign('pages_list', Content::getPages('', false , 'slug', 'ASC'))
                     ->display();
             break;
         }
-    }
-
-    private static function _strrevpos($instr, $needle)
-    {
-        $rev_pos = strpos(strrev($instr), strrev($needle));
-        if ($rev_pos===false) return false;
-        else return strlen($instr) - $rev_pos - strlen($needle);
     }
 
     protected static function getAuthPage()
@@ -440,6 +421,51 @@ class Admin
             ->display();
     }
 
+    public static function getPageFilesList($page)
+    {
+        $files = [];
+
+        foreach (array_diff(scandir(PATH['pages'] . '/' . $page), array('..', '.')) as $file) {
+            if (in_array($file_ext = substr(strrchr($file, '.'), 1), ['jpeg', 'png', 'gif', 'jpg'])) {
+                if (strpos($file, $file_ext, 1)) {
+                    $files[] = $file;
+                }
+            }
+        }
+
+        return $files;
+    }
+
+    public static function isUsersExists()
+    {
+        // Get Users Profiles
+        $users = Filesystem::getFilesList(PATH['site'] . '/accounts/', 'yaml');
+
+        // If any users exists then return true
+        return ($users && count($users) > 0) ? true : false;
+    }
+
+    public static function isLoggedIn()
+    {
+        return (Session::exists('role') && Session::get('role') == 'admin') ? true : false;
+    }
+
+    public static function addSidebarMenu(string $area, string $item, string $title, string $link, array $attributes = [])
+    {
+        Registry::set("sidebar_menu.{$area}.{$item}.title", $title);
+        Registry::set("sidebar_menu.{$area}.{$item}.link", $link);
+        Registry::set("sidebar_menu.{$area}.{$item}.attributes", $attributes);
+    }
+
+    public static function getSidebarMenu(string $area)
+    {
+        return Registry::get("sidebar_menu.{$area}");
+    }
+
+    public static function isAdminArea() {
+        return (Http::getUriSegment(0) == 'admin') ? true : false;
+    }
+
     protected static function getRegistrationPage()
     {
 
@@ -450,13 +476,13 @@ class Admin
                 if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Text::safeString(Http::post('username')) . '.yaml')) {
 
                 } else {
-                    $user = ['username' => Text::safeString(Http::post('username')),
-                             'password' => Text::encryptPassword(Http::post('password')),
-                             'email' => Http::post('email'),
-                             'role'  => 'admin',
-                             'state' => 'enabled'];
 
-                    Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yaml', Yaml::dump($user));
+                    Filesystem::setFileContent(PATH['site'] . '/accounts/' . Http::post('username') . '.yaml',
+                                               Yaml::dump(['username' => Text::safeString(Http::post('username')),
+                                                           'password' => Text::encryptPassword(Http::post('password')),
+                                                           'email' => Http::post('email'),
+                                                           'role'  => 'admin',
+                                                           'state' => 'enabled']));
 
                     Http::redirect(Http::getBaseUrl().'/admin/pages');
                 }
@@ -485,64 +511,11 @@ class Admin
         }
     }
 
-    public static function getPageFilesList($page)
+    private static function _strrevpos($instr, $needle)
     {
-        // Array of image types
-        $image_types = ['jpeg', 'png', 'gif', 'jpg'];
-
-        $files = [];
-        $_files = array_diff(scandir(PATH['pages'] . '/' . $page), array('..', '.'));
-
-        foreach ($_files as $file) {
-            $file_ext = substr(strrchr($file, '.'), 1);
-            if (in_array($file_ext, $image_types)) {
-                if (strpos($file, $file_ext, 1)) {
-                    $files[] = $file;
-                }
-            }
-        }
-
-        return $files;
-    }
-
-    public static function isUsersExists()
-    {
-        $users = Filesystem::getFilesList(PATH['site'] . '/accounts/', 'yaml');
-
-        if ($users && count($users) > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static function isLoggedIn()
-    {
-        if (Session::exists('role') && Session::get('role') == 'admin') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static function addSidebarMenu(string $area, string $item, string $title, string $link, array $attributes = [])
-    {
-        Registry::set("sidebar_menu.{$area}.{$item}.title", $title);
-        Registry::set("sidebar_menu.{$area}.{$item}.link", $link);
-        Registry::set("sidebar_menu.{$area}.{$item}.attributes", $attributes);
-    }
-
-    public static function getSidebarMenu(string $area)
-    {
-        return Registry::get("sidebar_menu.{$area}");
-    }
-
-    public static function isAdminArea() {
-        if (Http::getUriSegment(0) == 'admin') {
-            return true;
-        } else {
-            return false;
-        }
+        $rev_pos = strpos(strrev($instr), strrev($needle));
+        if ($rev_pos===false) return false;
+        else return strlen($instr) - $rev_pos - strlen($needle);
     }
 
     /**

@@ -7,6 +7,7 @@
 * General: general UI/UX fixes
 * Page Editor: Files manager issue with image formats - fixed #19
 * Page Editor: Files previews improvements #5
+* Page Editor: Files manager - has Stored XSS via Uploading html file that has no extension. #23
 * Pages List: Quick actions implemented #6
 * Settings Manager: issue with select dropdown logic - fixed #21
 * Information: Security check results - added

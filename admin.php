@@ -372,7 +372,7 @@ class Admin
 
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
-                    $files_path = PATH['pages'] . '/' . Http::get('page') . '/';
+                    $files_directory = PATH['pages'] . '/' . Http::get('page') . '/';
 
                     if (Http::get('delete_file') != '') {
                         if (Token::check((Http::get('token')))) {
@@ -381,23 +381,11 @@ class Admin
                         }
                     }
 
-                    $file_uploader_message = '';
-
                     if (Http::post('upload_file')) {
 
                         if (Token::check(Http::post('token'))) {
 
-                            $file = Admin::uploadFile($files_path);
-
-                            if (is_array($file['error'])) {
-                                $file_uploader_message = '';
-
-                                foreach ($file['error'] as $msg) {
-                                    $file_uploader_message .= '<p>'.$msg.'</p>';
-                                }
-                            } else {
-                                //$message = "File uploaded successfully".$newname;
-                            }
+                            Filesystem::uploadFile($_FILES['file'], $files_directory);
 
                         } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                     }
@@ -436,7 +424,6 @@ class Admin
                         ->assign('page_content', $page['content'])
                         ->assign('templates', $templates)
                         ->assign('files', $files)
-                        ->assign('file_uploader_message', $file_uploader_message)
                         ->display();
                 }
             break;
@@ -544,95 +531,6 @@ class Admin
         } else {
             return false;
         }
-    }
-
-    public static function uploadFile ($path, $file_field = 'file', $check_image = true, $random_name = false)
-    {
-        //Set max file size in bytes
-        $max_size = 1000000;
-
-        //Set default file extension whitelist
-        $whitelist_ext = ['jpeg', 'png', 'gif', 'jpg'];
-
-        //Set default file type whitelist
-        $whitelist_type = array('image/jpeg', 'image/jpg', 'image/png','image/gif');
-
-        //The Validation
-        // Create an array to hold any output
-        $out = ['error' => null];
-
-        //Make sure that there is a file
-        if((!empty($_FILES[$file_field])) && ($_FILES[$file_field]['error'] == 0)) {
-
-            // Get filename
-            $file_info = pathinfo($_FILES[$file_field]['name']);
-            $name = $file_info['filename'];
-            if (isset($file_info['extension'])) {
-                $ext = $file_info['extension'];
-            } else {
-                $out['error'][] = "Empty file Extension";
-                return $out;
-            }
-
-            //Check file has the right extension
-            if (!in_array($ext, $whitelist_ext)) {
-              $out['error'][] = "Invalid file Extension";
-            }
-
-            //Check that the file is of the right type
-            if (!in_array($_FILES[$file_field]["type"], $whitelist_type)) {
-              $out['error'][] = "Invalid file Type";
-            }
-
-            //Check that the file is not too big
-            if ($_FILES[$file_field]["size"] > $max_size) {
-              $out['error'][] = "File is too big";
-            }
-
-            //If $check image is set as true
-            if ($check_image) {
-              if (!getimagesize($_FILES[$file_field]['tmp_name'])) {
-                $out['error'][] = "Uploaded file is not a valid image";
-              }
-            }
-
-            //Create full filename including path
-            if ($random_name) {
-
-              // Generate random filename
-              $tmp = str_replace(array('.',' '), array('',''), microtime());
-
-              if (!$tmp || $tmp == '') {
-                $out['error'][] = "File must have a name";
-              }
-              $newname = $tmp.'.'.$ext;
-            } else {
-                $newname = $name.'.'.$ext;
-            }
-
-            //Check if file already exists on server
-            if (file_exists($path.$newname)) {
-              $out['error'][] = "A file with this name already exists";
-            }
-
-            if (count($out['error'])>0) {
-              //The file has not correctly validated
-              return $out;
-            }
-
-            if (move_uploaded_file($_FILES[$file_field]['tmp_name'], $path.$newname)) {
-              //Success
-              $out['filepath'] = $path;
-              $out['filename'] = $newname;
-              return $out;
-            } else {
-              $out['error'][] = "Server Error!";
-            }
-
-         } else {
-             $out['error'][] = "No file uploaded";
-             return $out;
-         }
     }
 
     /**

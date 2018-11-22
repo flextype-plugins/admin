@@ -10,6 +10,7 @@
 * Pages List: Quick actions implemented #6
 * Settings Manager: issue with select dropdown logic - fixed #21
 * Information: Security check results - added
+* Code cleanup and refactoring
 
 # v0.1.2, 2018-11-17
 * Fixed critical issue with `_strrevpos()` method

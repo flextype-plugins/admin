@@ -1,21 +1,22 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http\Http, Token\Token};
+use Flextype\Component\{Registry\Registry, Html\Html, Form\Form, Http\Http, Token\Token};
+use function Flextype\Component\I18n\__;
 ?>
 
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => I18n::find('admin_pages_edit_page', Registry::get('system.locale'))]])
+        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_page', Registry::get('system.locale'))]])
         ->assign('buttons', ['pages' =>
-                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => I18n::find('admin_pages_switch_to_expert_mode', Registry::get('system.locale'))]])
+                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_switch_to_expert_mode', Registry::get('system.locale'))]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <div class="card">
     <div class="card-header">
-        <?php echo I18n::find('admin_pages_page', Registry::get('system.locale')); ?>
+        <?php echo __('admin_pages_page', Registry::get('system.locale')); ?>
     </div>
     <div class="card-body">
         <?php echo Form::open(); ?>
@@ -26,7 +27,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_title', I18n::find('admin_pages_title', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::label('page_title', __('admin_pages_title', Registry::get('system.locale')), ['for' => 'pageTitle']).
                             Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
                         );
                     ?>
@@ -34,7 +35,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_content', I18n::find('admin_pages_content', Registry::get('system.locale')), ['for' => 'pageTitle']).
+                            Form::label('page_content', __('admin_pages_content', Registry::get('system.locale')), ['for' => 'pageTitle']).
                             Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'style' => 'height:400px;', 'id' => 'pageContent'])
                         );
                     ?>
@@ -46,7 +47,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_visibility', I18n::find('admin_pages_visibility', Registry::get('system.locale')),  ['for' => 'pageTitle']).
+                            Form::label('page_visibility', __('admin_pages_visibility', Registry::get('system.locale')),  ['for' => 'pageTitle']).
                             Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
                         );
                     ?>
@@ -56,7 +57,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_template', I18n::find('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
+                            Form::label('page_template', __('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
                             Form::select('page_template', $templates, $page_template, ['class' => 'form-control', 'id' => 'pageTemplate'])
                         );
                     ?>
@@ -66,7 +67,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <div class="form-group">
                     <?php
                         echo (
-                            Form::label('page_date', I18n::find('admin_pages_date', Registry::get('system.locale')), ['for' => 'pageDate']).
+                            Form::label('page_date', __('admin_pages_date', Registry::get('system.locale')), ['for' => 'pageDate']).
                             Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
                         );
                     ?>
@@ -75,7 +76,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
         </div>
     </div>
     <div class="card-footer text-right">
-        <?php echo Form::submit('page_save', I18n::find('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
+        <?php echo Form::submit('page_save', __('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
         <?php echo Form::close(); ?>
     </div>
 </div>
@@ -84,7 +85,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
     <div class="card-header">
         <div class="row">
             <div class="col-sm-3">
-                <?php echo I18n::find('admin_pages_files', Registry::get('system.locale')); ?>
+                <?php echo __('admin_pages_files', Registry::get('system.locale')); ?>
             </div>
             <div class="col-sm-9">
                 <?php
@@ -96,7 +97,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
                 <input type="file" name="file">
                 <?php
                     echo (
-                        Form::submit('upload_file', I18n::find('admin_pages_files_upload', Registry::get('system.locale')), array('class' => '')).
+                        Form::submit('upload_file', __('admin_pages_files_upload', Registry::get('system.locale')), array('class' => '')).
                         Form::close()
                     )
                 ?>
@@ -123,7 +124,7 @@ use Flextype\Component\{I18n\I18n, Registry\Registry, Html\Html, Form\Form, Http
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pagesImagePreviewLabel"><?php echo I18n::find('admin_pages_image_preview', Registry::get('system.locale')); ?></h5>
+        <h5 class="modal-title" id="pagesImagePreviewLabel"><?php echo __('admin_pages_image_preview', Registry::get('system.locale')); ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

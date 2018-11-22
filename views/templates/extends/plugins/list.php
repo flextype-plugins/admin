@@ -1,12 +1,13 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
+use Flextype\Component\{Http\Http, Registry\Registry, Token\Token};
+use function Flextype\Component\I18n\__;
 ?>
 
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/plugins', 'title' => I18n::find('admin_plugins_heading', Registry::get('system.locale'))]])
+        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/plugins', 'title' => __('admin_plugins_heading', Registry::get('system.locale'))]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
@@ -20,9 +21,9 @@ use Flextype\Component\{Http\Http, Registry\Registry, I18n\I18n, Token\Token};
         <table class="table no-margin">
             <thead>
                 <tr>
-                    <th><?php echo I18n::find('admin_plugins_name', Registry::get('system.locale')); ?></th>
+                    <th><?php echo __('admin_plugins_name', Registry::get('system.locale')); ?></th>
 
-                    <th class="text-right"><?php echo I18n::find('admin_plugins_status', Registry::get('system.locale')); ?></th>
+                    <th class="text-right"><?php echo __('admin_plugins_status', Registry::get('system.locale')); ?></th>
                 </tr>
             </thead>
             <tbody>

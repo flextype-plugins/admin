@@ -25,10 +25,8 @@ use Flextype\Component\{Http\Http, Event\Event};
         changeStatusProcess: function() {
             $(".js-switch").click(function() {
                 if ($(this).is(':checked')) {
-                    console.log('1');
                     $.flextype.plugins.changeStatus($(this).data("plugin"), "true", $(this).data("token"));
                 } else {
-                    console.log('0');
                     $.flextype.plugins.changeStatus($(this).data("plugin"), "false", $(this).data("token"));
                 }
             });

@@ -322,6 +322,8 @@ class Admin
             case 'edit':
                 if (Http::get('expert') && Http::get('expert') == 'true') {
 
+                    Admin::processFilesManager();
+
                     $page_save = Http::post('page_save_expert');
 
                     if (isset($page_save)) {
@@ -339,8 +341,11 @@ class Admin
                     Themes::view('admin/views/templates/content/pages/editor-expert')
                         ->assign('page_name', Http::get('page'))
                         ->assign('page_content', $page_content)
+                        ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
                         ->display();
                 } else {
+
+                    Admin::processFilesManager();
 
                     $page_save = Http::post('page_save');
 
@@ -372,23 +377,6 @@ class Admin
 
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
-                    $files_directory = PATH['pages'] . '/' . Http::get('page') . '/';
-
-                    if (Http::get('delete_file') != '') {
-                        if (Token::check((Http::get('token')))) {
-                            Filesystem::deleteFile($files_path . Http::get('delete_file'));
-                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
-                        }
-                    }
-
-                    if (Http::post('upload_file')) {
-
-                        if (Token::check(Http::post('token'))) {
-
-                            Filesystem::uploadFile($_FILES['file'], $files_directory);
-
-                        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
-                    }
 
                     $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
 
@@ -399,20 +387,6 @@ class Admin
                         }
                     }
 
-                    // Array of image types
-                    $image_types = ['jpeg', 'png', 'gif', 'jpg'];
-
-                    $files = [];
-                    $_files = array_diff(scandir(PATH['pages'] . '/' . Http::get('page')), array('..', '.'));
-
-                    foreach ($_files as $file) {
-                        $file_ext = substr(strrchr($file, '.'), 1);
-                        if (in_array($file_ext, $image_types)) {
-                            if (strpos($file, $file_ext, 1)) {
-                                $files[] = $file;
-                            }
-                        }
-                    }
 
                     Themes::view('admin/views/templates/content/pages/editor')
                         ->assign('page_name', Http::get('page'))
@@ -423,7 +397,7 @@ class Admin
                         ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
                         ->assign('page_content', $page['content'])
                         ->assign('templates', $templates)
-                        ->assign('files', $files)
+                        ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
                         ->display();
                 }
             break;
@@ -491,6 +465,44 @@ class Admin
 
         Themes::view('admin/views/templates/auth/registration')
             ->display();
+    }
+
+    protected static function processFilesManager()
+    {
+        $files_directory = PATH['pages'] . '/' . Http::get('page') . '/';
+
+        if (Http::get('delete_file') != '') {
+            if (Token::check((Http::get('token')))) {
+                Filesystem::deleteFile($files_directory . Http::get('delete_file'));
+                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
+            }
+        }
+
+        if (Http::post('upload_file')) {
+            if (Token::check(Http::post('token'))) {
+                Filesystem::uploadFile($_FILES['file'], $files_directory);
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+        }
+    }
+
+    public static function getPageFilesList($page)
+    {
+        // Array of image types
+        $image_types = ['jpeg', 'png', 'gif', 'jpg'];
+
+        $files = [];
+        $_files = array_diff(scandir(PATH['pages'] . '/' . $page), array('..', '.'));
+
+        foreach ($_files as $file) {
+            $file_ext = substr(strrchr($file, '.'), 1);
+            if (in_array($file_ext, $image_types)) {
+                if (strpos($file, $file_ext, 1)) {
+                    $files[] = $file;
+                }
+            }
+        }
+
+        return $files;
     }
 
     public static function isUsersExists()

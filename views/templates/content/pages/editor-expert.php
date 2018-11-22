@@ -39,7 +39,9 @@ use function Flextype\Component\I18n\__;
         <?php echo Form::close(); ?>
     </div>
 </div>
+
 <?php
+    Themes::view('admin/views/templates/content/pages/filesmanager')->display();
     Themes::view('admin/views/partials/content-end')->display();
     Themes::view('admin/views/partials/footer')->display();
 ?>

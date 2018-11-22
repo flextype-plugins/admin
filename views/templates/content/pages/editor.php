@@ -81,6 +81,12 @@ use function Flextype\Component\I18n\__;
     </div>
 </div>
 
+<?php if ($file_uploader_message != '') { ?>
+<div class="alert alert-dark" role="alert">
+    <?php echo $file_uploader_message; ?>
+</div>
+<?php } ?>
+
 <div class="card filesmanager">
     <div class="card-header">
         <div class="row">

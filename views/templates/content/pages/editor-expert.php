@@ -7,16 +7,16 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_page', Registry::get('system.locale'))]])
+        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_page')]])
         ->assign('buttons', ['pages' =>
-                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_switch_back_to_editor_mode', Registry::get('system.locale'))]])
+                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_switch_back_to_editor_mode')]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <div class="card">
     <div class="card-header">
-        <?php echo __('admin_pages_page', Registry::get('system.locale')); ?>
+        <?php echo __('admin_pages_page'); ?>
     </div>
     <div class="card-body">
         <?php echo Form::open(); ?>
@@ -35,7 +35,7 @@ use function Flextype\Component\I18n\__;
             </div>
     </div>
     <div class="card-footer text-right">
-        <?php echo Form::submit('page_save_expert', __('admin_save', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
+        <?php echo Form::submit('page_save_expert', __('admin_save'), ['class' => 'btn btn-black']); ?>
         <?php echo Form::close(); ?>
     </div>
 </div>

@@ -8,7 +8,7 @@ use function Flextype\Component\I18n\__;
     <div class="card-header">
         <div class="row">
             <div class="col-sm-3">
-                <?php echo __('admin_pages_files', Registry::get('system.locale')); ?>
+                <?php echo __('admin_pages_files'); ?>
             </div>
             <div class="col-sm-9">
                 <?php
@@ -20,7 +20,7 @@ use function Flextype\Component\I18n\__;
                 <input type="file" name="file">
                 <?php
                     echo (
-                        Form::submit('upload_file', __('admin_pages_files_upload', Registry::get('system.locale')), array('class' => '')).
+                        Form::submit('upload_file', __('admin_pages_files_upload'), array('class' => '')).
                         Form::close()
                     )
                 ?>
@@ -47,7 +47,7 @@ use function Flextype\Component\I18n\__;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pagesImagePreviewLabel"><?php echo __('admin_pages_image_preview', Registry::get('system.locale')); ?></h5>
+        <h5 class="modal-title" id="pagesImagePreviewLabel"><?php echo __('admin_pages_image_preview'); ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

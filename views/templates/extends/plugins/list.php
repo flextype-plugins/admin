@@ -7,7 +7,7 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/plugins', 'title' => __('admin_plugins_heading', Registry::get('system.locale'))]])
+        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/plugins', 'title' => __('admin_plugins_heading')]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
@@ -21,9 +21,9 @@ use function Flextype\Component\I18n\__;
         <table class="table no-margin">
             <thead>
                 <tr>
-                    <th><?php echo __('admin_plugins_name', Registry::get('system.locale')); ?></th>
+                    <th><?php echo __('admin_plugins_name'); ?></th>
                     <th></th>
-                    <th width="90" class="text-right"><?php echo __('admin_plugins_status', Registry::get('system.locale')); ?></th>
+                    <th width="90" class="text-right"><?php echo __('admin_plugins_status'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@ use function Flextype\Component\I18n\__;
                             data-homepage="<?php echo $plugin['homepage']; ?>"
                             data-bugs="<?php echo $plugin['bugs']; ?>"
                             data-license="<?php echo $plugin['license']; ?>"
-                            ><?php echo __('admin_plugins_info', Registry::get('system.locale')); ?></a>
+                            ><?php echo __('admin_plugins_info'); ?></a>
                     </td>
                     <td class="text-right">
                         <?php if ($key !== 'admin') { ?>
@@ -65,21 +65,21 @@ use function Flextype\Component\I18n\__;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pluginInfoModalLabel"><?php echo __('admin_plugins_info', Registry::get('system.locale')); ?></h5>
+        <h5 class="modal-title" id="pluginInfoModalLabel"><?php echo __('admin_plugins_info'); ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-          <p><b><?php echo __('admin_plugins_name', Registry::get('system.locale')); ?>: </b><span class="js-plugin-name-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_version', Registry::get('system.locale')); ?>: </b><span class="js-plugin-version-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_description', Registry::get('system.locale')); ?>: </b><span class="js-plugin-description-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_author_name', Registry::get('system.locale')); ?>: </b><span class="js-plugin-author-name-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_author_email', Registry::get('system.locale')); ?>: </b><span class="js-plugin-author-email-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_author_url', Registry::get('system.locale')); ?>: </b><span class="js-plugin-author-url-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_homepage', Registry::get('system.locale')); ?>: </b><span class="js-plugin-homepage-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_bugs', Registry::get('system.locale')); ?>: </b><span class="js-plugin-bugs-placeholder"></span></p>
-          <p><b><?php echo __('admin_plugins_license', Registry::get('system.locale')); ?>: </b><span class="js-plugin-license-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_name'); ?>: </b><span class="js-plugin-name-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_version'); ?>: </b><span class="js-plugin-version-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_description'); ?>: </b><span class="js-plugin-description-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_author_name'); ?>: </b><span class="js-plugin-author-name-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_author_email'); ?>: </b><span class="js-plugin-author-email-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_author_url'); ?>: </b><span class="js-plugin-author-url-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_homepage'); ?>: </b><span class="js-plugin-homepage-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_bugs'); ?>: </b><span class="js-plugin-bugs-placeholder"></span></p>
+          <p><b><?php echo __('admin_plugins_license'); ?>: </b><span class="js-plugin-license-placeholder"></span></p>
       </div>
     </div>
   </div>

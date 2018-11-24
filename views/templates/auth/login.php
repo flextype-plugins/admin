@@ -14,11 +14,11 @@ use function Flextype\Component\I18n\__;
 <?php echo Form::hidden('token', Token::generate()); ?>
     <div class="row">
         <div class="col-4 float-center">
-            <h3 class="h3"><?php echo __('admin_login', Registry::get('system.locale')); ?></h3>
+            <h3 class="h3"><?php echo __('admin_login'); ?></h3>
             <div class="form-group">
                 <?php
                     echo (
-                        Form::label('username', __('admin_username', Registry::get('system.locale')), ['for' => 'inputUsername']).
+                        Form::label('username', __('admin_username'), ['for' => 'inputUsername']).
                         Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'required', 'autofocus'])
                     );
                 ?>
@@ -26,13 +26,13 @@ use function Flextype\Component\I18n\__;
             <div class="form-group">
                 <?php
                     echo (
-                        Form::label('password', __('admin_password', Registry::get('system.locale')), ['for' => 'inputPassword']).
+                        Form::label('password', __('admin_password'), ['for' => 'inputPassword']).
                         Form::password('password', '', ['class' => 'form-control', 'id' => 'inputPassword', 'required'])
                     );
                 ?>
             </div>
             <div class="form-group">
-                <?php echo Form::submit('login', __('admin_login', Registry::get('system.locale')), ['class' => 'btn btn-black']); ?>
+                <?php echo Form::submit('login', __('admin_login'), ['class' => 'btn btn-black']); ?>
             </div>
         </div>
     </div>

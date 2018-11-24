@@ -23,12 +23,12 @@ use function Flextype\Component\I18n\__;
                       <ul class="nav">
                           <li class="nav-item">
                               <a class="nav-link" target="_blank" href="<?php echo Http::getBaseUrl(); ?>">
-                                  <span class="sidebar-normal"><?php echo __('admin_view_site', Registry::get('system.locale')); ?></span>
+                                  <span class="sidebar-normal"><?php echo __('admin_view_site'); ?></span>
                               </a>
                           </li>
                           <li class="nav-item ">
                               <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/logout?token=<?php echo Token::generate(); ?>">
-                                  <span class="sidebar-normal"><?php echo __('admin_menu_logout', Registry::get('system.locale')); ?></span>
+                                  <span class="sidebar-normal"><?php echo __('admin_menu_logout'); ?></span>
                               </a>
                           </li>
                       </ul>
@@ -38,7 +38,7 @@ use function Flextype\Component\I18n\__;
                 <a class="nav-link" data-toggle="collapse" href="#content">
                     <i class="far fa-file"></i>
                     <p>
-                        <?php echo __('admin_menu_content', Registry::get('system.locale')); ?>
+                        <?php echo __('admin_menu_content'); ?>
                         <b class="caret"></b>
                     </p>
                 </a>
@@ -56,7 +56,7 @@ use function Flextype\Component\I18n\__;
                 <a class="nav-link" data-toggle="collapse" href="#extends">
                     <i class="fas fa-plug"></i>
                     <p>
-                        <?php echo __('admin_menu_extends', Registry::get('system.locale')); ?>
+                        <?php echo __('admin_menu_extends'); ?>
                         <b class="caret"></b>
                     </p>
                 </a>
@@ -74,7 +74,7 @@ use function Flextype\Component\I18n\__;
                 <a class="nav-link" data-toggle="collapse" href="#system">
                     <i class="fas fa-cog"></i>
                     <p>
-                        <?php echo __('admin_menu_system', Registry::get('system.locale')); ?>
+                        <?php echo __('admin_menu_system'); ?>
                         <b class="caret"></b>
                     </p>
                 </a>
@@ -92,7 +92,7 @@ use function Flextype\Component\I18n\__;
                 <a class="nav-link" data-toggle="collapse" href="#help">
                     <i class="fas fa-info-circle"></i>
                     <p>
-                        <?php echo __('admin_menu_help', Registry::get('system.locale')); ?>
+                        <?php echo __('admin_menu_help'); ?>
                         <b class="caret"></b>
                     </p>
                 </a>

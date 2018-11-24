@@ -13,7 +13,7 @@ namespace Flextype;
  * file that was distributed with this source code.
  */
 
-use Flextype\Component\{Arr\Arr, Number\Number, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text, Form\Form};
+use Flextype\Component\{Arr\Arr, Number\Number, I18n\I18n, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text, Form\Form};
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
 
@@ -62,6 +62,8 @@ class Admin
 
     protected static function init()
     {
+        I18n::$locale = Registry::get('system.locale');
+
         if (Admin::isLoggedIn()) {
 
             Event::addListener('onAdminArea', function () {
@@ -534,8 +536,8 @@ class Admin
      }
 }
 
-Admin::addSidebarMenu('content', 'pages', __('admin_menu_content_pages', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/pages', ['class' => 'nav-link']);
-Admin::addSidebarMenu('extends', 'plugins', __('admin_menu_extends_plugins', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
-Admin::addSidebarMenu('settings', 'settings', __('admin_menu_system_settings', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
-Admin::addSidebarMenu('settings', 'infomation', __('admin_menu_system_information', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
-Admin::addSidebarMenu('help', 'documentation', __('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);
+Admin::addSidebarMenu('content', 'pages', __('admin_menu_content_pages'), Http::getBaseUrl() . '/admin/pages', ['class' => 'nav-link']);
+Admin::addSidebarMenu('extends', 'plugins', __('admin_menu_extends_plugins'), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
+Admin::addSidebarMenu('settings', 'settings', __('admin_menu_system_settings'), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
+Admin::addSidebarMenu('settings', 'infomation', __('admin_menu_system_information'), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
+Admin::addSidebarMenu('help', 'documentation', __('admin_menu_help_documentation'), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);

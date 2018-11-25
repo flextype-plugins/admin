@@ -14,11 +14,10 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card">
-    <div class="card-header">
-        <?php echo __('admin_pages_page'); ?>
-    </div>
-    <div class="card-body">
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
         <?php echo Form::open(); ?>
         <?php echo Form::hidden('token', Token::generate()); ?>
         <?php echo Form::hidden('page_name', $page_name); ?>
@@ -74,12 +73,12 @@ use function Flextype\Component\I18n\__;
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card-footer text-right">
+
         <?php echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
         <?php echo Form::close(); ?>
     </div>
 </div>
+
 
 <?php
     Themes::view('admin/views/templates/content/pages/filesmanager')->display();

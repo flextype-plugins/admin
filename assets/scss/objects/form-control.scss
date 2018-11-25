@@ -27,11 +27,11 @@
 }
 
 .form-control {
-    background-color: #FFFFFF;
-    border: 1px solid #E3E3E3;
+    background-color: #1b1d23;
+    border: 1px solid #000;
     border-radius: 4px;
     font-size: .875rem;
-    color: #565656;
+    color: #fff;
     padding: 8px 12px;
     height: 40px;
     -webkit-box-shadow: none;
@@ -39,12 +39,12 @@
 }
 
 .form-control:focus {
-    background-color: #FFFFFF;
-    border: 1px solid #AAAAAA;
+    background-color: #1b1d23;
+    border: 1px solid #000;
     -webkit-box-shadow: none;
     box-shadow: none;
     outline: 0 !important;
-    color: #333333;
+    color: #fff;
 }
 
 .form-control[disabled],
@@ -59,7 +59,7 @@ fieldset[disabled] .form-control {
     label {
         font-size: .75rem;
         text-transform: uppercase;
-        color: #9A9A9A;
+        color: $base-font-color;
         font-weight: 400;
     }
 }
@@ -87,12 +87,12 @@ $input-height: 2.375rem;
 $input-height-sm: 1.9375rem;
 $input-height-lg: 3rem;
 $input-btn-focus-width: .2rem;
-$custom-control-indicator-bg: #dee2e6;
+$custom-control-indicator-bg: #333;
 $custom-control-indicator-disabled-bg: #e9ecef;
 $custom-control-description-disabled-color: #868e96;
 $white: white;
 $theme-colors: (
-    'primary': #000
+    'primary': #373d47
 );
 
 //
@@ -106,7 +106,7 @@ $switch-bg: $custom-control-indicator-bg !default;
 $switch-checked-bg: map-get($theme-colors, 'primary') !default;
 $switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
 $switch-disabled-color: $custom-control-description-disabled-color !default;
-$switch-thumb-bg: $white !default;
+$switch-thumb-bg: #6e7580 !default;
 $switch-thumb-border-radius: 4px !default;
 $switch-thumb-padding: 3px !default;
 $switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, 'primary'), .25);
@@ -150,6 +150,7 @@ $switch-transition: .2s all !default;
             width: calc(#{$switch-height} * 2);
             bottom: 0;
             display: block;
+            border: 1px solid #000;
         }
 
         + label::before {

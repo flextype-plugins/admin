@@ -6,22 +6,23 @@
 .table > thead > tr > th {
     padding: 12.5px 20px;
     vertical-align: middle;
-    border-color: #E3E3E3;
+    border-color: #000;
     font-size: .95rem;
     font-weight: 400;
+    color: #6e7580;
 }
 
 .table > thead > tr > th {
     border-bottom-width: 1px;
     text-transform: uppercase;
-    color: #9A9A9A;
+    color: #6e7580;
     font-size: .75rem;
     font-weight: 400;
 
     padding: 15.5px 20px;
     margin-bottom: 0;
-    background-color: rgba(0,0,0,.03);
-
+    background-color: $body-bg;
+    font-weight: bold;
 }
 
 .table th {
@@ -34,7 +35,7 @@
 
 .table tbody tr:hover td,
 .table tbody tr:hover th {
-    background-color: rgba(0,0,0,.03);
+    background-color: #3b404b;
 }
 
 .table {

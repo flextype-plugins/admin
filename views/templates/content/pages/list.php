@@ -13,8 +13,8 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card">
-    <div class="card-body no-padding">
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
         <table class="table no-margin">
             <thead>
                 <tr>

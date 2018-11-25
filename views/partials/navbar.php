@@ -5,7 +5,7 @@ use function Flextype\Component\I18n\__;
 ?>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-fixed">
+<!--<nav class="navbar navbar-expand-lg navbar-fixed">
     <div class="container-fluid">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -30,5 +30,13 @@ use function Flextype\Component\I18n\__;
         <?php } ?>
         </div>
     </div>
-</nav>
+</nav>-->
 <!-- End Navbar -->
+
+
+<nav class="navbar navbar-expand-lg navbar-fixed">
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Plugins</a>
+    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Get More Plugins</a>
+  </div>
+</nav>

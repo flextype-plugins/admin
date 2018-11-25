@@ -8,10 +8,8 @@
     z-index: 9999;
     color: #fff;
     font-weight: 200;
-    background-size: cover;
-    background-position: center center;
-    background: black;
-    filter: grayscale(1);
+    background: #21252b;
+    border-right: 1px solid #000;
 
     &:after,
     &:before {
@@ -24,9 +22,7 @@
         left: 0;
         z-index: 2;
 
-        background: black;
-        background-size: cover;
-        opacity: .25;
+        background: #21252b;
     }
 
     .flextype-logo > a {
@@ -36,7 +32,7 @@
         padding-top: 18px;
         padding-bottom: 18px;
         text-align: center;
-        border-bottom: 1px solid #3b3b3b;
+        border-bottom: 1px solid #000;
         margin-bottom: 18px;
 
         &:focus,
@@ -89,7 +85,7 @@
     }
 
     .nav .nav-item .nav-link:hover {
-        background: rgba(255, 255, 255, 0.13);
+        background: #3b404b;
         opacity: 1;
     }
 
@@ -103,14 +99,14 @@
     }
 
     .nav .nav-item:not(.collapse .nav-link):hover .nav-link {
-        background: rgba(255, 255, 255, 0.13);
+        background: #3b404b;
         opacity: 1;
     }
 
     .nav .nav-item.active .nav-link {
         color: #FFFFFF;
         opacity: 1;
-        background: rgba(255, 255, 255, 0.23);
+        background: #3b404b;
     }
 
     .nav .nav-item.separator {
@@ -142,7 +138,7 @@
         .nav .nav-item [data-toggle="collapse"]~div .nav .nav-item:hover .nav-link,
         .nav .nav-item [data-toggle="collapse"]~div .nav .nav-item:focus .nav-link,
         .nav .nav-item [data-toggle="collapse"]~div .nav .nav-item.active .nav-link {
-            background: rgba(255, 255, 255, 0.13);
+            background: #3b404b;
         }
 
         .nav .nav-item [data-toggle="collapse"]~div .nav .sidebar-normal {

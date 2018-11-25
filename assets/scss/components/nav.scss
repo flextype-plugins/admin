@@ -11,8 +11,8 @@
     border-radius: 0;
     min-height: 50px;
     max-height: 61px;
-    background-color: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #21252b;
+    color: #fff;
 }
 
 .navbar .navbar-brand {
@@ -126,4 +126,29 @@
 .navbar-toggle.navbar-default .navbar-toggle:focus,
 .navbar-toggle.navbar-default .navbar-toggle:hover {
     background-color: transparent;
+}
+
+.nav-tabs {
+    width: 100%;
+    border: none;
+}
+
+.nav-tabs .nav-link {
+    padding: 19px 30px;
+    color: #6e7580;
+    border: 0;
+    border-radius: 0;
+}
+
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover {
+    color: #fff;
+    background-color: $body-bg;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: $body-bg;
+
 }

@@ -4,7 +4,7 @@
 
     -webkit-overflow-scrolling: touch;
 
-    background: rgba(203, 203, 210, 0.15);
+    background: rgba(41, 45, 52, 1);
     position: relative;
     float: right;
     width: calc(100% - 260px);
@@ -16,6 +16,8 @@
 
     .navbar {
         margin-bottom: 0;
+        padding: 0;
+        border-bottom: 1px solid #000;
     }
 
     .navbar-fixed {

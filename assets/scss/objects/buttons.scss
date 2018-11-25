@@ -6,8 +6,8 @@
     font-weight: 400;
     padding: 8px 16px;
     border: 1px solid black;
-    color: white;
-    background-color: black;
+    color: #9A9A9A;
+    background-color: #373d47;
     cursor: pointer;
     margin-bottom: 5px;
     font-size: .875rem;
@@ -17,8 +17,8 @@
     &:active,
     &:focus,
     &:hover {
-        background-color: black;
-        color: white;
+        background-color: #373d47;
+        color: #9A9A9A;
         border-color: black;
         outline: 0 !important;
         box-shadow: none;

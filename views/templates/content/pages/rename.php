@@ -13,8 +13,8 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card card-400">
-    <div class="card-body">
+<div class="row">
+    <div class="col-md-6">
 
         <?php echo Form::open(); ?>
         <?php echo Form::hidden('token', Token::generate()); ?>
@@ -45,13 +45,12 @@ use function Flextype\Component\I18n\__;
                );
            ?>
          </div>
-     </div>
-     <div class="card-footer text-center">
-         <?php echo Form::submit('rename_page', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
-     </div>
-     <?php echo Form::close(); ?>
- </div>
 
+         <?php echo Form::submit('rename_page', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
+     <?php echo Form::close(); ?>
+
+ </div>
+</div>
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

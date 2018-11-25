@@ -36,7 +36,10 @@ use function Flextype\Component\I18n\__;
 
 <nav class="navbar navbar-expand-lg navbar-fixed">
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Plugins</a>
-    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Get More Plugins</a>
+      <?php if(isset($links)) { ?>
+          <?php foreach ($links as $link) { ?>
+              <a class="nav-item nav-link <?php echo $link['class']; ?>" id="nav-home-tab" data-toggle="tab" href="#<?php echo $link['url']; ?>" role="tab" aria-controls="<?php echo $link['url']; ?>" aria-selected="true"><?php echo $link['title']; ?></a>
+          <?php } ?>
+      <?php } ?>
   </div>
 </nav>

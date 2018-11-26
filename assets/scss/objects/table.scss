@@ -1,28 +1,24 @@
-.table > tbody > tr > td,
-.table > tbody > tr > th,
-.table > tfoot > tr > td,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > thead > tr > th {
-    padding: 12.5px 20px;
-    vertical-align: middle;
-    border-color: #000;
-    font-size: .95rem;
-    font-weight: 400;
-    color: #6e7580;
-}
+.table {
+    .btn {
+        margin: 0;
+        padding: 1px 13px;
+    }
 
-.table > thead > tr > th {
-    border-bottom-width: 1px;
-    text-transform: uppercase;
-    color: #6e7580;
-    font-size: .75rem;
-    font-weight: 400;
-
-    padding: 15.5px 20px;
-    margin-bottom: 0;
-    background-color: $body-bg;
-    font-weight: bold;
+    > tfoot,
+     > thead,
+    > tbody {
+        > tr {
+            > th,
+            > td {
+                padding: 12.5px 20px;
+                vertical-align: middle;
+                border-color: #000;
+                font-size: 14px;
+                font-weight: 400;
+                color: #6e7580;
+            }
+        }
+    }
 }
 
 .table th {
@@ -33,14 +29,15 @@
     border-top: 0;
 }
 
+.table > thead > tr > th {
+    text-transform: uppercase;
+    color: #6e7580;
+    font-weight: bold;
+    border-bottom-width: 1px;
+    color: #fff;
+}
+
 .table tbody tr:hover td,
 .table tbody tr:hover th {
     background-color: #3b404b;
-}
-
-.table {
-    .btn {
-        margin: 0;
-        padding: 1px 13px;
-    }
 }

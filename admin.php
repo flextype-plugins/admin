@@ -208,7 +208,7 @@ class Admin
             throw new \RuntimeException("Flextype system config file does not exist.");
         }
 
-        Themes::view('admin/views/templates/system/settings/list')
+        Themes::view('admin/views/templates/system/settings/site')
             ->assign('site_settings', $site_settings)
             ->assign('system_settings', $system_settings)
             ->assign('locales', Plugins::getLocales())

@@ -131,8 +131,13 @@ class Admin
 
     protected static function getInformationPage()
     {
-        Themes::view('admin/views/templates/system/information/list')
-            ->display();
+        if (Http::get('server') == 'true') {
+            Themes::view('admin/views/templates/system/information/server')->display();
+        } elseif (Http::get('security_check_results') == 'true') {
+            Themes::view('admin/views/templates/system/information/security-check-results')->display();
+        } else {
+            Themes::view('admin/views/templates/system/information/system')->display();
+        }
     }
 
     protected static function getPluginsPage()

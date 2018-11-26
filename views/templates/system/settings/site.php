@@ -7,8 +7,7 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['settings' => ['url' => Http::getBaseUrl() . '/admin/settings', 'title' => __('admin_system_settings_site'), 'class' => 'active'],
-                             'settings_system' => ['url' => Http::getBaseUrl() . '/admin/settings/system', 'title' => __('admin_system_settings_system')]])
+        ->assign('links',   ['settings' => ['url' => Http::getBaseUrl() . '/admin/settings', 'title' => __('admin_system_settings_heading'), 'class' => 'active']])
         ->assign('buttons', ['settings' =>
                                          ['url' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
                                          'title' => __('admin_system_clear_cache')]])
@@ -82,7 +81,7 @@ use function Flextype\Component\I18n\__;
 
     <div class="col-md-6">
 
-        <h3 class="h3"><?php echo  __('admin_settings'); ?></h3>
+        <h3 class="h3"><?php echo  __('admin_system_settings_system'); ?></h3>
         <br>
 
         <?php echo Form::open(); ?>

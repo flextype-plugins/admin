@@ -5,7 +5,7 @@ use function Flextype\Component\I18n\__;
 ?>
 
 <!-- Navbar -->
-<!--<nav class="navbar navbar-expand-lg navbar-fixed">
+<nav class="navbar navbar-expand-lg navbar-fixed">
     <div class="container-fluid">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -14,11 +14,8 @@ use function Flextype\Component\I18n\__;
         </button>
         <div class="navbar-wrapper">
             <?php if(isset($links)) { ?>
-                <?php $i = 0; ?>
                 <?php foreach ($links as $link) { ?>
-                    <a class="navbar-brand" href="<?php echo $link['url']; ?>"><?php echo $link['title']; ?></a>
-                    <?php $i++; ?>
-                    <?php if (count($links) > 1 and count($links) != $i) echo '&nbsp;/&nbsp;'; ?>
+                    <a class="navbar-item <?php echo $link['class']; ?>" href="<?php echo $link['url']; ?>"><?php echo $link['title']; ?></a>
                 <?php } ?>
             <?php } ?>
         </div>
@@ -30,16 +27,5 @@ use function Flextype\Component\I18n\__;
         <?php } ?>
         </div>
     </div>
-</nav>-->
-<!-- End Navbar -->
-
-
-<nav class="navbar navbar-expand-lg navbar-fixed">
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <?php if(isset($links)) { ?>
-          <?php foreach ($links as $link) { ?>
-              <a class="nav-item nav-link <?php echo $link['class']; ?>" id="nav-home-tab" data-toggle="tab" href="#<?php echo $link['url']; ?>" role="tab" aria-controls="<?php echo $link['url']; ?>" aria-selected="true"><?php echo $link['title']; ?></a>
-          <?php } ?>
-      <?php } ?>
-  </div>
 </nav>
+<!-- End Navbar -->

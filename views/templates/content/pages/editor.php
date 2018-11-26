@@ -10,11 +10,11 @@ use function Flextype\Component\I18n\__;
         ->assign('links',   [
                                 'edit_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_editor'), 'class' => 'active'],
                                 'edit_page_media' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true', 'title' => __('admin_pages_edit_media')],
-                                'edit_page_blocks' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_blocks')],
-                                'edit_page_templates' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_templates')]
+                                'edit_page_templates' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_template')],
+                                'edit_page_settings' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_settings')],
                             ])
         ->assign('buttons', ['pages' =>
-                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_switch_to_expert_mode')]])
+                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_view_page')]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
@@ -46,38 +46,7 @@ use function Flextype\Component\I18n\__;
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
-                <div class="form-group">
-                    <?php
-                        echo (
-                            Form::label('page_visibility', __('admin_pages_visibility'),  ['for' => 'pageTitle']).
-                            Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
-                        );
-                    ?>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <?php
-                        echo (
-                            Form::label('page_template', __('admin_pages_template'),  ['for' => 'pageTemplate']).
-                            Form::select('page_template', $templates, $page_template, ['class' => 'form-control', 'id' => 'pageTemplate'])
-                        );
-                    ?>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <?php
-                        echo (
-                            Form::label('page_date', __('admin_pages_date'), ['for' => 'pageDate']).
-                            Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
-                        );
-                    ?>
-                </div>
-            </div>
-        </div>
+        
 
         <?php echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
         <?php echo Form::close(); ?>

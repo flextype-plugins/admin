@@ -8,8 +8,8 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links',   [
-                                'edit_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_page'), 'class' => 'active'],
-                                'edit_page_media' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_media')],
+                                'edit_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_editor'), 'class' => 'active'],
+                                'edit_page_media' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true', 'title' => __('admin_pages_edit_media')],
                                 'edit_page_blocks' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_blocks')],
                                 'edit_page_templates' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_templates')]
                             ])
@@ -86,7 +86,6 @@ use function Flextype\Component\I18n\__;
 
 
 <?php
-    Themes::view('admin/views/templates/content/pages/filesmanager')->display();
     Themes::view('admin/views/partials/content-end')->display();
     Themes::view('admin/views/partials/footer')->display();
 ?>

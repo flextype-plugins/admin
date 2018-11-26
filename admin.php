@@ -174,7 +174,6 @@ class Admin
             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
 
-
         if (isset($settings_system_save)) {
             if (Token::check((Http::post('token')))) {
 
@@ -256,7 +255,7 @@ class Admin
                     } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                 }
             break;
-            case 'rename';
+            case 'rename':
                 $rename_page = Http::post('rename_page');
 
                 if (isset($rename_page)) {
@@ -313,6 +312,12 @@ class Admin
                     ->display();
             break;
             case 'edit':
+                if (Http::get('media') && Http::get('media') == 'true') {
+                        Themes::view('admin/views/templates/content/pages/media')
+                            ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
+                            ->display();
+                }
+
                 if (Http::get('expert') && Http::get('expert') == 'true') {
 
                     Admin::processFilesManager();

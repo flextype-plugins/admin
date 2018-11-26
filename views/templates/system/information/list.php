@@ -7,16 +7,14 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['information' => ['url' => Http::getBaseUrl() . '/admin/information', 'title' => __('admin_information_heading')]])
+        ->assign('links',   ['information' => ['url' => Http::getBaseUrl() . '/admin/information', 'title' => __('admin_system'), 'class' => 'active'],
+                             'information_server' => ['url' => Http::getBaseUrl() . '/admin/information', 'title' => __('admin_server')],
+                             'information_security_check_results' => ['url' => Http::getBaseUrl() . '/admin/information', 'title' => __('admin_security_check_results')]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card">
-    <div class="card-header">
-        <?php echo __('admin_system'); ?>
-    </div>
-    <div class="card-body no-padding">
+
         <table class="table no-margin">
             <tbody>
                 <tr>
@@ -33,14 +31,7 @@ use function Flextype\Component\I18n\__;
                 </tr>
             </tbody>
         </table>
-    </div>
-</div>
 
-<div class="card">
-    <div class="card-header">
-        <?php echo __('admin_server'); ?>
-    </div>
-    <div class="card-body no-padding">
         <table class="table no-margin">
             <tbody>
                 <tr>
@@ -72,27 +63,22 @@ use function Flextype\Component\I18n\__;
                 ?>
             </tbody>
         </table>
-    </div>
-</div>
+
 
 <?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess') or
           Filesystem::isFileWritable(ROOT_DIR . '/index.php') or
           Registry::get('system.errors.display') === true) { ?>
-<div class="card">
-    <div class="card-header">
-        <?php echo __('admin_security_check_results'); ?>
-    </div>
-    <div class="card-body no-padding">
+
         <table class="table no-margin">
             <tbody>
                 <?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess')) { ?>
                 <tr>
-                    <td><?php echo __('admin_security_check_results_htaccess', [':path' => ROOT_DIR . '/.htaccess']); ?></td>
+                    <td><?php echo __('admin_security_check_results_htaccess', null, [':path' => ROOT_DIR . '/.htaccess']); ?></td>
                 </tr>
                 <?php } ?>
                 <?php if (Filesystem::isFileWritable(ROOT_DIR . '/index.php')) { ?>
                 <tr>
-                    <td><?php echo __('admin_security_check_results_index', [':path' => ROOT_DIR . '/index.php']); ?></td>
+                    <td><?php echo __('admin_security_check_results_index', null, [':path' => ROOT_DIR . '/index.php']); ?></td>
                 </tr>
                 <?php } ?>
                 <?php if (Registry::get('system.errors.display') === true) { ?>
@@ -102,8 +88,6 @@ use function Flextype\Component\I18n\__;
                 <?php } ?>
             </tbody>
         </table>
-    </div>
-</div>
 <?php } ?>
 
 <?php

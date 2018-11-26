@@ -313,89 +313,92 @@ class Admin
             break;
             case 'edit':
                 if (Http::get('media') && Http::get('media') == 'true') {
+                        Admin::processFilesManager();
                         Themes::view('admin/views/templates/content/pages/media')
+                            ->assign('page_name', Http::get('page'))
                             ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
                             ->display();
-                }
-
-                if (Http::get('expert') && Http::get('expert') == 'true') {
-
-                    Admin::processFilesManager();
-
-                    $page_save = Http::post('page_save_expert');
-
-                    if (isset($page_save)) {
-                        if (Token::check((Http::post('token')))) {
-                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
-                                                      Http::post('page_content'));
-
-                            Http::redirect(Http::getBaseUrl().'/admin/pages');
-
-                        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
-                    }
-
-                    $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
-
-                    Themes::view('admin/views/templates/content/pages/editor-expert')
-                        ->assign('page_name', Http::get('page'))
-                        ->assign('page_content', $page_content)
-                        ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
-                        ->display();
                 } else {
 
-                    Admin::processFilesManager();
+                    if (Http::get('expert') && Http::get('expert') == 'true') {
 
-                    $page_save = Http::post('page_save');
+                        Admin::processFilesManager();
 
-                    if (isset($page_save)) {
-                        if (Token::check((Http::post('token')))) {
+                        $page_save = Http::post('page_save_expert');
 
-                            $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html', false, true);
+                        if (isset($page_save)) {
+                            if (Token::check((Http::post('token')))) {
+                                Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
+                                                          Http::post('page_content'));
 
-                            Arr::set($page, 'title', Http::post('page_title'));
-                            Arr::set($page, 'visibility', Http::post('page_visibility'));
-                            Arr::set($page, 'template', Http::post('page_template'));
+                                Http::redirect(Http::getBaseUrl().'/admin/pages');
 
-                            Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
-                            Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
-                            Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
-
-                            $page_frontmatter = Yaml::dump($page);
-
-                            Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
-                                                      '---'."\n".
-                                                      $page_frontmatter."\n".
-                                                      '---'."\n".
-                                                      Http::post('page_content'));
-
-                            Http::redirect(Http::getBaseUrl().'/admin/pages');
-
-                        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
-                    }
-
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
-
-                    $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
-
-                    foreach ($_templates as $template) {
-                        if (!is_bool(Admin::_strrevpos($template, '/templates/'))) {
-                            $_t = str_replace('.php', '', substr($template, Admin::_strrevpos($template, '/templates/')+strlen('/templates/')));
-                            $templates[$_t] = $_t;
+                            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                         }
+
+                        $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
+
+                        Themes::view('admin/views/templates/content/pages/editor-expert')
+                            ->assign('page_name', Http::get('page'))
+                            ->assign('page_content', $page_content)
+                            ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
+                            ->display();
+                    } else {
+
+                        Admin::processFilesManager();
+
+                        $page_save = Http::post('page_save');
+
+                        if (isset($page_save)) {
+                            if (Token::check((Http::post('token')))) {
+
+                                $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html', false, true);
+
+                                Arr::set($page, 'title', Http::post('page_title'));
+                                Arr::set($page, 'visibility', Http::post('page_visibility'));
+                                Arr::set($page, 'template', Http::post('page_template'));
+
+                                Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
+                                Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
+                                Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
+
+                                $page_frontmatter = Yaml::dump($page);
+
+                                Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
+                                                          '---'."\n".
+                                                          $page_frontmatter."\n".
+                                                          '---'."\n".
+                                                          Http::post('page_content'));
+
+                                Http::redirect(Http::getBaseUrl().'/admin/pages');
+
+                            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+                        }
+
+                        $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
+                        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
+
+                        foreach ($_templates as $template) {
+                            if (!is_bool(Admin::_strrevpos($template, '/templates/'))) {
+                                $_t = str_replace('.php', '', substr($template, Admin::_strrevpos($template, '/templates/')+strlen('/templates/')));
+                                $templates[$_t] = $_t;
+                            }
+                        }
+
+
+                        Themes::view('admin/views/templates/content/pages/editor')
+                            ->assign('page_name', Http::get('page'))
+                            ->assign('page_title', $page['title'])
+                            ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
+                            ->assign('page_template',(isset($page['template']) ? $page['template'] : 'default'))
+                            ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
+                            ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
+                            ->assign('page_content', $page['content'])
+                            ->assign('templates', $templates)
+                            ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
+                            ->display();
                     }
-
-
-                    Themes::view('admin/views/templates/content/pages/editor')
-                        ->assign('page_name', Http::get('page'))
-                        ->assign('page_title', $page['title'])
-                        ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
-                        ->assign('page_template',(isset($page['template']) ? $page['template'] : 'default'))
-                        ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
-                        ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
-                        ->assign('page_content', $page['content'])
-                        ->assign('templates', $templates)
-                        ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
-                        ->display();
                 }
             break;
             default:
@@ -513,7 +516,7 @@ class Admin
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                Filesystem::uploadFile($_FILES['file'], $files_directory);
+                Filesystem::uploadFile($_FILES['file'], $files_directory, ['jpeg', 'png', 'gif', 'jpg'], 5000000);
             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
     }

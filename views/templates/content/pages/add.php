@@ -13,36 +13,36 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<div class="card card-400">
-    <div class="card-body">
+<div class="row">
+    <div class="col-md-6">
 
-        <?php echo Form::open(); ?>
-        <?php echo Form::hidden('token', Token::generate()); ?>
 
-        <div class="form-group">
-          <label for="formGroupPageTitleInput"><?php echo __('admin_pages_title'); ?></label>
-          <input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
-        </div>
-        <div class="form-group">
-          <label for="formGroupPageTitleInput"><?php echo __('admin_pages_name'); ?></label>
-          <input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
-        </div>
-        <div class="form-group">
-           <label for="formGroupParentPageInput"><?php echo __('admin_pages_parent_page'); ?></label>
-           <select class="form-control" id="formGroupParentPageInput" name="parent_page">
-             <option value="">/</option>
-             <?php foreach($pages_list as $page) { ?>
-             <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
-             <?php } ?>
-           </select>
-         </div>
+<?php echo Form::open(); ?>
+<?php echo Form::hidden('token', Token::generate()); ?>
 
-     </div>
-     <div class="card-footer text-center">
-         <?php echo Form::submit('create_page', __('admin_create'), ['class' => 'btn btn-black']); ?>
-     </div>
-     <?php echo Form::close(); ?>
- </div>
+<div class="form-group">
+<label for="formGroupPageTitleInput"><?php echo __('admin_pages_title'); ?></label>
+<input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
+</div>
+<div class="form-group">
+<label for="formGroupPageTitleInput"><?php echo __('admin_pages_name'); ?></label>
+<input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
+</div>
+<div class="form-group">
+<label for="formGroupParentPageInput"><?php echo __('admin_pages_parent_page'); ?></label>
+<select class="form-control" id="formGroupParentPageInput" name="parent_page">
+<option value="">/</option>
+<?php foreach($pages_list as $page) { ?>
+<option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
+<?php } ?>
+</select>
+</div>
+
+</div>
+</div>
+
+<?php echo Form::submit('create_page', __('admin_create'), ['class' => 'btn btn-black']); ?>
+<?php echo Form::close(); ?>
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

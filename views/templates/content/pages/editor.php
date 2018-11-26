@@ -8,20 +8,16 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links',   [
-                                'edit_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_editor'), 'class' => 'active'],
-                                'edit_page_media' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true', 'title' => __('admin_pages_edit_media')],
+                                'edit_page'           => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_editor'), 'class' => 'active'],
+                                'edit_page_media'     => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true', 'title' => __('admin_pages_edit_media')],
                                 'edit_page_templates' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_template')],
-                                'edit_page_settings' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_settings')],
+                                'edit_page_settings'  => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_settings')],
                             ])
-        ->assign('buttons', ['pages' =>
-                                        ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_view_page')]])
+        ->assign('buttons', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_view_page')]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-
-<div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
         <?php echo Form::open(); ?>
         <?php echo Form::hidden('token', Token::generate()); ?>
@@ -46,12 +42,10 @@ use function Flextype\Component\I18n\__;
                 </div>
             </div>
         </div>
-        
+
 
         <?php echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
         <?php echo Form::close(); ?>
-    </div>
-</div>
 
 
 <?php

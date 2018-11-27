@@ -16,6 +16,7 @@ namespace Flextype;
 use Flextype\Component\{Arr\Arr, Number\Number, I18n\I18n, Http\Http, Event\Event, Filesystem\Filesystem, Session\Session, Registry\Registry, Token\Token, Text\Text, Form\Form};
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
+use Gajus\Dindent\Indenter;
 
 //
 // Add listner for onCurrentPageBeforeLoaded event
@@ -352,6 +353,8 @@ class Admin
 
                         $action = Http::post('action');
 
+                        $indenter = new Indenter();
+
                         if (isset($action) && $action == 'edit-page') {
                             if (Token::check((Http::post('token')))) {
 
@@ -371,7 +374,7 @@ class Admin
                                                           '---'."\n".
                                                           $page_frontmatter."\n".
                                                           '---'."\n".
-                                                          Http::post('page_content'));
+                                                          $indenter->indent((Http::post('page_content'))));
 
                                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name'));
 

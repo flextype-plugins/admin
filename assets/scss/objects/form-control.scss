@@ -1,3 +1,55 @@
+.trumbowyg-box,
+.trumbowyg-button-pane,
+.trumbowyg-editor {
+    background-color: #1b1d23!important;
+    border: 1px solid #000!important;
+    color: #fff!important;
+}
+
+.trumbowyg-box {
+    border-radius: 4px!important;
+    margin-top: 0!important;
+}
+
+.trumbowyg-button-pane {
+    padding: 0 !important;
+    margin-top: 0!important;
+    border-bottom: 1px solid #000!important;
+    border-right: none!important;
+    border-left: none!important;
+    border-top: none!important;
+}
+
+.trumbowyg-button-pane::after {
+    background: transparent!important;
+}
+
+.trumbowyg-box .trumbowyg-editor {
+    border: none!important;
+    color: #fff!important;
+}
+
+.trumbowyg-box svg,
+.trumbowyg-modal svg {
+    fill: #fff!important;
+}
+
+.trumbowyg-button-pane button {
+    margin: 0 !important;
+}
+
+.trumbowyg-button-pane button.trumbowyg-active,
+.trumbowyg-button-pane button:not(.trumbowyg-disable):focus,
+.trumbowyg-button-pane button:not(.trumbowyg-disable):hover {
+    background-color: #000!important;
+    outline: 0!important;
+}
+
+.trumbowyg-button-pane .trumbowyg-button-group::after {
+    background: #000!important;
+    margin: 0 !important;
+}
+
 .form-control {
     transition: all 300ms linear;
 }

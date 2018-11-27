@@ -22,35 +22,36 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-
-        <?php echo Form::open(null, ['id' => 'editPage']); ?>
-        <?php echo Form::hidden('token', Token::generate()); ?>
-        <?php echo Form::hidden('action', 'edit-page'); ?>
-        <?php echo Form::hidden('page_name', $page_name); ?>
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group">
-                    <?php
-                        echo (
-                            Form::label('page_title', __('admin_pages_title'), ['for' => 'pageTitle']).
-                            Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
-                        );
-                    ?>
-                </div>
-                <div class="form-group">
-                    <?php
-                        echo (
-                            Form::label('page_content', __('admin_pages_content'), ['for' => 'pageTitle']).
-                            Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'style' => 'height:400px;', 'id' => 'pageContent'])
-                        );
-                    ?>
-                </div>
-            </div>
+<?php echo Form::open(null, ['id' => 'editPage']); ?>
+<?php echo Form::hidden('token', Token::generate()); ?>
+<?php echo Form::hidden('action', 'edit-page'); ?>
+<?php echo Form::hidden('page_name', $page_name); ?>
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <?php
+                echo (
+                    Form::label('page_title', __('admin_pages_title'), ['for' => 'pageTitle']).
+                    Form::input('page_title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
+                );
+            ?>
         </div>
+        <div class="form-group">
+            <?php
+                echo (
+                    Form::label('page_content', __('admin_pages_content'), ['for' => 'pageTitle']).
+                    Form::textarea('page_content', $page_content, ['class' => 'form-control margin-hard-bottom', 'style' => 'height:400px;', 'id' => 'pageContent'])
+                );
+            ?>
+        </div>
+    </div>
+</div>
 
 
-        <?php //echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
-        <?php echo Form::close(); ?>
+<?php //echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
+<?php echo Form::close(); ?>
+
+
 
 
 <?php

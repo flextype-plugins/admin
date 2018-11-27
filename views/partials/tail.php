@@ -35,6 +35,23 @@ use Flextype\Component\{Http\Http, Event\Event};
 
     $(document).ready(function() {
 
+        $('#pageContent').trumbowyg({
+            btns: [
+                ['undo', 'redo'], // Only supported in Blink browsers
+                ['formatting'],
+                ['strong', 'em', 'del'],
+                ['superscript', 'subscript'],
+                ['link'],
+                ['insertImage'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                ['unorderedList', 'orderedList'],
+                ['removeformat'],
+                ['fullscreen']
+            ],
+            autogrow: true,
+            removeformatPasted: true
+        });
+
         $.flextype.plugins.init();
 
         $('.js-page-save-submit').click(function() {

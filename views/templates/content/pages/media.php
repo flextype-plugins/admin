@@ -8,12 +8,12 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links',   [
+                                'pages'               => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => __('admin_pages_heading')],
                                 'edit_page'           => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_editor')],
                                 'edit_page_media'     => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true', 'title' => __('admin_pages_edit_media'), 'class' => 'active'],
                                 'edit_page_templates' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_template')],
                                 'edit_page_settings'  => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_settings')],
                             ])
-        ->assign('buttons', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_view_page')]])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>

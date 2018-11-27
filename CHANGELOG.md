@@ -1,3 +1,5 @@
+# v0.3.0, 2018-12-01
+
 # v0.2.0, 2018-11-24
 * General: Link to site preview added #11
 * General: Round borders interface #12

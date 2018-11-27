@@ -350,11 +350,9 @@ class Admin
                             ->display();
                     } else {
 
-                        Admin::processFilesManager();
+                        $action = Http::post('action');
 
-                        $page_save = Http::post('page_save');
-
-                        if (isset($page_save)) {
+                        if (isset($action) && $action == 'edit-page') {
                             if (Token::check((Http::post('token')))) {
 
                                 $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html', false, true);
@@ -375,7 +373,7 @@ class Admin
                                                           '---'."\n".
                                                           Http::post('page_content'));
 
-                                Http::redirect(Http::getBaseUrl().'/admin/pages');
+                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name'));
 
                             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                         }

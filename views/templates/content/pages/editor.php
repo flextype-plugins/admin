@@ -16,15 +16,16 @@ use function Flextype\Component\I18n\__;
                             ])
         ->assign('buttons', [
                                 'view_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_view_page')],
-                                'save_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_save_page')]
+                                'save_page' => ['url' => 'javascript:;', 'title' => __('admin_pages_save_page'), 'class' => 'js-page-save-submit']
                             ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 
-        <?php echo Form::open(); ?>
+        <?php echo Form::open(null, ['id' => 'editPage']); ?>
         <?php echo Form::hidden('token', Token::generate()); ?>
+        <?php echo Form::hidden('action', 'edit-page'); ?>
         <?php echo Form::hidden('page_name', $page_name); ?>
         <div class="row">
             <div class="col-12">
@@ -48,7 +49,7 @@ use function Flextype\Component\I18n\__;
         </div>
 
 
-        <?php echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
+        <?php //echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
         <?php echo Form::close(); ?>
 
 

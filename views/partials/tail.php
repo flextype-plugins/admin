@@ -37,6 +37,10 @@ use Flextype\Component\{Http\Http, Event\Event};
 
         $.flextype.plugins.init();
 
+        $('.js-page-save-submit').click(function() {
+            $("#editPage" ).submit();
+        });
+
         $('.navbar-toggler').click(function () {
             $('.sidebar').addClass('show-sidebar');
             $('.sidebar-off-canvas').addClass('show-sidebar-off-canvas');

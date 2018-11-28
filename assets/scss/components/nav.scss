@@ -134,7 +134,7 @@
 
 .navbar-item {
     padding: 19px 30px;
-    color: #6e7580;
+    color: $navbar-item-text-color;
 }
 
 .navbar-item.active,
@@ -142,6 +142,7 @@
 .navbar-item:hover {
     color: #fff;
     background-color: $body-bg;
+    text-decoration: none;
 }
 
 .nav-tabs {

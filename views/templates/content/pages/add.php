@@ -8,7 +8,7 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => __('admin_pages_heading')],
-                                      ['url' => '#', 'title' => __('admin_pages_create_new')]])
+                           'pages_add' => ['url' => Http::getBaseUrl() . '/admin/pages/add', 'title' => __('admin_pages_create_new'), 'class' => 'active']])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>

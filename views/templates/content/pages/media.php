@@ -34,7 +34,7 @@ use function Flextype\Component\I18n\__;
 
 <br>
 
-<div class="filesmanager">
+<div class="media-manager">
     <div class="row">
         <?php foreach ($files as $file) { ?>
             <div class="col-sm-2 item">

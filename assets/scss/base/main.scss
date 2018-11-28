@@ -90,16 +90,6 @@ body {
     background: $body-bg;
 }
 
-a {
-    color: black;
-}
-
-a:focus,
-a:hover {
-    color: #333;
-    text-decoration: none;
-}
-
 a:active,
 a:focus,
 button::-moz-focus-inner,

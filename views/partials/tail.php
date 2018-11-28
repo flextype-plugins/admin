@@ -1,8 +1,11 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Event\Event};
+use Flextype\Component\{Http\Http, Event\Event, Registry\Registry};
 ?>
 <script src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/admin.min.js"></script>
+
+<script type="text/javascript" src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js"></script>
+<script type="text/javascript" src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/trumbowyg/langs/<?php echo Registry::get("system.locale"); ?>.min.js"></script>
 
 <script>
 
@@ -49,6 +52,7 @@ use Flextype\Component\{Http\Http, Event\Event};
                 ['removeformat'],
                 ['fullscreen']
             ],
+            lang: '<?php echo Registry::get("system.locale"); ?>',
             autogrow: true,
             removeformatPasted: true
         });

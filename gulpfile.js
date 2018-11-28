@@ -45,9 +45,25 @@ gulp.task('trumbowyg-icons', function() {
         .pipe(gulp.dest('assets/dist/icons/'));
 });
 
+gulp.task('trumbowyg-js', function() {
+    return gulp.src('node_modules/trumbowyg/dist/trumbowyg.min.js')
+        .pipe(gulp.dest('assets/dist/js/trumbowyg'));
+});
+
+gulp.task('trumbowyg-js-lang', function() {
+    return gulp.src('node_modules/trumbowyg/dist/*langs/**/*')
+        .pipe(gulp.dest('assets/dist/js/trumbowyg'));
+});
+
 gulp.task('trumbowyg-css', function() {
     return gulp.src('node_modules/trumbowyg/dist/ui/trumbowyg.min.css')
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
-gulp.task('default', ['css', 'js', 'bootstrap-css', 'trumbowyg-css', 'trumbowyg-icons']);
+gulp.task('default', ['css',
+                      'js',
+                      'bootstrap-css',
+                      'trumbowyg-css',
+                      'trumbowyg-js',
+                      'trumbowyg-js-lang',
+                      'trumbowyg-icons']);

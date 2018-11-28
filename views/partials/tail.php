@@ -35,6 +35,7 @@ use Flextype\Component\{Http\Http, Event\Event};
 
     $(document).ready(function() {
 
+        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/icons/icons.svg';
         $('#pageContent').trumbowyg({
             btns: [
                 ['undo', 'redo'], // Only supported in Blink browsers

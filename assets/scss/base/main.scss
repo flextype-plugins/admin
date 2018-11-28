@@ -116,3 +116,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 input:focus {
     outline: 0 !important;
 }
+
+a {
+    color: #fff;
+
+    &:hover {
+        color: inherit;
+    }
+}

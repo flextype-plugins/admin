@@ -1,11 +1,14 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Event\Event, Registry\Registry};
+use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets};
 ?>
-<script src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/admin.min.js"></script>
 
-<script type="text/javascript" src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js"></script>
-<script type="text/javascript" src="<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/js/trumbowyg/langs/<?php echo Registry::get("system.locale"); ?>.min.js"></script>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin.min.js', 'admin', 1); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js', 'admin', 2); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 3); ?>
+<?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
+    <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
+<?php } } ?>
 
 <script>
 

@@ -40,14 +40,12 @@ use function Flextype\Component\I18n\__;
                   ><?php echo __('admin_plugins_info'); ?></a>
           </td>
           <td class="text-right">
-              <?php if ($key !== 'admin') { ?>
-                  <div class="form-group no-margin">
-                    <span class="switch switch-sm">
-                      <input id="switch-sm-<?php echo $plugin['name']; ?>" type="checkbox" class="switch js-switch" data-plugin="<?php echo $key; ?>" data-token="<?php echo Token::generate(); ?>" <?php if ($plugin['enabled'] == 'true') echo 'checked'; else echo ''; ?> >
-                      <label for="switch-sm-<?php echo $plugin['name']; ?>"></label>
-                    </span>
-                  </div>
-              <?php } ?>
+              <div class="form-group no-margin">
+                <span class="switch switch-sm">
+                  <input id="switch-sm-<?php echo $plugin['name']; ?>" type="checkbox" class="switch js-switch" data-plugin="<?php echo $key; ?>" data-token="<?php echo Token::generate(); ?>" <?php if ($plugin['enabled'] == 'true') echo 'checked'; else echo ''; ?> <?php if ($key == 'admin') { ?>disabled<?php } ?>>
+                  <label for="switch-sm-<?php echo $plugin['name']; ?>"></label>
+                </span>
+              </div>
           </td>
       </tr>
       <?php } ?>

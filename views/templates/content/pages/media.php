@@ -23,11 +23,6 @@ use function Flextype\Component\I18n\__;
                                                         'title'      => __('admin_pages_edit_media'),
                                                         'attributes' => ['class' => 'navbar-item active']
                                                      ],
-                            'edit_page_templates' => [
-                                                        'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true',
-                                                        'title'      => __('admin_pages_edit_template'),
-                                                        'attributes' => ['class' => 'navbar-item']
-                                                     ],
                             'edit_page_settings'  => [
                                                         'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
                                                         'title'      => __('admin_pages_edit_settings'),

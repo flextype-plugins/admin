@@ -318,25 +318,6 @@ class Admin
                         ->assign('page_name', Http::get('page'))
                         ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
                         ->display();
-                } elseif (Http::get('template') && Http::get('template') == 'true') {
-
-                    $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
-                    foreach ($_templates as $template) {
-                        if (!is_bool(Admin::_strrevpos($template, '/templates/'))) {
-                            $_t = str_replace('.php', '', substr($template, Admin::_strrevpos($template, '/templates/')+strlen('/templates/')));
-                            $templates[$_t] = $_t;
-                        }
-                    }
-
-                    $template_content = file_get_contents(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . (isset($page['template']) ? $page['template'] : 'default') . '.php');
-
-                    Themes::view('admin/views/templates/content/pages/template')
-                        ->assign('page_name', Http::get('page'))
-                        ->assign('templates', $templates)
-                        ->assign('template_content', $template_content)
-                        ->assign('page_template',(isset($page['template']) ? $page['template'] : 'default'))
-                        ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
-                        ->display();
                 } else  {
 
                     if (Http::get('expert') && Http::get('expert') == 'true') {

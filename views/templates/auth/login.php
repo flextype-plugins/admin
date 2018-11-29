@@ -32,7 +32,7 @@ use function Flextype\Component\I18n\__;
                 ?>
             </div>
             <div class="form-group">
-                <?php echo Form::submit('login', __('admin_login'), ['class' => 'btn btn-black']); ?>
+                <?php echo Form::submit('login', __('admin_login'), ['class' => 'btn btn-black float-left']); ?>
             </div>
         </div>
     </div>

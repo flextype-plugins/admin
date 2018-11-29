@@ -19,7 +19,7 @@ use function Flextype\Component\I18n\__;
                 <?php
                     echo (
                         Form::label('username', __('admin_username'), ['for' => 'inputUsername']).
-                        Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'required', 'autofocus'])
+                        Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'placeholder' => 'lowercase chars only, e.g. admin', 'required', 'pattern' => '^[a-z0-9_-]{3,16}$', 'autofocus'])
                     );
                 ?>
             </div>
@@ -27,7 +27,7 @@ use function Flextype\Component\I18n\__;
                 <?php
                     echo (
                         Form::label('email', __('admin_email'), ['for' => 'inputEmail']).
-                        Form::input('email', '', ['class' => 'form-control', 'id' => 'inputEmail', 'required'])
+                        Form::input('email', '', ['class' => 'form-control', 'id' => 'inputEmail', 'placeholder' => 'valid email address', 'required'])
                     );
                 ?>
             </div>
@@ -35,12 +35,12 @@ use function Flextype\Component\I18n\__;
                 <?php
                     echo (
                         Form::label('password', __('admin_password'), ['for' => 'inputPassword']).
-                        Form::password('password', '', ['class' => 'form-control', 'id' => 'inputPassword', 'required'])
+                        Form::password('password', '', ['class' => 'form-control', 'id' => 'inputPassword', 'placeholder' => 'complex string at least 8 chars long', 'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}', 'required'])
                     );
                 ?>
             </div>
             <div class="form-group">
-                <?php echo Form::submit('registration', __('admin_users_create'), ['class' => 'btn btn-black']); ?>
+                <?php echo Form::submit('registration', __('admin_users_create'), ['class' => 'btn btn-black float-left']); ?>
             </div>
         </div>
     </div>

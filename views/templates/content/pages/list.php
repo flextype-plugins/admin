@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Token\Token};
+use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Text\Text};
 use function Flextype\Component\I18n\__;
 ?>
 
@@ -29,7 +29,6 @@ use function Flextype\Component\I18n\__;
     <thead>
         <tr>
             <th><?php echo __('admin_pages_name'); ?></th>
-            <th><?php echo __('admin_pages_url'); ?></th>
             <th></th>
         </tr>
     </thead>
@@ -39,7 +38,6 @@ use function Flextype\Component\I18n\__;
             <td>
                 <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a>
             </td>
-            <td><a target="_blank"  href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>">/<?php echo $page['slug']; ?></a></td>
             <td class="text-right">
                 <div class="btn-group">
                   <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_edit'); ?></a>
@@ -50,6 +48,7 @@ use function Flextype\Component\I18n\__;
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add"><?php echo __('admin_pages_add'); ?></a>
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/clone?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_pages_clone'); ?></a>
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_rename'); ?></a>
+                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>" target="_blank"><?php echo __('admin_pages_view_page'); ?></a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_pages_delete'); ?></a>

@@ -35,7 +35,7 @@ use function Flextype\Component\I18n\__;
       <?php foreach($plugins_list as $key => $plugin) { ?>
       <tr>
           <td><?php echo $plugin['name']; ?></td>
-          <td class="text-right">
+          <td class="text-right btns">
               <a href="javascript:;" class="btn js-plugins-info" data-toggle="modal" data-target="#pluginInfoModal"
                   data-name="<?php echo $plugin['name']?>"
                   data-version="<?php echo $plugin['version']?>"

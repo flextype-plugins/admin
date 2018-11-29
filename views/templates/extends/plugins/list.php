@@ -7,10 +7,19 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['plugins' => ['url' => Http::getBaseUrl() . '/admin/plugins', 'title' => __('admin_plugins_heading'), 'class' => 'active'],
-                             'plugins_get_more' => ['url' => Http::getBaseUrl() . '/admin/plugins', 'title' => __('admin_plugins_get_more_plugins')]])
+        ->assign('links',   [
+                                'plugins'          => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/plugins',
+                                                            'title'      => __('admin_plugins_heading'),
+                                                            'attributes' => ['class' => 'navbar-item active']
+                                                      ],
+                                'plugins_get_more' => [
+                                                            'link' => 'http://flextype.org/download/plugins',
+                                                            'title' => __('admin_plugins_get_more_plugins'),
+                                                            'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
+                                                      ]
+                            ])
         ->display();
-
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 

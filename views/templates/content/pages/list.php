@@ -7,8 +7,20 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-        ->assign('links',   ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => __('admin_pages_heading'), 'class' => 'active']])
-        ->assign('buttons', ['pages' => ['url' => Http::getBaseUrl() . '/admin/pages/add', 'title' => __('admin_pages_create_new')]])
+        ->assign('links',   [
+                                'pages' => [
+                                                'link' => Http::getBaseUrl() . '/admin/pages',
+                                                'title' => __('admin_pages_heading'),
+                                                'attributes' => ['class' => 'navbar-item active']
+                                           ]
+                            ])
+        ->assign('buttons', [
+                                'pages' => [
+                                                'link' => Http::getBaseUrl() . '/admin/pages/add',
+                                                'title' => __('admin_pages_create_new'),
+                                                'attributes' => ['class' => 'float-right btn']
+                                           ]
+                            ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>

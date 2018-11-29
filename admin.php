@@ -132,13 +132,7 @@ class Admin
 
     protected static function getInformationPage()
     {
-        if (Http::get('server') == 'true') {
-            Themes::view('admin/views/templates/system/information/server')->display();
-        } elseif (Http::get('security_check_results') == 'true') {
-            Themes::view('admin/views/templates/system/information/security-check-results')->display();
-        } else {
-            Themes::view('admin/views/templates/system/information/system')->display();
-        }
+        Themes::view('admin/views/templates/system/information/list')->display();
     }
 
     protected static function getPluginsPage()
@@ -214,7 +208,7 @@ class Admin
             throw new \RuntimeException("Flextype system config file does not exist.");
         }
 
-        Themes::view('admin/views/templates/system/settings/site')
+        Themes::view('admin/views/templates/system/settings/list')
             ->assign('site_settings', $site_settings)
             ->assign('system_settings', $system_settings)
             ->assign('locales', Plugins::getLocales())

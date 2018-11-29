@@ -8,15 +8,43 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links',   [
-                                'pages'               => ['url' => Http::getBaseUrl() . '/admin/pages', 'title' => __('admin_pages_heading')],
-                                'edit_page'           => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_editor'), 'class' => 'active'],
-                                'edit_page_media'     => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true', 'title' => __('admin_pages_edit_media')],
-                                'edit_page_templates' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_template')],
-                                'edit_page_settings'  => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name, 'title' => __('admin_pages_edit_settings')]
+                                'pages'               => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages',
+                                                            'title'      => __('admin_pages_heading'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ],
+                                'edit_page'           => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
+                                                            'title'      => __('admin_pages_editor'),
+                                                            'attributes' => ['class' => 'navbar-item active']
+                                                         ],
+                                'edit_page_media'     => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
+                                                            'title'      => __('admin_pages_edit_media'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ],
+                                'edit_page_templates' => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
+                                                            'title'      => __('admin_pages_edit_template'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ],
+                                'edit_page_settings'  => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
+                                                            'title'      => __('admin_pages_edit_settings'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ]
                             ])
         ->assign('buttons', [
-                                'view_page' => ['url' => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true', 'title' => __('admin_pages_view_page')],
-                                'save_page' => ['url' => 'javascript:;', 'title' => __('admin_pages_save_page'), 'class' => 'js-page-save-submit']
+                                'view_page' => [
+                                                    'link'       => Http::getBaseUrl() . '/' . $page_name,
+                                                    'title'      => __('admin_pages_view_page'),
+                                                    'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
+                                               ],
+                                'save_page' => [
+                                                    'link'       => 'javascript:;',
+                                                    'title'      => __('admin_pages_save_page'),
+                                                    'attributes' => ['class' => 'js-page-save-submit float-right btn']
+                                                ]
                             ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
@@ -46,13 +74,7 @@ use function Flextype\Component\I18n\__;
         </div>
     </div>
 </div>
-
-
-<?php //echo Form::submit('page_save', __('admin_save'), ['class' => 'btn btn-black']); ?>
 <?php echo Form::close(); ?>
-
-
-
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

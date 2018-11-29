@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Token\Token};
+use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Token\Token};
 use function Flextype\Component\I18n\__;
 ?>
 
@@ -15,14 +15,14 @@ use function Flextype\Component\I18n\__;
         <div class="navbar-wrapper">
             <?php if(isset($links)) { ?>
                 <?php foreach ($links as $link) { ?>
-                    <a class="navbar-item <?php echo $link['class']; ?>" href="<?php echo $link['url']; ?>"><?php echo $link['title']; ?></a>
+                    <?php echo Html::anchor($link['title'], $link['link'], $link['attributes']); ?>
                 <?php } ?>
             <?php } ?>
         </div>
         <div class="navbar-buttons">
         <?php if(isset($buttons)) { ?>
             <?php foreach ($buttons as $button) { ?>
-                <a class="float-right btn  <?php if (isset($button['class'])) echo $button['class']; ?>" href="<?php echo $button['url']; ?>"><?php echo $button['title']; ?></a>
+                <?php echo Html::anchor($button['title'], $button['link'], $button['attributes']); ?>
             <?php } ?>
         <?php } ?>
         </div>

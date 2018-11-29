@@ -322,16 +322,16 @@ class Admin
 
                     if (Http::get('expert') && Http::get('expert') == 'true') {
 
-                        Admin::processFilesManager();
+                        $action = Http::post('action');
 
-                        $page_save = Http::post('page_save_expert');
 
-                        if (isset($page_save)) {
+                        if (isset($action) && $action == 'edit-page-expert') {
                             if (Token::check((Http::post('token')))) {
                                 Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
                                                           Http::post('page_content'));
 
-                                Http::redirect(Http::getBaseUrl().'/admin/pages');
+
+                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&expert=true');
 
                             } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                         }
@@ -357,6 +357,7 @@ class Admin
                                 Arr::set($page, 'title', Http::post('page_title'));
                                 Arr::set($page, 'visibility', Http::post('page_visibility'));
                                 Arr::set($page, 'template', Http::post('page_template'));
+                                Arr::set($page, 'description', Http::post('page_description'));
 
                                 Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
                                 Arr::delete($page, 'url');     // do not save 'url' into the frontmatter

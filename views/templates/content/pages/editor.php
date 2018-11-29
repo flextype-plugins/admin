@@ -22,24 +22,24 @@ use function Flextype\Component\I18n\__;
                                                             'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
                                                             'title'      => __('admin_pages_edit_media'),
                                                             'attributes' => ['class' => 'navbar-item']
-                                                         ],
-                                'edit_page_settings'  => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
-                                                            'title'      => __('admin_pages_edit_settings'),
-                                                            'attributes' => ['class' => 'navbar-item']
                                                          ]
                             ])
         ->assign('buttons', [
-                                'view_page' => [
-                                                    'link'       => Http::getBaseUrl() . '/' . $page_name,
-                                                    'title'      => __('admin_pages_view_page'),
-                                                    'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
-                                               ],
                                 'save_page' => [
                                                     'link'       => 'javascript:;',
                                                     'title'      => __('admin_pages_save_page'),
                                                     'attributes' => ['class' => 'js-page-save-submit float-right btn']
-                                                ]
+                                                ],
+                                'expert_editor_page' => [
+                                                    'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
+                                                    'title'      => __('admin_pages_switch_to_expert_mode'),
+                                                    'attributes' => ['class' => 'float-right btn']
+                                               ],
+                               'settings_page' => [
+                                                   'link'       => 'javascript:;',
+                                                   'title'      => __('admin_pages_settings'),
+                                                   'attributes' => ['class' => 'js-settings-page-modal float-right btn', 'target' => '_blank']
+                                              ],
                             ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
@@ -59,6 +59,7 @@ use function Flextype\Component\I18n\__;
                 );
             ?>
         </div>
+
         <div class="form-group">
             <?php
                 echo (
@@ -68,6 +69,54 @@ use function Flextype\Component\I18n\__;
             ?>
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="settingsPageModal" tabindex="-1" role="dialog" aria-labelledby="settingsPageModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settingsPageModalLabel"><?php echo __('admin_pages_settings'); ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+              <?php
+                  echo (
+                      Form::label('page_description', __('admin_pages_description', Registry::get('system.locale')), ['for' => 'pageDescription']).
+                      Form::input('page_description', $page_description, ['class' => 'form-control', 'id' => 'pageDescription'])
+                  );
+              ?>
+          </div>
+          <div class="form-group">
+              <?php
+                  echo (
+                      Form::label('page_visibility', __('admin_pages_visibility', Registry::get('system.locale')),  ['for' => 'pageTitle']).
+                      Form::select('page_visibility', ['visible' => 'visible', 'draft' => 'draft'], $page_visibility, ['class' => 'form-control', 'id' => 'pageTitle'])
+                  );
+              ?>
+          </div>
+          <div class="form-group">
+              <?php
+                  echo (
+                      Form::label('page_template', __('admin_pages_template', Registry::get('system.locale')),  ['for' => 'pageTemplate']).
+                      Form::select('page_template', $templates, $page_template, ['class' => 'form-control', 'id' => 'pageTemplate'])
+                  );
+              ?>
+          </div>
+          <div class="form-group">
+              <?php
+                  echo (
+                      Form::label('page_date', __('admin_pages_date', Registry::get('system.locale')), ['for' => 'pageDate']).
+                      Form::input('page_date', $page_date, ['class' => 'form-control', 'id' => 'pageDate'])
+                  );
+              ?>
+          </div>
+      </div>
+    </div>
+  </div>
 </div>
 <?php echo Form::close(); ?>
 

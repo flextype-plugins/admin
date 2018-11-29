@@ -22,16 +22,12 @@ use function Flextype\Component\I18n\__;
                                                         'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
                                                         'title'      => __('admin_pages_edit_media'),
                                                         'attributes' => ['class' => 'navbar-item active']
-                                                     ],
-                            'edit_page_settings'  => [
-                                                        'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
-                                                        'title'      => __('admin_pages_edit_settings'),
-                                                        'attributes' => ['class' => 'navbar-item']
                                                      ]
                         ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
+
 
 <?php
     echo (
@@ -46,7 +42,6 @@ use function Flextype\Component\I18n\__;
         Form::close()
     )
 ?>
-
 <br>
 
 <div class="media-manager">

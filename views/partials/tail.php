@@ -7,6 +7,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js', 'admin', 2); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
+
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
@@ -74,6 +75,10 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         $('.js-page-save-submit').click(function() {
             $("#editPage" ).submit();
         });
+        
+        $('.js-page-save-submit').click(function() {
+            $("#editPageExpert" ).submit();
+        });
 
         $('.navbar-toggler').click(function () {
             $('.sidebar').addClass('show-sidebar');
@@ -103,6 +108,10 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             $('.js-page-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
             $('.js-page-image-url-placeholder').val($(this).attr('data-image-url'));
             $('.js-page-image-delete-url-placeholder').attr('href', $(this).attr('data-image-delete-url'));
+        });
+
+        $('.js-settings-page-modal').click(function () {
+            $('#settingsPageModal').modal();
         });
     });
 </script>

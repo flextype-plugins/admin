@@ -21,6 +21,7 @@ td {
     -webkit-font-smoothing: antialiased;
     font-family: $base-font-family;
     font-weight: $base-font-weight;
+    color: $base-font-color;
 }
 
 .h1,
@@ -33,7 +34,6 @@ h3,
 h4 {
     font-weight: 300;
     margin: 30px 0 15px;
-    color: $base-font-color;
 }
 
 .h1,

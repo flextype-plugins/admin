@@ -14,8 +14,8 @@
     &:active,
     &:focus,
     &:hover {
-        background-color: #3f4450;
-        color: #fff;
+        background-color: $btn-background-color-hover;
+        color: $btn-text-color-hover;
         border-color: black;
         outline: 0 !important;
         box-shadow: none;
@@ -44,6 +44,6 @@
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    color: #fff;
-    background-color: #3f4450;
+    color: $btn-text-color-hover;
+    background-color: $btn-background-color-hover;
 }

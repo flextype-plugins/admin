@@ -5,7 +5,9 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin.min.js', 'admin', 1); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js', 'admin', 2); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
@@ -43,13 +45,20 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/icons/icons.svg';
         $('#pageContent').trumbowyg({
+            btnsDef: {
+                // Customizables dropdowns
+                image: {
+                    dropdown: ['insertImage', 'base64', 'noembed'],
+                    ico: 'insertImage'
+                }
+            },
             btns: [
                 ['undo', 'redo'], // Only supported in Blink browsers
                 ['formatting'],
                 ['strong', 'em', 'del'],
                 ['superscript', 'subscript'],
                 ['link'],
-                ['insertImage'],
+                ['image'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
                 ['unorderedList', 'orderedList'],
                 ['removeformat'],

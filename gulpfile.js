@@ -55,6 +55,11 @@ gulp.task('trumbowyg-js-lang', function() {
         .pipe(gulp.dest('assets/dist/js/trumbowyg'));
 });
 
+gulp.task('trumbowyg-js-plugins', function() {
+    return gulp.src('node_modules/trumbowyg/*plugins/**/*')
+        .pipe(gulp.dest('assets/dist/js/trumbowyg'));
+});
+
 gulp.task('trumbowyg-css', function() {
     return gulp.src('node_modules/trumbowyg/dist/ui/trumbowyg.min.css')
         .pipe(gulp.dest('assets/dist/css/'));
@@ -66,4 +71,5 @@ gulp.task('default', ['css',
                       'trumbowyg-css',
                       'trumbowyg-js',
                       'trumbowyg-js-lang',
+                      'trumbowyg-js-plugins',
                       'trumbowyg-icons']);

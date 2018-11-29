@@ -513,7 +513,7 @@ class Admin
                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
             }
         }
-
+        
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
                 Filesystem::uploadFile($_FILES['file'], $files_directory, ['jpeg', 'png', 'gif', 'jpg'], 5000000);

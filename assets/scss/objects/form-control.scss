@@ -11,6 +11,61 @@
     margin-top: 0!important;
 }
 
+.trumbowyg-dropdown button {
+    color: $btn-text-color!important;
+    background: $btn-background-color!important;
+}
+
+.trumbowyg-dropdown {
+    color: $btn-text-color!important;
+    background: $btn-background-color!important;
+    border: 1px solid #000!important;
+}
+
+.trumbowyg-dropdown button:focus,
+.trumbowyg-dropdown button:hover {
+    background-color: #3f4450!important;
+    color: #fff!important;
+}
+
+.trumbowyg-overlay {
+    background-color: rgba(0,0,0,.5)!important;
+}
+
+.trumbowyg-modal-box {
+    color: #6e7580;
+    background-color: #21252b;
+}
+
+.trumbowyg-modal-box .trumbowyg-modal-title {
+    background-color: #21252b;
+    border-color: #21252b;
+    color: #fff;
+}
+
+.trumbowyg-modal-button {
+    border-radius: 4px;
+    font-weight: 400;
+    border: 1px solid black !important;
+    color: $btn-text-color !important;
+    background: $btn-background-color !important;
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 1.42857143;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+        background: #3f4450 !important;
+        color: #fff !important;
+        border-color: black;
+        outline: 0 !important;
+        box-shadow: none;
+    }
+}
+
 .trumbowyg-button-pane {
     padding: 0 !important;
     margin-top: 0!important;

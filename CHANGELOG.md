@@ -1,4 +1,4 @@
-# v0.3.0, 2018-12-01
+# v0.3.0, 2018-12-09
 
 # v0.2.0, 2018-11-24
 * General: Link to site preview added #11
@@ -16,7 +16,6 @@
 * Settings Manager: issue with select dropdown logic - fixed #21
 * Information: Security check results - added
 * Plugins Manager: Plugins information - added #24
-
 
 # v0.1.2, 2018-11-17
 * Fixed critical issue with `_strrevpos()` method

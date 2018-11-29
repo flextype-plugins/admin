@@ -51,8 +51,9 @@
     background: $btn-background-color !important;
     cursor: pointer;
     margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 14px!important;
     line-height: 1.42857143;
+    height: auto!important;
 
     &.active,
     &:active,

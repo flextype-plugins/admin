@@ -65,6 +65,11 @@ gulp.task('trumbowyg-css', function() {
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
+gulp.task('animate-css', function() {
+    return gulp.src('node_modules/animate.css/animate.min.css')
+        .pipe(gulp.dest('assets/dist/css/'));
+});
+
 gulp.task('default', ['css',
                       'js',
                       'bootstrap-css',
@@ -72,4 +77,5 @@ gulp.task('default', ['css',
                       'trumbowyg-js',
                       'trumbowyg-js-lang',
                       'trumbowyg-js-plugins',
-                      'trumbowyg-icons']);
+                      'trumbowyg-icons',
+                      'animate-css']);

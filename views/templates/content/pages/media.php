@@ -58,13 +58,14 @@ use function Flextype\Component\I18n\__;
                    class="img-item js-pages-image-preview"
                    data-image-delete-url="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&token=<?php echo Token::generate(); ?>"
                    data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>">
+                   <i class="fas fa-eye"></i>
                 </a>
             </div>
         <?php } ?>
     </div>
 </div>
 
-<div class="modal fade" id="pagesImagePreview" tabindex="-1" role="dialog" aria-labelledby="pagesImagePreviewLabel" aria-hidden="true">
+<div class="modal animated fadeIn faster image-preview-modal" id="pagesImagePreview" tabindex="-1" role="dialog" aria-labelledby="pagesImagePreviewLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -73,12 +74,10 @@ use function Flextype\Component\I18n\__;
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <img src="" alt="" class="js-page-image-preview-placeholder img-fluid">
-        <br><br>
-        <div class="alert alert-dark js-page-image-url-placeholder" role="alert"></div>
+      <div class="modal-body js-page-image-preview-placeholder image-preview">
       </div>
       <div class="modal-footer">
+          <input type="text" name="" class="form-control js-page-image-url-placeholder" value="">
           <a href="#" class="js-page-image-delete-url-placeholder btn btn-primary">Delete</a>
       </div>
     </div>

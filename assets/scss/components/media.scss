@@ -7,7 +7,24 @@
         background: #343942;
         border: 1px solid black;
 
+        .fa-eye {
+            display: none;
+            font-size: 44px;
+            opacity: .85;
+            color: #fff;
+        }
+
+        &:hover {
+            .fa-eye {
+                display: block;
+            }
+        }
+
         > .img-item {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             height: 100px;
             background-repeat: no-repeat;

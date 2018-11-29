@@ -21,6 +21,7 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/bootstrap.min.css', 'admin', 1); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/trumbowyg.min.css', 'admin', 2); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin.min.css', 'admin', 3); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/animate.min.css', 'admin', 4); ?>
     <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
         <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
     <?php } } ?>

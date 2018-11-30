@@ -70,6 +70,11 @@ gulp.task('animate-css', function() {
         .pipe(gulp.dest('assets/dist/css/'));
 });
 
+gulp.task('codemirror', function() {
+    return gulp.src('node_modules/*codemirror/**/*')
+        .pipe(gulp.dest('assets/dist/'));
+});
+
 gulp.task('default', ['css',
                       'js',
                       'bootstrap-css',
@@ -78,4 +83,5 @@ gulp.task('default', ['css',
                       'trumbowyg-js-lang',
                       'trumbowyg-js-plugins',
                       'trumbowyg-icons',
-                      'animate-css']);
+                      'animate-css',
+                      'codemirror']);

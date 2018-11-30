@@ -22,10 +22,42 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/trumbowyg.min.css', 'admin', 2); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin.min.css', 'admin', 3); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/animate.min.css', 'admin', 4); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/lib/codemirror.css', 'admin', 5); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/theme/twilight.css', 'admin', 6); ?>
     <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
         <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
     <?php } } ?>
 
+    <style media="screen">
+        .CodeMirror {
+            height: auto;
+            margin: -30px;
+            font-size: 14px;
+        }
+
+        .CodeMirror-sizer {
+            background: #292d34;
+        }
+
+        .cm-s-twilight .CodeMirror-gutters {
+            background: #292d34;
+            border-right: none;
+            color: #9ca4b2;
+        }
+
+        .cm-s-twilight .CodeMirror-linenumber {
+            color: #9ca4b2;
+        }
+
+        .cm-s-twilight.CodeMirror {
+            background: #292d34;
+        }
+
+        .CodeMirror pre {
+            padding: 0 14px;
+        }
+
+    </style>
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>
   <body>

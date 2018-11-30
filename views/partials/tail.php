@@ -7,6 +7,9 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js', 'admin', 2); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/lib/codemirror.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/mode/javascript/javascript.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
 
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
@@ -75,7 +78,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         $('.js-page-save-submit').click(function() {
             $("#editPage" ).submit();
         });
-        
+
         $('.js-page-save-submit').click(function() {
             $("#editPageExpert" ).submit();
         });
@@ -112,6 +115,16 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $('.js-settings-page-modal').click(function () {
             $('#settingsPageModal').modal();
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("pageExpertEditor"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            indentUnit: 4,
+            mode:  "htmlmixed",
+            indentWithTabs: true,
+            theme: "twilight",
+            smartIndent: false
         });
     });
 </script>

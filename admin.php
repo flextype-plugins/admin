@@ -547,8 +547,8 @@ class Admin
      }
 }
 
-Admin::addSidebarMenu('content', 'pages', __('admin_menu_content_pages'), Http::getBaseUrl() . '/admin/pages', ['class' => 'nav-link']);
-Admin::addSidebarMenu('extends', 'plugins', __('admin_menu_extends_plugins'), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
-Admin::addSidebarMenu('settings', 'settings', __('admin_menu_system_settings'), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
-Admin::addSidebarMenu('settings', 'infomation', __('admin_menu_system_information'), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
-Admin::addSidebarMenu('help', 'documentation', __('admin_menu_help_documentation'), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);
+Admin::addSidebarMenu('content', 'pages', __('admin_menu_content_pages', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/pages', ['class' => 'nav-link']);
+Admin::addSidebarMenu('extends', 'plugins', __('admin_menu_extends_plugins', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
+Admin::addSidebarMenu('settings', 'settings', __('admin_menu_system_settings', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
+Admin::addSidebarMenu('settings', 'infomation', __('admin_menu_system_information', Registry::get('system.locale')), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
+Admin::addSidebarMenu('help', 'documentation', __('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);

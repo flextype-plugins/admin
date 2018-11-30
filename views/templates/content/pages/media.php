@@ -75,7 +75,7 @@ use function Flextype\Component\I18n\__;
       </div>
       <div class="modal-footer">
           <input type="text" name="" class="form-control js-page-image-url-placeholder" value="">
-          <a href="#" class="js-page-image-delete-url-placeholder btn btn-primary">Delete</a>
+          <a href="#" class="js-page-image-delete-url-placeholder btn btn-primary"><?php echo __('admin_pages_files_delete'); ?></a>
       </div>
     </div>
   </div>

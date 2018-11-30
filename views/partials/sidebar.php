@@ -2,6 +2,7 @@
 namespace Flextype;
 use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Event\Event, Token\Token, Session\Session};
 use function Flextype\Component\I18n\__;
+use Flextype\Navigation;
 ?>
 <div class="sidebar">
     <div class="sidebar-wrapper">
@@ -44,7 +45,7 @@ use function Flextype\Component\I18n\__;
                 </a>
                 <div class="collapse " id="content">
                     <ul class="nav">
-                        <?php foreach (Admin::getSidebarMenu('content') as $item) { ?>
+                        <?php foreach (NavigationManager::getItems('content') as $item) { ?>
                             <li class="nav-item">
                                 <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
@@ -62,7 +63,7 @@ use function Flextype\Component\I18n\__;
                 </a>
                 <div class="collapse" id="extends">
                     <ul class="nav">
-                        <?php foreach (Admin::getSidebarMenu('extends') as $item) { ?>
+                        <?php foreach (NavigationManager::getItems('extends') as $item) { ?>
                             <li class="nav-item">
                                 <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
@@ -80,7 +81,7 @@ use function Flextype\Component\I18n\__;
                 </a>
                 <div class="collapse" id="system">
                     <ul class="nav">
-                        <?php foreach (Admin::getSidebarMenu('settings') as $item) { ?>
+                        <?php foreach (NavigationManager::getItems('settings') as $item) { ?>
                             <li class="nav-item">
                                 <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>
@@ -98,7 +99,7 @@ use function Flextype\Component\I18n\__;
                 </a>
                 <div class="collapse " id="help">
                     <ul class="nav">
-                        <?php foreach (Admin::getSidebarMenu('help') as $item) { ?>
+                        <?php foreach (NavigationManager::getItems('help') as $item) { ?>
                             <li class="nav-item">
                                 <?php echo Html::anchor('<span class="sidebar-normal">'.$item['title'].'</span>', $item['link'], $item['attributes']); ?>
                             </li>

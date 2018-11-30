@@ -1,7 +1,12 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Event\Event, Assets\Assets};
+
+use Flextype\Component\Http\Http;
+use Flextype\Component\Registry\Registry;
+use Flextype\Component\Event\Event;
+use Flextype\Component\Assets\Assets;
 use function Flextype\Component\I18n\__;
+
 ?>
 <!doctype html>
 <html lang="<?php echo Registry::get('system.locale'); ?>">
@@ -24,9 +29,13 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/animate.min.css', 'admin', 4); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/lib/codemirror.css', 'admin', 5); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/theme/twilight.css', 'admin', 6); ?>
-    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
+    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) {
+    foreach ($assets_by_priorities as $assets) {
+        ?>
         <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
-    <?php } } ?>
+    <?php
+    }
+} ?>
 
     <style media="screen">
         .CodeMirror {
@@ -62,5 +71,7 @@ use function Flextype\Component\I18n\__;
   </head>
   <body>
       <div class="wrapper">
-        <?php Admin::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display(); ?>
-        <div class="main-panel <?php if(isset($main_panel_class)) echo $main_panel_class;?>">
+        <?php UsersManager::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display(); ?>
+        <div class="main-panel <?php if (isset($main_panel_class)) {
+    echo $main_panel_class;
+}?>">

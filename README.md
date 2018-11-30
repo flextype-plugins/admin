@@ -4,7 +4,7 @@
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 Admin Plugin for Flextype.
- 
+
 ## Installation
 Unzip plugin to the folder `/site/plugins/`
 

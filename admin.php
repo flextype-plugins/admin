@@ -510,7 +510,7 @@ class Admin
         if (Http::get('delete_file') != '') {
             if (Token::check((Http::get('token')))) {
                 Filesystem::deleteFile($files_directory . Http::get('delete_file'));
-                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
+                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
             }
         }
 

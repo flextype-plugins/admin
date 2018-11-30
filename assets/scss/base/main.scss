@@ -112,6 +112,7 @@ a {
     text-decoration: none;
 
     &:hover {
+        text-decoration: none;
         color: $btn-text-color-hover;
     }
 }

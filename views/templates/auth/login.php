@@ -19,7 +19,7 @@ use function Flextype\Component\I18n\__;
                 <?php
                     echo (
                         Form::label('username', __('admin_username'), ['for' => 'inputUsername']).
-                        Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'required', 'autofocus'])
+                        Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'required'])
                     );
                 ?>
             </div>

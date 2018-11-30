@@ -25,30 +25,34 @@ use function Flextype\Component\I18n\__;
 
 <div class="row">
     <div class="col-md-6">
-
-
-<?php echo Form::open(); ?>
-<?php echo Form::hidden('token', Token::generate()); ?>
-
-<div class="form-group">
-<label for="formGroupPageTitleInput"><?php echo __('admin_pages_title'); ?></label>
-<input type="text" name="title" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
-</div>
-<div class="form-group">
-<label for="formGroupPageTitleInput"><?php echo __('admin_pages_name'); ?></label>
-<input type="text" name="slug" class="form-control" id="formGroupPageTitleInput" placeholder="" required>
-</div>
-<div class="form-group">
-<label for="formGroupParentPageInput"><?php echo __('admin_pages_parent_page'); ?></label>
-<select class="form-control" id="formGroupParentPageInput" name="parent_page">
-<option value="">/</option>
-<?php foreach($pages_list as $page) { ?>
-<option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
-<?php } ?>
-</select>
-</div>
-
-</div>
+        <?php echo Form::open(); ?>
+        <?php echo Form::hidden('token', Token::generate()); ?>
+        <div class="form-group">
+            <?php
+                echo (
+                    Form::label('title', __('admin_pages_title'), ['for' => 'pageTitle']).
+                    Form::input('title', '', ['class' => 'form-control', 'id' => 'pageTitle', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
+                );
+            ?>
+        </div>
+        <div class="form-group">
+            <?php
+                echo (
+                    Form::label('slug', __('admin_pages_name'), ['for' => 'pageSlug']).
+                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'pageSlug', 'required', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
+                );
+            ?>
+        </div>
+        <div class="form-group">
+            <label for="formGroupParentPageInput"><?php echo __('admin_pages_parent_page'); ?></label>
+            <select class="form-control" id="formGroupParentPageInput" name="parent_page">
+            <option value="">/</option>
+            <?php foreach($pages_list as $page) { ?>
+            <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
+            <?php } ?>
+            </select>
+        </div>
+    </div>
 </div>
 
 <?php echo Form::submit('create_page', __('admin_create'), ['class' => 'btn btn-black']); ?>

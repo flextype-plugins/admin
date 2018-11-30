@@ -35,7 +35,7 @@ use function Flextype\Component\I18n\__;
             <?php
                 echo (
                     Form::label('title', __('admin_pages_title'), ['for' => 'pageTitle']).
-                    Form::input('title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required'])
+                    Form::input('title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
                 );
             ?>
         </div>
@@ -43,7 +43,7 @@ use function Flextype\Component\I18n\__;
             <?php
                 echo (
                     Form::label('name', __('admin_pages_name'), ['for' => 'pageName']).
-                    Form::input('name', $page_name, ['class' => 'form-control', 'id' => 'pageName', 'required'])
+                    Form::input('name', $page_name, ['class' => 'form-control', 'id' => 'pageName', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
                 );
             ?>
         </div>

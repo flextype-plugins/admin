@@ -19,7 +19,7 @@ use function Flextype\Component\I18n\__;
                 <?php
                     echo (
                         Form::label('username', __('admin_username'), ['for' => 'inputUsername']).
-                        Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'placeholder' => 'lowercase chars only, e.g. admin', 'required', 'pattern' => '^[a-z0-9_-]{3,16}$', 'autofocus'])
+                        Form::input('username', '', ['class' => 'form-control', 'id' => 'inputUsername', 'placeholder' => 'lowercase chars only, e.g. admin', 'pattern' => '^[a-z0-9_-]{3,16}$', 'required'])
                     );
                 ?>
             </div>

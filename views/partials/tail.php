@@ -15,6 +15,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
 <script>
 
@@ -116,6 +117,8 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         $('.js-settings-page-modal').click(function () {
             $('#settingsPageModal').modal();
         });
+
+        $.validate({});
 
         var editor = CodeMirror.fromTextArea(document.getElementById("pageExpertEditor"), {
             lineNumbers: true,

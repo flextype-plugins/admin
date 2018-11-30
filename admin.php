@@ -233,7 +233,7 @@ class Admin
 
                 if (isset($create_page)) {
                     if (Token::check((Http::post('token')))) {
-                        if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug')) . '/page.html',
+                        if (Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/page.html',
                                                   '---'."\n".
                                                   'title: '.Http::post('title')."\n".
                                                   '---'."\n")) {

@@ -66,11 +66,6 @@ class Admin
         I18n::$locale = Registry::get('system.locale');
 
         if (Admin::isLoggedIn()) {
-
-            Event::addListener('onAdminArea', function () {
-                Admin::_pluginsChangeStatusAjax();
-            });
-
             Admin::getAdminArea();
         } else {
             if (Admin::isUsersExists()) {
@@ -79,6 +74,9 @@ class Admin
                 Admin::getRegistrationPage();
             }
         }
+
+        // Event: onBeforeRequestShutdown
+        Event::dispatch('onBeforeRequestShutdown');
 
         Http::requestShutdown();
     }
@@ -123,7 +121,7 @@ class Admin
         if (Token::check((Http::get('token')))) {
             Session::destroy();
             Http::redirect(Http::getBaseUrl().'/admin');
-        }
+        } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
     }
 
     protected static function getDashboard() {
@@ -137,6 +135,10 @@ class Admin
 
     protected static function getPluginsPage()
     {
+        Event::addListener('onBeforeRequestShutdown', function () {
+            Admin::_pluginsChangeStatusAjax();
+        });
+
         Themes::view('admin/views/templates/extends/plugins/list')
             ->assign('plugins_list', Registry::get('plugins'))
             ->display();
@@ -158,7 +160,7 @@ class Admin
         if (Http::get('clear_cache')) {
             if (Token::check((Http::get('token')))) {
                 Cache::clear();
-            }
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
 
         if (isset($settings_site_save)) {
@@ -223,7 +225,7 @@ class Admin
                     if (Token::check((Http::get('token')))) {
                         Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
                         Http::redirect(Http::getBaseUrl().'/admin/pages');
-                    }
+                    } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
                 }
             break;
             case 'add':
@@ -316,14 +318,13 @@ class Admin
                     Admin::processFilesManager();
                     Themes::view('admin/views/templates/content/pages/media')
                         ->assign('page_name', Http::get('page'))
-                        ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
+                        ->assign('files', Admin::getMediaList(Http::get('page')), true)
                         ->display();
                 } else  {
 
                     if (Http::get('expert') && Http::get('expert') == 'true') {
 
                         $action = Http::post('action');
-
 
                         if (isset($action) && $action == 'edit-page-expert') {
                             if (Token::check((Http::post('token')))) {
@@ -341,7 +342,7 @@ class Admin
                         Themes::view('admin/views/templates/content/pages/editor-expert')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page_content', $page_content)
-                            ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
+                            ->assign('files', Admin::getMediaList(Http::get('page')), true)
                             ->display();
                     } else {
 
@@ -378,15 +379,6 @@ class Admin
 
                         $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
-
-                        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
-                        foreach ($_templates as $template) {
-                            if (!is_bool(Admin::_strrevpos($template, '/templates/'))) {
-                                $_t = str_replace('.php', '', substr($template, Admin::_strrevpos($template, '/templates/')+strlen('/templates/')));
-                                $templates[$_t] = $_t;
-                            }
-                        }
-
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page_title', $page['title'])
@@ -395,8 +387,8 @@ class Admin
                             ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
                             ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
                             ->assign('page_content', $page['content'])
-                            ->assign('templates', $templates)
-                            ->assign('files', Admin::getPageFilesList(Http::get('page')), true)
+                            ->assign('templates', Admin::getTemplatesList())
+                            ->assign('files', Admin::getMediaList(Http::get('page')), true)
                             ->display();
                     }
                 }
@@ -431,7 +423,18 @@ class Admin
             ->display();
     }
 
-    public static function getPageFilesList($page)
+    public static function getTemplatesList() {
+        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
+        foreach ($_templates as $template) {
+            if (!is_bool(Admin::_strrevpos($template, '/templates/'))) {
+                $_t = str_replace('.php', '', substr($template, Admin::_strrevpos($template, '/templates/')+strlen('/templates/')));
+                $templates[$_t] = $_t;
+            }
+        }
+        return $templates;
+    }
+
+    public static function getMediaList($page)
     {
         $files = [];
 
@@ -511,7 +514,7 @@ class Admin
             if (Token::check((Http::get('token')))) {
                 Filesystem::deleteFile($files_directory . Http::get('delete_file'));
                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
-            }
+            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
         }
 
         if (Http::post('upload_file')) {

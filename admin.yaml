@@ -8,3 +8,74 @@ author:
 homepage: https://github.com/flextype-plugins/admin
 bugs: https://github.com/flextype-plugins/admin/issues
 license: MIT
+
+
+forms:
+    page:
+        about:
+            attributes:
+                action: ''
+                name: ''
+            fields:
+                logo:
+                    title: 'Логотип'
+                    type: 'text'
+                    attributes:
+                        class: 'form-control'
+                name:
+                    title: 'Название'
+                    type: 'textarea'
+                    attributes:
+                        class: 'form-control'
+                        style: 'height: 80px;'
+                save:
+                    title: 'admin_save'
+                    type: 'submit'
+                    attributes:
+                        class: 'btn'
+        default:
+            attributes:
+                action: ''
+                name: ''
+            fields:
+                title:
+                    title: 'admin_title'
+                    type: 'text'
+                    attributes:
+                        class: 'form-control'
+                content:
+                    title: 'admin_pages_content'
+                    type: 'textarea'
+                    attributes:
+                        class: 'form-control js-editor'
+                        style: 'height: 80px;'
+                save:
+                    title: 'admin_save'
+                    type: 'submit'
+                    attributes:
+                        class: 'btn'
+        card:
+            attributes:
+                action: ''
+                name: ''
+            fields:
+                title:
+                    title: 'Title'
+                    type: 'text'
+                    attributes:
+                        class: 'form-control'
+                img:
+                    title: 'Image'
+                    type: 'text'
+                    attributes:
+                        class: 'form-control'
+                price:
+                    title: 'Price'
+                    type: 'text'
+                    attributes:
+                        class: 'form-control'
+                save:
+                    title: 'Save'
+                    type: 'submit'
+                    attributes:
+                        class: 'btn'

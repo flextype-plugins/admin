@@ -320,7 +320,7 @@ class Admin
                         ->assign('page_name', Http::get('page'))
                         ->assign('files', Admin::getMediaList(Http::get('page')), true)
                         ->display();
-                } else  {
+                } else {
 
                     if (Http::get('expert') && Http::get('expert') == 'true') {
 
@@ -345,48 +345,41 @@ class Admin
                             ->assign('files', Admin::getMediaList(Http::get('page')), true)
                             ->display();
                     } else {
-
-                        $action = Http::post('action');
-
+                        $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+                        $action = Http::post('save');
                         $indenter = new Indenter();
 
-                        if (isset($action) && $action == 'edit-page') {
+                        if (isset($action)) {
                             if (Token::check((Http::post('token')))) {
 
-                                $page = Content::processPage(PATH['pages'] . '/' . Http::post('page_name') . '/page.html', false, true);
+                                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+                                Arr::delete($page, 'content');
+                                Arr::delete($page, 'url');
+                                Arr::delete($page, 'slug');
 
-                                Arr::set($page, 'title', Http::post('page_title'));
-                                Arr::set($page, 'visibility', Http::post('page_visibility'));
-                                Arr::set($page, 'template', Http::post('page_template'));
-                                Arr::set($page, 'description', Http::post('page_description'));
+                                $frontmatter = $_POST;
+                                Arr::delete($frontmatter, 'token');
+                                Arr::delete($frontmatter, 'save');
+                                Arr::delete($frontmatter, 'content');
+                                $frontmatter = Yaml::dump(array_merge($page, $frontmatter));
 
-                                Arr::delete($page, 'content'); // do not save 'content' into the frontmatter
-                                Arr::delete($page, 'url');     // do not save 'url' into the frontmatter
-                                Arr::delete($page, 'slug');    // do not save 'slug' into the frontmatter
+                                $content = Http::post('content');
+                                $content = (isset($content)) ? $indenter->indent($content) : '';
 
-                                $page_frontmatter = Yaml::dump($page);
-
-                                Filesystem::setFileContent(PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
+                                Filesystem::setFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html',
                                                           '---'."\n".
-                                                          $page_frontmatter."\n".
+                                                          $frontmatter."\n".
                                                           '---'."\n".
-                                                          $indenter->indent((Http::post('page_content'))));
+                                                          $content);
 
-                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name'));
+                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
 
-                            } else { die('Request was denied because it contained an invalid security token. Please refresh the page and try again.'); }
+                            }
                         }
-
-                        $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
 
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
-                            ->assign('page_title', $page['title'])
-                            ->assign('page_description', (isset($page['description']) ? $page['description'] : ''))
-                            ->assign('page_template',(isset($page['template']) ? $page['template'] : 'default'))
-                            ->assign('page_date',(isset($page['date']) ? $page['date'] : ''))
-                            ->assign('page_visibility', (isset($page['visibility']) ? $page['visibility'] : ''))
-                            ->assign('page_content', $page['content'])
+                            ->assign('page', $page)
                             ->assign('templates', Admin::getTemplatesList())
                             ->assign('files', Admin::getMediaList(Http::get('page')), true)
                             ->display();
@@ -504,6 +497,53 @@ class Admin
 
         Themes::view('admin/views/templates/auth/registration')
             ->display();
+    }
+
+
+    public static function displayPageForm(array $form, array $values = [])
+    {
+        echo Form::open($form['attributes']['action'], $form['attributes']);
+        echo Form::hidden('token', Token::generate());
+
+        if (isset($form['fields']) > 0) {
+            foreach ($form['fields'] as $element => $property) {
+
+                $pos = strpos($element, '.');
+
+                if ($pos === false) {
+                    $form_element_name = $element;
+                } else {
+                    $form_element_name = str_replace(".", "][", "$element").']';
+                }
+
+                $pos = strpos($form_element_name, ']');
+
+                if ($pos !== false) {
+                    $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
+                }
+
+                $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
+
+                $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
+
+                if ($property['type'] == 'textarea') {
+                    $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
+                } elseif ($property['type'] == 'submit') {
+                    $form_element = Form::submit($element, I18n::find($property['title'], Registry::get('system.locale')), $property['attributes']);
+                } elseif ($property['type'] == 'hidden') {
+                    $form_element = Form::hidden($element, $form_value);
+                } else {
+                    // type: text, email, etc
+                    $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
+                }
+
+                echo '<div class="form-group">';
+                echo $form_element;
+                echo '</div>';
+            }
+        }
+
+        echo Form::close();
     }
 
     protected static function processFilesManager()

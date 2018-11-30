@@ -7,7 +7,7 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-    ->assign('links',   [
+        ->assign('links',   [
                             'pages'               => [
                                                         'link'       => Http::getBaseUrl() . '/admin/pages',
                                                         'title'      => __('admin_pages_heading'),
@@ -22,7 +22,12 @@ use function Flextype\Component\I18n\__;
                                                         'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
                                                         'title'      => __('admin_pages_edit_media'),
                                                         'attributes' => ['class' => 'navbar-item active']
-                                                     ]
+                                                    ],
+                             'edit_page_source'           => [
+                                                         'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
+                                                         'title'      => __('admin_pages_editor_source'),
+                                                         'attributes' => ['class' => 'navbar-item']
+                                                      ],
                         ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();

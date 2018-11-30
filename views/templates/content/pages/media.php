@@ -47,14 +47,16 @@ use function Flextype\Component\I18n\__;
 <div class="media-manager">
     <div class="row">
         <?php foreach ($files as $file) { ?>
-            <div class="col-sm-2 item">
-                <a href="javascript:;"
-                   style="background-image: url('<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>')"
-                   class="img-item js-pages-image-preview"
-                   data-image-delete-url="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&media=true&token=<?php echo Token::generate(); ?>"
-                   data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>">
-                   <i class="fas fa-eye"></i>
-                </a>
+            <div class="col-sm-2">
+                <div class="item">
+                    <a href="javascript:;"
+                       style="background-image: url('<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>')"
+                       class="img-item js-pages-image-preview"
+                       data-image-delete-url="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&media=true&token=<?php echo Token::generate(); ?>"
+                       data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>">
+                       <i class="fas fa-eye"></i>
+                    </a>
+                </div>
             </div>
         <?php } ?>
     </div>

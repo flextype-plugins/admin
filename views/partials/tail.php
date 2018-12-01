@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets};
+use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets, Notification\Notification};
 ?>
 
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin.min.js', 'admin', 1); ?>
@@ -25,11 +25,10 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         theme: 'flat'
     }
 
-    Messenger().post({
-        type: "success",
-        message : "message'",
-        hideAfter: '3'
-    });
+    <?php if (Notification::get('success')) { ?> Messenger().post({ type: "success", message : "<?php echo Notification::get('success'); ?>", hideAfter: '3' }); <?php } ?>
+    <?php if (Notification::get('warning')) { ?> Messenger().post({ type: "warning", message : "<?php echo Notification::get('warning'); ?>", hideAfter: '3' }); <?php } ?>
+    <?php if (Notification::get('error'))   { ?> Messenger().post({ type: "error", message : "<?php echo Notification::get('error'); ?>", hideAfter: '3' });     <?php } ?>
+
 
     if (typeof $.flextype == 'undefined') $.flextype = {};
 

@@ -23,6 +23,7 @@ use Flextype\Component\Session\Session;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Token\Token;
 use Flextype\Component\Text\Text;
+use Flextype\Component\Notification\Notification;
 use Flextype\Component\Form\Form;
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
@@ -47,6 +48,10 @@ if (Admin::isAdminArea()) {
         NavigationManager::addItem('help', 'documentation', __('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);
         NavigationManager::addItem('help', 'documentation', __('admin_menu_help_documentation', Registry::get('system.locale')), 'http://flextype.org/documentation', ['class' => 'nav-link', 'target' => '_blank']);
 
+        // Initializes the Notification service.
+        Notification::init();
+
+        // Get Admin Instance
         Admin::getInstance();
     });
 }

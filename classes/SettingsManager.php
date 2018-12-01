@@ -13,6 +13,7 @@ use Flextype\Component\Registry\Registry;
 use Flextype\Component\Token\Token;
 use Flextype\Component\Text\Text;
 use Flextype\Component\Form\Form;
+use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
 use Gajus\Dindent\Indenter;
@@ -28,6 +29,8 @@ class SettingsManager
         if (Http::get('clear_cache')) {
             if (Token::check((Http::get('token')))) {
                 Cache::clear();
+                Notification::set('success', __('message_cache_files_deleted'));
+                Http::redirect(Http::getBaseUrl().'/admin/settings');
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }

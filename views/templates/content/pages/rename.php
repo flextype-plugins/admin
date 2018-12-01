@@ -29,32 +29,18 @@ use function Flextype\Component\I18n\__;
         <?php echo Form::open(); ?>
         <?php echo Form::hidden('token', Token::generate()); ?>
         <?php echo Form::hidden('page_path_current', $page_path_current); ?>
-        <?php echo Form::hidden('page_name_current', $page_name); ?>
+        <?php echo Form::hidden('page_parent', $page_parent); ?>
+        <?php echo Form::hidden('name_current', $name_current); ?>
+
 
         <div class="form-group">
             <?php
                 echo (
-                    Form::label('title', __('admin_pages_title'), ['for' => 'pageTitle']).
-                    Form::input('title', $page_title, ['class' => 'form-control', 'id' => 'pageTitle', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
-                );
-            ?>
-        </div>
-        <div class="form-group">
-            <?php
-                echo (
                     Form::label('name', __('admin_pages_name'), ['for' => 'pageName']).
-                    Form::input('name', $page_name, ['class' => 'form-control', 'id' => 'pageName', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
+                    Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'pageName', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
                 );
             ?>
         </div>
-        <div class="form-group">
-           <?php
-               echo (
-                   Form::label('parent_page', __('admin_pages_parent_page')).
-                   Form::select('parent_page', $pages_list, $page_parent, array('class' => 'form-control'))
-               );
-           ?>
-         </div>
 
          <?php echo Form::submit('rename_page', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
      <?php echo Form::close(); ?>

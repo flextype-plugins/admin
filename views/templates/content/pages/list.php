@@ -48,7 +48,8 @@ use function Flextype\Component\I18n\__;
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add"><?php echo __('admin_pages_add'); ?></a>
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/clone?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_pages_clone'); ?></a>
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_rename'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>" target="_blank"><?php echo __('admin_pages_view_page'); ?></a>
+                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/move?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_move'); ?></a>
+                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>" target="_blank"><?php echo __('admin_pages_view'); ?></a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/delete?page=<?php echo $page['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_pages_delete'); ?></a>

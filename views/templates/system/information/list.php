@@ -18,7 +18,7 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<h3 class="h3"><?php echo  __('admin_system_settings_site'); ?></h3>
+<h3 class="h3"><?php echo  __('admin_system_settings_system'); ?></h3>
 
 <table class="table no-margin">
     <tbody>

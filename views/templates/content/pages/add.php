@@ -39,7 +39,7 @@ use function Flextype\Component\I18n\__;
             <?php
                 echo (
                     Form::label('slug', __('admin_pages_name'), ['for' => 'pageSlug']).
-                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'pageSlug', 'required', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
+                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'pageSlug', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
                 );
             ?>
         </div>

@@ -4,13 +4,13 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 ?>
 
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin.min.js', 'admin', 1); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/trumbowyg.min.js', 'admin', 2); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/lib/codemirror.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/mode/javascript/javascript.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/trumbowyg.min.js', 'admin', 2); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/lib/codemirror.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/javascript/javascript.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
@@ -47,7 +47,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
     $(document).ready(function() {
 
-        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/icons/icons.svg';
+        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/js/trumbowyg/dist/ui/icons.svg';
         $('.js-editor').trumbowyg({
             btnsDef: {
                 // Customizables dropdowns
@@ -128,6 +128,18 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             theme: "twilight",
             smartIndent: false
         });
+
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        }
+
+        Messenger().post({
+            type: "success",
+            message : "'.$message.'",
+            hideAfter: '.$seconds.'
+        });
+
     });
 </script>
 

@@ -10,7 +10,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/lib/codemirror.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/javascript/javascript.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
+<?php if (Registry::get("system.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>

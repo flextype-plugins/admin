@@ -31,6 +31,11 @@ gulp.task('codemirror', function() {
         .pipe(gulp.dest('assets/js/'));
 });
 
+gulp.task('messenger-hubspot', function() {
+    return gulp.src('node_modules/*messenger-hubspot/**/*')
+        .pipe(gulp.dest('assets/js/'));
+});
+
 gulp.task('css', function() {
     return gulp.src('assets/scss/admin.scss')
         .pipe(sass().on('error', sass.logError))
@@ -57,5 +62,6 @@ gulp.task('default', ['css',
                       'js',
                       'bootstrap-css',
                       'trumbowyg',
+                      'messenger-hubspot',
                       'animate-css',
                       'codemirror']);

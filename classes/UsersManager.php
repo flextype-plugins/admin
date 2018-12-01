@@ -34,7 +34,7 @@ class UsersManager
                     Filesystem::setFileContent(
                             PATH['site'] . '/accounts/' . Http::post('username') . '.yaml',
                                                    Yaml::dump(['username' => Text::safeString(Http::post('username')),
-                                                               'password' => Text::encryptPassword(Http::post('password')),
+                                                               'hashed_password' => password_hash(trim(Http::post('password')), PASSWORD_BCRYPT),
                                                                'email' => Http::post('email'),
                                                                'role'  => 'admin',
                                                                'state' => 'enabled'])
@@ -73,8 +73,7 @@ class UsersManager
             if (Token::check((Http::post('token')))) {
                 if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
                     $user_file = Yaml::parseFile($_user_file);
-
-                    if (Text::encryptPassword(Http::post('password')) == $user_file['password']) {
+                    if (password_verify(trim(Http::post('password')), $user_file['hashed_password'])) {
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);
                         Http::redirect(Http::getBaseUrl().'/admin/pages');

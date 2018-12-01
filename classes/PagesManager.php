@@ -38,13 +38,14 @@ class PagesManager
 
                 if (isset($create_page)) {
                     if (Token::check((Http::post('token')))) {
-                        if (Filesystem::setFileContent(
-                            PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/page.html',
-                                                  '---'."\n".
-                                                  'title: '.Http::post('title')."\n".
-                                                  '---'."\n"
-                        )) {
-                            Http::redirect(Http::getBaseUrl().'/admin/pages/');
+                        $file = PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/page.html';
+                        if (!Filesystem::fileExists($file)) {
+                            if (Filesystem::setFileContent($file,
+                                                              '---'."\n".
+                                                              'title: '.Http::post('title')."\n".
+                                                              '---'."\n")) {
+                                Http::redirect(Http::getBaseUrl().'/admin/pages/');
+                            }
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');

@@ -11,12 +11,25 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/javascript/javascript.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
 <?php if (Registry::get("system.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/js/messenger.min.js', 'admin', 7); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/js/messenger-theme-flat.js', 'admin', 8); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
 <script>
+
+    Messenger.options = {
+        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+        theme: 'flat'
+    }
+
+    Messenger().post({
+        type: "success",
+        message : "message'",
+        hideAfter: '3'
+    });
 
     if (typeof $.flextype == 'undefined') $.flextype = {};
 
@@ -128,18 +141,6 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             theme: "twilight",
             smartIndent: false
         });
-
-        Messenger.options = {
-            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-            theme: 'flat'
-        }
-
-        Messenger().post({
-            type: "success",
-            message : "'.$message.'",
-            hideAfter: '.$seconds.'
-        });
-
     });
 </script>
 

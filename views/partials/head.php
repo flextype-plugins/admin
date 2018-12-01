@@ -29,6 +29,10 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/animate.min.css', 'admin', 4); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/lib/codemirror.css', 'admin', 5); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/theme/twilight.css', 'admin', 6); ?>
+
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/css/messenger.css', 'admin', 7); ?>
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/css/messenger-theme-flat.css', 'admin', 8); ?>
+
     <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) {
     foreach ($assets_by_priorities as $assets) {
         ?>

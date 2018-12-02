@@ -32,9 +32,7 @@ use function Flextype\Component\I18n\__;
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
-
-<?php PagesManager::displayPageForm($page['fields'], $page['data'], $page['content']) ?>
-
+<?php PagesManager::displayPageForm($blueprint['fields'], $page, $page['content']) ?>
 <?php
     Themes::view('admin/views/partials/content-end')->display();
     Themes::view('admin/views/partials/footer')->display();

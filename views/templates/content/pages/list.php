@@ -36,7 +36,7 @@ use function Flextype\Component\I18n\__;
         <?php foreach($pages_list as $page) { ?>
         <tr>
             <td>
-                <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['data']['slug'] != '') echo $page['data']['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['data']['title']; ?></a>
+                <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">

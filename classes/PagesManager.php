@@ -191,6 +191,7 @@ class PagesManager
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
+                            ->assign('blueprint', Yaml::parse(Filesystem::getFileContent(PATH['config'].'/page.yaml')))
                             ->assign('templates', PagesManager::getTemplatesList())
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
@@ -262,16 +263,16 @@ class PagesManager
                 $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
 
                 if ($property['type'] == 'textarea') {
-                    $form_element = $form_label . Form::textarea('data['.$element.']', $form_value, $property['attributes']);
+                    $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
                 } elseif ($property['type'] == 'hidden') {
-                    $form_element = Form::hidden('data['.$element.']', $form_value);
+                    $form_element = Form::hidden($element, $form_value);
                 } elseif ($property['type'] == 'content') {
                     $form_element = $form_label . Form::textarea($element, $content, $property['attributes']);
                 } elseif ($property['type'] == 'template') {
-                    $form_element = $form_label . Form::select('data['.$form_element_name.']', PagesManager::getTemplatesList(), $form_value, $property['attributes']);
+                    $form_element = $form_label . Form::select($form_element_name, PagesManager::getTemplatesList(), $form_value, $property['attributes']);
                 } else {
                     // type: text, email, etc
-                    $form_element =  $form_label . Form::input('data['.$form_element_name.']', $form_value, $property['attributes']);
+                    $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
                 }
 
                 echo '<div class="form-group">';

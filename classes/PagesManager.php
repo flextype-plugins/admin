@@ -232,18 +232,17 @@ class PagesManager
         return $files;
     }
 
-    public static function displayPageForm(array $form, array $values = [])
+    public static function displayPageForm(array $form, array $values = [], string $content)
     {
-        echo Form::open($form['attributes']['action'], $form['attributes']);
+        echo Form::open();
         echo Form::hidden('token', Token::generate());
 
-        if (isset($form['fields']) > 0) {
+        if (isset($form) > 0) {
 
-            Arr::set($form['fields'], 'save.title', 'admin_save');
-            Arr::set($form['fields'], 'save.type', 'submit');
-            Arr::set($form['fields'], 'save.attributes.class', 'btn');
+            foreach ($form as $element => $property) {
 
-            foreach ($form['fields'] as $element => $property) {
+                Arr::set($property, 'attributes.class', 'form-control');
+
                 $pos = strpos($element, '.');
 
                 if ($pos === false) {
@@ -263,14 +262,14 @@ class PagesManager
                 $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
 
                 if ($property['type'] == 'textarea') {
-                    $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
-                } elseif ($property['type'] == 'submit') {
-                    $form_element = Form::submit($element, I18n::find($property['title'], Registry::get('system.locale')), $property['attributes']);
+                    $form_element = $form_label . Form::textarea('data['.$element.']', $form_value, $property['attributes']);
                 } elseif ($property['type'] == 'hidden') {
-                    $form_element = Form::hidden($element, $form_value);
+                    $form_element = Form::hidden('data['.$element.']', $form_value);
+                } elseif ($property['type'] == 'content') {
+                    $form_element = $form_label . Form::textarea($element, $content, $property['attributes']);
                 } else {
                     // type: text, email, etc
-                    $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
+                    $form_element =  $form_label . Form::input('data['.$form_element_name.']', $form_value, $property['attributes']);
                 }
 
                 echo '<div class="form-group">';
@@ -279,6 +278,7 @@ class PagesManager
             }
         }
 
+        echo Form::submit('save', __('admin_save'), ['class' => 'btn']);
         echo Form::close();
     }
 

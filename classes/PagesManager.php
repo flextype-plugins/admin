@@ -267,6 +267,8 @@ class PagesManager
                     $form_element = Form::hidden('data['.$element.']', $form_value);
                 } elseif ($property['type'] == 'content') {
                     $form_element = $form_label . Form::textarea($element, $content, $property['attributes']);
+                } elseif ($property['type'] == 'template') {
+                    $form_element = $form_label . Form::select('data['.$form_element_name.']', PagesManager::getTemplatesList(), $form_value, $property['attributes']);
                 } else {
                     // type: text, email, etc
                     $form_element =  $form_label . Form::input('data['.$form_element_name.']', $form_value, $property['attributes']);

@@ -130,8 +130,61 @@ class PagesManager
                         ->assign('page_name', Http::get('page'))
                         ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                         ->display();
+                } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
+
+                    $action = Http::post('action');
+
+                    if (isset($action) && $action == 'save-blueprint') {
+
+                        if (Token::check((Http::post('token')))) {
+                            Filesystem::setFileContent(
+                                PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml',
+                                Http::post('blueprint')
+                            );
+
+
+                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&blueprint=true&blueprint_name='.Http::get('blueprint_name'));
+                        } else {
+                            die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        }
+                    }
+
+                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml');
+
+                    Themes::view('admin/views/templates/content/pages/blueprint')
+                        ->assign('page_name', Http::get('page'))
+                        ->assign('blueprint_name', Http::get('blueprint_name'))
+                        ->assign('blueprint', $blueprint)
+                        ->display();
+                } elseif (Http::get('template') && Http::get('template') == 'true') {
+
+                    $action = Http::post('action');
+
+                    if (isset($action) && $action == 'save-template') {
+
+                        if (Token::check((Http::post('token')))) {
+                            Filesystem::setFileContent(
+                                PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php',
+                                Http::post('template')
+                            );
+
+
+                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&template=true&template_name='.Http::get('template_name'));
+                        } else {
+                            die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        }
+                    }
+
+                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php');
+
+                    Themes::view('admin/views/templates/content/pages/template')
+                        ->assign('page_name', Http::get('page'))
+                        ->assign('template_name', Http::get('template_name'))
+                        ->assign('template', $template)
+                        ->display();
                 } else {
                     if (Http::get('expert') && Http::get('expert') == 'true') {
+
                         $action = Http::post('action');
 
                         if (isset($action) && $action == 'edit-page-expert') {
@@ -191,7 +244,9 @@ class PagesManager
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
-                            ->assign('blueprint', Yaml::parse(Filesystem::getFileContent(PATH['config'].'/page.yaml')))
+                            ->assign('blueprint_name', $page['template'])
+                            ->assign('template_name', $page['template'])
+                            ->assign('blueprint', Yaml::parse(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml')))
                             ->assign('templates', PagesManager::getTemplatesList())
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();

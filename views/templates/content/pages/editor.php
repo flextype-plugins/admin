@@ -30,12 +30,12 @@ use function Flextype\Component\I18n\__;
                                                             'attributes' => ['class' => 'navbar-item']
                                                         ],
                                   'edit_page_blueprint'       => [
-                                                              'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&blueprint=true',
+                                                              'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&blueprint=true&blueprint_name='.$blueprint_name,
                                                               'title'      => __('admin_pages_editor_blueprint'),
                                                               'attributes' => ['class' => 'navbar-item']
                                                            ],
                                    'edit_page_template'       => [
-                                                               'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true',
+                                                               'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true&template_name='.$template_name,
                                                                'title'      => __('admin_pages_editor_template'),
                                                                'attributes' => ['class' => 'navbar-item']
                                                             ],

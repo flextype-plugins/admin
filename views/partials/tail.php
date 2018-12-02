@@ -91,8 +91,12 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             $("#editPage" ).submit();
         });
 
-        $('.js-page-save-submit').click(function() {
-            $("#editPageExpert" ).submit();
+        $('.js-page-edit-template-save').click(function() {
+            $("#editTemplateForm").submit();
+        });
+
+        $('.js-page-edit-blueprint-save').click(function() {
+            $("#editBlueprintForm").submit();
         });
 
         $('.navbar-toggler').click(function () {

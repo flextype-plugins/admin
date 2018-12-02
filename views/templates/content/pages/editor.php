@@ -33,7 +33,7 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?php PagesManager::displayPageForm(Registry::get('plugins.admin.forms.page.'.(isset($page['type']) ? $page['type'] : 'default')), $page) ?>
+<?php PagesManager::displayPageForm($page['form'], $page) ?>
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

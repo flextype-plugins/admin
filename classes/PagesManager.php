@@ -238,6 +238,11 @@ class PagesManager
         echo Form::hidden('token', Token::generate());
 
         if (isset($form['fields']) > 0) {
+
+            Arr::set($form['fields'], 'save.title', 'admin_save');
+            Arr::set($form['fields'], 'save.type', 'submit');
+            Arr::set($form['fields'], 'save.attributes.class', 'btn');
+
             foreach ($form['fields'] as $element => $property) {
                 $pos = strpos($element, '.');
 

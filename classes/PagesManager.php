@@ -151,11 +151,17 @@ class PagesManager
 
                     $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml');
 
-                    Themes::view('admin/views/templates/content/pages/blueprint')
+                    Themes::view('admin/views/templates/content/pages/preview')
                         ->assign('page_name', Http::get('page'))
                         ->assign('blueprint_name', Http::get('blueprint_name'))
                         ->assign('blueprint', $blueprint)
                         ->display();
+                } elseif (Http::get('preview') && Http::get('preview') == 'true') {
+
+                    Themes::view('admin/views/templates/content/pages/preview')
+                        ->assign('page_name', Http::get('page'))
+                        ->display();
+
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
 
                     $action = Http::post('action');

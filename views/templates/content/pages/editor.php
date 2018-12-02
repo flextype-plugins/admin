@@ -44,6 +44,11 @@ use function Flextype\Component\I18n\__;
                                                                 'title'      => __('admin_pages_editor_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
                                                              ],
+                                     'preview'           => [
+                                                                 'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&preview=true',
+                                                                 'title'      => __('admin_pages_preview'),
+                                                                 'attributes' => ['class' => 'navbar-item']
+                                                              ],
                             ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();

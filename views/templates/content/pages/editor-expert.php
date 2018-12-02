@@ -7,28 +7,43 @@ use function Flextype\Component\I18n\__;
 <?php
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
-    ->assign('links',   [
-                        'pages'               => [
-                                                    'link'       => Http::getBaseUrl() . '/admin/pages',
-                                                    'title'      => __('admin_pages_heading'),
-                                                    'attributes' => ['class' => 'navbar-item']
-                                                 ],
-                        'edit_page'           => [
-                                                    'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
-                                                    'title'      => __('admin_pages_editor'),
-                                                    'attributes' => ['class' => 'navbar-item']
-                                                 ],
-                        'edit_page_media'     => [
-                                                    'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
-                                                    'title'      => __('admin_pages_edit_media'),
-                                                    'attributes' => ['class' => 'navbar-item']
-                                                ],
-                         'edit_page_source'           => [
-                                                     'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
-                                                     'title'      => __('admin_pages_editor_source'),
-                                                     'attributes' => ['class' => 'navbar-item active']
-                                                  ],
-                    ])
+        ->assign('links', [
+                                'pages'               => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages',
+                                                            'title'      => __('admin_pages_heading'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ],
+                                'edit_page'           => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
+                                                            'title'      => __('admin_pages_editor'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ],
+                                'edit_page_media'     => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
+                                                            'title'      => __('admin_pages_edit_media'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                        ],
+                                  'edit_page_blueprint'       => [
+                                                              'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&blueprint=true&blueprint_name='.$blueprint_name,
+                                                              'title'      => __('admin_pages_editor_blueprint'),
+                                                              'attributes' => ['class' => 'navbar-item']
+                                                           ],
+                                   'edit_page_template'       => [
+                                                               'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true&template_name='.$template_name,
+                                                               'title'      => __('admin_pages_editor_template'),
+                                                               'attributes' => ['class' => 'navbar-item']
+                                                            ],
+                                    'edit_page_source'           => [
+                                                                'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
+                                                                'title'      => __('admin_pages_editor_source'),
+                                                                'attributes' => ['class' => 'navbar-item active']
+                                                             ],
+                                     'preview'           => [
+                                                                 'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&preview=true',
+                                                                 'title'      => __('admin_pages_preview'),
+                                                                 'attributes' => ['class' => 'navbar-item']
+                                                              ],
+                            ])
         ->assign('buttons', [
                                 'save_page' => [
                                                     'link'       => 'javascript:;',

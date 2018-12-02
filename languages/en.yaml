@@ -126,3 +126,4 @@ admin_pages_error_name_empty_input: "Name has to be an alphanumeric value (3-12 
 message_cache_files_deleted: "Cache files deleted"
 admin_pages_editor_template: "Template"
 admin_pages_editor_blueprint: "Blueprint"
+admin_pages_preview: "Preview"

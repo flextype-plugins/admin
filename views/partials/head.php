@@ -42,6 +42,24 @@ use function Flextype\Component\I18n\__;
 } ?>
 
     <style media="screen">
+
+        iframe{
+            width:100%;
+            height:100vh;
+        }
+
+        .content-full-size .main-panel .navbar-fixed+.content {
+            padding-top: 61px;
+        }
+
+        .content-full-size .main-panel .content {
+            padding: 0;
+        }
+
+        .content-full-size .container-fluid {
+            padding: 0;
+        }
+
         .CodeMirror {
             height: auto;
             margin: -30px;
@@ -73,7 +91,7 @@ use function Flextype\Component\I18n\__;
     </style>
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>
-  <body>
+  <body <?php if(Http::get('preview') && Http::get('preview') == 'true') { ?> class="content-full-size" <?php } ?>>
       <div class="wrapper">
         <?php UsersManager::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display(); ?>
         <div class="main-panel <?php if (isset($main_panel_class)) {

@@ -48,9 +48,7 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-
-<iframe width="100%" height="100%" src="http://flextype.org" frameborder="0"  />
-
+<iframe width="100%" height="100%" src="<?php echo  Http::getBaseUrl() . '/' . $page_name; ?>" frameborder="0"  />
 
 <?php
     Themes::view('admin/views/partials/content-end')->display();

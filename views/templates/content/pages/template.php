@@ -39,9 +39,9 @@ use function Flextype\Component\I18n\__;
                                                                 'attributes' => ['class' => 'navbar-item']
                                                              ],
                                      'preview'           => [
-                                                                 'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&preview=true',
+                                                                 'link'       => Http::getBaseUrl() . '/' . $page_name,
                                                                  'title'      => __('admin_pages_preview'),
-                                                                 'attributes' => ['class' => 'navbar-item']
+                                                                 'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
                                                               ],
                             ])
         ->assign('buttons', [
@@ -64,7 +64,7 @@ use function Flextype\Component\I18n\__;
         <div class="form-group">
             <?php
                 echo (
-                    Form::textarea('template', $template, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'pageExpertEditor'])
+                    Form::textarea('template', $template, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])
                 );
             ?>
         </div>

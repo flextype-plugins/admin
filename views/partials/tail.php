@@ -8,8 +8,8 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/lib/codemirror.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/javascript/javascript.js', 'admin', 3); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/yaml/yaml.js', 'admin', 3); ?>
 <?php if (Registry::get("system.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/js/messenger.min.js', 'admin', 7); ?>
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/js/messenger-theme-flat.js', 'admin', 8); ?>
@@ -60,7 +60,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
     $(document).ready(function() {
 
         $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/js/trumbowyg/dist/ui/icons.svg';
-        $('.js-editor').trumbowyg({
+        $('[data-editor=editor]').trumbowyg({
             btnsDef: {
                 // Customizables dropdowns
                 image: {
@@ -139,15 +139,41 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $.validate({});
 
-        var editor = CodeMirror.fromTextArea(document.getElementById("pageExpertEditor"), {
+        var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
             lineNumbers: true,
-            matchBrackets: true,
             indentUnit: 4,
-            mode:  "htmlmixed",
-            indentWithTabs: true,
+            <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('expert') && Http::get('expert') == 'true')) { ?>
+            mode: "yaml",
+            <?php } else { ?>
+            mode: "text/html",
+            <?php } ?>
+            indentWithTabs: false,
             theme: "twilight",
-            smartIndent: false
+            styleActiveLine: true,
         });
+
+        editor.addKeyMap({
+            "Tab": function (cm) {
+                if (cm.somethingSelected()) {
+                    var sel = editor.getSelection("\n");
+                    // Indent only if there are multiple lines selected, or if the selection spans a full line
+                    if (sel.length > 0 && (sel.indexOf("\n") > -1 || sel.length === cm.getLine(cm.getCursor().line).length)) {
+                        cm.indentSelection("add");
+                        return;
+                    }
+                }
+
+                if (cm.options.indentWithTabs)
+                    cm.execCommand("insertTab");
+                else
+                    cm.execCommand("insertSoftTab");
+            },
+            "Shift-Tab": function (cm) {
+                cm.indentSelection("subtract");
+            }
+        });
+
+
     });
 </script>
 

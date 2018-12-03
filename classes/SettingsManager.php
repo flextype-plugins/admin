@@ -42,6 +42,7 @@ class SettingsManager
                 Arr::delete($_POST, 'settings_site_save');
 
                 if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', Yaml::dump($_POST))) {
+                    Notification::set('success', __('message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
             } else {
@@ -59,6 +60,7 @@ class SettingsManager
                 Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
 
                 if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', Yaml::dump($_POST))) {
+                    Notification::set('success', __('message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
             } else {

@@ -28,8 +28,8 @@
         letter-spacing: 3px;
         color: white;
         display: block;
-        padding-top: 18px;
-        padding-bottom: 18px;
+        padding-top: 10px;
+        padding-bottom: 9px;
         text-align: center;
         border-bottom: 1px solid #000;
         margin-bottom: 18px;
@@ -55,7 +55,7 @@
         border-top: 4px solid\9;
         border-right: 4px solid transparent;
         border-left: 4px solid transparent;
-        margin-top: 13px;
+        margin-top: 10px;
         position: absolute;
         right: 0;
         transition: all 150ms ease-in;
@@ -76,7 +76,7 @@
         opacity: .86;
         border-radius: 0;
         text-transform: uppercase;
-        line-height: 30px;
+        line-height: 24px;
         font-size: 12px;
         font-weight: 600;
         padding: 10px 25px;
@@ -89,7 +89,7 @@
     }
 
     .nav .nav-item .nav-link i {
-        font-size: 28px;
+        font-size: 22px;
         margin-right: 15px;
         width: 30px;
         text-align: center;
@@ -146,7 +146,7 @@
 
         .nav .nav-link p {
             margin: 0;
-            line-height: 30px;
+            line-height: 24px;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;

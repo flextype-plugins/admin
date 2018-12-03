@@ -63,6 +63,7 @@ use function Flextype\Component\I18n\__;
         .CodeMirror {
             height: auto;
             margin: -30px;
+            margin-top: -15px;
             font-size: 14px;
         }
 

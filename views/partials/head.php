@@ -80,6 +80,7 @@ use function Flextype\Component\I18n\__;
             color: #9ca4b2;
         }
 
+        .cm-s-twilight .cm-meta,
         .cm-s-twilight.CodeMirror {
             background: #292d34;
         }

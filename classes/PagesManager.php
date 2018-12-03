@@ -13,6 +13,7 @@ use Flextype\Component\Registry\Registry;
 use Flextype\Component\Token\Token;
 use Flextype\Component\Text\Text;
 use Flextype\Component\Form\Form;
+use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
 use Gajus\Dindent\Indenter;
@@ -27,6 +28,7 @@ class PagesManager
                 if (Http::get('page') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
+                        Notification::set('success', __('message_page_deleted'));
                         Http::redirect(Http::getBaseUrl().'/admin/pages');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -44,6 +46,7 @@ class PagesManager
                                                               '---'."\n".
                                                               'title: '.Http::post('title')."\n".
                                                               '---'."\n")) {
+                                Notification::set('success', __('message_page_created'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages/');
                             }
                         }
@@ -60,6 +63,7 @@ class PagesManager
                 if (Http::get('page') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::recursiveCopy(PATH['pages'] . '/' . Http::get('page'), PATH['pages'] . '/' . Http::get('page') . '-clone-' . date("Ymd_His"));
+                        Notification::set('success', __('message_page_cloned'));
                         Http::redirect(Http::getBaseUrl().'/admin/pages/');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -75,6 +79,7 @@ class PagesManager
                         if (!Filesystem::dirExists(PATH['pages'] . '/' . Http::post('name'))) {
                             if (rename(PATH['pages'] . '/' . Http::post('page_path_current'),
                                        PATH['pages'] . '/' . Http::post('page_parent') . '/' . Http::post('name'))) {
+                                Notification::set('success', __('message_page_renamed'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');
                             }
                         }
@@ -98,6 +103,7 @@ class PagesManager
                         if (!Filesystem::dirExists(realpath(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')))) {
                             if (rename(PATH['pages'] . '/' . Http::post('page_path_current'),
                                        PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current'))) {
+                                Notification::set('success', __('message_page_moved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');
                             }
                         }
@@ -144,8 +150,7 @@ class PagesManager
                                 PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml',
                                 Http::post('blueprint')
                             );
-
-
+                            Notification::set('success', __('message_page_changes_saved'));
                             Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&blueprint=true&blueprint_name='.Http::get('blueprint_name'));
                         } else {
                             die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -181,8 +186,7 @@ class PagesManager
                                 PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php',
                                 Http::post('template')
                             );
-
-
+                            Notification::set('success', __('message_page_changes_saved'));
                             Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&template=true&template_name='.Http::get('template_name'));
                         } else {
                             die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -209,8 +213,7 @@ class PagesManager
                                     PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
                                                           Http::post('page_content')
                                 );
-
-
+                                Notification::set('success', __('message_page_changes_saved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&expert=true');
                             } else {
                                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -254,7 +257,7 @@ class PagesManager
                                                           '---'."\n".
                                                           $content
                                 );
-
+                                Notification::set('success', __('message_page_changes_saved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
                             }
                         }
@@ -376,6 +379,7 @@ class PagesManager
         if (Http::get('delete_file') != '') {
             if (Token::check((Http::get('token')))) {
                 Filesystem::deleteFile($files_directory . Http::get('delete_file'));
+                Notification::set('success', __('message_page_file_deleted'));
                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -385,6 +389,8 @@ class PagesManager
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
                 Filesystem::uploadFile($_FILES['file'], $files_directory, ['jpeg', 'png', 'gif', 'jpg'], 5000000);
+                Notification::set('success', __('message_page_file_uploaded'));
+                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }

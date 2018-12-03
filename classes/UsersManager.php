@@ -7,6 +7,7 @@ use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
 use Flextype\Component\Token\Token;
 use Flextype\Component\Text\Text;
+use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
 
@@ -77,7 +78,11 @@ class UsersManager
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);
                         Http::redirect(Http::getBaseUrl().'/admin/pages');
+                    } else {
+                        Notification::set('error', __('message_wrong_username_password'));
                     }
+                } else {
+                    Notification::set('error', __('message_wrong_username_password'));
                 }
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');

@@ -47,7 +47,7 @@ use function Flextype\Component\I18n\__;
         ->assign('buttons', [
                                 'save_page' => [
                                                     'link'       => 'javascript:;',
-                                                    'title'      => __('admin_pages_save_page'),
+                                                    'title'      => __('admin_save'),
                                                     'attributes' => ['class' => 'js-page-save-submit float-right btn']
                                                 ]
                             ])

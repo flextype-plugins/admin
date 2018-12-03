@@ -259,12 +259,21 @@ class PagesManager
                             }
                         }
 
+                        //Yaml::parse(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml'))
+                        $blueprint_path_default = PATH['config'] . '/page.yaml';
+                        $blueprint_path = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml';
+                        if (Filesystem::fileExists($blueprint_path)) {
+                            $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path));
+                        } else {
+                            $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path_default));
+                        }
+
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
                             ->assign('blueprint_name', $page['template'])
                             ->assign('template_name', $page['template'])
-                            ->assign('blueprint', Yaml::parse(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml')))
+                            ->assign('blueprint', $blueprint)
                             ->assign('templates', PagesManager::getTemplatesList())
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
@@ -340,7 +349,9 @@ class PagesManager
                 } elseif ($property['type'] == 'hidden') {
                     $form_element = Form::hidden($element, $form_value);
                 } elseif ($property['type'] == 'content') {
-                    $form_element = $form_label . Form::textarea($element, $content, $property['attributes']);
+                    $form_element = $form_label . Form::textarea($element, $content, array_merge($property['attributes'], ['data-editor' => 'editor']));
+                } elseif ($property['type'] == 'editor') {
+                    $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
                 } elseif ($property['type'] == 'template') {
                     $form_element = $form_label . Form::select($form_element_name, PagesManager::getTemplatesList(), $form_value, $property['attributes']);
                 } else {

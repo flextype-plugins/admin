@@ -2,14 +2,22 @@
     border-bottom: none;
     text-transform: uppercase;
     color: #fff;
-    font-size: .75rem;
+    font-size: 14px;
     font-weight: 400;
 
-    padding: .75rem 1.25rem;
+    padding: 11.5px 1.25rem;
     margin-bottom: 0;
     background-color: #21252b;
     border-color: #21252b;
 
+    .close {
+        margin: -1.5px;
+        padding: 0;
+    }
+}
+
+.modal-title {
+    font-size: 14px;
 }
 
 .modal-body {
@@ -88,6 +96,7 @@
     color: $btn-text-color;
     opacity: 1;
     text-shadow: none;
+
 }
 
 .close:not(:disabled):not(.disabled):focus,

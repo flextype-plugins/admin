@@ -3,8 +3,10 @@
 * Information: Display information about core and admin plugin version
 * Information: Display information about system methods password_hash() and password_verify()
 * Information: Display information about memory limit
-* 
-
+* Users: From now we will create more secure password hash with password_hash method
+* Translates updates and fixes
+* Using new I18n 1.1.1
+* Assets Manager for javascript added.
 
 
 # v0.2.0, 2018-11-24

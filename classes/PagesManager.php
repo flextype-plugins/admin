@@ -126,11 +126,14 @@ class PagesManager
             case 'edit':
                 if (Http::get('media') && Http::get('media') == 'true') {
                     PagesManager::processFilesManager();
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                     Themes::view('admin/views/templates/content/pages/media')
                         ->assign('page_name', Http::get('page'))
                         ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
+                        ->assign('blueprint_name', $page['template'])
+                        ->assign('template_name', $page['template'])
                         ->display();
-                } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
+                } else if (Http::get('blueprint') && Http::get('blueprint') == 'true') {
 
                     $action = Http::post('action');
 
@@ -149,17 +152,22 @@ class PagesManager
                         }
                     }
 
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                     $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml');
 
-                    Themes::view('admin/views/templates/content/pages/preview')
+                    Themes::view('admin/views/templates/content/pages/blueprint')
                         ->assign('page_name', Http::get('page'))
-                        ->assign('blueprint_name', Http::get('blueprint_name'))
+                        ->assign('template_name', $page['template'])
+                        ->assign('blueprint_name', $page['template'])
                         ->assign('blueprint', $blueprint)
                         ->display();
                 } elseif (Http::get('preview') && Http::get('preview') == 'true') {
 
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                     Themes::view('admin/views/templates/content/pages/preview')
                         ->assign('page_name', Http::get('page'))
+                        ->assign('template_name', $page['template'])
+                        ->assign('blueprint_name',  $page['template'])
                         ->display();
 
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
@@ -181,11 +189,13 @@ class PagesManager
                         }
                     }
 
+                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                     $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php');
 
                     Themes::view('admin/views/templates/content/pages/template')
                         ->assign('page_name', Http::get('page'))
-                        ->assign('template_name', Http::get('template_name'))
+                        ->assign('template_name', $page['template'])
+                        ->assign('blueprint_name', $page['template'])
                         ->assign('template', $template)
                         ->display();
                 } else {
@@ -208,10 +218,12 @@ class PagesManager
                         }
 
                         $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
-
+                        $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                         Themes::view('admin/views/templates/content/pages/editor-expert')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page_content', $page_content)
+                            ->assign('template_name', $page['template'])
+                            ->assign('blueprint_name', $page['template'])
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
                     } else {

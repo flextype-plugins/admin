@@ -1,4 +1,11 @@
 # v0.3.0, 2018-12-09
+* New Gorgeous Admin theme in dark colors!
+* Information: Display information about core and admin plugin version
+* Information: Display information about system methods password_hash() and password_verify()
+* Information: Display information about memory limit
+* 
+
+
 
 # v0.2.0, 2018-11-24
 * General: Link to site preview added #11

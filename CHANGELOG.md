@@ -5,7 +5,7 @@
 * Information: Display information about memory limit
 * Users: From now we will create more secure password hash with password_hash method
 * Translates updates and fixes
-* Using new I18n 1.1.1
+* Using new I18n 1.2.0
 * Assets Manager for javascript added.
 
 

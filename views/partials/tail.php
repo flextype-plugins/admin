@@ -91,6 +91,10 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             $("#editPage" ).submit();
         });
 
+        $('.js-page-expert-save-submit').click(function() {
+            $("#editPageExpert" ).submit();
+        });
+
         $('.js-page-edit-template-save').click(function() {
             $("#editTemplateForm").submit();
         });

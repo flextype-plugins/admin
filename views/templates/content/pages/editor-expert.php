@@ -48,7 +48,7 @@ use function Flextype\Component\I18n\__;
                                 'save_page' => [
                                                     'link'       => 'javascript:;',
                                                     'title'      => __('admin_save'),
-                                                    'attributes' => ['class' => 'js-page-save-submit float-right btn']
+                                                    'attributes' => ['class' => 'js-page-expert-save-submit float-right btn']
                                                 ]
                             ])
         ->display();

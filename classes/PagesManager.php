@@ -170,13 +170,6 @@ class PagesManager
                         ->assign('blueprint_name', $page['template'])
                         ->assign('blueprint', $blueprint)
                         ->display();
-                } elseif (Http::get('preview') && Http::get('preview') == 'true') {
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
-                    Themes::view('admin/views/templates/content/pages/preview')
-                        ->assign('page_name', Http::get('page'))
-                        ->assign('template_name', $page['template'])
-                        ->assign('blueprint_name', $page['template'])
-                        ->display();
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
                     $action = Http::post('action');
 

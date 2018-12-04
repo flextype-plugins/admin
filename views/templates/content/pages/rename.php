@@ -1,26 +1,28 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Registry\Registry, Http\Http, Form\Form, Token\Token};
-use function Flextype\Component\I18n\__;
-?>
 
-<?php
-    Themes::view('admin/views/partials/head')->display();
-    Themes::view('admin/views/partials/navbar')
-        ->assign('links', [
-                                'pages'     => [
-                                                    'link'  => Http::getBaseUrl() . '/admin/pages',
-                                                    'title' => __('admin_pages_heading'),
-                                                    'attributes' => ['class' => 'navbar-item']
-                                                ],
-                                'pages_add' => [
-                                                    'link' => Http::getBaseUrl() . '/admin/pages/rename',
-                                                    'title' => __('admin_pages_rename'),
-                                                    'attributes' => ['class' => 'navbar-item active']
-                                                ]
-                         ])
-        ->display();
-    Themes::view('admin/views/partials/content-start')->display();
+use Flextype\Component\Registry\Registry;
+use Flextype\Component\Http\Http;
+use Flextype\Component\Form\Form;
+use Flextype\Component\Token\Token;
+use function Flextype\Component\I18n\__;
+
+Themes::view('admin/views/partials/head')->display();
+Themes::view('admin/views/partials/navbar')
+    ->assign('links', [
+                            'pages'     => [
+                                                'link'  => Http::getBaseUrl() . '/admin/pages',
+                                                'title' => __('admin_pages_heading'),
+                                                'attributes' => ['class' => 'navbar-item']
+                                            ],
+                            'pages_add' => [
+                                                'link' => Http::getBaseUrl() . '/admin/pages/rename',
+                                                'title' => __('admin_pages_rename'),
+                                                'attributes' => ['class' => 'navbar-item active']
+                                            ]
+                     ])
+    ->display();
+Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <div class="row">
@@ -35,7 +37,7 @@ use function Flextype\Component\I18n\__;
 
         <div class="form-group">
             <?php
-                echo (
+                echo(
                     Form::label('name', __('admin_pages_name'), ['for' => 'pageName']).
                     Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'pageName', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-length' => '1-255', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
                 );
@@ -49,6 +51,6 @@ use function Flextype\Component\I18n\__;
 </div>
 
 <?php
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
+Themes::view('admin/views/partials/content-end')->display();
+Themes::view('admin/views/partials/footer')->display();
 ?>

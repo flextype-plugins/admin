@@ -117,6 +117,7 @@ class Admin
         // Event: onBeforeRequestShutdown
         Event::dispatch('onBeforeRequestShutdown');
 
+        // Shutdown request
         Http::requestShutdown();
     }
 

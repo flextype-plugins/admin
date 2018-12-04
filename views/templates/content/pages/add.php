@@ -54,9 +54,9 @@ use function Flextype\Component\I18n\__;
         </div>
         <div class="form-group">
             <label><?php echo __('admin_pages_template'); ?></label>
-            <select class="form-control" name="templates">
-            <?php foreach($templates as $templates) { ?>
-                <option value="<?php echo $templates; ?>"><?php echo $templates; ?></option>
+            <select class="form-control" name="template">
+            <?php foreach($templates as $template) { ?>
+                <option value="<?php echo $template; ?>"><?php echo $template; ?></option>
             <?php } ?>
             </select>
         </div>

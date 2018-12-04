@@ -2,10 +2,7 @@
 
 namespace Flextype;
 
-use Flextype\Component\Registry\Registry;
 use Flextype\Component\Http\Http;
-use function Flextype\Component\I18n\__;
-use Flextype\Navigation;
 
 class DashboardManager
 {

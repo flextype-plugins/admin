@@ -29,7 +29,6 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
     <?php if (Notification::get('warning')) { ?> Messenger().post({ type: "warning", message : "<?php echo Notification::get('warning'); ?>", hideAfter: '3' }); <?php } ?>
     <?php if (Notification::get('error'))   { ?> Messenger().post({ type: "error", message : "<?php echo Notification::get('error'); ?>", hideAfter: '3' });     <?php } ?>
 
-
     if (typeof $.flextype == 'undefined') $.flextype = {};
 
     $.flextype.plugins = {
@@ -141,7 +140,13 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
             lineNumbers: true,
+            <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('expert') && Http::get('expert') == 'true')) { ?>
+            indentUnit: 2,
+            tabSize: 2,
+            <?php } else { ?>
+            tabSize: 4,
             indentUnit: 4,
+            <?php } ?>
             <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('expert') && Http::get('expert') == 'true')) { ?>
             mode: "yaml",
             <?php } else { ?>

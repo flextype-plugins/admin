@@ -50,11 +50,20 @@ use function Flextype\Component\I18n\__;
                                                                  'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
                                                               ],
                             ])
+        ->assign('buttons', [
+                                'save_page' => [
+                                                    'link'       => 'javascript:;',
+                                                    'title'      => __('admin_save'),
+                                                    'attributes' => ['class' => 'js-page-save-submit float-right btn']
+                                                ]
+                            ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
-<?php PagesManager::displayPageForm($blueprint['fields'], $page, $page['content']) ?>
+<?php PagesManager::displayPageForm($blueprint['fields'], $page, $page['content']); ?>
 <?php
+    //var_dump($_POST);
+
     Themes::view('admin/views/partials/content-end')->display();
     Themes::view('admin/views/partials/footer')->display();
 ?>

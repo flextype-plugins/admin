@@ -147,7 +147,7 @@ class PagesManager
                 } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
                     $action = Http::post('action');
 
-                    if (isset($action) && $action == 'save-blueprint') {
+                    if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
                                 PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml',
@@ -179,7 +179,7 @@ class PagesManager
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
                     $action = Http::post('action');
 
-                    if (isset($action) && $action == 'save-template') {
+                    if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
                                 PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php',
@@ -205,7 +205,7 @@ class PagesManager
                     if (Http::get('expert') && Http::get('expert') == 'true') {
                         $action = Http::post('action');
 
-                        if (isset($action) && $action == 'edit-page-expert') {
+                        if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
                                 Filesystem::setFileContent(
                                     PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
@@ -229,10 +229,10 @@ class PagesManager
                             ->display();
                     } else {
                         $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
-                        $action = Http::post('save');
+                        $action = Http::post('action');
                         $indenter = new Indenter();
 
-                        if (isset($action)) {
+                        if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
                                 $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                                 Arr::delete($page, 'content');
@@ -241,7 +241,7 @@ class PagesManager
 
                                 $frontmatter = $_POST;
                                 Arr::delete($frontmatter, 'token');
-                                Arr::delete($frontmatter, 'save');
+                                Arr::delete($frontmatter, 'save-form');
                                 Arr::delete($frontmatter, 'content');
                                 $frontmatter = Yaml::dump(array_merge($page, $frontmatter), 10, 2);
 
@@ -318,8 +318,9 @@ class PagesManager
 
     public static function displayPageForm(array $form, array $values = [], string $content)
     {
-        echo Form::open();
+        echo Form::open(null, ['id' => 'editorForm']);
         echo Form::hidden('token', Token::generate());
+        echo Form::hidden('action', 'save-form');
 
         if (isset($form) > 0) {
             foreach ($form as $element => $property) {
@@ -364,7 +365,7 @@ class PagesManager
             }
         }
 
-        echo Form::submit('save', __('admin_save'), ['class' => 'btn']);
+        //echo Form::submit('save', __('admin_save'), ['class' => 'btn']);
         echo Form::close();
     }
 

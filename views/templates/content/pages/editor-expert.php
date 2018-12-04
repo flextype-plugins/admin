@@ -48,16 +48,16 @@ use function Flextype\Component\I18n\__;
                                 'save_page' => [
                                                     'link'       => 'javascript:;',
                                                     'title'      => __('admin_save'),
-                                                    'attributes' => ['class' => 'js-page-expert-save-submit float-right btn']
+                                                    'attributes' => ['class' => 'js-page-save-submit float-right btn']
                                                 ]
                             ])
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?php echo Form::open(null, ['id' => 'editPageExpert']); ?>
+<?php echo Form::open(null, ['id' => 'editorForm']); ?>
 <?php echo Form::hidden('token', Token::generate()); ?>
-<?php echo Form::hidden('action', 'edit-page-expert'); ?>
+<?php echo Form::hidden('action', 'save-form'); ?>
 <?php echo Form::hidden('page_name', $page_name); ?>
 <div class="row">
     <div class="col-12">

@@ -87,19 +87,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         $.flextype.plugins.init();
 
         $('.js-page-save-submit').click(function() {
-            $("#editPage" ).submit();
-        });
-
-        $('.js-page-expert-save-submit').click(function() {
-            $("#editPageExpert" ).submit();
-        });
-
-        $('.js-page-edit-template-save').click(function() {
-            $("#editTemplateForm").submit();
-        });
-
-        $('.js-page-edit-blueprint-save').click(function() {
-            $("#editBlueprintForm").submit();
+            $("#editorForm" ).submit();
         });
 
         $('.navbar-toggler').click(function () {

@@ -28,8 +28,7 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/admin.min.css', 'admin', 3); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/css/animate.min.css', 'admin', 4); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/lib/codemirror.css', 'admin', 5); ?>
-    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/theme/twilight.css', 'admin', 6); ?>
-
+    <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/theme/monokai.css', 'admin', 6); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/css/messenger.css', 'admin', 7); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/css/messenger-theme-flat.css', 'admin', 8); ?>
 
@@ -71,18 +70,18 @@ use function Flextype\Component\I18n\__;
             background: #292d34;
         }
 
-        .cm-s-twilight .CodeMirror-gutters {
+        .cm-s-monokai .CodeMirror-gutters {
             background: #292d34;
             border-right: none;
             color: #9ca4b2;
         }
 
-        .cm-s-twilight .CodeMirror-linenumber {
+        .cm-s-monokai .CodeMirror-linenumber {
             color: #9ca4b2;
         }
 
-        .cm-s-twilight .cm-meta,
-        .cm-s-twilight.CodeMirror {
+        .cm-s-monokai .cm-meta,
+        .cm-s-monokai.CodeMirror {
             background: #292d34;
         }
 

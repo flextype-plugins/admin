@@ -153,7 +153,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             mode: "text/html",
             <?php } ?>
             indentWithTabs: false,
-            theme: "twilight",
+            theme: "monokai",
             styleActiveLine: true,
         });
 

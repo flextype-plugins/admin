@@ -21,6 +21,14 @@ use Flextype\Navigation;
 
 class PagesManager
 {
+
+    /**
+     * Media
+     *
+     * @var array
+     */
+    public static $media = ['jpeg', 'png', 'gif', 'jpg'];
+
     public static function getPagesManagerPage()
     {
         switch (Http::getUriSegment(2)) {
@@ -299,7 +307,7 @@ class PagesManager
     {
         $files = [];
         foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
-            if (in_array($file_ext = substr(strrchr($file, '.'), 1), ['jpeg', 'png', 'gif', 'jpg'])) {
+            if (in_array($file_ext = substr(strrchr($file, '.'), 1), PagesManager::$media)) {
                 if (strpos($file, $file_ext, 1)) {
                     $files[] = $file;
                 }
@@ -377,7 +385,7 @@ class PagesManager
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                Filesystem::uploadFile($_FILES['file'], $files_directory, ['jpeg', 'png', 'gif', 'jpg'], 7000000);
+                Filesystem::uploadFile($_FILES['file'], $files_directory, PagesManager::$media, 7000000);
                 Notification::set('success', __('message_page_file_uploaded'));
                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
             } else {

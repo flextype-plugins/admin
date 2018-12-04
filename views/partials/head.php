@@ -32,20 +32,11 @@ use function Flextype\Component\I18n\__;
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/css/messenger.css', 'admin', 7); ?>
     <?php Assets::add('css', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/css/messenger-theme-flat.css', 'admin', 8); ?>
 
-    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) {
-    foreach ($assets_by_priorities as $assets) {
-        ?>
+    <?php foreach (Assets::get('css', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
         <link href="<?php echo $assets['asset']; ?>" rel="stylesheet">
-    <?php
-    }
-} ?>
+    <?php } } ?>
 
     <style media="screen">
-
-        iframe{
-            width:100%;
-            height:100vh;
-        }
 
         .content-full-size .main-panel .navbar-fixed+.content {
             padding-top: 61px;
@@ -95,6 +86,4 @@ use function Flextype\Component\I18n\__;
   <body <?php if(Http::get('preview') && Http::get('preview') == 'true') { ?> class="content-full-size" <?php } ?>>
       <div class="wrapper">
         <?php UsersManager::isLoggedIn() and Themes::view('admin/views/partials/sidebar')->display(); ?>
-        <div class="main-panel <?php if (isset($main_panel_class)) {
-    echo $main_panel_class;
-}?>">
+        <div class="main-panel <?php if (isset($main_panel_class)) { echo $main_panel_class; }?>">

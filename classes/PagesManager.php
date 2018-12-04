@@ -44,9 +44,10 @@ class PagesManager
                         if (!Filesystem::fileExists($file)) {
                             if (Filesystem::setFileContent(
                                 $file,
-                                                              '---'."\n".
-                                                              'title: '.Http::post('title')."\n".
-                                                              '---'."\n"
+                                  '---'."\n".
+                                  'title: '.Http::post('title')."\n".
+                                  'template: default'."\n".
+                                  '---'."\n"
                             )) {
                                 Notification::set('success', __('message_page_created'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages/');
@@ -304,7 +305,7 @@ class PagesManager
     {
         $files = [];
 
-        foreach (array_diff(scandir(PATH['pages'] . '/' . $page), array('..', '.')) as $file) {
+        foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
             if (in_array($file_ext = substr(strrchr($file, '.'), 1), ['jpeg', 'png', 'gif', 'jpg'])) {
                 if (strpos($file, $file_ext, 1)) {
                     $files[] = $file;

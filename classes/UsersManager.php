@@ -11,7 +11,6 @@ use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
 
-
 class UsersManager
 {
     public static function logout()

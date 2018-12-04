@@ -42,10 +42,12 @@ class PagesManager
                     if (Token::check((Http::post('token')))) {
                         $file = PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/page.html';
                         if (!Filesystem::fileExists($file)) {
-                            if (Filesystem::setFileContent($file,
+                            if (Filesystem::setFileContent(
+                                $file,
                                                               '---'."\n".
                                                               'title: '.Http::post('title')."\n".
-                                                              '---'."\n")) {
+                                                              '---'."\n"
+                            )) {
                                 Notification::set('success', __('message_page_created'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages/');
                             }
@@ -75,15 +77,15 @@ class PagesManager
 
                 if (isset($rename_page)) {
                     if (Token::check((Http::post('token')))) {
-
                         if (!Filesystem::dirExists(PATH['pages'] . '/' . Http::post('name'))) {
-                            if (rename(PATH['pages'] . '/' . Http::post('page_path_current'),
-                                       PATH['pages'] . '/' . Http::post('page_parent') . '/' . Http::post('name'))) {
+                            if (rename(
+                                PATH['pages'] . '/' . Http::post('page_path_current'),
+                                       PATH['pages'] . '/' . Http::post('page_parent') . '/' . Http::post('name')
+                            )) {
                                 Notification::set('success', __('message_page_renamed'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');
                             }
                         }
-
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                     }
@@ -101,8 +103,10 @@ class PagesManager
                 if (isset($move_page)) {
                     if (Token::check((Http::post('token')))) {
                         if (!Filesystem::dirExists(realpath(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')))) {
-                            if (rename(PATH['pages'] . '/' . Http::post('page_path_current'),
-                                       PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current'))) {
+                            if (rename(
+                                PATH['pages'] . '/' . Http::post('page_path_current'),
+                                       PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')
+                            )) {
                                 Notification::set('success', __('message_page_moved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');
                             }
@@ -139,12 +143,10 @@ class PagesManager
                         ->assign('blueprint_name', $page['template'])
                         ->assign('template_name', $page['template'])
                         ->display();
-                } else if (Http::get('blueprint') && Http::get('blueprint') == 'true') {
-
+                } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
                     $action = Http::post('action');
 
                     if (isset($action) && $action == 'save-blueprint') {
-
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
                                 PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml',
@@ -167,20 +169,16 @@ class PagesManager
                         ->assign('blueprint', $blueprint)
                         ->display();
                 } elseif (Http::get('preview') && Http::get('preview') == 'true') {
-
                     $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
                     Themes::view('admin/views/templates/content/pages/preview')
                         ->assign('page_name', Http::get('page'))
                         ->assign('template_name', $page['template'])
-                        ->assign('blueprint_name',  $page['template'])
+                        ->assign('blueprint_name', $page['template'])
                         ->display();
-
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
-
                     $action = Http::post('action');
 
                     if (isset($action) && $action == 'save-template') {
-
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
                                 PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php',
@@ -204,7 +202,6 @@ class PagesManager
                         ->display();
                 } else {
                     if (Http::get('expert') && Http::get('expert') == 'true') {
-
                         $action = Http::post('action');
 
                         if (isset($action) && $action == 'edit-page-expert') {
@@ -324,9 +321,7 @@ class PagesManager
         echo Form::hidden('token', Token::generate());
 
         if (isset($form) > 0) {
-
             foreach ($form as $element => $property) {
-
                 Arr::set($property, 'attributes.class', 'form-control');
 
                 $pos = strpos($element, '.');

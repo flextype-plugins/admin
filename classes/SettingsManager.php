@@ -41,7 +41,7 @@ class SettingsManager
                 Arr::delete($_POST, 'token');
                 Arr::delete($_POST, 'settings_site_save');
 
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', Yaml::dump($_POST))) {
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', Yaml::dump($_POST, 10, 2))) {
                     Notification::set('success', __('message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
@@ -59,7 +59,7 @@ class SettingsManager
                 Arr::set($_POST, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
                 Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
 
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', Yaml::dump($_POST))) {
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', Yaml::dump($_POST, 10, 2))) {
                     Notification::set('success', __('message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }

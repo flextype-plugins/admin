@@ -37,7 +37,7 @@ class UsersManager
                                                                'hashed_password' => password_hash(trim(Http::post('password')), PASSWORD_BCRYPT),
                                                                'email' => Http::post('email'),
                                                                'role'  => 'admin',
-                                                               'state' => 'enabled'])
+                                                               'state' => 'enabled'], 10, 2)
                         );
 
                     Http::redirect(Http::getBaseUrl().'/admin/pages');

@@ -243,7 +243,7 @@ class PagesManager
                                 Arr::delete($frontmatter, 'token');
                                 Arr::delete($frontmatter, 'save');
                                 Arr::delete($frontmatter, 'content');
-                                $frontmatter = Yaml::dump(array_merge($page, $frontmatter), 10, 4);
+                                $frontmatter = Yaml::dump(array_merge($page, $frontmatter), 10, 2);
 
                                 $content = Http::post('content');
                                 $content = (isset($content)) ? $indenter->indent($content) : '';

@@ -46,7 +46,7 @@ class PagesManager
                                 $file,
                                   '---'."\n".
                                   'title: '.Http::post('title')."\n".
-                                  'template: default'."\n".
+                                  'template: '.Http::post('template')."\n".
                                   '---'."\n"
                             )) {
                                 Notification::set('success', __('message_page_created'));
@@ -59,6 +59,7 @@ class PagesManager
                 }
 
                 Themes::view('admin/views/templates/content/pages/add')
+                    ->assign('templates', PagesManager::getTemplatesList())
                     ->assign('pages_list', Content::getPages('', false, 'slug'))
                     ->display();
             break;

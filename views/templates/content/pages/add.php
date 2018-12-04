@@ -48,7 +48,15 @@ use function Flextype\Component\I18n\__;
             <select class="form-control" id="formGroupParentPageInput" name="parent_page">
             <option value="">/</option>
             <?php foreach($pages_list as $page) { ?>
-            <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
+                <option value="<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?></option>
+            <?php } ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label><?php echo __('admin_pages_template'); ?></label>
+            <select class="form-control" name="templates">
+            <?php foreach($templates as $templates) { ?>
+                <option value="<?php echo $templates; ?>"><?php echo $templates; ?></option>
             <?php } ?>
             </select>
         </div>

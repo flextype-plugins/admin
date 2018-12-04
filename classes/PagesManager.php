@@ -298,7 +298,6 @@ class PagesManager
     public static function getMediaList($page)
     {
         $files = [];
-
         foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
             if (in_array($file_ext = substr(strrchr($file, '.'), 1), ['jpeg', 'png', 'gif', 'jpg'])) {
                 if (strpos($file, $file_ext, 1)) {
@@ -306,7 +305,6 @@ class PagesManager
                 }
             }
         }
-
         return $files;
     }
 

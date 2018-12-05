@@ -34,6 +34,14 @@ Themes::view('admin/views/partials/content-start')->display();
         <?php foreach($pages_list as $page) { ?>
         <tr>
             <td>
+                <?php
+                    $count = count(explode('/', $page['slug']));
+                    for ($i=0; $i < $count; $i++) {
+                        if ($i > 0) {
+                            echo '<span class="page-tree-dash"></span>';
+                        }
+                    }
+                ?>
                 <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a>
             </td>
             <td class="text-right">

@@ -14,10 +14,10 @@ Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <form action="" method="post">
-    <input type="hidden" id="token" name="token" value="<?php echo Token::generate(); ?>">
+    <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
     <div class="row">
         <div class="col-3 float-center">
-            <h3 class="h3 text-center"><?php echo __('admin_login'); ?></h3>
+            <h3 class="h3 auth-header text-center"><?php echo __('admin_login'); ?></h3>
             <div class="form-group">
                 <label><?php echo __('admin_username'); ?></label>
                 <input type="text" name="username" value="" class="form-control" required="required">

@@ -303,13 +303,17 @@ class PagesManager
         return $templates;
     }
 
-    public static function getMediaList($page)
+    public static function getMediaList($page, $path = false)
     {
         $files = [];
         foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
             if (in_array($file_ext = substr(strrchr($file, '.'), 1), PagesManager::$media)) {
                 if (strpos($file, $file_ext, 1)) {
-                    $files[] = $file;
+                    if ($path) {
+                        $files[Http::getBaseUrl().'/'.$page.'/'.$file] = Http::getBaseUrl().'/'.$page.'/'.$file;
+                    } else {
+                        $files[] = $file;
+                    }
                 }
             }
         }
@@ -354,6 +358,8 @@ class PagesManager
                     $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
                 } elseif ($property['type'] == 'template') {
                     $form_element = $form_label . Form::select($form_element_name, PagesManager::getTemplatesList(), $form_value, $property['attributes']);
+                } elseif ($property['type'] == 'media') {
+                    $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
                 } else {
                     // type: text, email, etc
                     $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);

@@ -144,14 +144,14 @@ class PagesManager
                     ->display();
             break;
             case 'edit':
+                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
                 if (Http::get('media') && Http::get('media') == 'true') {
                     PagesManager::processFilesManager();
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
                     Themes::view('admin/views/templates/content/pages/media')
                         ->assign('page_name', Http::get('page'))
                         ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
-                        ->assign('blueprint_name', $page['template'])
-                        ->assign('template_name', $page['template'])
                         ->display();
                 } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
                     $action = Http::post('action');
@@ -169,13 +169,10 @@ class PagesManager
                         }
                     }
 
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
-                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml');
+                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml');
 
                     Themes::view('admin/views/templates/content/pages/blueprint')
                         ->assign('page_name', Http::get('page'))
-                        ->assign('template_name', $page['template'])
-                        ->assign('blueprint_name', $page['template'])
                         ->assign('blueprint', $blueprint)
                         ->display();
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
@@ -184,7 +181,7 @@ class PagesManager
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php',
+                                PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . $page['template'] . '.php',
                                 Http::post('template')
                             );
                             Notification::set('success', __('message_page_changes_saved'));
@@ -194,13 +191,10 @@ class PagesManager
                         }
                     }
 
-                    $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
-                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . Http::get('template_name') . '.php');
+                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . $page['template'] . '.php');
 
                     Themes::view('admin/views/templates/content/pages/template')
                         ->assign('page_name', Http::get('page'))
-                        ->assign('template_name', $page['template'])
-                        ->assign('blueprint_name', $page['template'])
                         ->assign('template', $template)
                         ->display();
                 } else {
@@ -221,16 +215,14 @@ class PagesManager
                         }
 
                         $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
-                        $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
                         Themes::view('admin/views/templates/content/pages/editor-expert')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page_content', $page_content)
-                            ->assign('template_name', $page['template'])
-                            ->assign('blueprint_name', $page['template'])
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
                     } else {
-                        $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
                         $action = Http::post('action');
                         $indenter = new Indenter();
 
@@ -265,6 +257,7 @@ class PagesManager
                         //Yaml::parse(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml'))
                         $blueprint_path_default = PATH['config'] . '/page.yaml';
                         $blueprint_path = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml';
+
                         if (Filesystem::fileExists($blueprint_path)) {
                             $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path));
                         } else {
@@ -274,8 +267,6 @@ class PagesManager
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
-                            ->assign('blueprint_name', $page['template'])
-                            ->assign('template_name', $page['template'])
                             ->assign('blueprint', $blueprint)
                             ->assign('templates', PagesManager::getTemplatesList())
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)

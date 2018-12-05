@@ -222,7 +222,6 @@ class PagesManager
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
                     } else {
-
                         $action = Http::post('action');
                         $indenter = new Indenter();
 

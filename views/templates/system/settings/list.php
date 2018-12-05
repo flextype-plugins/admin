@@ -2,29 +2,26 @@
 namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Form\Form, Event\Event};
 use function Flextype\Component\I18n\__;
-?>
 
-<?php
-    Themes::view('admin/views/partials/head')->display();
-    Themes::view('admin/views/partials/navbar')
-        ->assign('links',   [
-                                'settings' => [
-                                                    'link' => Http::getBaseUrl() . '/admin/settings',
-                                                    'title' => __('admin_system_settings_heading'),
-                                                    'attributes' => ['class' => 'navbar-item active']
-                                              ]
-                            ])
-        ->assign('buttons', [
-                                'settings' => [
-                                                    'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
-                                                    'title' => __('admin_system_clear_cache'),
-                                                    'attributes' => ['class' => 'float-right btn']
-                                              ]
-                            ])
-        ->display();
-    Themes::view('admin/views/partials/content-start')->display();
+Themes::view('admin/views/partials/head')->display();
+Themes::view('admin/views/partials/navbar')
+    ->assign('links',   [
+                            'settings' => [
+                                                'link' => Http::getBaseUrl() . '/admin/settings',
+                                                'title' => __('admin_system_settings_heading'),
+                                                'attributes' => ['class' => 'navbar-item active']
+                                          ]
+                        ])
+    ->assign('buttons', [
+                            'settings' => [
+                                                'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
+                                                'title' => __('admin_system_clear_cache'),
+                                                'attributes' => ['class' => 'float-right btn']
+                                          ]
+                        ])
+    ->display();
+Themes::view('admin/views/partials/content-start')->display();
 ?>
-
 
 <div class="row">
     <div class="col-md-6">
@@ -192,6 +189,6 @@ use function Flextype\Component\I18n\__;
 </div>
 
 <?php
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
+Themes::view('admin/views/partials/content-end')->display();
+Themes::view('admin/views/partials/footer')->display();
 ?>

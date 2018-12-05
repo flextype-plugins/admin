@@ -2,24 +2,22 @@
 namespace Flextype;
 use Flextype\Component\{Http\Http, Registry\Registry, Filesystem\Filesystem, Token\Token, Number\Number};
 use function Flextype\Component\I18n\__;
-?>
 
-<?php
-    Themes::view('admin/views/partials/head')->display();
-    Themes::view('admin/views/partials/navbar')
-        ->assign('links', [
-                                'information' => [
-                                                    'link' => Http::getBaseUrl() . '/admin/information',
-                                                    'title' => __('admin_menu_system_information'),
-                                                    'attributes' => ['class' => 'navbar-item active']
-                                                 ],
-                          ])
-        ->display();
-    Themes::view('admin/views/partials/content-start')->display();
+Themes::view('admin/views/partials/head')->display();
+Themes::view('admin/views/partials/navbar')
+    ->assign('links', [
+                        'information' => [
+                                            'link' => Http::getBaseUrl() . '/admin/information',
+                                            'title' => __('admin_menu_system_information'),
+                                            'attributes' => ['class' => 'navbar-item active']
+                                         ],
+                      ])
+    ->display();
+Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <h3 class="h3"><?php echo  __('admin_system_settings_system'); ?></h3>
-<?php //phpinfo(); ?>
+
 <table class="table no-margin">
     <tbody>
         <tr>
@@ -137,12 +135,9 @@ use function Flextype\Component\I18n\__;
             </tbody>
         </table>
         <br><br>
-
-
 <?php } ?>
 
-
 <?php
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
+Themes::view('admin/views/partials/content-end')->display();
+Themes::view('admin/views/partials/footer')->display();
 ?>

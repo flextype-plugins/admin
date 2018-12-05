@@ -1,26 +1,25 @@
 <?php
 namespace Flextype;
+
 use Flextype\Component\{Http\Http, Registry\Registry, Token\Token};
 use function Flextype\Component\I18n\__;
-?>
 
-<?php
-    Themes::view('admin/views/partials/head')->display();
-    Themes::view('admin/views/partials/navbar')
-        ->assign('links',   [
-                                'plugins'          => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/plugins',
-                                                            'title'      => __('admin_plugins_heading'),
-                                                            'attributes' => ['class' => 'navbar-item active']
-                                                      ],
-                                'plugins_get_more' => [
-                                                            'link' => 'http://flextype.org/download/plugins',
-                                                            'title' => __('admin_plugins_get_more_plugins'),
-                                                            'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
-                                                      ]
-                            ])
-        ->display();
-    Themes::view('admin/views/partials/content-start')->display();
+Themes::view('admin/views/partials/head')->display();
+Themes::view('admin/views/partials/navbar')
+    ->assign('links',   [
+                            'plugins'          => [
+                                                        'link'       => Http::getBaseUrl() . '/admin/plugins',
+                                                        'title'      => __('admin_plugins_heading'),
+                                                        'attributes' => ['class' => 'navbar-item active']
+                                                  ],
+                            'plugins_get_more' => [
+                                                        'link' => 'http://flextype.org/download/plugins',
+                                                        'title' => __('admin_plugins_get_more_plugins'),
+                                                        'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
+                                                  ]
+                        ])
+    ->display();
+Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <table class="table no-margin">
@@ -61,8 +60,6 @@ use function Flextype\Component\I18n\__;
   </tbody>
 </table>
 
-
-
 <!-- Modal -->
 <div class="modal fade" id="pluginInfoModal" tabindex="-1" role="dialog" aria-labelledby="pluginInfoModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -89,6 +86,6 @@ use function Flextype\Component\I18n\__;
 </div>
 
 <?php
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
+Themes::view('admin/views/partials/content-end')->display();
+Themes::view('admin/views/partials/footer')->display();
 ?>

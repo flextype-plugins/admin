@@ -4,12 +4,41 @@
         padding: 1px 13px;
     }
 
-    > tbody,
-     > thead,
-    > tfoot {
+    th {
+        border-top: 0;
+    }
+
+    tr {
+        &:first-of-type {
+            td {
+                border-top: 0;
+            }
+        }
+    }
+
+    > thead {
         > tr {
-            > td,
             > th {
+                text-transform: uppercase;
+                color: #6e7580;
+                font-weight: bold;
+                border-bottom-width: 1px;
+                color: #B7B9BD;
+            }
+        }
+    }
+
+    tbody tr:hover td,
+    tbody tr:hover th {
+        background-color: #3b404b;
+    }
+
+    > tfoot,
+     > thead,
+    > tbody {
+        > tr {
+            > th,
+            > td {
                 padding: 12.5px 20px;
                 vertical-align: middle;
                 border-color: #000;
@@ -19,25 +48,4 @@
             }
         }
     }
-}
-
-.table th {
-    border-top: 0;
-}
-
-.table tr:first-of-type td {
-    border-top: 0;
-}
-
-.table > thead > tr > th {
-    text-transform: uppercase;
-    color: #6e7580;
-    font-weight: bold;
-    border-bottom-width: 1px;
-    color: #B7B9BD;
-}
-
-.table tbody tr:hover td,
-.table tbody tr:hover th {
-    background-color: #3b404b;
 }

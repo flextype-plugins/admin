@@ -152,6 +152,7 @@ class PagesManager
                     Themes::view('admin/views/templates/content/pages/media')
                         ->assign('page_name', Http::get('page'))
                         ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
+                        ->assign('page', $page)
                         ->display();
                 } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
                     $action = Http::post('action');
@@ -174,6 +175,7 @@ class PagesManager
                     Themes::view('admin/views/templates/content/pages/blueprint')
                         ->assign('page_name', Http::get('page'))
                         ->assign('blueprint', $blueprint)
+                        ->assign('page', $page)
                         ->display();
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
                     $action = Http::post('action');
@@ -196,6 +198,7 @@ class PagesManager
                     Themes::view('admin/views/templates/content/pages/template')
                         ->assign('page_name', Http::get('page'))
                         ->assign('template', $template)
+                        ->assign('page', $page)
                         ->display();
                 } else {
                     if (Http::get('expert') && Http::get('expert') == 'true') {
@@ -219,6 +222,7 @@ class PagesManager
                         Themes::view('admin/views/templates/content/pages/editor-expert')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page_content', $page_content)
+                            ->assign('page', $page)
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
                     } else {

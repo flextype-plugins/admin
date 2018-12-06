@@ -44,6 +44,7 @@ use function Flextype\Component\I18n\__;
                                                                  'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
                                                               ],
                             ])
+        ->assign('page', $page)
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>

@@ -29,3 +29,11 @@ use function Flextype\Component\I18n\__;
     </div>
 </nav>
 <!-- End Navbar -->
+
+<?php if (Http::get('page') !== null) { ?>
+<div class="page-editor-heading">
+    page: <?php if($page['slug'] == '') echo Registry::get('system.pages.main'); else echo $page['slug']; ?> <span class="delimeter">|</span>
+    template: <?php echo $page['template']; ?> <span class="delimeter">|</span>
+    visibility: <?php if (isset($page['visibility']) && $page['visibility'] === 'draft') echo 'draft'; else echo 'visible'; ?>
+</div>
+<?php } ?>

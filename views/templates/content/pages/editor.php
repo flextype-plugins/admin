@@ -54,6 +54,7 @@ Themes::view('admin/views/partials/navbar')
                                                 'attributes' => ['class' => 'js-page-save-submit float-right btn']
                                             ]
                         ])
+    ->assign('page', $page)
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 

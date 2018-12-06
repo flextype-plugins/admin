@@ -37,7 +37,6 @@ use function Flextype\Component\I18n\__;
     <?php } } ?>
 
     <style media="screen">
-
         .content-full-size .main-panel .navbar-fixed+.content {
             padding-top: 61px;
         }
@@ -49,37 +48,6 @@ use function Flextype\Component\I18n\__;
         .content-full-size .container-fluid {
             padding: 0;
         }
-
-        .CodeMirror {
-            height: auto;
-            margin: -30px;
-            margin-top: -15px;
-            font-size: 14px;
-        }
-
-        .CodeMirror-sizer {
-            background: #292d34;
-        }
-
-        .cm-s-monokai .CodeMirror-gutters {
-            background: #292d34;
-            border-right: none;
-            color: #9ca4b2;
-        }
-
-        .cm-s-monokai .CodeMirror-linenumber {
-            color: #9ca4b2;
-        }
-
-        .cm-s-monokai .cm-meta,
-        .cm-s-monokai.CodeMirror {
-            background: #292d34;
-        }
-
-        .CodeMirror pre {
-            padding: 0 14px;
-        }
-
     </style>
 	<?php Event::dispatch('onAdminThemeHeader'); ?>
   </head>

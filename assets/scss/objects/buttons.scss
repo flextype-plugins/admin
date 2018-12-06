@@ -40,10 +40,10 @@
 
 .dropdown-item {
     color: $btn-text-color;
-}
 
-.dropdown-item:focus,
-.dropdown-item:hover {
-    color: $btn-text-color-hover;
-    background-color: $btn-background-color-hover;
+    &:focus,
+    &:hover {
+        color: $btn-text-color-hover;
+        background-color: $btn-background-color-hover;
+    }
 }

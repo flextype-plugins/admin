@@ -86,23 +86,6 @@ Themes::view('admin/views/partials/content-start')->display();
                 echo '<tr><td>'.'password_verify()'.'</td><td>'.__('admin_installed').'</td></tr>';
             }
         ?>
-        <?php
-            function return_bytes($val) {
-                $val = trim($val);
-                $last = strtolower($val[strlen($val)-1]);
-                switch($last) {
-                // The 'G' modifier is available since PHP 5.1.0
-                case 'g':
-                    $val *= 1024;
-                case 'm':
-                    $val *= 1024;
-                case 'k':
-                    $val *= 1024;
-                }
-                return $val;
-            }
-            echo '<tr><td>'.'Memory limit'.'</td><td>'.'Flextype requires a minimum PHP memory limit of 32M, and at least 256M is recommended.<br>The memory_limit directive in php.ini is currently set to '.Number::byteFormat(return_bytes(ini_get('memory_limit'))).'.</td></tr>';
-        ?>
     </tbody>
 </table>
 <br>

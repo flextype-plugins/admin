@@ -8,62 +8,57 @@ use Flextype\Component\Http\Http;
 use Flextype\Component\Token\Token;
 use function Flextype\Component\I18n\__;
 
-?>
-
-<?php
-    Themes::view('admin/views/partials/head')->display();
-    Themes::view('admin/views/partials/navbar')
-        ->assign('links', [
-                                'pages'               => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages',
-                                                            'title'      => __('admin_pages_heading'),
-                                                            'attributes' => ['class' => 'navbar-item']
-                                                         ],
-                                'edit_page'           => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
-                                                            'title'      => __('admin_pages_editor'),
-                                                            'attributes' => ['class' => 'navbar-item active']
-                                                         ],
-                                'edit_page_media'     => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
-                                                            'title'      => __('admin_pages_edit_media'),
-                                                            'attributes' => ['class' => 'navbar-item']
+Themes::view('admin/views/partials/head')->display();
+Themes::view('admin/views/partials/navbar')
+    ->assign('links', [
+                            'pages'               => [
+                                                        'link'       => Http::getBaseUrl() . '/admin/pages',
+                                                        'title'      => __('admin_pages_heading'),
+                                                        'attributes' => ['class' => 'navbar-item']
+                                                     ],
+                            'edit_page'           => [
+                                                        'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
+                                                        'title'      => __('admin_pages_editor'),
+                                                        'attributes' => ['class' => 'navbar-item active']
+                                                     ],
+                            'edit_page_media'     => [
+                                                        'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
+                                                        'title'      => __('admin_pages_edit_media'),
+                                                        'attributes' => ['class' => 'navbar-item']
+                                                    ],
+                              'edit_page_blueprint'       => [
+                                                          'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&blueprint=true',
+                                                          'title'      => __('admin_pages_editor_blueprint'),
+                                                          'attributes' => ['class' => 'navbar-item']
+                                                       ],
+                               'edit_page_template'       => [
+                                                           'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true',
+                                                           'title'      => __('admin_pages_editor_template'),
+                                                           'attributes' => ['class' => 'navbar-item']
                                                         ],
-                                  'edit_page_blueprint'       => [
-                                                              'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&blueprint=true',
-                                                              'title'      => __('admin_pages_editor_blueprint'),
-                                                              'attributes' => ['class' => 'navbar-item']
-                                                           ],
-                                   'edit_page_template'       => [
-                                                               'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true',
-                                                               'title'      => __('admin_pages_editor_template'),
-                                                               'attributes' => ['class' => 'navbar-item']
-                                                            ],
-                                    'edit_page_source'           => [
-                                                                'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
-                                                                'title'      => __('admin_pages_editor_source'),
-                                                                'attributes' => ['class' => 'navbar-item']
-                                                             ],
-                                     'preview'           => [
-                                                                 'link'       => Http::getBaseUrl() . '/' . $page_name,
-                                                                 'title'      => __('admin_pages_preview'),
-                                                                 'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
-                                                              ],
-                            ])
-        ->assign('buttons', [
-                                'save_page' => [
-                                                    'link'       => 'javascript:;',
-                                                    'title'      => __('admin_save'),
-                                                    'attributes' => ['class' => 'js-page-save-submit float-right btn']
-                                                ]
-                            ])
-        ->display();
-    Themes::view('admin/views/partials/content-start')->display();
-?>
-<?php PagesManager::displayPageForm($blueprint['fields'], $page, $page['content']); ?>
-<?php
-    //var_dump($_POST);
+                                'edit_page_source'           => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
+                                                            'title'      => __('admin_pages_editor_source'),
+                                                            'attributes' => ['class' => 'navbar-item']
+                                                         ],
+                                 'preview'           => [
+                                                             'link'       => Http::getBaseUrl() . '/' . $page_name,
+                                                             'title'      => __('admin_pages_preview'),
+                                                             'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
+                                                          ],
+                        ])
+    ->assign('buttons', [
+                            'save_page' => [
+                                                'link'       => 'javascript:;',
+                                                'title'      => __('admin_save'),
+                                                'attributes' => ['class' => 'js-page-save-submit float-right btn']
+                                            ]
+                        ])
+    ->display();
+Themes::view('admin/views/partials/content-start')->display();
 
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
+PagesManager::displayPageForm($blueprint['fields'], $page, $page['content']);
+
+Themes::view('admin/views/partials/content-end')->display();
+Themes::view('admin/views/partials/footer')->display();
 ?>

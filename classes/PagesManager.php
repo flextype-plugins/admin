@@ -67,7 +67,7 @@ class PagesManager
                 }
 
                 Themes::view('admin/views/templates/content/pages/add')
-                    ->assign('templates', PagesManager::getTemplatesList())
+                    ->assign('templates', Themes::getTemplates())
                     ->assign('pages_list', Content::getPages('', false, 'slug'))
                     ->display();
             break;
@@ -271,7 +271,7 @@ class PagesManager
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
                             ->assign('blueprint', $blueprint)
-                            ->assign('templates', PagesManager::getTemplatesList())
+                            ->assign('templates', Themes::getTemplates())
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
                     }
@@ -283,18 +283,6 @@ class PagesManager
                     ->display();
             break;
         }
-    }
-
-    public static function getTemplatesList()
-    {
-        $_templates = Filesystem::getFilesList(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/', 'php');
-        foreach ($_templates as $template) {
-            if (!is_bool(PagesManager::_strrevpos($template, '/templates/'))) {
-                $_t = str_replace('.php', '', substr($template, PagesManager::_strrevpos($template, '/templates/')+strlen('/templates/')));
-                $templates[$_t] = $_t;
-            }
-        }
-        return $templates;
     }
 
     public static function getMediaList($page, $path = false)
@@ -351,7 +339,7 @@ class PagesManager
                 } elseif ($property['type'] == 'editor') {
                     $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
                 } elseif ($property['type'] == 'template') {
-                    $form_element = $form_label . Form::select($form_element_name, PagesManager::getTemplatesList(), $form_value, $property['attributes']);
+                    $form_element = $form_label . Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
                 } elseif ($property['type'] == 'media') {
                     $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
                 } else {
@@ -391,16 +379,6 @@ class PagesManager
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
             }
-        }
-    }
-
-    private static function _strrevpos($instr, $needle)
-    {
-        $rev_pos = strpos(strrev($instr), strrev($needle));
-        if ($rev_pos===false) {
-            return false;
-        } else {
-            return strlen($instr) - $rev_pos - strlen($needle);
         }
     }
 }

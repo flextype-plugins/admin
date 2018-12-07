@@ -3,7 +3,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: 260px;
+    width: 240px;
     display: block;
     z-index: 2;
     color: #b7b9bd;
@@ -46,21 +46,6 @@
         transform: rotate(180deg);
     }
 
-    .caret {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        vertical-align: middle;
-        border-top: 4px dashed;
-        border-top: 4px solid\9;
-        border-right: 4px solid transparent;
-        border-left: 4px solid transparent;
-        margin-top: 10px;
-        position: absolute;
-        right: 0;
-        transition: all 150ms ease-in;
-    }
-
     .nav {
         float: none;
         display: block;
@@ -72,15 +57,18 @@
 
     .nav .nav-item .nav-link {
         color: #b7b9bd;
-        margin: 5px 0 0;
+        margin: 0;
+        padding-top: 2px;
+        padding-bottom: 2px;
         opacity: .86;
         border-radius: 0;
-        text-transform: uppercase;
-        line-height: 24px;
-        font-size: 12px;
-        font-weight: 600;
-        padding: 10px 25px;
+        text-transform: none;
+        line-height: 19px;
+        font-size: 14px;
+        font-weight: 300;
+        padding: 12.5px 25px;
         white-space: nowrap;
+        margin-right: 1px;
     }
 
     .nav .nav-item .nav-link:hover {
@@ -89,9 +77,9 @@
     }
 
     .nav .nav-item .nav-link i {
-        font-size: 22px;
+        font-size: 18px;
         margin-right: 15px;
-        width: 30px;
+        width: 15px;
         text-align: center;
         vertical-align: middle;
         float: left;
@@ -122,7 +110,7 @@
         max-height: calc(100vh - 75px);
         min-height: 100%;
         overflow: auto;
-        width: 260px;
+        width: 240px;
         z-index: 4;
         padding-bottom: 100px;
 
@@ -177,7 +165,7 @@
     background: rgba(0,0,0,.6);
     position: fixed;
     z-index: 9999;
-    left: 260px;
+    left: 240px;
     display: none;
     max-height: calc(100vh);
     min-height: 100%;
@@ -194,7 +182,7 @@
 
 @media (max-width: 992px) {
     .sidebar {
-        left: -260px;
+        left: -240px;
     }
 
     .main-panel {

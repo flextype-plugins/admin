@@ -11,7 +11,6 @@ use Flextype\Navigation;
                 FLEXTYPE
             </a>
         </div>
-
           <ul class="nav">
               <!--
               <li class="nav-item">

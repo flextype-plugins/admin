@@ -7,24 +7,12 @@ use function Flextype\Component\I18n\__;
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-fixed">
     <div class="container-fluid">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar burger-lines"></span>
-            <span class="navbar-toggler-bar burger-lines"></span>
-            <span class="navbar-toggler-bar burger-lines"></span>
-        </button>
         <div class="navbar-wrapper">
             <?php if(isset($links)) { ?>
                 <?php foreach ($links as $link) { ?>
                     <?php echo Html::anchor($link['title'], $link['link'], $link['attributes']); ?>
                 <?php } ?>
             <?php } ?>
-        </div>
-        <div class="navbar-buttons">
-        <?php if(isset($buttons)) { ?>
-            <?php foreach ($buttons as $button) { ?>
-                <?php echo Html::anchor($button['title'], $button['link'], $button['attributes']); ?>
-            <?php } ?>
-        <?php } ?>
         </div>
     </div>
 </nav>
@@ -35,3 +23,15 @@ use function Flextype\Component\I18n\__;
      <a target="_blank" href="<?php echo $page['url']; ?>">/<?php if($page['slug'] == '') echo Registry::get('system.pages.main'); else echo $page['slug']; ?></a>
 </div>
 <?php } ?>
+
+<nav class="navbar navbar-expand-lg navbar-fixed fixed-bottom">
+  <div class="container-fluid">
+      <div class="navbar-buttons">
+      <?php if(isset($buttons)) { ?>
+          <?php foreach ($buttons as $button) { ?>
+              <?php echo Html::anchor($button['title'], $button['link'], $button['attributes']); ?>
+          <?php } ?>
+      <?php } ?>
+      </div>
+  </div>
+</nav>

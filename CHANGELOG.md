@@ -1,12 +1,27 @@
-# v0.3.0, 2018-12-09
+# v0.3.0, 2018-12-15
 * New Gorgeous Admin theme in dark colors!
 * Information: Display information about core and admin plugin version
 * Information: Display information about system methods password_hash() and password_verify()
 * Information: Display information about memory limit
 * Users: From now we will create more secure password hash with password_hash method
-* Translates updates and fixes
-* Using new I18n 1.2.0
-* Assets Manager for javascript added.
+* Translates updates and fixes.
+* Files manager replaced with a new Media manager
+* Pages List: display dash for nested pages.
+* Pages List: url item removed from the table.
+* Pages List: quick action - View was added to preview page.
+* Using new I18n Component 1.2.0
+* Using new Filesystem Component 1.1.3
+* Using Gajus Dindent HTML indentation library
+* Assets Manager for Javascript added.
+* Animate.css added for animations.
+* Fontawesome updated to 5.5.0
+* Twitter Bootstrap updated to 4.1.3
+* Code mirror added for better code editing.
+* es6-promise updated to 4.2.5
+* popper.js updated to 1.14.6
+* gulp-autoprefixer updated to 6.0.0
+* General code refactoring and cleanup
+
 
 
 # v0.2.0, 2018-11-24

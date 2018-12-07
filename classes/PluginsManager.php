@@ -31,6 +31,8 @@ class PluginsManager
 
     public static function getPluginsPage()
     {
+        Registry::set('sidebar_menu_item', 'plugins');
+
         Event::addListener('onBeforeRequestShutdown', function () {
             PluginsManager::_pluginsChangeStatusAjax();
         });

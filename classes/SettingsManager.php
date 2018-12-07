@@ -22,6 +22,8 @@ class SettingsManager
 {
     public static function getSettingsPage()
     {
+        Registry::set('sidebar_menu_item', 'settings');
+
         $settings_site_save = Http::post('settings_site_save');
         $settings_system_save = Http::post('settings_system_save');
 

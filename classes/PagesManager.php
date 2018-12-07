@@ -31,6 +31,8 @@ class PagesManager
 
     public static function getPagesManagerPage()
     {
+        Registry::set('sidebar_menu_item', 'pages');
+
         switch (Http::getUriSegment(2)) {
             case 'delete':
                 if (Http::get('page') != '') {

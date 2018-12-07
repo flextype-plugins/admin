@@ -257,23 +257,37 @@ class PagesManager
                             }
                         }
 
-                        //Yaml::parse(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml'))
-                        $blueprint_path_default = PATH['config'] . '/page.yaml';
-                        $blueprint_path = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml';
+                        /*
+                        $blueprint_path_default = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml';
+                        $blueprint_path_page    = PATH['config'] . '/page.yaml';
 
                         if (Filesystem::fileExists($blueprint_path)) {
-                            $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path));
+                            $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path_page));
                         } else {
                             $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path_default));
                         }
+                        */
+
+                        //$blueprint_path_page_default = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml';
+
+                        // Default template blueprint
+                        //$blueprint_path_default = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml';
+                        //$blueprint_default = Yaml::parse(Filesystem::getFileContent($blueprint_path_default));
+
+                        // Specific page blueprint
+                        $blueprint_path_page = PATH['pages'] . '/' . Http::get('page') . '/blueprint.yaml';
+                        !Filesystem::fileExists($blueprint_path_page) and Filesystem::setFileContent($blueprint_path_page, '');
+                        $blueprint_page = Yaml::parse(Filesystem::getFileContent($blueprint_path_page));
+                        is_null($blueprint_page) and $blueprint_page = [];
 
                         Themes::view('admin/views/templates/content/pages/editor')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
-                            ->assign('blueprint', $blueprint)
+                            ->assign('blueprint', $blueprint_page)
                             ->assign('templates', Themes::getTemplates())
                             ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
                             ->display();
+
                     }
                 }
             break;

@@ -282,7 +282,7 @@ class PagesManager
                         $blueprint_page = Yaml::parse(Filesystem::getFileContent($blueprint_path_page));
                         is_null($blueprint_page) and $blueprint_page = [];
 
-                        Themes::view('admin/views/templates/content/pages/editor')
+                        Themes::view('admin/views/templates/content/pages/content')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page', $page)
                             ->assign('blueprint', $blueprint_page)

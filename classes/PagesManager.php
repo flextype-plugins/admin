@@ -203,7 +203,7 @@ class PagesManager
                         ->assign('page', $page)
                         ->display();
                 } else {
-                    if (Http::get('expert') && Http::get('expert') == 'true') {
+                    if (Http::get('source') && Http::get('source') == 'true') {
                         $action = Http::post('action');
 
                         if (isset($action) && $action == 'save-form') {
@@ -221,7 +221,7 @@ class PagesManager
 
                         $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
 
-                        Themes::view('admin/views/templates/content/pages/editor-expert')
+                        Themes::view('admin/views/templates/content/pages/source')
                             ->assign('page_name', Http::get('page'))
                             ->assign('page_content', $page_content)
                             ->assign('page', $page)

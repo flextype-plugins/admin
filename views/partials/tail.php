@@ -167,6 +167,46 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
         });
 
 
+        var editor2 = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor2"), {
+            lineNumbers: true,
+            <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('expert') && Http::get('expert') == 'true')) { ?>
+            indentUnit: 2,
+            tabSize: 2,
+            <?php } else { ?>
+            tabSize: 4,
+            indentUnit: 4,
+            <?php } ?>
+            <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('expert') && Http::get('expert') == 'true')) { ?>
+            mode: "yaml",
+            <?php } else { ?>
+            mode: "text/html",
+            <?php } ?>
+            indentWithTabs: false,
+            theme: "monokai",
+            styleActiveLine: true,
+        });
+
+        editor2.addKeyMap({
+            "Tab": function (cm) {
+                if (cm.somethingSelected()) {
+                    var sel = editor.getSelection("\n");
+                    // Indent only if there are multiple lines selected, or if the selection spans a full line
+                    if (sel.length > 0 && (sel.indexOf("\n") > -1 || sel.length === cm.getLine(cm.getCursor().line).length)) {
+                        cm.indentSelection("add");
+                        return;
+                    }
+                }
+
+                if (cm.options.indentWithTabs)
+                    cm.execCommand("insertTab");
+                else
+                    cm.execCommand("insertSoftTab");
+            },
+            "Shift-Tab": function (cm) {
+                cm.indentSelection("subtract");
+            }
+        });
+
     });
 </script>
 

@@ -34,7 +34,7 @@ use function Flextype\Component\I18n\__;
                                                                'attributes' => ['class' => 'navbar-item active']
                                                             ],
                                     'edit_page_source'           => [
-                                                                'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
+                                                                'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&source=true',
                                                                 'title'      => __('admin_pages_editor_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
                                                              ]

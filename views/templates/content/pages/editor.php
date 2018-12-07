@@ -37,7 +37,7 @@ Themes::view('admin/views/partials/navbar')
                                                            'attributes' => ['class' => 'navbar-item']
                                                         ],
                                 'edit_page_source'           => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
+                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&source=true',
                                                             'title'      => __('admin_pages_editor_source'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                          ]

@@ -40,12 +40,7 @@ Themes::view('admin/views/partials/navbar')
                                                             'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
                                                             'title'      => __('admin_pages_editor_source'),
                                                             'attributes' => ['class' => 'navbar-item']
-                                                         ],
-                                 'preview'           => [
-                                                             'link'       => Http::getBaseUrl() . '/' . $page_name,
-                                                             'title'      => __('admin_pages_preview'),
-                                                             'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
-                                                          ],
+                                                         ]
                         ])
     ->assign('buttons', [
                             'save_page' => [

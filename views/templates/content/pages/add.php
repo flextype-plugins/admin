@@ -28,6 +28,43 @@ Themes::view('admin/views/partials/content-start')->display();
 
 <div class="row">
     <div class="col-md-6">
+
+        <form action="" method="post">
+            <input type="hidden" id="token" name="token" value="287c7255d72e035e1a3d993a1faf07cdab305a32">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="pageTitle" name="title" value="" class="form-control" required="required" data-validation="length" data-validation-length="min1" data-validation-error-msg="Title has to be an alphanumeric value (3-12 chars)">
+            </div>
+        <div class="form-group">
+                    <label for="slug">Name</label><input type="text" id="pageSlug" name="slug" value="" class="form-control" required="required" data-validation="length alphanumeric" data-validation-allowing="-_" data-validation-length="min1" data-validation-error-msg="Name has to be an alphanumeric value (3-12 chars)">        </div>
+                <div class="form-group">
+                    <label for="formGroupParentPageInput">Page parent</label>
+                    <select class="form-control" id="formGroupParentPageInput" name="parent_page">
+                    <option value="">/</option>
+                        <option value="test">test</option>
+                        <option value="download">download</option>
+                        <option value="catalog">catalog</option>
+                        <option value="blog">blog</option>
+                        <option value="about">about</option>
+                        <option value="projects">projects</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Template</label>
+                    <select class="form-control" name="template">
+                                    <option value="catalog">catalog</option>
+                                    <option value="catalog-item">catalog-item</option>
+                                    <option value="default">default</option>
+                                </select>
+                </div>
+            </div>
+        </div>
+
+        <input type="submit" id="create_page" name="create_page" value="Create" class="btn btn-black"></form>
+
+
+
+
         <?php echo Form::open(); ?>
         <?php echo Form::hidden('token', Token::generate()); ?>
         <div class="form-group">

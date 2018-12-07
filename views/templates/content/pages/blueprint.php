@@ -37,12 +37,7 @@ use function Flextype\Component\I18n\__;
                                                                 'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
                                                                 'title'      => __('admin_pages_editor_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
-                                                             ],
-                                     'preview'           => [
-                                                                 'link'       => Http::getBaseUrl() . '/' . $page_name,
-                                                                 'title'      => __('admin_pages_preview'),
-                                                                 'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
-                                                              ],
+                                                             ]
                             ])
         ->assign('buttons', [
                                 'save' => [
@@ -61,11 +56,22 @@ use function Flextype\Component\I18n\__;
 <?php echo Form::hidden('action', 'save-form'); ?>
 <?php echo Form::hidden('page_name', $page_name); ?>
 <div class="row">
-    <div class="col-12">
+    <div class="col-6">
         <div class="form-group">
+            <label>Fields for current page</label>
             <?php
                 echo (
                     Form::textarea('blueprint', $blueprint, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])
+                );
+            ?>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label>Fields for all pages with template: <code>catalog</code></label>
+            <?php
+                echo (
+                    Form::textarea('blueprint', $blueprint, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor2'])
                 );
             ?>
         </div>

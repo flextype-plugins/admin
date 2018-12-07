@@ -37,12 +37,7 @@ use function Flextype\Component\I18n\__;
                                                                 'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
                                                                 'title'      => __('admin_pages_editor_source'),
                                                                 'attributes' => ['class' => 'navbar-item active']
-                                                             ],
-                                     'preview'           => [
-                                                                 'link'       => Http::getBaseUrl() . '/' . $page_name,
-                                                                 'title'      => __('admin_pages_preview'),
-                                                                 'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
-                                                              ],
+                                                             ]
                             ])
         ->assign('buttons', [
                                 'save_page' => [

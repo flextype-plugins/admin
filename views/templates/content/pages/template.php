@@ -37,12 +37,7 @@ use function Flextype\Component\I18n\__;
                                                                 'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&expert=true',
                                                                 'title'      => __('admin_pages_editor_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
-                                                             ],
-                                     'preview'           => [
-                                                                 'link'       => Http::getBaseUrl() . '/' . $page_name,
-                                                                 'title'      => __('admin_pages_preview'),
-                                                                 'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
-                                                              ],
+                                                             ]
                             ])
         ->assign('buttons', [
                                 'save' => [
@@ -63,6 +58,7 @@ use function Flextype\Component\I18n\__;
 <div class="row">
     <div class="col-12">
         <div class="form-group">
+            <label>Template: <code>catalog</code></label>
             <?php
                 echo (
                     Form::textarea('template', $template, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])

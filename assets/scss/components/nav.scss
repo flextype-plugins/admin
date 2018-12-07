@@ -152,11 +152,12 @@
     border-bottom: 1px solid #000;
     font-size: 14px;
     position: fixed;
-    width: 100%;
+    width: calc(100% - 240px);
     top: 44px;
     z-index: 10;
     background: $body-bg;
     padding: 8px 30px;
+    text-align: left;
 
     .delimeter {
         margin-left: 10px;

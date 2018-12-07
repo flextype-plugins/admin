@@ -12,7 +12,7 @@
         min-height: calc(100vh);
 
         &.page-editor {
-            margin-top: 70px;
+            margin-top: 30px;
         }
     }
 
@@ -20,13 +20,23 @@
         margin-bottom: 0;
         padding: 0;
         border-bottom: 1px solid #000;
+
+        &.fixed-bottom {
+            border-bottom: none;
+            border-top: 1px solid #000;
+        }
     }
 
     .navbar-fixed {
         position: fixed;
         right: 0;
+        left: auto;
         width: calc(100% - 240px);
         z-index: 1030;
+
+        .navbar-buttons {
+            width: 100%;
+        }
     }
 
     .navbar-fixed + .content {

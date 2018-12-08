@@ -21,11 +21,11 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <script>
 
     Messenger.options = {
-        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+        extraClasses: 'messenger-fixed messenger-on-top messenger-on-right',
         theme: 'flat'
     }
 
-    <?php if (Notification::get('success')) { ?> Messenger().post({ type: "success", message : "<?php echo Notification::get('success'); ?>", hideAfter: '3' }); <?php } ?>
+    <?php if (Notification::get('success')) { ?> Messenger().post({ type: "success", message : "<?php echo Notification::get('success'); ?>", hideAfter: '3000' }); <?php } ?>
     <?php if (Notification::get('warning')) { ?> Messenger().post({ type: "warning", message : "<?php echo Notification::get('warning'); ?>", hideAfter: '3' }); <?php } ?>
     <?php if (Notification::get('error'))   { ?> Messenger().post({ type: "error", message : "<?php echo Notification::get('error'); ?>", hideAfter: '3' });     <?php } ?>
 

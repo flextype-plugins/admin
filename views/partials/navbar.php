@@ -4,18 +4,18 @@ use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Token\Token};
 use function Flextype\Component\I18n\__;
 ?>
 
-<!-- Navbar -->
+<!-- Top Navbar -->
+<?php if(isset($links)) { ?>
 <nav class="navbar navbar-expand-lg navbar-fixed">
     <div class="container-fluid">
         <div class="navbar-wrapper">
-            <?php if(isset($links)) { ?>
-                <?php foreach ($links as $link) { ?>
-                    <?php echo Html::anchor($link['title'], $link['link'], $link['attributes']); ?>
-                <?php } ?>
+            <?php foreach ($links as $link) { ?>
+                <?php echo Html::anchor($link['title'], $link['link'], $link['attributes']); ?>
             <?php } ?>
         </div>
     </div>
 </nav>
+<?php } ?>
 <!-- End Navbar -->
 
 <?php if (Http::get('page') !== null) { ?>
@@ -24,14 +24,17 @@ use function Flextype\Component\I18n\__;
 </div>
 <?php } ?>
 
+<!-- Bottom Navbar -->
+<?php if(isset($buttons)) { ?>
 <nav class="navbar navbar-expand-lg navbar-fixed fixed-bottom">
   <div class="container-fluid">
       <div class="navbar-buttons">
-      <?php if(isset($buttons)) { ?>
           <?php foreach ($buttons as $button) { ?>
               <?php echo Html::anchor($button['title'], $button['link'], $button['attributes']); ?>
           <?php } ?>
-      <?php } ?>
       </div>
   </div>
 </nav>
+<?php } ?>
+</nav>
+<!-- End Navbar -->

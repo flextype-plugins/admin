@@ -117,7 +117,7 @@ class PagesManager
                         if (!Filesystem::dirExists(realpath(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')))) {
                             if (rename(
                                 PATH['pages'] . '/' . Http::post('page_path_current'),
-                                       PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')
+                                PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')
                             )) {
                                 Notification::set('success', __('message_page_moved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');
@@ -350,8 +350,7 @@ class PagesManager
                 echo '</div>';
             }
         }
-
-        //echo Form::submit('save', __('admin_save'), ['class' => 'btn']);
+        
         echo Form::close();
     }
 

@@ -148,6 +148,17 @@
     text-decoration: none;
 }
 
+.flextype-user {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #000;
+
+    .nav .nav-item .nav-link {
+        padding: 9.5px 25px !important;
+    }
+}
+
 .page-editor-heading {
     border-bottom: 1px solid #000;
     font-size: 14px;

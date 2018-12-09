@@ -11,6 +11,18 @@ use Flextype\Navigation;
                 FLEXTYPE
             </a>
         </div>
+        <div class="flextype-user">
+              <ul class="nav">
+                  <li class="nav-item">
+                      <a class="nav-link">
+                          <i class="fas fa-user-circle"></i>
+                          <p>
+                              <?php echo Session::get('username'); ?>
+                          </p>
+                      </a>
+                  </li>
+              </ul>
+        </div>
           <ul class="nav">
               <!--
               <li class="nav-item">

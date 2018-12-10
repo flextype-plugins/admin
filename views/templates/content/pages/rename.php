@@ -21,6 +21,7 @@ Themes::view('admin/views/partials/navbar')
                                                 'attributes' => ['class' => 'navbar-item active']
                                             ]
                      ])
+    ->assign('page', $page)
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>
@@ -33,7 +34,6 @@ Themes::view('admin/views/partials/content-start')->display();
         <?php echo Form::hidden('page_path_current', $page_path_current); ?>
         <?php echo Form::hidden('page_parent', $page_parent); ?>
         <?php echo Form::hidden('name_current', $name_current); ?>
-
 
         <div class="form-group">
             <?php

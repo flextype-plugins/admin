@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Token\Token};
+use Flextype\Component\{Http\Http, Html\Html, Registry\Registry, Token\Token, Arr\Arr};
 use function Flextype\Component\I18n\__;
 ?>
 
@@ -18,7 +18,7 @@ use function Flextype\Component\I18n\__;
 <?php } ?>
 <!-- End Navbar -->
 
-<?php if (Http::get('page') !== null) { ?>
+<?php if ((Http::get('page') !== null) && (Arr::last(Http::getUriSegments()) !== 'move') && (Arr::last(Http::getUriSegments()) !== 'rename')) { ?>
 <div class="page-editor-heading">
      <a target="_blank" href="<?php echo $page['url']; ?>">/<?php if($page['slug'] == '') echo Registry::get('system.pages.main'); else echo $page['slug']; ?></a>
 </div>

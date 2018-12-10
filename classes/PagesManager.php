@@ -69,7 +69,7 @@ class PagesManager
                 }
 
                 Themes::view('admin/views/templates/content/pages/add')
-                    ->assign('templates', Themes::getTemplates())
+                    ->assign('templates', Themes::getTemplatesBlueprints())
                     ->assign('pages_list', Content::getPages('', false, 'slug'))
                     ->display();
             break;

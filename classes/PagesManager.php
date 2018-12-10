@@ -240,7 +240,7 @@ class PagesManager
 
                                 $frontmatter = $_POST;
                                 Arr::delete($frontmatter, 'token');
-                                Arr::delete($frontmatter, 'save-form');
+                                Arr::delete($frontmatter, 'action');
                                 Arr::delete($frontmatter, 'content');
                                 $frontmatter = Yaml::dump(array_merge($page, $frontmatter), 10, 2);
 

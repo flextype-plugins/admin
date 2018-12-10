@@ -59,7 +59,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
     $(document).ready(function() {
 
         $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/js/trumbowyg/dist/ui/icons.svg';
-        $('[data-editor=editor]').trumbowyg({
+        $('.js-html-editor').trumbowyg({
             btnsDef: {
                 // Customizables dropdowns
                 image: {

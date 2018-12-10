@@ -7,6 +7,7 @@ var Promise = require("es6-promise").Promise,
     gulp = require('gulp'),
     csso = require('gulp-csso'),
     concat = require('gulp-concat'),
+    del = require('del'),
     runSequence = require('run-sequence'),
     sourcemaps = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -22,6 +23,10 @@ gulp.task('admin-css', function() {
         .pipe(csso())
         .pipe(concat('admin.min.css'))
         .pipe(gulp.dest('assets/dist/css/'));
+});
+
+gulp.task('admin-css-clean', function() {
+    return del('assets/dist/css/admin.min.css');
 });
 
 gulp.task('build-css', function(){
@@ -78,5 +83,6 @@ gulp.task('default', function(callback) {
                         'trumbowyg-fonts',
                         'trumbowyg-langs',
                         'js'],
+              'admin-css-clean',
               callback);
 });

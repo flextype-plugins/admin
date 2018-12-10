@@ -31,7 +31,7 @@ class SettingsManager
         if (Http::get('clear_cache')) {
             if (Token::check((Http::get('token')))) {
                 Cache::clear();
-                Notification::set('success', __('message_cache_files_deleted'));
+                Notification::set('success', __('admin_message_cache_files_deleted'));
                 Http::redirect(Http::getBaseUrl().'/admin/settings');
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
@@ -44,7 +44,7 @@ class SettingsManager
                 Arr::delete($_POST, 'settings_site_save');
 
                 if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', Yaml::dump($_POST, 10, 2))) {
-                    Notification::set('success', __('message_settings_saved'));
+                    Notification::set('success', __('admin_message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
             } else {
@@ -62,7 +62,7 @@ class SettingsManager
                 Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
 
                 if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', Yaml::dump($_POST, 10, 2))) {
-                    Notification::set('success', __('message_settings_saved'));
+                    Notification::set('success', __('admin_message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
             } else {

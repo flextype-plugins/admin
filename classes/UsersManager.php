@@ -78,10 +78,10 @@ class UsersManager
                         Session::set('role', $user_file['role']);
                         Http::redirect(Http::getBaseUrl().'/admin/pages');
                     } else {
-                        Notification::set('error', __('message_wrong_username_password'));
+                        Notification::set('error', __('admin_message_wrong_username_password'));
                     }
                 } else {
-                    Notification::set('error', __('message_wrong_username_password'));
+                    Notification::set('error', __('admin_message_wrong_username_password'));
                 }
             } else {
                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');

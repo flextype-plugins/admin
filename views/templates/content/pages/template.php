@@ -58,7 +58,7 @@ use function Flextype\Component\I18n\__;
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label>Template: <code>catalog</code></label>
+            <label><?php echo __('admin_pages_template'); ?>: <code><?php echo $page['template']; ?></code></label>
             <?php
                 echo (
                     Form::textarea('template', $template, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])

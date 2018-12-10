@@ -345,7 +345,7 @@ class PagesManager
                         $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
                     break;
                     case 'template':
-                        $form_element = $form_label . Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
+                        $form_element = $form_label . Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
                     break;
                     case 'media':
                         $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);

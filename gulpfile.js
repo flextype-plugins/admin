@@ -72,7 +72,6 @@ gulp.task('trumbowyg-langs', function(){
     .pipe(gulp.dest('assets/dist/langs/trumbowyg'));
 });
 
-
 gulp.task('default', function(callback) {
   runSequence('admin-css',
                         ['build-css',

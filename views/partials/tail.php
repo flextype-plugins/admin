@@ -50,7 +50,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
     $(document).ready(function() {
 
-        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/fonts/icons.svg';
+        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/dist/fonts/trumbowyg/icons.svg';
 
         $('.js-html-editor').trumbowyg({
             btnsDef: {

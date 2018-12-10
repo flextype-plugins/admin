@@ -172,7 +172,7 @@ class PagesManager
                                 Http::post('blueprint')
                             );
                             Notification::set('success', __('admin_message_page_changes_saved'));
-                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&blueprint=true&blueprint_name='.Http::get('blueprint_name'));
+                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&blueprint=true');
                         } else {
                             die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                         }
@@ -195,7 +195,7 @@ class PagesManager
                                 Http::post('template')
                             );
                             Notification::set('success', __('admin_message_page_changes_saved'));
-                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&template=true&template_name='.Http::get('template_name'));
+                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&template=true');
                         } else {
                             die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                         }
@@ -219,7 +219,7 @@ class PagesManager
                                                           Http::post('page_content')
                                 );
                                 Notification::set('success', __('admin_message_page_changes_saved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&expert=true');
+                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&source=true');
                             } else {
                                 die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
                             }

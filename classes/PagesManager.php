@@ -333,7 +333,7 @@ class PagesManager
                 $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
 
                 // Form label
-                $form_label = Form::label($element, __($property['title'])); 
+                $form_label = Form::label($element, __($property['title']));
 
                 // Form elements
                 switch ($property['type']) {
@@ -366,7 +366,7 @@ class PagesManager
 
                     // Visibility select field for selecting page visibility state
                     case 'visibility_select':
-                        $form_element = Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, ['draft' => __('admin_pages_draft'), 'visible' => __('admin_pages_visible')], $form_value, $property['attributes']);
                     break;
 
                     // Media select field

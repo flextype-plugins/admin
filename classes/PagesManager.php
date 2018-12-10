@@ -302,13 +302,18 @@ class PagesManager
 
     public static function displayPageForm(array $form, array $values = [], string $content)
     {
-        echo Form::open(null, ['id' => 'editorForm']);
+        echo Form::open(null, ['id' => 'editorForm', 'class' => 'row']);
         echo Form::hidden('token', Token::generate());
         echo Form::hidden('action', 'save-form');
 
         if (isset($form) > 0) {
             foreach ($form as $element => $property) {
-                Arr::set($property, 'attributes.class', 'form-control');
+
+                // Create attributes and attribute class
+                $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [] ;
+                $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control' ;
+
+                $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12' ;
 
                 $pos = strpos($element, '.');
 
@@ -328,14 +333,14 @@ class PagesManager
                 $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
 
                 // Form label
-                $form_label = '<label for="'.$element.'">'.I18n::find($property['title'], Registry::get('system.locale')).'</label>';
+                $form_label = Form::label($element, __($property['title'])); 
 
                 // Form elements
                 switch ($property['type']) {
 
                     // Simple text-input, for multi-line fields.
                     case 'textarea':
-                        $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
+                        $form_element = Form::textarea($element, $form_value, $property['attributes']);
                     break;
 
                     // The hidden field is like the text field, except it's hidden from the content editor.
@@ -345,38 +350,39 @@ class PagesManager
 
                     // A WYSIWYG HTML field.
                     case 'html':
-                        $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
+                        $property['attributes']['class'] .= ' js-html-editor';
+                        $form_element = Form::textarea($element, $form_value, $property['attributes']);
                     break;
 
                     // A specific WYSIWYG HTML field for page content editing
                     case 'content':
-                        $form_element = $form_label . Form::textarea($element, $content, array_merge($property['attributes'], ['data-editor' => 'editor']));
+                        $form_element = Form::textarea($element, $content, $property['attributes']);
                     break;
 
                     // Template select field for selecting page template
                     case 'template_select':
-                        $form_element = $form_label . Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
                     break;
 
                     // Visibility select field for selecting page visibility state
                     case 'visibility_select':
-                        $form_element = $form_label . Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
                     break;
 
                     // Media select field
                     case 'media_select':
-                        $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
                     break;
 
                     // Simple text-input, for single-line fields.
                     default:
-                        $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
+                        $form_element = Form::input($form_element_name, $form_value, $property['attributes']);
                     break;
                 }
 
                 // Render form elments with labels
-                echo '<div class="form-group">';
-                echo $form_element;
+                echo '<div class="form-group '.$property['size'].'">';
+                echo $form_label . $form_element;
                 echo '</div>';
             }
         }

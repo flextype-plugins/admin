@@ -332,24 +332,43 @@ class PagesManager
 
                 // Form elements
                 switch ($property['type']) {
+
+                    // Simple text-input, for multi-line fields.
                     case 'textarea':
                         $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
                     break;
+
+                    // The hidden field is like the text field, except it's hidden from the content editor.
                     case 'hidden':
                         $form_element = Form::hidden($element, $form_value);
                     break;
+
+                    // A WYSIWYG HTML field.
+                    case 'html':
+                        $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
+                    break;
+
+                    // A specific WYSIWYG HTML field for page content editing
                     case 'content':
                         $form_element = $form_label . Form::textarea($element, $content, array_merge($property['attributes'], ['data-editor' => 'editor']));
                     break;
-                    case 'editor':
-                        $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
-                    break;
-                    case 'template':
+
+                    // Template select field for selecting page template
+                    case 'template_select':
                         $form_element = $form_label . Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
                     break;
-                    case 'media':
+
+                    // Visibility select field for selecting page visibility state
+                    case 'visibility_select':
+                        $form_element = $form_label . Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
+                    break;
+
+                    // Media select field
+                    case 'media_select':
                         $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
                     break;
+
+                    // Simple text-input, for single-line fields.
                     default:
                         $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
                     break;

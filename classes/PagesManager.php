@@ -85,6 +85,8 @@ class PagesManager
                 }
             break;
             case 'rename':
+                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
                 $rename_page = Http::post('rename_page');
 
                 if (isset($rename_page)) {
@@ -107,9 +109,12 @@ class PagesManager
                     ->assign('name_current', Arr::last(explode("/", Http::get('page'))))
                     ->assign('page_path_current', Http::get('page'))
                     ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
+                    ->assign('page', $page)
                     ->display();
             break;
             case 'move':
+                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+
                 $move_page = Http::post('move_page');
 
                 if (isset($move_page)) {
@@ -143,6 +148,7 @@ class PagesManager
                     ->assign('pages_list', $pages_list)
                     ->assign('name_current', Arr::last(explode("/", Http::get('page'))))
                     ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
+                    ->assign('page', $page)
                     ->display();
             break;
             case 'edit':

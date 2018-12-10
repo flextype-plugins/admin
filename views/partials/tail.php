@@ -3,16 +3,8 @@ namespace Flextype;
 use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets, Notification\Notification};
 ?>
 
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/admin.min.js', 'admin', 1); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/trumbowyg.min.js', 'admin', 2); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/plugins/base64/trumbowyg.base64.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/lib/codemirror.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/htmlmixed/htmlmixed.js', 'admin', 3); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/codemirror/mode/yaml/yaml.js', 'admin', 3); ?>
-<?php if (Registry::get("system.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/trumbowyg/dist/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/js/messenger.min.js', 'admin', 7); ?>
-<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/js/messenger-hubspot/build/js/messenger-theme-flat.js', 'admin', 8); ?>
+<?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/build.min.js', 'admin', 1); ?>
+<?php if (Registry::get("system.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
@@ -58,12 +50,13 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
     $(document).ready(function() {
 
-        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/js/trumbowyg/dist/ui/icons.svg';
+        $.trumbowyg.svgPath = '<?php echo Http::getBaseUrl(); ?>/site/plugins/admin/assets/fonts/icons.svg';
+
         $('.js-html-editor').trumbowyg({
             btnsDef: {
                 // Customizables dropdowns
                 image: {
-                    dropdown: ['insertImage', 'base64', 'noembed'],
+                    dropdown: ['insertImage', 'noembed'],
                     ico: 'insertImage'
                 }
             },
@@ -71,7 +64,6 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
                 ['undo', 'redo'], // Only supported in Blink browsers
                 ['formatting'],
                 ['strong', 'em', 'del'],
-                ['superscript', 'subscript'],
                 ['link'],
                 ['image'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],

@@ -324,27 +324,38 @@ class PagesManager
                     $form_element_name = substr_replace($form_element_name, '', $pos, strlen(']'));
                 }
 
+                // Form value
                 $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
 
-                $form_label = Form::label($element, I18n::find($property['title'], Registry::get('system.locale')));
+                // Form label
+                $form_label = '<label for="'.$element.'">'.I18n::find($property['title'], Registry::get('system.locale')).'</label>';
 
-                if ($property['type'] == 'textarea') {
-                    $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
-                } elseif ($property['type'] == 'hidden') {
-                    $form_element = Form::hidden($element, $form_value);
-                } elseif ($property['type'] == 'content') {
-                    $form_element = $form_label . Form::textarea($element, $content, array_merge($property['attributes'], ['data-editor' => 'editor']));
-                } elseif ($property['type'] == 'editor') {
-                    $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
-                } elseif ($property['type'] == 'template') {
-                    $form_element = $form_label . Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
-                } elseif ($property['type'] == 'media') {
-                    $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
-                } else {
-                    // type: text, email, etc
-                    $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
+                // Form elements
+                switch ($property['type']) {
+                    case 'textarea':
+                        $form_element = $form_label . Form::textarea($element, $form_value, $property['attributes']);
+                    break;
+                    case 'hidden':
+                        $form_element = Form::hidden($element, $form_value);
+                    break;
+                    case 'content':
+                        $form_element = $form_label . Form::textarea($element, $content, array_merge($property['attributes'], ['data-editor' => 'editor']));
+                    break;
+                    case 'editor':
+                        $form_element = $form_label . Form::textarea($element, $form_value, array_merge($property['attributes'], ['data-editor' => 'editor']));
+                    break;
+                    case 'template':
+                        $form_element = $form_label . Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
+                    break;
+                    case 'media':
+                        $form_element = $form_label . Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
+                    break;
+                    default:
+                        $form_element =  $form_label . Form::input($form_element_name, $form_value, $property['attributes']);
+                    break;
                 }
 
+                // Render form elments with labels
                 echo '<div class="form-group">';
                 echo $form_element;
                 echo '</div>';

@@ -11,18 +11,6 @@ use Flextype\Navigation;
                 FLEXTYPE
             </a>
         </div>
-        <div class="flextype-user">
-              <ul class="nav">
-                  <li class="nav-item">
-                      <a class="nav-link">
-                          <i class="fas fa-user-circle"></i>
-                          <p>
-                              <?php echo Session::get('username'); ?>
-                          </p>
-                      </a>
-                  </li>
-              </ul>
-        </div>
           <ul class="nav">
               <!--
               <li class="nav-item">
@@ -73,6 +61,18 @@ use Flextype\Navigation;
                 </li>
             <?php } ?>
         </ul>
+        <div class="flextype-user">
+              <ul class="nav">
+                  <li class="nav-item">
+                      <a class="nav-link" href="<?php echo Http::getBaseUrl();?>/admin/profile">
+                          <i class="fas fa-user-circle"></i>
+                          <p>
+                              <?php echo Session::get('username'); ?>
+                          </p>
+                      </a>
+                  </li>
+              </ul>
+        </div>
     </div>
 </div>
 <div class="sidebar-off-canvas"></div>

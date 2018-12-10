@@ -139,6 +139,7 @@ class Admin
         Http::getUriSegment(1) == 'plugins'      and PluginsManager::getPluginsPage();
         Http::getUriSegment(1) == 'information'  and InformationManager::getInformationPage();
         Http::getUriSegment(1) == 'settings'     and SettingsManager::getSettingsPage();
+        Http::getUriSegment(1) == 'profile'      and UsersManager::getProfilePage();
         Http::getUriSegment(1) == 'logout'       and UsersManager::logout();
     }
 

@@ -6,6 +6,7 @@ use Flextype\Component\Http\Http;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
 use Flextype\Component\Token\Token;
+use Flextype\Component\Registry\Registry;
 use Flextype\Component\Text\Text;
 use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
@@ -13,6 +14,15 @@ use Symfony\Component\Yaml\Yaml;
 
 class UsersManager
 {
+
+    public static function getProfilePage()
+    {
+        Registry::set('sidebar_menu_item', 'profile');
+
+        Themes::view('admin/views/templates/users/profile')
+                ->display();
+    }
+
     public static function logout()
     {
         if (Token::check((Http::get('token')))) {

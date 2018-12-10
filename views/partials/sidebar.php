@@ -63,7 +63,7 @@ use Flextype\Navigation;
         </ul>
         <div class="flextype-user">
               <ul class="nav">
-                  <li class="nav-item">
+                  <li class="nav-item <?php echo ('profile' == $active_menu_item) ? 'active' : ''; ?>">
                       <a class="nav-link" href="<?php echo Http::getBaseUrl();?>/admin/profile">
                           <i class="fas fa-user-circle"></i>
                           <p>

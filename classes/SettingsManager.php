@@ -38,30 +38,18 @@ class SettingsManager
             }
         }
 
-        if (isset($settings_site_save)) {
+        $action = Http::post('action');
+
+        if (isset($action) && $action == 'save-form') {
             if (Token::check((Http::post('token')))) {
                 Arr::delete($_POST, 'token');
-                Arr::delete($_POST, 'settings_site_save');
-
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'site.yaml', Yaml::dump($_POST, 10, 2))) {
-                    Notification::set('success', __('admin_message_settings_saved'));
-                    Http::redirect(Http::getBaseUrl().'/admin/settings');
-                }
-            } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
-            }
-        }
-
-        if (isset($settings_system_save)) {
-            if (Token::check((Http::post('token')))) {
-                Arr::delete($_POST, 'token');
-                Arr::delete($_POST, 'settings_system_save');
+                Arr::delete($_POST, 'action');
 
                 Arr::set($_POST, 'errors.display', (Http::post('errors.display') == '1' ? true : false));
                 Arr::set($_POST, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
                 Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
 
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'system.yaml', Yaml::dump($_POST, 10, 2))) {
+                if (Filesystem::setFileContent(PATH['config'] . '/' . 'settings.yaml', Yaml::dump($_POST, 10, 2))) {
                     Notification::set('success', __('admin_message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
@@ -74,14 +62,14 @@ class SettingsManager
         $system_settings = [];
 
         // Set site items if site config exists
-        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'site.yaml')) {
+        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'settings.yaml')) {
             $site_settings = Yaml::parseFile($site_config);
         } else {
             throw new \RuntimeException("Flextype site config file does not exist.");
         }
 
         // Set site items if system config exists
-        if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'system.yaml')) {
+        if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'settings.yaml')) {
             $system_settings = Yaml::parseFile($system_config);
         } else {
             throw new \RuntimeException("Flextype system config file does not exist.");

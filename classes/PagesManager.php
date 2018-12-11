@@ -139,7 +139,7 @@ class PagesManager
                     if ($_page['slug'] != '') {
                         $pages_list[$_page['slug']] = $_page['slug'];
                     } else {
-                        $pages_list[Registry::get('system.pages.main')] = Registry::get('system.pages.main');
+                        $pages_list[Registry::get('settings.pages.main')] = Registry::get('settings.pages.main');
                     }
                 }
 
@@ -168,7 +168,7 @@ class PagesManager
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml',
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml',
                                 Http::post('blueprint')
                             );
                             Notification::set('success', __('admin_message_page_changes_saved'));
@@ -178,7 +178,7 @@ class PagesManager
                         }
                     }
 
-                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml');
+                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml');
 
                     Themes::view('admin/views/templates/content/pages/blueprint')
                         ->assign('page_name', Http::get('page'))
@@ -191,7 +191,7 @@ class PagesManager
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . $page['template'] . '.php',
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . $page['template'] . '.php',
                                 Http::post('template')
                             );
                             Notification::set('success', __('admin_message_page_changes_saved'));
@@ -201,7 +201,7 @@ class PagesManager
                         }
                     }
 
-                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('system.theme') . '/views/templates/' . $page['template'] . '.php');
+                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . $page['template'] . '.php');
 
                     Themes::view('admin/views/templates/content/pages/template')
                         ->assign('page_name', Http::get('page'))
@@ -266,7 +266,7 @@ class PagesManager
                         }
 
                         // Blueprint for current page template
-                        $blueprint_path = PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . (empty($page['template']) ? 'default' : $page['template']) . '.yaml';
+                        $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . (empty($page['template']) ? 'default' : $page['template']) . '.yaml';
                         $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path));
                         is_null($blueprint) and $blueprint = [];
 

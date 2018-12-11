@@ -9,6 +9,7 @@
 * Pages Manager: Pages List - display dash for nested pages.
 * Pages Manager: Pages List - url item removed from the table.
 * Pages Manager: Pages List - quick action - View was added to preview page.
+* Pages Manager: Issue with pages slug - fixed
 * Pages Manager: Ability to select page template on page creation - added.
 * Pages Manager: A lot of changes in page editing functionality.
 * Pages Manager: New Editor, Blueprint (with custom fields), Template, Source areas.

@@ -13,24 +13,27 @@ Themes::view('admin/views/partials/navbar')
                                           ]
                         ])
     ->assign('buttons', [
-                            'settings' => [
+                            'settings_clear_cache' => [
                                                 'link' => Http::getBaseUrl() . '/admin/settings?clear_cache=1&token='.Token::generate(),
                                                 'title' => __('admin_system_clear_cache'),
                                                 'attributes' => ['class' => 'float-right btn']
-                                          ]
+                                          ],
+                              'save' => [
+                                                  'link'       => 'javascript:;',
+                                                  'title'      => __('admin_save'),
+                                                  'attributes' => ['class' => 'js-page-save-submit float-right btn']
+                                              ]
                         ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>
 
+<?php echo Form::open(null, ['id' => 'editorForm']); ?>
+<?php echo Form::hidden('token', Token::generate()); ?>
+<?php echo Form::hidden('action', 'save-form'); ?>
 <div class="row">
     <div class="col-md-6">
 
-        <h3 class="h3"><?php echo  __('admin_site'); ?></h3>
-        <br>
-
-        <?php echo Form::open(); ?>
-            <?php echo Form::hidden('token', Token::generate()); ?>
             <div class="form-group">
                 <?php
                     echo (
@@ -79,20 +82,8 @@ Themes::view('admin/views/partials/content-start')->display();
                     );
                 ?>
             </div>
-        <div class="form-group no-margin">
-            <?php echo Form::submit('settings_site_save', __('admin_save'), ['class' => 'btn']); ?>
-        </div>
-        <?php echo Form::close(); ?>
-
     </div>
-
     <div class="col-md-6">
-
-        <h3 class="h3"><?php echo  __('admin_system_settings_system'); ?></h3>
-        <br>
-
-        <?php echo Form::open(); ?>
-        <?php echo Form::hidden('token', Token::generate()); ?>
         <div class="form-group">
             <?php
                 echo (
@@ -181,12 +172,9 @@ Themes::view('admin/views/partials/content-start')->display();
                 );
             ?>
         </div>
-        <div class="form-group no-margin">
-            <?php echo Form::submit('settings_system_save', __('admin_save'), ['class' => 'btn']); ?>
-        </div>
-        <?php echo Form::close(); ?>
     </div>
 </div>
+<?php echo Form::close(); ?>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

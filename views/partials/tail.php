@@ -4,7 +4,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 ?>
 
 <?php Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/js/build.min.js', 'admin', 1); ?>
-<?php if (Registry::get("system.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.Registry::get("system.locale").'.min.js', 'admin', 10); ?>
+<?php if (Registry::get("settings.locale") != 'en') Assets::add('js', Http::getBaseUrl() . '/site/plugins/admin/assets/dist/langs/trumbowyg/langs/'.Registry::get("settings.locale").'.min.js', 'admin', 10); ?>
 <?php foreach (Assets::get('js', 'admin') as $assets_by_priorities) { foreach ($assets_by_priorities as $assets) { ?>
     <script type="text/javascript" src="<?php echo $assets['asset']; ?>"></script>
 <?php } } ?>
@@ -71,7 +71,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
                 ['removeformat'],
                 ['fullscreen']
             ],
-            lang: '<?php echo Registry::get("system.locale"); ?>',
+            lang: '<?php echo Registry::get("settings.locale"); ?>',
             autogrow: true,
             removeformatPasted: true
         });

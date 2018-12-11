@@ -30,11 +30,11 @@ Themes::view('admin/views/partials/content-start')->display();
         </tr>
         <tr>
             <td><?php echo __('admin_debugging'); ?></td>
-            <td><?php if (Registry::get('system.errors.display')) echo __('admin_on'); else echo __('admin_off'); ?></td>
+            <td><?php if (Registry::get('settings.errors.display')) echo __('admin_on'); else echo __('admin_off'); ?></td>
         </tr>
         <tr>
             <td><?php echo __('admin_cache'); ?></td>
-            <td><?php if (Registry::get('system.cache.enabled')) echo __('admin_on'); else echo __('admin_off'); ?></td>
+            <td><?php if (Registry::get('settings.cache.enabled')) echo __('admin_on'); else echo __('admin_off'); ?></td>
         </tr>
     </tbody>
 </table>
@@ -94,7 +94,7 @@ Themes::view('admin/views/partials/content-start')->display();
 
 <?php if (Filesystem::isFileWritable(ROOT_DIR . '/.htaccess') or
           Filesystem::isFileWritable(ROOT_DIR . '/index.php') or
-          Registry::get('system.errors.display') === true) { ?>
+          Registry::get('settings.errors.display') === true) { ?>
 
         <h3 class="h3"><?php echo  __('admin_security_check_results'); ?></h3>
 
@@ -110,7 +110,7 @@ Themes::view('admin/views/partials/content-start')->display();
                     <td><?php echo __('admin_security_check_results_index', null, [':path' => ROOT_DIR . '/index.php']); ?></td>
                 </tr>
                 <?php } ?>
-                <?php if (Registry::get('system.errors.display') === true) { ?>
+                <?php if (Registry::get('settings.errors.display') === true) { ?>
                 <tr>
                     <td><?php echo __('admin_security_check_results_debug'); ?></td>
                 </tr>

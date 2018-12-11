@@ -20,7 +20,7 @@ use function Flextype\Component\I18n\__;
 
 <?php if ((Http::get('page') !== null) && (Arr::last(Http::getUriSegments()) !== 'move') && (Arr::last(Http::getUriSegments()) !== 'rename')) { ?>
 <div class="page-editor-heading">
-     <a target="_blank" href="<?php echo $page['url']; ?>">/<?php if($page['slug'] == '') echo Registry::get('system.pages.main'); else echo $page['slug']; ?></a>
+     <a target="_blank" href="<?php echo $page['url']; ?>">/<?php if($page['slug'] == '') echo Registry::get('settings.pages.main'); else echo $page['slug']; ?></a>
 </div>
 <?php } ?>
 

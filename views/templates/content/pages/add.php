@@ -55,11 +55,11 @@ Themes::view('admin/views/partials/content-start')->display();
                 <option value="<?php if ($page['slug'] != '') {
                     echo $page['slug'];
                 } else {
-                    echo Registry::get('system.pages.main');
+                    echo Registry::get('settings.pages.main');
                 } ?>"><?php if ($page['slug'] != '') {
                     echo $page['slug'];
                 } else {
-                    echo Registry::get('system.pages.main');
+                    echo Registry::get('settings.pages.main');
                 } ?></option>
             <?php
             } ?>

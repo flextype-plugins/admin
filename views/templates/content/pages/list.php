@@ -42,19 +42,19 @@ Themes::view('admin/views/partials/content-start')->display();
                         }
                     }
                 ?>
-                <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo $page['title']; ?></a>
+                <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('settings.pages.main'); ?>"><?php echo $page['title']; ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">
-                  <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_edit'); ?></a>
+                  <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('settings.pages.main'); ?>"><?php echo __('admin_pages_edit'); ?></a>
                   <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/add"><?php echo __('admin_pages_add'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/clone?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_pages_clone'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_rename'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/move?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('system.pages.main'); ?>"><?php echo __('admin_pages_move'); ?></a>
+                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/clone?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('settings.pages.main'); ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_pages_clone'); ?></a>
+                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/rename?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('settings.pages.main'); ?>"><?php echo __('admin_pages_rename'); ?></a>
+                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/pages/move?page=<?php if ($page['slug'] != '') echo $page['slug']; else echo Registry::get('settings.pages.main'); ?>"><?php echo __('admin_pages_move'); ?></a>
                     <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/<?php echo $page['slug']; ?>" target="_blank"><?php echo __('admin_pages_view'); ?></a>
                   </div>
                 </div>

@@ -168,7 +168,7 @@ class PagesManager
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . Http::get('blueprint_name') . '.yaml',
+                                PATH['themes'] . '/' . Registry::get('system.theme') . '/blueprints/' . $page['template'] . '.yaml',
                                 Http::post('blueprint')
                             );
                             Notification::set('success', __('admin_message_page_changes_saved'));

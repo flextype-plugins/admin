@@ -1,4 +1,4 @@
-# v0.3.0, 2018-12-15
+# v0.3.0, 2018-12-12
 * New Gorgeous Admin theme in dark colors!
 * Information: Display information about core and admin plugin version
 * Users: Auth - We will create more secure password hash with password_hash method.
@@ -9,7 +9,8 @@
 * Pages Manager: Pages List - display dash for nested pages.
 * Pages Manager: Pages List - url item removed from the table.
 * Pages Manager: Pages List - quick action - View was added to preview page.
-* Pages Manager: Issue with pages slug - fixed
+* Pages Manager: Issue with default page slug - fixed
+* Pages Manager: Issue with page template field - fixed
 * Pages Manager: Ability to select page template on page creation - added.
 * Pages Manager: A lot of changes in page editing functionality.
 * Pages Manager: New Editor, Blueprint (with custom fields), Template, Source areas.
@@ -30,8 +31,6 @@
 * General: Set Indentation: 2 and Array Expansion: 10 for YAML::dump methods.
 * General: Code refactoring and cleanup
 * Translates updates and fixes. Thanks to @Hmelex
-
-
 
 # v0.2.0, 2018-11-24
 * General: Link to site preview added #11

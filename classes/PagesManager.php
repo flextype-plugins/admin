@@ -266,7 +266,7 @@ class PagesManager
                         }
 
                         // Blueprint for current page template
-                        $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . (empty($page['template']) ? 'default' : $page['template']) . '.yaml';
+                        $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml';
                         $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path));
                         is_null($blueprint) and $blueprint = [];
 

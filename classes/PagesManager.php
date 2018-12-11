@@ -298,7 +298,7 @@ class PagesManager
                     if ($path) {
                         $files[Http::getBaseUrl().'/'.$page.'/'.$file] = Http::getBaseUrl().'/'.$page.'/'.$file;
                     } else {
-                        $files[] = $file;
+                        $files[$file] = $file;
                     }
                 }
             }
@@ -377,7 +377,7 @@ class PagesManager
 
                     // Media select field
                     case 'media_select':
-                        $form_element = Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), true), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), false), $form_value, $property['attributes']);
                     break;
 
                     // Simple text-input, for single-line fields.

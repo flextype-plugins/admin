@@ -50,29 +50,19 @@ Themes::view('admin/views/partials/content-start')->display();
             <label for="formGroupParentPageInput"><?php echo __('admin_pages_parent_page'); ?></label>
             <select class="form-control" id="formGroupParentPageInput" name="parent_page">
             <option value="">/</option>
-            <?php foreach ($pages_list as $page) {
-                ?>
-                <option value="<?php if ($page['slug'] != '') {
-                    echo $page['slug'];
-                } else {
-                    echo Registry::get('settings.pages.main');
-                } ?>"><?php if ($page['slug'] != '') {
-                    echo $page['slug'];
-                } else {
-                    echo Registry::get('settings.pages.main');
-                } ?></option>
-            <?php
-            } ?>
+            <?php foreach ($pages_list as $page) { ?>
+                <option value="<?php echo $page['slug']; ?>">
+                    <?php echo $page['slug']; ?>
+                </option>
+            <?php } ?>
             </select>
         </div>
         <div class="form-group">
             <label><?php echo __('admin_pages_template'); ?></label>
             <select class="form-control" name="template">
-            <?php foreach ($templates as $template) {
-                ?>
+            <?php foreach ($templates as $template) { ?>
                 <option value="<?php echo $template; ?>"><?php echo $template; ?></option>
-            <?php
-            } ?>
+            <?php } ?>
             </select>
         </div>
     </div>

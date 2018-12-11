@@ -12,31 +12,6 @@ use Flextype\Navigation;
             </a>
         </div>
           <ul class="nav">
-              <!--
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="collapse" href="#menu-user">
-                      <i class="fas fa-user-circle"></i>
-                      <p>
-                          <?php echo Session::get('username'); ?>
-                          <b class="caret"></b>
-                      </p>
-                  </a>
-                  <div class="collapse" id="menu-user">
-                      <ul class="nav">
-                          <li class="nav-item">
-                              <a class="nav-link" target="_blank" href="<?php echo Http::getBaseUrl(); ?>">
-                                  <span class="sidebar-normal"><?php echo __('admin_view_site'); ?></span>
-                              </a>
-                          </li>
-                          <li class="nav-item ">
-                              <a class="nav-link" href="<?php echo Http::getBaseUrl(); ?>/admin/logout?token=<?php echo Token::generate(); ?>">
-                                  <span class="sidebar-normal"><?php echo __('admin_menu_logout'); ?></span>
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
-              </li>
-                -->
             <?php
                 $active_menu_item = Registry::exists('sidebar_menu_item') ? Registry::get('sidebar_menu_item') : '';
             ?>

@@ -7,7 +7,9 @@ use Flextype\Component\Http\Http;
 use Flextype\Component\Event\Event;
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Registry\Registry;
+use Flextype\Component\Token\Token;
 use Symfony\Component\Yaml\Yaml;
+
 
 class PluginsManager
 {

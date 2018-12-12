@@ -22,6 +22,10 @@ Themes::view('admin/views/partials/navbar')
 Themes::view('admin/views/partials/content-start')->display();
 ?>
 
+<form>
+    <input type="hidden" name="url" value="<?php echo Http::getBaseUrl() . '/admin/plugins'; ?>">
+</form>
+
 <table class="table no-margin">
   <thead>
       <tr>

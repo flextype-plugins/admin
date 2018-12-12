@@ -1,4 +1,4 @@
-# v0.3.0, 2018-12-12
+# v0.3.0, 2018-12-13
 * New Gorgeous Admin theme in dark colors!
 * Information: Display information about core and admin plugin version
 * Users: Auth - We will create more secure password hash with password_hash method.

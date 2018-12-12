@@ -31,7 +31,7 @@
 * General: Set Indentation: 2 and Array Expansion: 10 for YAML::dump methods.
 * General: Code refactoring and cleanup
 * General: Sidebar - view site link - added
-* Translates updates and fixes. Thanks to @Hmelex
+* Translates updates and fixes. Thanks to @Hmelex @AndiLeni @diomed
 
 # v0.2.0, 2018-11-24
 * General: Link to site preview added #11

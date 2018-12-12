@@ -20,7 +20,7 @@
 * General: Using Gajus Dindent HTML indentation library
 * General: Assets Manager for Javascript added.
 * General: Animate.css added for animations.
-* General: Fontawesome updated to 5.5.0
+* General: Fontawesome updated to 5.6.0
 * General: Twitter Bootstrap updated to 4.1.3
 * General: Codemirror library added for better code editing.
 * General: es6-promise updated to 4.2.5

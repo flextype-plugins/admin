@@ -39,7 +39,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo(
                     Form::label('name', __('admin_pages_name'), ['for' => 'pageName']).
-                    Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'pageName',  'required', 'data-validation' => 'length', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
+                    Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'pageName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
                 );
             ?>
         </div>

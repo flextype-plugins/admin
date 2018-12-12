@@ -34,7 +34,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo(
                     Form::label('title', __('admin_pages_title'), ['for' => 'pageTitle']).
-                    Form::input('title', '', ['class' => 'form-control', 'id' => 'pageTitle', 'required', 'data-validation' => 'length', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
+                    Form::input('title', '', ['class' => 'form-control', 'id' => 'pageTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
                 );
             ?>
         </div>
@@ -42,7 +42,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo(
                     Form::label('slug', __('admin_pages_name'), ['for' => 'pageSlug']).
-                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'pageSlug', 'required', 'data-validation' => 'length alphanumeric', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
+                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'pageSlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
                 );
             ?>
         </div>

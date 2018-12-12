@@ -10,6 +10,9 @@ use Flextype\Navigation;
             <a href="<?php echo Http::getBaseUrl(); ?>/admin">
                 FLEXTYPE
             </a>
+            <a href="<?php echo Http::getBaseUrl(); ?>" class="view-site-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i>
+            </a>
         </div>
           <ul class="nav">
             <?php

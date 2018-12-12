@@ -30,6 +30,7 @@
 * General: Basic forms validation with jquery.form-validator.js #47 - added.
 * General: Set Indentation: 2 and Array Expansion: 10 for YAML::dump methods.
 * General: Code refactoring and cleanup
+* General: Sidebar - view site link - added
 * Translates updates and fixes. Thanks to @Hmelex
 
 # v0.2.0, 2018-11-24

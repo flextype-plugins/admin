@@ -22,7 +22,7 @@ Themes::view('admin/views/partials/content-start')->display();
 
 <br>
 
-<a href="<?php echo Http::getBaseUrl();?>/admin/logout?token=<?php echo Token::generate(); ?>"><?php echo __('admin_menu_logout'); ?></a>
+<a class="btn btn-default" href="<?php echo Http::getBaseUrl();?>/admin/logout?token=<?php echo Token::generate(); ?>"><?php echo __('admin_menu_logout'); ?></a>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

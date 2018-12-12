@@ -372,7 +372,7 @@ class PagesManager
 
                     // Visibility select field for selecting page visibility state
                     case 'visibility_select':
-                        $form_element = Form::select($form_element_name, ['draft' => __('admin_pages_draft'), 'visible' => __('admin_pages_visible')], $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, ['draft' => __('admin_pages_draft'), 'visible' => __('admin_pages_visible')], (!empty($form_value) ? $form_value : 'visible'), $property['attributes']);
                     break;
 
                     // Media select field

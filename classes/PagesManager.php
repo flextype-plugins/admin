@@ -315,11 +315,17 @@ class PagesManager
         if (isset($form) > 0) {
             foreach ($form as $element => $property) {
 
-                // Create attributes and attribute class
+                // Create attributes
                 $property['attributes'] = Arr::keyExists($property, 'attributes') ? $property['attributes'] : [] ;
+
+                // Create attribute class
                 $property['attributes']['class'] = Arr::keyExists($property, 'attributes.class') ? 'form-control ' . $property['attributes']['class'] : 'form-control' ;
 
+                // Create attribute size
                 $property['size'] = Arr::keyExists($property, 'size') ? $property['size'] : 'col-12' ;
+
+                // Create attribute value
+                $property['value'] = Arr::keyExists($property, 'value') ? $property['value'] : '' ;
 
                 $pos = strpos($element, '.');
 
@@ -336,7 +342,7 @@ class PagesManager
                 }
 
                 // Form value
-                $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : '';
+                $form_value = Arr::keyExists($values, $element) ? Arr::get($values, $element) : $property['value'];
 
                 // Form label
                 $form_label = Form::label($element, __($property['title']));

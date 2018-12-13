@@ -21,7 +21,7 @@ Themes::view('admin/views/partials/navbar')
                               'save' => [
                                                   'link'       => 'javascript:;',
                                                   'title'      => __('admin_save'),
-                                                  'attributes' => ['class' => 'js-page-save-submit float-right btn']
+                                                  'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                               ]
                         ])
     ->display();

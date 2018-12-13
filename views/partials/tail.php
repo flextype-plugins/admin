@@ -78,7 +78,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $.flextype.plugins.init();
 
-        $('.js-page-save-submit').click(function() {
+        $('.js-save-submit').click(function() {
             $("#editorForm" ).submit();
         });
 

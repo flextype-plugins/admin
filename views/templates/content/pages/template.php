@@ -51,7 +51,7 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?php echo Form::open(null, ['id' => 'editorForm']); ?>
+<?php echo Form::open(null, ['id' => 'form']); ?>
 <?php echo Form::hidden('token', Token::generate()); ?>
 <?php echo Form::hidden('action', 'save-form'); ?>
 <?php echo Form::hidden('page_name', $page_name); ?>

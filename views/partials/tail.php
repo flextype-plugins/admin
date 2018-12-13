@@ -78,8 +78,8 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         $.flextype.plugins.init();
 
-        $('.js-save-submit').click(function() {
-            $("#editorForm" ).submit();
+        $('.js-save-form-submit').click(function() {
+            $("#form" ).submit();
         });
 
         $('.navbar-toggler').click(function () {

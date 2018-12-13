@@ -17,7 +17,6 @@ use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Symfony\Component\Yaml\Yaml;
 use Gajus\Dindent\Indenter;
-use Flextype\Navigation;
 
 class PagesManager
 {

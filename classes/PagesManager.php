@@ -417,7 +417,7 @@ class PagesManager
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                Filesystem::uploadFile($_FILES['file'], $files_directory, PagesManager::$media, 7000000);
+                Filesystem::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.accept_file_types'), 7000000);
                 Notification::set('success', __('admin_message_page_file_uploaded'));
                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
             } else {

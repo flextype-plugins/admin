@@ -38,7 +38,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <?php
                     echo (
                         Form::label('title', __('admin_system_settings_site_title'), ['for' => 'systemSettingsSiteTitle']).
-                        Form::input('title', $site_settings['title'], ['class' => 'form-control', 'id' => 'systemSettingsSiteTitle', 'required'])
+                        Form::input('title', $settings['title'], ['class' => 'form-control', 'id' => 'systemSettingsSiteTitle', 'required'])
                     );
                 ?>
             </div>
@@ -46,7 +46,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <?php
                     echo (
                         Form::label('description', __('admin_system_settings_site_description'), ['for' => 'systemSettingsSiteDescription']).
-                        Form::textarea('description', $site_settings['description'], ['class' => 'form-control margin-hard-bottom', 'id' => 'systemSettingsSiteDescription'])
+                        Form::textarea('description', $settings['description'], ['class' => 'form-control margin-hard-bottom', 'id' => 'systemSettingsSiteDescription'])
                     );
                 ?>
             </div>
@@ -54,7 +54,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <?php
                     echo (
                         Form::label('keywords', __('admin_system_settings_site_keywords'), ['for' => 'systemSettingsSiteKeywords']).
-                        Form::input('keywords', $site_settings['keywords'], ['class' => 'form-control', 'id' => 'systemSettingsSiteKeywords', 'required'])
+                        Form::input('keywords', $settings['keywords'], ['class' => 'form-control', 'id' => 'systemSettingsSiteKeywords', 'required'])
                     );
                 ?>
             </div>
@@ -62,7 +62,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <?php
                     echo (
                         Form::label('robots', __('admin_system_settings_site_robots'), ['for' => 'systemSettingsSiteRobots']).
-                        Form::input('robots', $site_settings['robots'], ['class' => 'form-control', 'id' => 'systemSettingsSiteRobots', 'required'])
+                        Form::input('robots', $settings['robots'], ['class' => 'form-control', 'id' => 'systemSettingsSiteRobots', 'required'])
                     );
                 ?>
             </div>
@@ -70,7 +70,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <?php
                     echo (
                         Form::label('author[name]', __('admin_system_settings_site_author_name'), ['for' => 'systemSettingsSiteAuthorName']).
-                        Form::input('author[name]', $site_settings['author']['name'], ['class' => 'form-control', 'id' => 'systemSettingsSiteAuthorName', 'required'])
+                        Form::input('author[name]', $settings['author']['name'], ['class' => 'form-control', 'id' => 'systemSettingsSiteAuthorName', 'required'])
                     );
                 ?>
             </div>
@@ -78,7 +78,7 @@ Themes::view('admin/views/partials/content-start')->display();
                 <?php
                     echo (
                         Form::label('author[email]', __('admin_system_settings_site_author_email'), ['for' => 'systemSettingsSiteAuthorEmail']).
-                        Form::input('author[email]', $site_settings['author']['email'], ['class' => 'form-control', 'id' => 'systemSettingsSiteAuthorEmail', 'required'])
+                        Form::input('author[email]', $settings['author']['email'], ['class' => 'form-control', 'id' => 'systemSettingsSiteAuthorEmail', 'required'])
                     );
                 ?>
             </div>
@@ -88,7 +88,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('timezone', __('admin_system_settings_system_timezone'), ['for' => 'systemSettingsSystemTimezone']).
-                    Form::input('timezone', $system_settings['timezone'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTimezone', 'required'])
+                    Form::input('timezone', $settings['timezone'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTimezone', 'required'])
                 );
             ?>
         </div>
@@ -96,7 +96,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('date_format', __('admin_system_settings_system_date_format'), ['for' => 'systemSettingsSystemDateFormat']).
-                    Form::input('date_format', $system_settings['date_format'], ['class' => 'form-control', 'id' => 'systemSettingsSystemDateFormat', 'required'])
+                    Form::input('date_format', $settings['date_format'], ['class' => 'form-control', 'id' => 'systemSettingsSystemDateFormat', 'required'])
                 );
             ?>
         </div>
@@ -104,7 +104,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('charset', __('admin_system_settings_system_charset'), ['for' => 'systemSettingsSystemCharset']).
-                    Form::input('charset', $system_settings['charset'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCharset', 'required'])
+                    Form::input('charset', $settings['charset'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCharset', 'required'])
                 );
             ?>
         </div>
@@ -112,7 +112,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('theme', __('admin_system_settings_system_theme'), ['for' => 'systemSettingsSystemTheme']).
-                    Form::input('theme', $system_settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required'])
+                    Form::input('theme', $settings['theme'], ['class' => 'form-control', 'id' => 'systemSettingsSystemTheme', 'required'])
                 );
             ?>
         </div>
@@ -120,7 +120,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('locale', __('admin_system_settings_system_locale'), ['for' => 'systemSettingsSystemLocale']).
-                    Form::select('locale', $locales, $system_settings['locale'], ['class' => 'form-control', 'id' => 'pageTemplate'])
+                    Form::select('locale', $locales, $settings['locale'], ['class' => 'form-control', 'id' => 'pageTemplate'])
                 );
             ?>
         </div>
@@ -128,7 +128,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('pages[main]', __('admin_system_settings_system_pages_main'), ['for' => 'systemSettingsSystemPagesMain']).
-                    Form::input('pages[main]', $system_settings['pages']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesMain', 'required'])
+                    Form::input('pages[main]', $settings['pages']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesMain', 'required'])
                 );
             ?>
         </div>
@@ -136,7 +136,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('errors[display]', __('admin_system_settings_system_errors_display'), ['for' => 'systemSettingsSystemErrorsDisplay']).
-                    Form::select('errors[display]', [0 => 'false', 1 => 'true'], $system_settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required'])
+                    Form::select('errors[display]', [0 => 'false', 1 => 'true'], $settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required'])
                 );
             ?>
         </div>
@@ -144,7 +144,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('cache[enabled]', __('admin_system_settings_system_cache_enabled'), ['for' => 'systemSettingsSystemCacheEnabled']).
-                    Form::select('cache[enabled]', [0 => 'false', 1 => 'true'], $system_settings['cache']['enabled'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheEnabled', 'required'])
+                    Form::select('cache[enabled]', [0 => 'false', 1 => 'true'], $settings['cache']['enabled'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheEnabled', 'required'])
                 );
             ?>
         </div>
@@ -152,7 +152,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('cache[prefix]', __('admin_system_settings_system_cache_prefix'), ['for' => 'systemSettingsSystemCachePrefix']).
-                    Form::input('cache[prefix]', $system_settings['cache']['prefix'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCachePrefix', 'required'])
+                    Form::input('cache[prefix]', $settings['cache']['prefix'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCachePrefix', 'required'])
                 );
             ?>
         </div>
@@ -160,7 +160,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('cache[driver]', __('admin_system_settings_system_cache_driver'), ['for' => 'systemSettingsSystemCacheDriver']).
-                    Form::input('cache[driver]', $system_settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required'])
+                    Form::input('cache[driver]', $settings['cache']['driver'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheDriver', 'required'])
                 );
             ?>
         </div>
@@ -168,7 +168,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?php
                 echo (
                     Form::label('cache[lifetime]', __('admin_system_settings_system_cache_lifetime'), ['for' => 'systemSettingsSystemCacheLifetime']).
-                    Form::input('cache[lifetime]', $system_settings['cache']['lifetime'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheLifetime', 'required'])
+                    Form::input('cache[lifetime]', $settings['cache']['lifetime'], ['class' => 'form-control', 'id' => 'systemSettingsSystemCacheLifetime', 'required'])
                 );
             ?>
         </div>

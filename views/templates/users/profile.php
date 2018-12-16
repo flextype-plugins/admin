@@ -17,12 +17,15 @@ Themes::view('admin/views/partials/navbar')
 Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?= __('admin_username') ?>: <?= Session::get('username') ?> <br>
-<?= __('admin_role') ?>: <?= Session::get('role') ?> <br>
+<div class="profile">
+    <i class="fas fa-user-circle"></i>
+    <?= __('admin_username') ?>: <?= Session::get('username') ?> <br>
+    <?= __('admin_role') ?>: <?= Session::get('role') ?> <br>
 
-<br>
+    <br>
 
-<a class="btn btn-default" href="<?= Http::getBaseUrl();?>/admin/logout?token=<?= Token::generate() ?>"><?= __('admin_menu_logout') ?></a>
+    <a class="btn btn-default" href="<?= Http::getBaseUrl();?>/admin/logout?token=<?= Token::generate() ?>"><?= __('admin_menu_logout') ?></a>
+</div>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

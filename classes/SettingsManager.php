@@ -57,9 +57,18 @@ class SettingsManager
             }
         }
 
+        $available_locales = Filesystem::getFilesList(PATH['plugins'] . '/admin/languages/', 'yaml');
+        $system_locales = Plugins::getLocales();
+
+        $locales = [];
+
+        foreach ($available_locales as $locale) {
+            $locales[basename($locale, '.yaml')] = $system_locales[basename($locale, '.yaml')];
+        }
+
         Themes::view('admin/views/templates/system/settings/list')
                 ->assign('settings', Registry::get('settings'))
-                ->assign('locales', Plugins::getLocales())
+                ->assign('locales', $locales)
                 ->display();
     }
 }

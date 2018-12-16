@@ -21,13 +21,6 @@ use Gajus\Dindent\Indenter;
 class PagesManager
 {
 
-    /**
-     * Media
-     *
-     * @var array
-     */
-    public static $media = ['jpeg', 'png', 'gif', 'jpg'];
-
     public static function getPagesManagerPage()
     {
         Registry::set('sidebar_menu_item', 'pages');

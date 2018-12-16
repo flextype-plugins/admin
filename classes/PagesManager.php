@@ -292,7 +292,7 @@ class PagesManager
     {
         $files = [];
         foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
-            if (in_array($file_ext = substr(strrchr($file, '.'), 1), PagesManager::$media)) {
+            if (in_array($file_ext = substr(strrchr($file, '.'), 1), Registry::get('settings.accept_file_types'))) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
                         $files[Http::getBaseUrl().'/'.$page.'/'.$file] = Http::getBaseUrl().'/'.$page.'/'.$file;

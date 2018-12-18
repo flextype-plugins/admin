@@ -385,9 +385,13 @@ class PagesManager
                 }
 
                 // Render form elments with labels
-                echo '<div class="form-group '.$property['size'].'">';
-                echo $form_label . $form_element;
-                echo '</div>';
+                if ($property['type'] == 'hidden') {
+                    echo $form_element;
+                } else {
+                    echo '<div class="form-group '.$property['size'].'">';
+                    echo $form_label . $form_element;
+                    echo '</div>';
+                }
             }
         }
 

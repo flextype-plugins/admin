@@ -10,7 +10,6 @@ use Flextype\Component\Registry\Registry;
 use Flextype\Component\Text\Text;
 use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
-use Symfony\Component\Yaml\Yaml;
 
 class UsersManager
 {
@@ -43,11 +42,11 @@ class UsersManager
                 } else {
                     Filesystem::setFileContent(
                             PATH['site'] . '/accounts/' . Http::post('username') . '.yaml',
-                                                   Yaml::dump(['username' => Text::safeString(Http::post('username')),
-                                                               'hashed_password' => password_hash(trim(Http::post('password')), PASSWORD_BCRYPT),
-                                                               'email' => Http::post('email'),
-                                                               'role'  => 'admin',
-                                                               'state' => 'enabled'], 10, 2)
+                            YamlParser::encode(['username' => Text::safeString(Http::post('username')),
+                                                'hashed_password' => password_hash(trim(Http::post('password')), PASSWORD_BCRYPT),
+                                                'email' => Http::post('email'),
+                                                'role'  => 'admin',
+                                                'state' => 'enabled'])
                         );
 
                     Http::redirect(Http::getBaseUrl().'/admin/pages');
@@ -82,7 +81,7 @@ class UsersManager
         if (isset($login)) {
             if (Token::check((Http::post('token')))) {
                 if (Filesystem::fileExists($_user_file = PATH['site'] . '/accounts/' . Http::post('username') . '.yaml')) {
-                    $user_file = Yaml::parseFile($_user_file);
+                    $user_file = YamlParser::decode(Filesystem::getFileContent($_user_file));
                     if (password_verify(trim(Http::post('password')), $user_file['hashed_password'])) {
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);

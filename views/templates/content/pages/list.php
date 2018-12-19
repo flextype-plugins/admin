@@ -23,6 +23,7 @@ Themes::view('admin/views/partials/navbar')
 Themes::view('admin/views/partials/content-start')->display();
 ?>
 
+<?php if (count($pages_list) > 0): ?>
 <table class="table no-margin">
     <thead>
         <tr>
@@ -64,6 +65,9 @@ Themes::view('admin/views/partials/content-start')->display();
         <?php } ?>
     </tbody>
 </table>
+<?php else: ?>
+    <h3 class="no-data-message"><?= __('admin_pages_empty') ?></h3>
+<?php endif ?>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

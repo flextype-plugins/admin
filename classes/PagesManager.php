@@ -115,7 +115,7 @@ class PagesManager
                         if (!Filesystem::dirExists(PATH['pages'] . '/' . Http::post('name'))) {
                             if (rename(
                                 PATH['pages'] . '/' . Http::post('page_path_current'),
-                                       PATH['pages'] . '/' . Http::post('page_parent') . '/' . Http::post('name')
+                                PATH['pages'] . '/' . Http::post('page_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
                             )) {
                                 Notification::set('success', __('admin_message_page_renamed'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');
@@ -143,7 +143,7 @@ class PagesManager
                         if (!Filesystem::dirExists(realpath(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')))) {
                             if (rename(
                                 PATH['pages'] . '/' . Http::post('page_path_current'),
-                                PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')
+                                PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('name_current'), '-', true)
                             )) {
                                 Notification::set('success', __('admin_message_page_moved'));
                                 Http::redirect(Http::getBaseUrl().'/admin/pages');

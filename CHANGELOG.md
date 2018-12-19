@@ -1,3 +1,13 @@
+# v0.4.0, 2018-12-XX
+* System Manager: refactoring and improvements
+* System Manager: display available locales only
+* Profile: profile view - improved
+* Pages Manager: don't create label for hidden inputs
+* General: trumbowyg editor styles fixes
+* General: Updates according to the php template syntax guidelines
+* Pages Manager: use defined file types (extensions to be exact) that are acceptable for upload.
+* Português locale - added
+
 # v0.3.1, 2018-12-14
 * General: critical issues with autoload - fixed
 * General: .js-page-save-submit changed to .js-save-form-submit

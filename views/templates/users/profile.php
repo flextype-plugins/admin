@@ -21,13 +21,9 @@ Themes::view('admin/views/partials/content-start')->display();
     <i class="fas fa-user-circle"></i>
     <?= __('admin_username') ?>: <?= Session::get('username') ?> <br>
     <?= __('admin_role') ?>: <?= Session::get('role') ?> <br>
-
     <br>
-
-    <a class="btn btn-default" href="<?= Http::getBaseUrl();?>/admin/logout?token=<?= Token::generate() ?>"><?= __('admin_menu_logout') ?></a>
+    <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/logout?token=<?= Token::generate() ?>"><?= __('admin_menu_logout') ?></a>
 </div>
 
-<?php
-Themes::view('admin/views/partials/content-end')->display();
-Themes::view('admin/views/partials/footer')->display();
-?>
+<?php Themes::view('admin/views/partials/content-end')->display() ?>
+<?php Themes::view('admin/views/partials/footer')->display() ?>

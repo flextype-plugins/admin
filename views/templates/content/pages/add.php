@@ -60,8 +60,8 @@ Themes::view('admin/views/partials/content-start')->display();
         <div class="form-group">
             <label><?php echo __('admin_pages_template'); ?></label>
             <select class="form-control" name="template">
-            <?php foreach ($templates as $template) { ?>
-                <option value="<?php echo $template; ?>"><?php echo $template; ?></option>
+            <?php foreach ($templates as $key => $template) { ?>
+                <option value="<?php echo $key; ?>"><?php echo $template; ?></option>
             <?php } ?>
             </select>
         </div>

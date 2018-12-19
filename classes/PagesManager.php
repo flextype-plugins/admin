@@ -15,7 +15,6 @@ use Flextype\Component\Text\Text;
 use Flextype\Component\Form\Form;
 use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
-use Symfony\Component\Yaml\Yaml;
 use Gajus\Dindent\Indenter;
 
 class PagesManager
@@ -240,7 +239,7 @@ class PagesManager
                                 Arr::delete($frontmatter, 'token');
                                 Arr::delete($frontmatter, 'action');
                                 Arr::delete($frontmatter, 'content');
-                                $frontmatter = Yaml::dump(array_merge($page, $frontmatter), 10, 2);
+                                $frontmatter = YamlParser::encode(array_merge($page, $frontmatter));
 
                                 $content = Http::post('content');
                                 $content = (isset($content)) ? $indenter->indent($content) : '';
@@ -259,7 +258,7 @@ class PagesManager
 
                         // Blueprint for current page template
                         $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml';
-                        $blueprint = Yaml::parse(Filesystem::getFileContent($blueprint_path));
+                        $blueprint = YamlParser::decode(Filesystem::getFileContent($blueprint_path));
                         is_null($blueprint) and $blueprint = [];
 
                         Themes::view('admin/views/templates/content/pages/content')

@@ -21,13 +21,6 @@ use Gajus\Dindent\Indenter;
 class PagesManager
 {
 
-    /**
-     * Media
-     *
-     * @var array
-     */
-    public static $media = ['jpeg', 'png', 'gif', 'jpg'];
-
     public static function getPagesManagerPage()
     {
         Registry::set('sidebar_menu_item', 'pages');
@@ -292,7 +285,7 @@ class PagesManager
     {
         $files = [];
         foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
-            if (in_array($file_ext = substr(strrchr($file, '.'), 1), PagesManager::$media)) {
+            if (in_array($file_ext = substr(strrchr($file, '.'), 1), Registry::get('settings.accept_file_types'))) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
                         $files[Http::getBaseUrl().'/'.$page.'/'.$file] = Http::getBaseUrl().'/'.$page.'/'.$file;
@@ -392,9 +385,13 @@ class PagesManager
                 }
 
                 // Render form elments with labels
-                echo '<div class="form-group '.$property['size'].'">';
-                echo $form_label . $form_element;
-                echo '</div>';
+                if ($property['type'] == 'hidden') {
+                    echo $form_element;
+                } else {
+                    echo '<div class="form-group '.$property['size'].'">';
+                    echo $form_label . $form_element;
+                    echo '</div>';
+                }
             }
         }
 
@@ -417,7 +414,7 @@ class PagesManager
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
-                Filesystem::uploadFile($_FILES['file'], $files_directory, PagesManager::$media, 7000000);
+                Filesystem::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.accept_file_types'), 7000000);
                 Notification::set('success', __('admin_message_page_file_uploaded'));
                 Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
             } else {

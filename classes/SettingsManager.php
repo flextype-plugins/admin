@@ -24,9 +24,6 @@ class SettingsManager
     {
         Registry::set('sidebar_menu_item', 'settings');
 
-        $settings_site_save = Http::post('settings_site_save');
-        $settings_system_save = Http::post('settings_system_save');
-
         // Clear cache
         if (Http::get('clear_cache')) {
             if (Token::check((Http::get('token')))) {
@@ -42,14 +39,16 @@ class SettingsManager
 
         if (isset($action) && $action == 'save-form') {
             if (Token::check((Http::post('token')))) {
-                Arr::delete($_POST, 'token');
-                Arr::delete($_POST, 'action');
 
-                Arr::set($_POST, 'errors.display', (Http::post('errors.display') == '1' ? true : false));
-                Arr::set($_POST, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
-                Arr::set($_POST, 'cache.lifetime', (int) Http::post('cache.lifetime'));
+                $settings = $_POST;
 
-                if (Filesystem::setFileContent(PATH['config'] . '/' . 'settings.yaml', Yaml::dump($_POST, 10, 2))) {
+                Arr::delete($settings, 'token');
+                Arr::delete($settings, 'action');
+                Arr::set($settings, 'errors.display', (Http::post('errors.display') == '1' ? true : false));
+                Arr::set($settings, 'cache.enabled', (Http::post('cache.enabled') == '1' ? true : false));
+                Arr::set($settings, 'cache.lifetime', (int) Http::post('cache.lifetime'));
+
+                if (Filesystem::setFileContent(PATH['config']['site'] . '/settings.yaml', Yaml::dump(array_merge(Registry::get('settings'), $settings), 10, 2))) {
                     Notification::set('success', __('admin_message_settings_saved'));
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
@@ -58,27 +57,18 @@ class SettingsManager
             }
         }
 
-        $site_settings = [];
-        $system_settings = [];
+        $available_locales = Filesystem::getFilesList(PATH['plugins'] . '/admin/languages/', 'yaml');
+        $system_locales = Plugins::getLocales();
 
-        // Set site items if site config exists
-        if (Filesystem::fileExists($site_config = PATH['config'] . '/' . 'settings.yaml')) {
-            $site_settings = Yaml::parseFile($site_config);
-        } else {
-            throw new \RuntimeException("Flextype site config file does not exist.");
-        }
+        $locales = [];
 
-        // Set site items if system config exists
-        if (Filesystem::fileExists($system_config = PATH['config'] . '/' . 'settings.yaml')) {
-            $system_settings = Yaml::parseFile($system_config);
-        } else {
-            throw new \RuntimeException("Flextype system config file does not exist.");
+        foreach ($available_locales as $locale) {
+            $locales[basename($locale, '.yaml')] = $system_locales[basename($locale, '.yaml')];
         }
 
         Themes::view('admin/views/templates/system/settings/list')
-                ->assign('site_settings', $site_settings)
-                ->assign('system_settings', $system_settings)
-                ->assign('locales', Plugins::getLocales())
+                ->assign('settings', Registry::get('settings'))
+                ->assign('locales', $locales)
                 ->display();
     }
 }

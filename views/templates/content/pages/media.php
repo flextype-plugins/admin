@@ -45,36 +45,37 @@ use function Flextype\Component\I18n\__;
 ?>
 
 
-<?php
-    echo (
-        Form::open(null, array('enctype' => 'multipart/form-data', 'class' => 'form-inline form-upload')).
-        Form::hidden('token', Token::generate())
-    );
-?>
-<input type="file" name="file">
-<?php
-    echo (
-        Form::submit('upload_file', __('admin_pages_files_upload'), array('class' => '')).
-        Form::close()
-    )
-?>
+<?= Form::open(null, ['enctype' => 'multipart/form-data', 'class' => 'form-inline form-upload']) ?>
+<?= Form::hidden('token', Token::generate()) ?>
+<?= Form::file('file') ?>
+<?= Form::submit('upload_file', __('admin_pages_files_upload'), ['class' => '']) ?>
+<?= Form::close() ?>
+
 <br>
 
 <div class="media-manager">
     <div class="row">
-        <?php foreach ($files as $file) { ?>
+        <?php foreach($files as $file): ?>
             <div class="col-sm-2">
                 <div class="item">
                     <a href="javascript:;"
-                       style="background-image: url('<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>')"
+                       <?php $file_ext = substr(strrchr($file, '.'), 1) ?>
+                       <?php if(in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
+                       style="background-image: url('<?= Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file) ?>')"
+                       <?php else: ?>
+                       style="background: #000;"
+                       <?php endif ?>
                        class="img-item js-pages-image-preview"
-                       data-image-delete-url="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo Http::get('page'); ?>&delete_file=<?php echo basename($file); ?>&media=true&token=<?php echo Token::generate(); ?>"
-                       data-image-url="<?php echo Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file); ?>">
+                       data-image-delete-url="<?= Http::getBaseUrl() ?>/admin/pages/edit?page=<?= Http::get('page') ?>&delete_file=<?= basename($file) ?>&media=true&token=<?= Token::generate() ?>"
+                       data-image-url="<?= Http::getBaseUrl() . '/site/pages/' . Http::get('page') . '/' . basename($file) ?>">
                        <i class="fas fa-eye"></i>
+                       <?php if(!in_array($file_ext, ['jpeg', 'png', 'gif', 'jpg'])): ?>
+                       <span class="file-ext"><?= $file_ext ?></span>
+                       <?php endif ?>
                     </a>
                 </div>
             </div>
-        <?php } ?>
+        <?php endforeach ?>
     </div>
 </div>
 
@@ -82,7 +83,7 @@ use function Flextype\Component\I18n\__;
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pagesImagePreviewLabel"><?php echo __('admin_pages_image_preview'); ?></h5>
+        <h5 class="modal-title" id="pagesImagePreviewLabel"><?= __('admin_pages_image_preview') ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -91,7 +92,7 @@ use function Flextype\Component\I18n\__;
       </div>
       <div class="modal-footer">
           <input type="text" name="" class="form-control js-page-image-url-placeholder" value="">
-          <a href="#" class="js-page-image-delete-url-placeholder btn btn-primary"><?php echo __('admin_pages_files_delete'); ?></a>
+          <a href="#" class="js-page-image-delete-url-placeholder btn btn-primary"><?= __('admin_pages_files_delete') ?></a>
       </div>
     </div>
   </div>

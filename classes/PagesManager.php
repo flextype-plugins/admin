@@ -42,12 +42,42 @@ class PagesManager
                 if (isset($create_page)) {
                     if (Token::check((Http::post('token')))) {
                         $file = PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/page.html';
+
                         if (!Filesystem::fileExists($file)) {
+
+                            // Get blueprint
+                            $blueprint = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . Http::post('template') . '.yaml'));
+
+                            // Init frontmatter
+                            $frontmatter = [];
+
+                            // Define frontmatter values based on POST data
+                            $value['title']    = Http::post('title');
+                            $value['template'] = Http::post('template');
+                            $value['date']     = date(Registry::get('settings.date_format'), time());
+
+                            // Define frontmatter values based on blueprint
+                            foreach ($blueprint['fields'] as $key => $field) {
+
+                                if (isset($value[$key])) {
+                                    $_value = $value[$key];
+                                } elseif(isset($field['value'])) {
+                                    $_value = $field['value'];
+                                } else {
+                                    $_value = '';
+                                }
+
+                                $frontmatter[$key] = $_value;
+                            }
+
+                            // Delete content field from frontmatter
+                            Arr::delete($frontmatter, 'content');
+
+                            // Create a page!
                             if (Filesystem::setFileContent(
-                                $file,
+                                  $file,
                                   '---'."\n".
-                                  'title: '.Http::post('title')."\n".
-                                  'template: '.Http::post('template')."\n".
+                                  YamlParser::encode($frontmatter).
                                   '---'."\n"
                             )) {
                                 Notification::set('success', __('admin_message_page_created'));

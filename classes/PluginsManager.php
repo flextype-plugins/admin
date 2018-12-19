@@ -21,7 +21,7 @@ class PluginsManager
     {
         if (Http::post('plugin_change_status')) {
             if (Token::check((Http::post('token')))) {
-                $plugin_settings = Yaml::parseFile(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml');
+                $plugin_settings = YamlParser::decode(Filesystem::getFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml'));
                 Arr::set($plugin_settings, 'enabled', (Http::post('status') == 'true' ? true : false));
                 Filesystem::setFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml', Yaml::dump($plugin_settings));
                 Cache::clear();

@@ -84,6 +84,22 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::input('pages[main]', $settings['pages']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesMain', 'required']) ?>
         </div>
         <div class="form-group">
+            <?= Form::label('pages[error404][title]', __('admin_system_settings_system_pages_error404_title'), ['for' => 'systemSettingsSystemPagesError404Title']) ?>
+            <?= Form::input('pages[error404][title]', $settings['pages']['error404']['title'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Title', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('pages[error404][description]', __('admin_system_settings_system_pages_error404_description'), ['for' => 'systemSettingsSystemPagesError404Description']) ?>
+            <?= Form::input('pages[error404][description]', $settings['pages']['error404']['description'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Description', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('pages[error404][content]', __('admin_system_settings_system_pages_error404_content'), ['for' => 'systemSettingsSystemPagesError404Content']) ?>
+            <?= Form::input('pages[error404][content]', $settings['pages']['error404']['content'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Content', 'required']) ?>
+        </div>
+        <div class="form-group">
+            <?= Form::label('pages[error404][template]', __('admin_system_settings_system_pages_error404_template'), ['for' => 'systemSettingsSystemPagesError404Template']) ?>
+            <?= Form::input('pages[error404][template]', $settings['pages']['error404']['template'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Template', 'required']) ?>
+        </div>
+        <div class="form-group">
             <?= Form::label('errors[display]', __('admin_system_settings_system_errors_display'), ['for' => 'systemSettingsSystemErrorsDisplay']) ?>
             <?= Form::select('errors[display]', [0 => 'false', 1 => 'true'], $settings['errors']['display'], ['class' => 'form-control', 'id' => 'systemSettingsSystemErrorsDisplay', 'required']) ?>
         </div>

@@ -68,6 +68,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
                 ['image'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
                 ['unorderedList', 'orderedList'],
+                ['table'],
                 ['removeformat'],
                 ['fullscreen']
             ],

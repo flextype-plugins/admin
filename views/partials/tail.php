@@ -13,7 +13,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 <script>
 
     Messenger.options = {
-        extraClasses: 'messenger-fixed messenger-on-top messenger-on-right',
+        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
         theme: 'flat'
     }
 

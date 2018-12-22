@@ -154,7 +154,7 @@ class EntriesManager
                                 PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
                             )) {
                                 Notification::set('success', __('admin_message_entry_moved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries');
+                                Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('parent_entry'));
                             }
                         }
                     } else {

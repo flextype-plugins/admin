@@ -1,10 +1,8 @@
-<?php
-namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry,Filesystem\Filesystem, Token\Token, Text\Text};
-use function Flextype\Component\I18n\__;
-
-Themes::view('admin/views/partials/head')->display();
-Themes::view('admin/views/partials/navbar')
+<?php namespace Flextype ?>
+<?php use Flextype\Component\{Http\Http, Registry\Registry,Filesystem\Filesystem, Token\Token, Text\Text} ?>
+<?php use function Flextype\Component\I18n\__; ?>
+<?php Themes::view('admin/views/partials/head')->display() ?>
+<?php Themes::view('admin/views/partials/navbar')
     ->assign('links',   [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/entries',
@@ -19,49 +17,47 @@ Themes::view('admin/views/partials/navbar')
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
                         ])
-    ->display();
-Themes::view('admin/views/partials/content-start')->display();
+    ->display()
 ?>
+<?php Themes::view('admin/views/partials/content-start')->display() ?>
 
 <?php if (count($entries_list) > 0): ?>
 <table class="table no-margin">
     <thead>
         <tr>
-            <th><?php echo __('admin_entries_name'); ?></th>
+            <th><?= __('admin_entries_name') ?></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach($entries_list as $entry) { ?>
+        <?php foreach ($entries_list as $entry): ?>
         <tr>
             <td>
-                <a href="<?= Http::getBaseUrl() ?>/admin/entries/?entry=<?php echo $entry['slug']; ?>"><?php echo $entry['title']; ?></a>
+                <a href="<?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= $entry['slug'] ?>"><?= $entry['title'] ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">
-                  <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/entries/edit?entry=<?php echo $entry['slug']; ?>"><?php echo __('admin_entries_edit'); ?></a>
+                  <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/edit?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_edit') ?></a>
                   <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/entries/add"><?php echo __('admin_entries_add'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/entries/clone?entry=<?php echo $entry['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_entries_clone'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/entries/rename?entry=<?php echo $entry['slug']; ?>"><?php echo __('admin_entries_rename'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/admin/entries/move?entry=<?php echo $entry['slug']; ?>"><?php echo __('admin_entries_move'); ?></a>
-                    <a class="dropdown-item" href="<?php echo Http::getBaseUrl(); ?>/<?php echo $entry['slug']; ?>" target="_blank"><?php echo __('admin_entries_view'); ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= Http::get('entry') ?>&create_new_entry=1"><?= __('admin_entries_add') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/clone?entry=<?= $entry['slug'] ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_clone') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/rename?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_rename') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/move?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_move') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/<?= $entry['slug'] ?>" target="_blank"><?= __('admin_entries_view'); ?></a>
                   </div>
                 </div>
-                <a class="btn btn-default" href="<?php echo Http::getBaseUrl(); ?>/admin/entries/delete?entry=<?php echo $entry['slug']; ?>&token=<?php echo Token::generate(); ?>"><?php echo __('admin_entries_delete'); ?></a>
+                <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/entries/delete?entry=<?= $entry['slug'] ?>&entry_current=<?= Http::get('entry') ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>
             </td>
         </tr>
-        <?php } ?>
+    <?php endforeach ?>
     </tbody>
 </table>
 <?php else: ?>
     <h3 class="no-data-message"><?= __('admin_entries_create_new') ?></h3>
 <?php endif ?>
 
-<?php
-Themes::view('admin/views/partials/content-end')->display();
-Themes::view('admin/views/partials/footer')->display();
-?>
+<?php Themes::view('admin/views/partials/content-end')->display() ?>
+<?php Themes::view('admin/views/partials/footer')->display() ?>

@@ -24,6 +24,12 @@ class PagesManager
     {
         Registry::set('sidebar_menu_item', 'pages');
 
+        if (Http::get('page') && Http::get('page') != '') {
+            $query = Http::get('page');
+        } else {
+            $query = '';
+        }
+
         switch (Http::getUriSegment(2)) {
             case 'delete':
                 if (Http::get('page') != '') {
@@ -304,7 +310,7 @@ class PagesManager
             break;
             default:
                 Themes::view('admin/views/templates/content/pages/list')
-                    ->assign('pages_list', Content::getPages('', false, 'slug', 'ASC'))
+                    ->assign('pages_list', Content::getPages($query, false, 'slug', 'ASC', null, null, false))
                     ->display();
             break;
         }

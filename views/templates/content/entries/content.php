@@ -21,16 +21,6 @@ Themes::view('admin/views/partials/navbar')
                                                         'title'      => __('admin_entries_edit_media'),
                                                         'attributes' => ['class' => 'navbar-item']
                                                     ],
-                              'edit_entry_fieldset'       => [
-                                                          'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&fieldset=true',
-                                                          'title'      => __('admin_entries_editor_fieldset'),
-                                                          'attributes' => ['class' => 'navbar-item']
-                                                       ],
-                               'edit_entry_template'       => [
-                                                           'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&template=true',
-                                                           'title'      => __('admin_entries_editor_template'),
-                                                           'attributes' => ['class' => 'navbar-item']
-                                                        ],
                                 'edit_entry_source'           => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
                                                             'title'      => __('admin_entries_editor_source'),

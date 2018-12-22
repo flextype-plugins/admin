@@ -8,11 +8,6 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links', [
-                                'entries'               => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/entries',
-                                                            'title'      => __('admin_entries_heading'),
-                                                            'attributes' => ['class' => 'navbar-item']
-                                                         ],
                                 'edit_entry'           => [
                                                             'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
                                                             'title'      => __('admin_entries_editor'),

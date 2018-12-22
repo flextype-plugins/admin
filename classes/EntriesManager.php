@@ -126,7 +126,7 @@ class EntriesManager
                                 PATH['entries'] . '/' . Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
                             )) {
                                 Notification::set('success', __('admin_message_entry_renamed'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries');
+                                Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('entry_parent'));
                             }
                         }
                     } else {

@@ -19,7 +19,7 @@ use Gajus\Dindent\Indenter;
 
 class SettingsManager
 {
-    public static function getSettingsPage()
+    public static function getSettingsManager()
     {
         Registry::set('sidebar_menu_item', 'settings');
 
@@ -30,7 +30,7 @@ class SettingsManager
                 Notification::set('success', __('admin_message_cache_files_deleted'));
                 Http::redirect(Http::getBaseUrl().'/admin/settings');
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
 
@@ -52,7 +52,7 @@ class SettingsManager
                     Http::redirect(Http::getBaseUrl().'/admin/settings');
                 }
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
 

@@ -17,37 +17,37 @@ use Flextype\Component\Notification\Notification;
 use function Flextype\Component\I18n\__;
 use Gajus\Dindent\Indenter;
 
-class PagesManager
+class EntriesManager
 {
 
-    public static function getPagesManagerPage()
+    public static function getEntriesManager()
     {
-        Registry::set('sidebar_menu_item', 'pages');
+        Registry::set('sidebar_menu_item', 'entries');
 
-        if (Http::get('page') && Http::get('page') != '') {
-            $query = Http::get('page');
+        if (Http::get('entry') && Http::get('entry') != '') {
+            $query = Http::get('entry');
         } else {
             $query = '';
         }
 
         switch (Http::getUriSegment(2)) {
             case 'delete':
-                if (Http::get('page') != '') {
+                if (Http::get('entry') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteDir(PATH['pages'] . '/' . Http::get('page'));
-                        Notification::set('success', __('admin_message_page_deleted'));
-                        Http::redirect(Http::getBaseUrl().'/admin/pages');
+                        Filesystem::deleteDir(PATH['entries'] . '/' . Http::get('entry'));
+                        Notification::set('success', __('admin_message_entry_deleted'));
+                        Http::redirect(Http::getBaseUrl().'/admin/entries');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
             break;
             case 'add':
-                $create_page = Http::post('create_page');
+                $create_entry = Http::post('create_entry');
 
-                if (isset($create_page)) {
+                if (isset($create_entry)) {
                     if (Token::check((Http::post('token')))) {
-                        $file = PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/page.html';
+                        $file = PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/entry.html';
 
                         if (!Filesystem::fileExists($file)) {
 
@@ -79,115 +79,115 @@ class PagesManager
                             // Delete content field from frontmatter
                             Arr::delete($frontmatter, 'content');
 
-                            // Create a page!
+                            // Create a entry!
                             if (Filesystem::setFileContent(
                                   $file,
                                   '---'."\n".
                                   YamlParser::encode($frontmatter).
                                   '---'."\n"
                             )) {
-                                Notification::set('success', __('admin_message_page_created'));
-                                Http::redirect(Http::getBaseUrl().'/admin/pages/');
+                                Notification::set('success', __('admin_message_entry_created'));
+                                Http::redirect(Http::getBaseUrl().'/admin/entries/');
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
 
-                Themes::view('admin/views/templates/content/pages/add')
+                Themes::view('admin/views/templates/content/entries/add')
                     ->assign('templates', Themes::getTemplatesBlueprints())
-                    ->assign('pages_list', Content::getPages('', false, 'slug'))
+                    ->assign('entries_list', Entry::getEntries('', false, 'slug'))
                     ->display();
             break;
             case 'clone':
-                if (Http::get('page') != '') {
+                if (Http::get('entry') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::recursiveCopy(PATH['pages'] . '/' . Http::get('page'), PATH['pages'] . '/' . Http::get('page') . '-clone-' . date("Ymd_His"));
-                        Notification::set('success', __('admin_message_page_cloned'));
-                        Http::redirect(Http::getBaseUrl().'/admin/pages/');
+                        Filesystem::recursiveCopy(PATH['entries'] . '/' . Http::get('entry'), PATH['entries'] . '/' . Http::get('entry') . '-clone-' . date("Ymd_His"));
+                        Notification::set('success', __('admin_message_entry_cloned'));
+                        Http::redirect(Http::getBaseUrl().'/admin/entries/');
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
             break;
             case 'rename':
-                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 
-                $rename_page = Http::post('rename_page');
+                $rename_entry = Http::post('rename_entry');
 
-                if (isset($rename_page)) {
+                if (isset($rename_entry)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::dirExists(PATH['pages'] . '/' . Http::post('name'))) {
+                        if (!Filesystem::dirExists(PATH['entries'] . '/' . Http::post('name'))) {
                             if (rename(
-                                PATH['pages'] . '/' . Http::post('page_path_current'),
-                                PATH['pages'] . '/' . Http::post('page_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
+                                PATH['entries'] . '/' . Http::post('entry_path_current'),
+                                PATH['entries'] . '/' . Http::post('entry_parent') . '/' . Text::safeString(Http::post('name'), '-', true)
                             )) {
-                                Notification::set('success', __('admin_message_page_renamed'));
-                                Http::redirect(Http::getBaseUrl().'/admin/pages');
+                                Notification::set('success', __('admin_message_entry_renamed'));
+                                Http::redirect(Http::getBaseUrl().'/admin/entries');
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
 
-                Themes::view('admin/views/templates/content/pages/rename')
-                    ->assign('name_current', Arr::last(explode("/", Http::get('page'))))
-                    ->assign('page_path_current', Http::get('page'))
-                    ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
-                    ->assign('page', $page)
+                Themes::view('admin/views/templates/content/entries/rename')
+                    ->assign('name_current', Arr::last(explode("/", Http::get('entry'))))
+                    ->assign('entry_path_current', Http::get('entry'))
+                    ->assign('entry_parent', implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)))
+                    ->assign('entry', $entry)
                     ->display();
             break;
             case 'move':
-                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 
-                $move_page = Http::post('move_page');
+                $move_entry = Http::post('move_entry');
 
-                if (isset($move_page)) {
+                if (isset($move_entry)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::dirExists(realpath(PATH['pages'] . '/' . Http::post('parent_page') . '/' . Http::post('name_current')))) {
+                        if (!Filesystem::dirExists(realpath(PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Http::post('name_current')))) {
                             if (rename(
-                                PATH['pages'] . '/' . Http::post('page_path_current'),
-                                PATH['pages'] . '/' . Http::post('parent_page') . '/' . Text::safeString(Http::post('name_current'), '-', true)
+                                PATH['entries'] . '/' . Http::post('entry_path_current'),
+                                PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('name_current'), '-', true)
                             )) {
-                                Notification::set('success', __('admin_message_page_moved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/pages');
+                                Notification::set('success', __('admin_message_entry_moved'));
+                                Http::redirect(Http::getBaseUrl().'/admin/entries');
                             }
                         }
                     } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
 
-                $_pages_list = Content::getPages('', false, 'slug');
-                $pages_list['/'] = '/';
-                foreach ($_pages_list as $_page) {
-                    if ($_page['slug'] != '') {
-                        $pages_list[$_page['slug']] = $_page['slug'];
+                $_entries_list = Entry::getEntries('', false, 'slug');
+                $entries_list['/'] = '/';
+                foreach ($_entries_list as $_entry) {
+                    if ($_entry['slug'] != '') {
+                        $entries_list[$_entry['slug']] = $_entry['slug'];
                     } else {
-                        $pages_list[Registry::get('settings.pages.main')] = Registry::get('settings.pages.main');
+                        $entries_list[Registry::get('settings.entries.main')] = Registry::get('settings.entries.main');
                     }
                 }
 
-                Themes::view('admin/views/templates/content/pages/move')
-                    ->assign('page_path_current', Http::get('page'))
-                    ->assign('pages_list', $pages_list)
-                    ->assign('name_current', Arr::last(explode("/", Http::get('page'))))
-                    ->assign('page_parent', implode('/', array_slice(explode("/", Http::get('page')), 0, -1)))
-                    ->assign('page', $page)
+                Themes::view('admin/views/templates/content/entries/move')
+                    ->assign('entry_path_current', Http::get('entry'))
+                    ->assign('entries_list', $entries_list)
+                    ->assign('name_current', Arr::last(explode("/", Http::get('entry'))))
+                    ->assign('entry_parent', implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)))
+                    ->assign('entry', $entry)
                     ->display();
             break;
             case 'edit':
-                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
+                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 
                 if (Http::get('media') && Http::get('media') == 'true') {
-                    PagesManager::processFilesManager();
+                    EntriesManager::processFilesManager();
 
-                    Themes::view('admin/views/templates/content/pages/media')
-                        ->assign('page_name', Http::get('page'))
-                        ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
-                        ->assign('page', $page)
+                    Themes::view('admin/views/templates/content/entries/media')
+                        ->assign('entry_name', Http::get('entry'))
+                        ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
+                        ->assign('entry', $entry)
                         ->display();
                 } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
                     $action = Http::post('action');
@@ -195,22 +195,22 @@ class PagesManager
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml',
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $entry['template'] . '.yaml',
                                 Http::post('blueprint')
                             );
-                            Notification::set('success', __('admin_message_page_changes_saved'));
-                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&blueprint=true');
+                            Notification::set('success', __('admin_message_entry_changes_saved'));
+                            Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&blueprint=true');
                         } else {
-                            die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                            die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                         }
                     }
 
-                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml');
+                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $entry['template'] . '.yaml');
 
-                    Themes::view('admin/views/templates/content/pages/blueprint')
-                        ->assign('page_name', Http::get('page'))
+                    Themes::view('admin/views/templates/content/entries/blueprint')
+                        ->assign('entry_name', Http::get('entry'))
                         ->assign('blueprint', $blueprint)
-                        ->assign('page', $page)
+                        ->assign('entry', $entry)
                         ->display();
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
                     $action = Http::post('action');
@@ -218,22 +218,22 @@ class PagesManager
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . $page['template'] . '.php',
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . $entry['template'] . '.php',
                                 Http::post('template')
                             );
-                            Notification::set('success', __('admin_message_page_changes_saved'));
-                            Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&template=true');
+                            Notification::set('success', __('admin_message_entry_changes_saved'));
+                            Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&template=true');
                         } else {
-                            die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                            die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                         }
                     }
 
-                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . $page['template'] . '.php');
+                    $template = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . $entry['template'] . '.php');
 
-                    Themes::view('admin/views/templates/content/pages/template')
-                        ->assign('page_name', Http::get('page'))
+                    Themes::view('admin/views/templates/content/entries/template')
+                        ->assign('entry_name', Http::get('entry'))
                         ->assign('template', $template)
-                        ->assign('page', $page)
+                        ->assign('entry', $entry)
                         ->display();
                 } else {
                     if (Http::get('source') && Http::get('source') == 'true') {
@@ -242,23 +242,23 @@ class PagesManager
                         if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
                                 Filesystem::setFileContent(
-                                    PATH['pages'] . '/' . Http::post('page_name') . '/page.html',
-                                                          Http::post('page_content')
+                                    PATH['entries'] . '/' . Http::post('entry_name') . '/entry.html',
+                                                          Http::post('entry_content')
                                 );
-                                Notification::set('success', __('admin_message_page_changes_saved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::post('page_name').'&source=true');
+                                Notification::set('success', __('admin_message_entry_changes_saved'));
+                                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&source=true');
                             } else {
-                                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                             }
                         }
 
-                        $page_content = Filesystem::getFileContent(PATH['pages'] . '/' . Http::get('page') . '/page.html');
+                        $entry_content = Filesystem::getFileContent(PATH['entries'] . '/' . Http::get('entry') . '/entry.html');
 
-                        Themes::view('admin/views/templates/content/pages/source')
-                            ->assign('page_name', Http::get('page'))
-                            ->assign('page_content', $page_content)
-                            ->assign('page', $page)
-                            ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
+                        Themes::view('admin/views/templates/content/entries/source')
+                            ->assign('entry_name', Http::get('entry'))
+                            ->assign('entry_content', $entry_content)
+                            ->assign('entry', $entry)
+                            ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
                             ->display();
                     } else {
                         $action = Http::post('action');
@@ -266,64 +266,64 @@ class PagesManager
 
                         if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
-                                $page = Content::processPage(PATH['pages'] . '/' . Http::get('page') . '/page.html', false, true);
-                                Arr::delete($page, 'content');
-                                Arr::delete($page, 'url');
-                                Arr::delete($page, 'slug');
+                                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                                Arr::delete($entry, 'content');
+                                Arr::delete($entry, 'url');
+                                Arr::delete($entry, 'slug');
 
                                 $frontmatter = $_POST;
                                 Arr::delete($frontmatter, 'token');
                                 Arr::delete($frontmatter, 'action');
                                 Arr::delete($frontmatter, 'content');
-                                $frontmatter = YamlParser::encode(array_merge($page, $frontmatter));
+                                $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
 
                                 $content = Http::post('content');
                                 $content = (isset($content)) ? $indenter->indent($content) : '';
 
                                 Filesystem::setFileContent(
-                                    PATH['pages'] . '/' . Http::get('page') . '/page.html',
+                                    PATH['entries'] . '/' . Http::get('entry') . '/entry.html',
                                                           '---'."\n".
                                                           $frontmatter."\n".
                                                           '---'."\n".
                                                           $content
                                 );
-                                Notification::set('success', __('admin_message_page_changes_saved'));
-                                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page'));
+                                Notification::set('success', __('admin_message_entry_changes_saved'));
+                                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry'));
                             }
                         }
 
-                        // Blueprint for current page template
-                        $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $page['template'] . '.yaml';
+                        // Blueprint for current entry template
+                        $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $entry['template'] . '.yaml';
                         $blueprint = YamlParser::decode(Filesystem::getFileContent($blueprint_path));
                         is_null($blueprint) and $blueprint = [];
 
-                        Themes::view('admin/views/templates/content/pages/content')
-                            ->assign('page_name', Http::get('page'))
-                            ->assign('page', $page)
+                        Themes::view('admin/views/templates/content/entries/content')
+                            ->assign('entry_name', Http::get('entry'))
+                            ->assign('entry', $entry)
                             ->assign('blueprint', $blueprint)
                             ->assign('templates', Themes::getTemplates())
-                            ->assign('files', PagesManager::getMediaList(Http::get('page')), true)
+                            ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
                             ->display();
 
                     }
                 }
             break;
             default:
-                Themes::view('admin/views/templates/content/pages/list')
-                    ->assign('pages_list', Content::getPages($query, false, 'slug', 'ASC', null, null, false))
+                Themes::view('admin/views/templates/content/entries/list')
+                    ->assign('entries_list', Entry::getEntries($query, false, 'slug', 'ASC', null, null, false))
                     ->display();
             break;
         }
     }
 
-    public static function getMediaList($page, $path = false)
+    public static function getMediaList($entry, $path = false)
     {
         $files = [];
-        foreach (array_diff(scandir(PATH['pages'] . '/' . $page), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['entries'] . '/' . $entry), ['..', '.']) as $file) {
             if (in_array($file_ext = substr(strrchr($file, '.'), 1), Registry::get('settings.accept_file_types'))) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($path) {
-                        $files[Http::getBaseUrl().'/'.$page.'/'.$file] = Http::getBaseUrl().'/'.$page.'/'.$file;
+                        $files[Http::getBaseUrl().'/'.$entry.'/'.$file] = Http::getBaseUrl().'/'.$entry.'/'.$file;
                     } else {
                         $files[$file] = $file;
                     }
@@ -333,7 +333,7 @@ class PagesManager
         return $files;
     }
 
-    public static function displayPageForm(array $form, array $values = [], string $content)
+    public static function displayEntryForm(array $form, array $values = [], string $content)
     {
         echo Form::open(null, ['id' => 'form', 'class' => 'row']);
         echo Form::hidden('token', Token::generate());
@@ -393,24 +393,24 @@ class PagesManager
                         $form_element = Form::textarea($element, $form_value, $property['attributes']);
                     break;
 
-                    // A specific WYSIWYG HTML field for page content editing
+                    // A specific WYSIWYG HTML field for entry content editing
                     case 'content':
                         $form_element = Form::textarea($element, $content, $property['attributes']);
                     break;
 
-                    // Template select field for selecting page template
+                    // Template select field for selecting entry template
                     case 'template_select':
                         $form_element = Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
                     break;
 
-                    // Visibility select field for selecting page visibility state
+                    // Visibility select field for selecting entry visibility state
                     case 'visibility_select':
-                        $form_element = Form::select($form_element_name, ['draft' => __('admin_pages_draft'), 'visible' => __('admin_pages_visible'), 'hidden' => __('admin_pages_hidden')], (!empty($form_value) ? $form_value : 'visible'), $property['attributes']);
+                        $form_element = Form::select($form_element_name, ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')], (!empty($form_value) ? $form_value : 'visible'), $property['attributes']);
                     break;
 
                     // Media select field
                     case 'media_select':
-                        $form_element = Form::select($form_element_name, PagesManager::getMediaList(Http::get('page'), false), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, EntriesManager::getMediaList(Http::get('entry'), false), $form_value, $property['attributes']);
                     break;
 
                     // Simple text-input, for single-line fields.
@@ -435,25 +435,25 @@ class PagesManager
 
     protected static function processFilesManager()
     {
-        $files_directory = PATH['pages'] . '/' . Http::get('page') . '/';
+        $files_directory = PATH['entries'] . '/' . Http::get('entry') . '/';
 
         if (Http::get('delete_file') != '') {
             if (Token::check((Http::get('token')))) {
                 Filesystem::deleteFile($files_directory . Http::get('delete_file'));
-                Notification::set('success', __('admin_message_page_file_deleted'));
-                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
+                Notification::set('success', __('admin_message_entry_file_deleted'));
+                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
 
         if (Http::post('upload_file')) {
             if (Token::check(Http::post('token'))) {
                 Filesystem::uploadFile($_FILES['file'], $files_directory, Registry::get('settings.accept_file_types'), 7000000);
-                Notification::set('success', __('admin_message_page_file_uploaded'));
-                Http::redirect(Http::getBaseUrl().'/admin/pages/edit?page='.Http::get('page').'&media=true');
+                Notification::set('success', __('admin_message_entry_file_uploaded'));
+                Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::get('entry').'&media=true');
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
     }

@@ -25,12 +25,12 @@ class PluginsManager
                 Filesystem::setFileContent(PATH['plugins'] . '/' . Http::post('plugin')  . '/' . 'settings.yaml', YamlParser::encode($plugin_settings));
                 Cache::clear();
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
     }
 
-    public static function getPluginsPage()
+    public static function getPluginsManager()
     {
         Registry::set('sidebar_menu_item', 'plugins');
 

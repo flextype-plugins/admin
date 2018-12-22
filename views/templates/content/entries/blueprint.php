@@ -8,34 +8,34 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/head')->display();
     Themes::view('admin/views/partials/navbar')
         ->assign('links', [
-                                'pages'               => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages',
-                                                            'title'      => __('admin_pages_heading'),
+                                'entries'               => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/entries',
+                                                            'title'      => __('admin_entries_heading'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                          ],
-                                'edit_page'           => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name,
-                                                            'title'      => __('admin_pages_editor'),
+                                'edit_entry'           => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name,
+                                                            'title'      => __('admin_entries_editor'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                          ],
-                                'edit_page_media'     => [
-                                                            'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&media=true',
-                                                            'title'      => __('admin_pages_edit_media'),
+                                'edit_entry_media'     => [
+                                                            'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&media=true',
+                                                            'title'      => __('admin_entries_edit_media'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                         ],
-                                  'edit_page_blueprint'       => [
-                                                              'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&blueprint=true',
-                                                              'title'      => __('admin_pages_editor_blueprint'),
+                                  'edit_entry_blueprint'       => [
+                                                              'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&blueprint=true',
+                                                              'title'      => __('admin_entries_editor_blueprint'),
                                                               'attributes' => ['class' => 'navbar-item active']
                                                            ],
-                                   'edit_page_template'       => [
-                                                               'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&template=true',
-                                                               'title'      => __('admin_pages_editor_template'),
+                                   'edit_entry_template'       => [
+                                                               'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&template=true',
+                                                               'title'      => __('admin_entries_editor_template'),
                                                                'attributes' => ['class' => 'navbar-item']
                                                             ],
-                                    'edit_page_source'           => [
-                                                                'link'       => Http::getBaseUrl() . '/admin/pages/edit?page=' . $page_name . '&source=true',
-                                                                'title'      => __('admin_pages_editor_source'),
+                                    'edit_entry_source'           => [
+                                                                'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&source=true',
+                                                                'title'      => __('admin_entries_editor_source'),
                                                                 'attributes' => ['class' => 'navbar-item']
                                                              ]
                             ])
@@ -46,7 +46,7 @@ use function Flextype\Component\I18n\__;
                                                     'attributes' => ['class' => 'js-save-form-submit float-right btn']
                                                 ]
                             ])
-        ->assign('page', $page)
+        ->assign('entry', $entry)
         ->display();
     Themes::view('admin/views/partials/content-start')->display();
 ?>
@@ -54,11 +54,11 @@ use function Flextype\Component\I18n\__;
 <?php echo Form::open(null, ['id' => 'form']); ?>
 <?php echo Form::hidden('token', Token::generate()); ?>
 <?php echo Form::hidden('action', 'save-form'); ?>
-<?php echo Form::hidden('page_name', $page_name); ?>
+<?php echo Form::hidden('entry_name', $entry_name); ?>
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label><?php echo __('admin_pages_blueprint_for_template'); ?>: <code><?php echo $page['template']; ?></code></label>
+            <label><?php echo __('admin_entries_blueprint_for_template'); ?>: <code><?php echo $entry['template']; ?></code></label>
             <?php
                 echo (
                     Form::textarea('blueprint', $blueprint, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])

@@ -77,27 +77,27 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
         <div class="form-group">
             <?= Form::label('locale', __('admin_system_settings_system_locale'), ['for' => 'systemSettingsSystemLocale']) ?>
-            <?= Form::select('locale', $locales, $settings['locale'], ['class' => 'form-control', 'id' => 'pageTemplate']) ?>
+            <?= Form::select('locale', $locales, $settings['locale'], ['class' => 'form-control', 'id' => 'entryTemplate']) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('pages[main]', __('admin_system_settings_system_pages_main'), ['for' => 'systemSettingsSystemPagesMain']) ?>
-            <?= Form::input('pages[main]', $settings['pages']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesMain', 'required']) ?>
+            <?= Form::label('entries[main]', __('admin_system_settings_system_entries_main'), ['for' => 'systemSettingsSystemEntriesMain']) ?>
+            <?= Form::input('entries[main]', $settings['entries']['main'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesMain', 'required']) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('pages[error404][title]', __('admin_system_settings_system_pages_error404_title'), ['for' => 'systemSettingsSystemPagesError404Title']) ?>
-            <?= Form::input('pages[error404][title]', $settings['pages']['error404']['title'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Title', 'required']) ?>
+            <?= Form::label('entries[error404][title]', __('admin_system_settings_system_entries_error404_title'), ['for' => 'systemSettingsSystemEntriesError404Title']) ?>
+            <?= Form::input('entries[error404][title]', $settings['entries']['error404']['title'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Title', 'required']) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('pages[error404][description]', __('admin_system_settings_system_pages_error404_description'), ['for' => 'systemSettingsSystemPagesError404Description']) ?>
-            <?= Form::input('pages[error404][description]', $settings['pages']['error404']['description'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Description', 'required']) ?>
+            <?= Form::label('entries[error404][description]', __('admin_system_settings_system_entries_error404_description'), ['for' => 'systemSettingsSystemEntriesError404Description']) ?>
+            <?= Form::input('entries[error404][description]', $settings['entries']['error404']['description'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Description', 'required']) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('pages[error404][content]', __('admin_system_settings_system_pages_error404_content'), ['for' => 'systemSettingsSystemPagesError404Content']) ?>
-            <?= Form::input('pages[error404][content]', $settings['pages']['error404']['content'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Content', 'required']) ?>
+            <?= Form::label('entries[error404][content]', __('admin_system_settings_system_entries_error404_content'), ['for' => 'systemSettingsSystemEntriesError404Content']) ?>
+            <?= Form::input('entries[error404][content]', $settings['entries']['error404']['content'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Content', 'required']) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('pages[error404][template]', __('admin_system_settings_system_pages_error404_template'), ['for' => 'systemSettingsSystemPagesError404Template']) ?>
-            <?= Form::input('pages[error404][template]', $settings['pages']['error404']['template'], ['class' => 'form-control', 'id' => 'systemSettingsSystemPagesError404Template', 'required']) ?>
+            <?= Form::label('entries[error404][template]', __('admin_system_settings_system_entries_error404_template'), ['for' => 'systemSettingsSystemEntriesError404Template']) ?>
+            <?= Form::input('entries[error404][template]', $settings['entries']['error404']['template'], ['class' => 'form-control', 'id' => 'systemSettingsSystemEntriesError404Template', 'required']) ?>
         </div>
         <div class="form-group">
             <?= Form::label('errors[display]', __('admin_system_settings_system_errors_display'), ['for' => 'systemSettingsSystemErrorsDisplay']) ?>

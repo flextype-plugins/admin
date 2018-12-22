@@ -11,14 +11,14 @@ use function Flextype\Component\I18n\__;
 Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
-                        'pages' => [
-                                        'link' => Http::getBaseUrl() . '/admin/pages',
-                                        'title' => __('admin_pages_heading'),
+                        'entries' => [
+                                        'link' => Http::getBaseUrl() . '/admin/entries',
+                                        'title' => __('admin_entries_heading'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
-                       'pages_add' => [
-                                        'link' => Http::getBaseUrl() . '/admin/pages/add',
-                                        'title' => __('admin_pages_create_new'),
+                       'entries_add' => [
+                                        'link' => Http::getBaseUrl() . '/admin/entries/add',
+                                        'title' => __('admin_entries_create_new'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])
@@ -33,32 +33,32 @@ Themes::view('admin/views/partials/content-start')->display();
         <div class="form-group">
             <?php
                 echo(
-                    Form::label('title', __('admin_pages_title'), ['for' => 'pageTitle']).
-                    Form::input('title', '', ['class' => 'form-control', 'id' => 'pageTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_title_empty_input')])
+                    Form::label('title', __('admin_entries_title'), ['for' => 'entryTitle']).
+                    Form::input('title', '', ['class' => 'form-control', 'id' => 'entryTitle', 'required', 'data-validation' => 'length required', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_title_empty_input')])
                 );
             ?>
         </div>
         <div class="form-group">
             <?php
                 echo(
-                    Form::label('slug', __('admin_pages_name'), ['for' => 'pageSlug']).
-                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'pageSlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_pages_error_name_empty_input')])
+                    Form::label('slug', __('admin_entries_name'), ['for' => 'entrySlug']).
+                    Form::input('slug', '', ['class' => 'form-control', 'id' => 'entrySlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_name_empty_input')])
                 );
             ?>
         </div>
         <div class="form-group">
-            <label for="formGroupParentPageInput"><?php echo __('admin_pages_parent_page'); ?></label>
-            <select class="form-control" id="formGroupParentPageInput" name="parent_page">
+            <label for="formGroupParentEntryInput"><?php echo __('admin_entries_parent_entry'); ?></label>
+            <select class="form-control" id="formGroupParentEntryInput" name="parent_entry">
             <option value="">/</option>
-            <?php foreach ($pages_list as $page) { ?>
-                <option value="<?php echo $page['slug']; ?>">
-                    <?php echo $page['slug']; ?>
+            <?php foreach ($entries_list as $entry) { ?>
+                <option value="<?php echo $entry['slug']; ?>">
+                    <?php echo $entry['slug']; ?>
                 </option>
             <?php } ?>
             </select>
         </div>
         <div class="form-group">
-            <label><?php echo __('admin_pages_template'); ?></label>
+            <label><?php echo __('admin_entries_template'); ?></label>
             <select class="form-control" name="template">
             <?php foreach ($templates as $key => $template) { ?>
                 <option value="<?php echo $key; ?>"><?php echo $template; ?></option>
@@ -68,7 +68,7 @@ Themes::view('admin/views/partials/content-start')->display();
     </div>
 </div>
 
-<?php echo Form::submit('create_page', __('admin_create'), ['class' => 'btn btn-black']); ?>
+<?php echo Form::submit('create_entry', __('admin_create'), ['class' => 'btn btn-black']); ?>
 <?php echo Form::close(); ?>
 
 <?php

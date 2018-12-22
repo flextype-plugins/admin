@@ -14,7 +14,7 @@ use function Flextype\Component\I18n\__;
 class UsersManager
 {
 
-    public static function getProfilePage()
+    public static function getProfileManager()
     {
         Registry::set('sidebar_menu_item', 'profile');
 
@@ -28,7 +28,7 @@ class UsersManager
             Session::destroy();
             Http::redirect(Http::getBaseUrl().'/admin');
         } else {
-            die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+            die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
         }
     }
 
@@ -49,10 +49,10 @@ class UsersManager
                                                 'state' => 'enabled'])
                         );
 
-                    Http::redirect(Http::getBaseUrl().'/admin/pages');
+                    Http::redirect(Http::getBaseUrl().'/admin/entries');
                 }
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
 
@@ -85,7 +85,7 @@ class UsersManager
                     if (password_verify(trim(Http::post('password')), $user_file['hashed_password'])) {
                         Session::set('username', $user_file['username']);
                         Session::set('role', $user_file['role']);
-                        Http::redirect(Http::getBaseUrl().'/admin/pages');
+                        Http::redirect(Http::getBaseUrl().'/admin/entries');
                     } else {
                         Notification::set('error', __('admin_message_wrong_username_password'));
                     }
@@ -93,7 +93,7 @@ class UsersManager
                     Notification::set('error', __('admin_message_wrong_username_password'));
                 }
             } else {
-                die('Request was denied because it contained an invalid security token. Please refresh the page and try again.');
+                die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
             }
         }
 

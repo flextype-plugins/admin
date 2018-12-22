@@ -101,20 +101,20 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             $('.js-plugin-author-name-placeholder').html($(this).attr('data-author-name'));
             $('.js-plugin-author-email-placeholder').html($(this).attr('data-author-email'));
             $('.js-plugin-author-url-placeholder').html($(this).attr('data-author-url'));
-            $('.js-plugin-homepage-placeholder').html($(this).attr('data-homepage'));
+            $('.js-plugin-homeentry-placeholder').html($(this).attr('data-homeentry'));
             $('.js-plugin-bugs-placeholder').html($(this).attr('data-bugs'));
             $('.js-plugin-license-placeholder').html($(this).attr('data-license'));
         });
 
-        $('.js-pages-image-preview').click(function () {
-            $('#pagesImagePreview').modal();
-            $('.js-page-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
-            $('.js-page-image-url-placeholder').val($(this).attr('data-image-url'));
-            $('.js-page-image-delete-url-placeholder').attr('href', $(this).attr('data-image-delete-url'));
+        $('.js-entries-image-preview').click(function () {
+            $('#entriesImagePreview').modal();
+            $('.js-entry-image-preview-placeholder').css('background-image', 'url(' + $(this).attr('data-image-url') + ')');
+            $('.js-entry-image-url-placeholder').val($(this).attr('data-image-url'));
+            $('.js-entry-image-delete-url-placeholder').attr('href', $(this).attr('data-image-delete-url'));
         });
 
-        $('.js-settings-page-modal').click(function () {
-            $('#settingsPageModal').modal();
+        $('.js-settings-entry-modal').click(function () {
+            $('#settingsEntryModal').modal();
         });
 
         $.validate({});

@@ -25,16 +25,16 @@ use function Flextype\Component\I18n\__;
 </nav>
 <?php endif ?>
 
-<?php if (Registry::get('sidebar_menu_item') == 'pages'): ?>
-<div class="page-editor-heading">
-    <?php $parts = explode("/", Http::get('page')) ?>
+<?php if (Registry::get('sidebar_menu_item') == 'entries'): ?>
+<div class="entry-editor-heading">
+    <?php $parts = explode("/", Http::get('entry')) ?>
     <?php $i = count($parts) ?>
     <?php foreach ($parts as $part): ?>
         <?php $i-- ?>
         <?php if ($part == Arr::last($parts)): ?>
             / <?= $part ?>
         <?php else: ?>
-            <a href="<?= Http::getBaseUrl() ?>/admin/pages/?page=<?= implode(array_slice($parts, 0, -$i), '/') ?>"> / <?= $part ?></a>
+            <a href="<?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= implode(array_slice($parts, 0, -$i), '/') ?>"> / <?= $part ?></a>
         <?php endif ?>
     <?php endforeach ?>
 </div>

@@ -14,7 +14,7 @@ Themes::view('admin/views/partials/navbar')
                         ])
     ->assign('buttons', [
                             'entries' => [
-                                            'link' => Http::getBaseUrl() . '/admin/entries/add',
+                                            'link' => Http::getBaseUrl() . '/admin/entries/?entry='.Http::get('entry').'&create_new_entry=1' ,
                                             'title' => __('admin_entries_create_new'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
@@ -58,7 +58,7 @@ Themes::view('admin/views/partials/content-start')->display();
     </tbody>
 </table>
 <?php else: ?>
-    <h3 class="no-data-message"><?= __('admin_entries_empty') ?></h3>
+    <h3 class="no-data-message"><?= __('admin_entries_create_new') ?></h3>
 <?php endif ?>
 
 <?php

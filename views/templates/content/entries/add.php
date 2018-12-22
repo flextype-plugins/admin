@@ -28,8 +28,9 @@ Themes::view('admin/views/partials/content-start')->display();
 
 <div class="row">
     <div class="col-md-6">
-        <?php echo Form::open(); ?>
-        <?php echo Form::hidden('token', Token::generate()); ?>
+        <?= Form::open(); ?>
+        <?= Form::hidden('token', Token::generate()); ?>
+        <?= Form::hidden('parent_entry', Http::get('entry')); ?>
         <div class="form-group">
             <?php
                 echo(
@@ -47,18 +48,7 @@ Themes::view('admin/views/partials/content-start')->display();
             ?>
         </div>
         <div class="form-group">
-            <label for="formGroupParentEntryInput"><?php echo __('admin_entries_parent_entry'); ?></label>
-            <select class="form-control" id="formGroupParentEntryInput" name="parent_entry">
-            <option value="">/</option>
-            <?php foreach ($entries_list as $entry) { ?>
-                <option value="<?php echo $entry['slug']; ?>">
-                    <?php echo $entry['slug']; ?>
-                </option>
-            <?php } ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label><?php echo __('admin_entries_template'); ?></label>
+            <label><?php echo __('admin_entries_type'); ?></label>
             <select class="form-control" name="template">
             <?php foreach ($templates as $key => $template) { ?>
                 <option value="<?php echo $key; ?>"><?php echo $template; ?></option>

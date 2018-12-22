@@ -30,6 +30,65 @@ class EntriesManager
             $query = '';
         }
 
+        if (Http::get('create_new_entry')) {
+            $create_entry = Http::post('create_entry');
+
+            if (isset($create_entry)) {
+                if (Token::check((Http::post('token')))) {
+                    $file = PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/entry.html';
+
+                    if (!Filesystem::fileExists($file)) {
+
+                        // Get fieldset
+                        $fieldset = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('template') . '.yaml'));
+
+                        // Init frontmatter
+                        $frontmatter = [];
+
+                        // Define frontmatter values based on POST data
+                        $value['title']    = Http::post('title');
+                        $value['template'] = Http::post('template');
+                        $value['date']     = date(Registry::get('settings.date_format'), time());
+
+                        // Define frontmatter values based on fieldset
+                        foreach ($fieldset['fields'] as $key => $field) {
+
+                            if (isset($value[$key])) {
+                                $_value = $value[$key];
+                            } elseif(isset($field['value'])) {
+                                $_value = $field['value'];
+                            } else {
+                                $_value = '';
+                            }
+
+                            $frontmatter[$key] = $_value;
+                        }
+
+                        // Delete content field from frontmatter
+                        Arr::delete($frontmatter, 'content');
+
+                        // Create a entry!
+                        if (Filesystem::setFileContent(
+                              $file,
+                              '---'."\n".
+                              YamlParser::encode($frontmatter).
+                              '---'."\n"
+                        )) {
+                            Notification::set('success', __('admin_message_entry_created'));
+                            Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::post('parent_entry'));
+                        }
+                    }
+                } else {
+                    die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                }
+            }
+
+            Themes::view('admin/views/templates/content/entries/add')
+                ->assign('templates', Themes::getFieldsets())
+                ->assign('entries_list', Entries::getEntries('', false, 'slug'))
+                ->display();
+        }
+
         switch (Http::getUriSegment(2)) {
             case 'delete':
                 if (Http::get('entry') != '') {
@@ -43,62 +102,7 @@ class EntriesManager
                 }
             break;
             case 'add':
-                $create_entry = Http::post('create_entry');
 
-                if (isset($create_entry)) {
-                    if (Token::check((Http::post('token')))) {
-                        $file = PATH['entries'] . '/' . Http::post('parent_entry') . '/' . Text::safeString(Http::post('slug'), '-', true) . '/entry.html';
-
-                        if (!Filesystem::fileExists($file)) {
-
-                            // Get fieldset
-                            $fieldset = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('template') . '.yaml'));
-
-                            // Init frontmatter
-                            $frontmatter = [];
-
-                            // Define frontmatter values based on POST data
-                            $value['title']    = Http::post('title');
-                            $value['template'] = Http::post('template');
-                            $value['date']     = date(Registry::get('settings.date_format'), time());
-
-                            // Define frontmatter values based on fieldset
-                            foreach ($fieldset['fields'] as $key => $field) {
-
-                                if (isset($value[$key])) {
-                                    $_value = $value[$key];
-                                } elseif(isset($field['value'])) {
-                                    $_value = $field['value'];
-                                } else {
-                                    $_value = '';
-                                }
-
-                                $frontmatter[$key] = $_value;
-                            }
-
-                            // Delete content field from frontmatter
-                            Arr::delete($frontmatter, 'content');
-
-                            // Create a entry!
-                            if (Filesystem::setFileContent(
-                                  $file,
-                                  '---'."\n".
-                                  YamlParser::encode($frontmatter).
-                                  '---'."\n"
-                            )) {
-                                Notification::set('success', __('admin_message_entry_created'));
-                                Http::redirect(Http::getBaseUrl().'/admin/entries/');
-                            }
-                        }
-                    } else {
-                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
-                    }
-                }
-
-                Themes::view('admin/views/templates/content/entries/add')
-                    ->assign('templates', Themes::getFieldsets())
-                    ->assign('entries_list', Entries::getEntries('', false, 'slug'))
-                    ->display();
             break;
             case 'clone':
                 if (Http::get('entry') != '') {
@@ -309,9 +313,11 @@ class EntriesManager
                 }
             break;
             default:
-                Themes::view('admin/views/templates/content/entries/list')
-                    ->assign('entries_list', Entries::getEntries($query, false, 'slug', 'ASC', null, null, false))
-                    ->display();
+                if (!Http::get('create_new_entry')) {
+                    Themes::view('admin/views/templates/content/entries/list')
+                        ->assign('entries_list', Entries::getEntries($query, false, 'slug', 'ASC', null, null, false))
+                        ->display();
+                }
             break;
         }
     }

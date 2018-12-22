@@ -97,7 +97,7 @@ class EntriesManager
 
                 Themes::view('admin/views/templates/content/entries/add')
                     ->assign('templates', Themes::getTemplatesBlueprints())
-                    ->assign('entries_list', Entry::getEntries('', false, 'slug'))
+                    ->assign('entries_list', Entries::getEntries('', false, 'slug'))
                     ->display();
             break;
             case 'clone':
@@ -112,7 +112,7 @@ class EntriesManager
                 }
             break;
             case 'rename':
-                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 
                 $rename_entry = Http::post('rename_entry');
 
@@ -140,7 +140,7 @@ class EntriesManager
                     ->display();
             break;
             case 'move':
-                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 
                 $move_entry = Http::post('move_entry');
 
@@ -160,7 +160,7 @@ class EntriesManager
                     }
                 }
 
-                $_entries_list = Entry::getEntries('', false, 'slug');
+                $_entries_list = Entries::getEntries('', false, 'slug');
                 $entries_list['/'] = '/';
                 foreach ($_entries_list as $_entry) {
                     if ($_entry['slug'] != '') {
@@ -179,7 +179,7 @@ class EntriesManager
                     ->display();
             break;
             case 'edit':
-                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 
                 if (Http::get('media') && Http::get('media') == 'true') {
                     EntriesManager::processFilesManager();
@@ -266,7 +266,7 @@ class EntriesManager
 
                         if (isset($action) && $action == 'save-form') {
                             if (Token::check((Http::post('token')))) {
-                                $entry = Entry::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+                                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
                                 Arr::delete($entry, 'content');
                                 Arr::delete($entry, 'url');
                                 Arr::delete($entry, 'slug');
@@ -310,7 +310,7 @@ class EntriesManager
             break;
             default:
                 Themes::view('admin/views/templates/content/entries/list')
-                    ->assign('entries_list', Entry::getEntries($query, false, 'slug', 'ASC', null, null, false))
+                    ->assign('entries_list', Entries::getEntries($query, false, 'slug', 'ASC', null, null, false))
                     ->display();
             break;
         }

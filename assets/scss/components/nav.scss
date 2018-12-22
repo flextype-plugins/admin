@@ -138,6 +138,9 @@
     padding: 11px 28px;
     font-size: 14px;
     color: $navbar-item-text-color;
+    border-right: 1px solid transparent;
+    border-left: 1px solid transparent;
+    margin-left: -1px;
 }
 
 .navbar-item.active,
@@ -146,6 +149,8 @@
     color: $navbar-item-text-color-hover;
     background-color: $body-bg;
     text-decoration: none;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
 }
 
 .flextype-user {

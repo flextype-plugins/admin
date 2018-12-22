@@ -47,7 +47,6 @@ if (Admin::isAdminArea()) {
 
         // Add navigation links
         NavigationManager::addItem('content', 'pages', '<i class="far fa-file"></i>' . __('admin_menu_content_pages', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/pages', ['class' => 'nav-link']);
-        NavigationManager::addItem('content', 'menus', '<i class="fab fa-elementor"></i>' . __('admin_menu_content_menus', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/menus', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'plugins', '<i class="fas fa-plug"></i>' . __('admin_menu_extends_plugins', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/plugins', ['class' => 'nav-link']);
         NavigationManager::addItem('settings', 'settings', '<i class="fas fa-cog"></i>' . __('admin_menu_system_settings', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/settings', ['class' => 'nav-link']);
         NavigationManager::addItem('settings', 'infomation', '<i class="fas fa-info"></i>' . __('admin_menu_system_information', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/information', ['class' => 'nav-link']);
@@ -145,7 +144,6 @@ class Admin
         Http::getUriSegment(1) == 'information'  and InformationManager::getInformationPage();
         Http::getUriSegment(1) == 'settings'     and SettingsManager::getSettingsPage();
         Http::getUriSegment(1) == 'profile'      and UsersManager::getProfilePage();
-        Http::getUriSegment(1) == 'menus'        and MenusManager::getMenusManagerPage();
         Http::getUriSegment(1) == 'logout'       and UsersManager::logout();
     }
 

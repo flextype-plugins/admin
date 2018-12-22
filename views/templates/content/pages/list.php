@@ -1,6 +1,6 @@
 <?php
 namespace Flextype;
-use Flextype\Component\{Http\Http, Registry\Registry, Token\Token, Text\Text};
+use Flextype\Component\{Http\Http, Registry\Registry,Filesystem\Filesystem, Token\Token, Text\Text};
 use function Flextype\Component\I18n\__;
 
 Themes::view('admin/views/partials/head')->display();
@@ -35,15 +35,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?php foreach($pages_list as $page) { ?>
         <tr>
             <td>
-                <?php
-                    $count = count(explode('/', $page['slug']));
-                    for ($i=0; $i < $count; $i++) {
-                        if ($i > 0) {
-                            echo '<span class="page-tree-dash"></span>';
-                        }
-                    }
-                ?>
-                <a href="<?php echo Http::getBaseUrl(); ?>/admin/pages/edit?page=<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></a>
+                <a href="<?= Http::getBaseUrl() ?>/admin/pages/?page=<?php echo $page['slug']; ?>"><?php echo $page['title']; ?></a>
             </td>
             <td class="text-right">
                 <div class="btn-group">

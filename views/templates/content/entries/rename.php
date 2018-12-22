@@ -28,29 +28,19 @@ Themes::view('admin/views/partials/content-start')->display();
 
 <div class="row">
     <div class="col-md-6">
-
-        <?php echo Form::open(); ?>
-        <?php echo Form::hidden('token', Token::generate()); ?>
-        <?php echo Form::hidden('entry_path_current', $entry_path_current); ?>
-        <?php echo Form::hidden('entry_parent', $entry_parent); ?>
-        <?php echo Form::hidden('name_current', $name_current); ?>
-
+        <?= Form::open() ?>
+        <?= Form::hidden('token', Token::generate()) ?>
+        <?= Form::hidden('entry_path_current', $entry_path_current) ?>
+        <?= Form::hidden('entry_parent', $entry_parent) ?>
+        <?= Form::hidden('name_current', $name_current) ?>
         <div class="form-group">
-            <?php
-                echo(
-                    Form::label('name', __('admin_entries_name'), ['for' => 'entryName']).
-                    Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'entryName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_title_empty_input')])
-                );
-            ?>
+            <?= Form::label('name', __('admin_entries_name'), ['for' => 'entryName']) ?>
+            <?= Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'entryName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_title_empty_input')]) ?>
         </div>
-
-         <?php echo Form::submit('rename_entry', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']); ?>
-     <?php echo Form::close(); ?>
-
- </div>
+        <?= Form::submit('rename_entry', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>
+        <?= Form::close() ?>
+    </div>
 </div>
 
-<?php
-Themes::view('admin/views/partials/content-end')->display();
-Themes::view('admin/views/partials/footer')->display();
-?>
+<?php Themes::view('admin/views/partials/content-end')->display() ?>
+<?php Themes::view('admin/views/partials/footer')->display() ?>

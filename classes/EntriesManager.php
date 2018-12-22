@@ -95,21 +95,19 @@ class EntriesManager
                     if (Token::check((Http::get('token')))) {
                         Filesystem::deleteDir(PATH['entries'] . '/' . Http::get('entry'));
                         Notification::set('success', __('admin_message_entry_deleted'));
-                        Http::redirect(Http::getBaseUrl().'/admin/entries');
+                        Http::redirect(Http::getBaseUrl() . '/admin/entries/?entry=' . Http::get('entry_current'));
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
             break;
-            case 'add':
-
-            break;
             case 'clone':
                 if (Http::get('entry') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::recursiveCopy(PATH['entries'] . '/' . Http::get('entry'), PATH['entries'] . '/' . Http::get('entry') . '-clone-' . date("Ymd_His"));
+                        Filesystem::recursiveCopy(PATH['entries'] . '/' . Http::get('entry'),
+                                                  PATH['entries'] . '/' . Http::get('entry') . '-clone-' . date("Ymd_His"));
                         Notification::set('success', __('admin_message_entry_cloned'));
-                        Http::redirect(Http::getBaseUrl().'/admin/entries/');
+                        Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::get('entry'));
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }

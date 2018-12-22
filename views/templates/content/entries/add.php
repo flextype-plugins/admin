@@ -59,7 +59,7 @@ Themes::view('admin/views/partials/content-start')->display();
 </div>
 
 <?php echo Form::submit('create_entry', __('admin_create'), ['class' => 'btn btn-black']); ?>
-<?php echo Form::close(); ?>
+<?= Form::close(); ?>
 
 <?php
 Themes::view('admin/views/partials/content-end')->display();

@@ -32,6 +32,11 @@ Themes::view('admin/views/partials/navbar')
                                                 'link'       => 'javascript:;',
                                                 'title'      => __('admin_save'),
                                                 'attributes' => ['class' => 'js-save-form-submit float-right btn']
+                                            ],
+                            'view_entry' => [
+                                                'link'       => Http::getBaseUrl() . '/' . $entry_name,
+                                                'title'      => __('admin_view_entry'),
+                                                'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
                                             ]
                         ])
     ->assign('entry', $entry)

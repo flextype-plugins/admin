@@ -23,9 +23,9 @@ use function Flextype\Component\I18n\__;
                                                             'title'      => __('admin_entries_edit_media'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                         ],
-                                  'edit_entry_blueprint'       => [
-                                                              'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&blueprint=true',
-                                                              'title'      => __('admin_entries_editor_blueprint'),
+                                  'edit_entry_fieldset'       => [
+                                                              'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&fieldset=true',
+                                                              'title'      => __('admin_entries_editor_fieldset'),
                                                               'attributes' => ['class' => 'navbar-item active']
                                                            ],
                                    'edit_entry_template'       => [
@@ -58,10 +58,10 @@ use function Flextype\Component\I18n\__;
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label><?php echo __('admin_entries_blueprint_for_template'); ?>: <code><?php echo $entry['template']; ?></code></label>
+            <label><?php echo __('admin_entries_fieldset_for_template'); ?>: <code><?php echo $entry['template']; ?></code></label>
             <?php
                 echo (
-                    Form::textarea('blueprint', $blueprint, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])
+                    Form::textarea('fieldset', $fieldset, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])
                 );
             ?>
         </div>

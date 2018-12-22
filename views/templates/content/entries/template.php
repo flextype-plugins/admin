@@ -23,9 +23,9 @@ use function Flextype\Component\I18n\__;
                                                             'title'      => __('admin_entries_edit_media'),
                                                             'attributes' => ['class' => 'navbar-item']
                                                         ],
-                                  'edit_entry_blueprint'       => [
-                                                              'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&blueprint=true',
-                                                              'title'      => __('admin_entries_editor_blueprint'),
+                                  'edit_entry_fieldset'       => [
+                                                              'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&fieldset=true',
+                                                              'title'      => __('admin_entries_editor_fieldset'),
                                                               'attributes' => ['class' => 'navbar-item']
                                                            ],
                                    'edit_entry_template'       => [

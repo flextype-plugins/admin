@@ -51,8 +51,8 @@ class EntriesManager
 
                         if (!Filesystem::fileExists($file)) {
 
-                            // Get blueprint
-                            $blueprint = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . Http::post('template') . '.yaml'));
+                            // Get fieldset
+                            $fieldset = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('template') . '.yaml'));
 
                             // Init frontmatter
                             $frontmatter = [];
@@ -62,8 +62,8 @@ class EntriesManager
                             $value['template'] = Http::post('template');
                             $value['date']     = date(Registry::get('settings.date_format'), time());
 
-                            // Define frontmatter values based on blueprint
-                            foreach ($blueprint['fields'] as $key => $field) {
+                            // Define frontmatter values based on fieldset
+                            foreach ($fieldset['fields'] as $key => $field) {
 
                                 if (isset($value[$key])) {
                                     $_value = $value[$key];
@@ -96,7 +96,7 @@ class EntriesManager
                 }
 
                 Themes::view('admin/views/templates/content/entries/add')
-                    ->assign('templates', Themes::getTemplatesBlueprints())
+                    ->assign('templates', Themes::getFieldsets())
                     ->assign('entries_list', Entries::getEntries('', false, 'slug'))
                     ->display();
             break;
@@ -189,27 +189,27 @@ class EntriesManager
                         ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
                         ->assign('entry', $entry)
                         ->display();
-                } elseif (Http::get('blueprint') && Http::get('blueprint') == 'true') {
+                } elseif (Http::get('fieldset') && Http::get('fieldset') == 'true') {
                     $action = Http::post('action');
 
                     if (isset($action) && $action == 'save-form') {
                         if (Token::check((Http::post('token')))) {
                             Filesystem::setFileContent(
-                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $entry['template'] . '.yaml',
-                                Http::post('blueprint')
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['template'] . '.yaml',
+                                Http::post('fieldset')
                             );
                             Notification::set('success', __('admin_message_entry_changes_saved'));
-                            Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&blueprint=true');
+                            Http::redirect(Http::getBaseUrl().'/admin/entries/edit?entry='.Http::post('entry_name').'&fieldset=true');
                         } else {
                             die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                         }
                     }
 
-                    $blueprint = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $entry['template'] . '.yaml');
+                    $fieldset = Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['template'] . '.yaml');
 
-                    Themes::view('admin/views/templates/content/entries/blueprint')
+                    Themes::view('admin/views/templates/content/entries/fieldset')
                         ->assign('entry_name', Http::get('entry'))
-                        ->assign('blueprint', $blueprint)
+                        ->assign('fieldset', $fieldset)
                         ->assign('entry', $entry)
                         ->display();
                 } elseif (Http::get('template') && Http::get('template') == 'true') {
@@ -292,15 +292,15 @@ class EntriesManager
                             }
                         }
 
-                        // Blueprint for current entry template
-                        $blueprint_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/blueprints/' . $entry['template'] . '.yaml';
-                        $blueprint = YamlParser::decode(Filesystem::getFileContent($blueprint_path));
-                        is_null($blueprint) and $blueprint = [];
+                        // Fieldset for current entry template
+                        $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['template'] . '.yaml';
+                        $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset_path));
+                        is_null($fieldset) and $fieldset = [];
 
                         Themes::view('admin/views/templates/content/entries/content')
                             ->assign('entry_name', Http::get('entry'))
                             ->assign('entry', $entry)
-                            ->assign('blueprint', $blueprint)
+                            ->assign('fieldset', $fieldset)
                             ->assign('templates', Themes::getTemplates())
                             ->assign('files', EntriesManager::getMediaList(Http::get('entry')), true)
                             ->display();
@@ -400,7 +400,7 @@ class EntriesManager
 
                     // Template select field for selecting entry template
                     case 'template_select':
-                        $form_element = Form::select($form_element_name, Themes::getTemplatesBlueprints(), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, Themes::getFieldsets(), $form_value, $property['attributes']);
                     break;
 
                     // Visibility select field for selecting entry visibility state

@@ -26,9 +26,9 @@ Themes::view('admin/views/partials/navbar')
                                                         'title'      => __('admin_entries_edit_media'),
                                                         'attributes' => ['class' => 'navbar-item']
                                                     ],
-                              'edit_entry_blueprint'       => [
-                                                          'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&blueprint=true',
-                                                          'title'      => __('admin_entries_editor_blueprint'),
+                              'edit_entry_fieldset'       => [
+                                                          'link'       => Http::getBaseUrl() . '/admin/entries/edit?entry=' . $entry_name . '&fieldset=true',
+                                                          'title'      => __('admin_entries_editor_fieldset'),
                                                           'attributes' => ['class' => 'navbar-item']
                                                        ],
                                'edit_entry_template'       => [
@@ -53,7 +53,7 @@ Themes::view('admin/views/partials/navbar')
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 
-EntriesManager::displayEntryForm($blueprint['fields'], $entry, $entry['content']);
+EntriesManager::displayEntryForm($fieldset['fields'], $entry, $entry['content']);
 
 Themes::view('admin/views/partials/content-end')->display();
 Themes::view('admin/views/partials/footer')->display();

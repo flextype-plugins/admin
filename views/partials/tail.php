@@ -121,14 +121,14 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
             lineNumbers: true,
-            <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('source') && Http::get('source') == 'true')) { ?>
+            <?php if ((Http::get('fieldset') && Http::get('fieldset') == 'true') || (Http::get('source') && Http::get('source') == 'true')) { ?>
             indentUnit: 2,
             tabSize: 2,
             <?php } else { ?>
             tabSize: 4,
             indentUnit: 4,
             <?php } ?>
-            <?php if ((Http::get('blueprint') && Http::get('blueprint') == 'true') || (Http::get('source') && Http::get('source') == 'true')) { ?>
+            <?php if ((Http::get('fieldset') && Http::get('fieldset') == 'true') || (Http::get('source') && Http::get('source') == 'true')) { ?>
             mode: "yaml",
             <?php } else { ?>
             mode: "text/html",

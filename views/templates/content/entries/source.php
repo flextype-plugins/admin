@@ -46,24 +46,18 @@ use function Flextype\Component\I18n\__;
     Themes::view('admin/views/partials/content-start')->display();
 ?>
 
-<?php echo Form::open(null, ['id' => 'form']); ?>
-<?php echo Form::hidden('token', Token::generate()); ?>
-<?php echo Form::hidden('action', 'save-form'); ?>
-<?php echo Form::hidden('entry_name', $entry_name); ?>
+<?= Form::open(null, ['id' => 'form']) ?>
+<?= Form::hidden('token', Token::generate()) ?>
+<?= Form::hidden('action', 'save-form') ?>
+<?= Form::hidden('entry_name', $entry_name) ?>
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <?php
-                echo (
-                    Form::textarea('entry_content', $entry_content, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor'])
-                );
-            ?>
+            <?= Form::textarea('entry_content', $entry_content, ['class' => 'form-control', 'style' => 'min-height:500px;', 'id' => 'codeMirrorEditor']) ?>
         </div>
     </div>
 </div>
-<?php echo Form::close(); ?>
+<?= Form::close() ?>
 
-<?php
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
-?>
+<?php Themes::view('admin/views/partials/content-end')->display() ?>
+<?php Themes::view('admin/views/partials/footer')->display() ?>

@@ -93,7 +93,5 @@ use function Flextype\Component\I18n\__;
   </div>
 </div>
 
-<?php
-    Themes::view('admin/views/partials/content-end')->display();
-    Themes::view('admin/views/partials/footer')->display();
-?>
+<?php Themes::view('admin/views/partials/content-end')->display() ?>
+<?php Themes::view('admin/views/partials/footer')->display() ?>

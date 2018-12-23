@@ -11,12 +11,12 @@ use function Flextype\Component\I18n\__;
 Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
-                        'entries' => [
+                        'templates' => [
                                         'link' => Http::getBaseUrl() . '/admin/templates',
                                         'title' => __('admin_template_heading'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
-                       'entries_add' => [
+                       'templates_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/templates/add',
                                         'title' => __('admin_template_create_new'),
                                         'attributes' => ['class' => 'navbar-item active']

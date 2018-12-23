@@ -34,6 +34,8 @@ class UsersManager
 
     public static function getRegistrationPage()
     {
+        Registry::set('sidebar_menu_item', '');
+
         $registration = Http::post('registration');
 
         if (isset($registration)) {
@@ -76,6 +78,8 @@ class UsersManager
 
     public static function getAuthPage()
     {
+        Registry::set('sidebar_menu_item', '');
+
         $login = Http::post('login');
 
         if (isset($login)) {

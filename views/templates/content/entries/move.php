@@ -36,7 +36,7 @@ use function Flextype\Component\I18n\__;
            <?= Form::select('parent_entry', $entries_list, $entry_parent, array('class' => 'form-control')) ?>
         </div>
         <?= Form::submit('move_entry', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>
-        <?= echo Form::close() ?>
+        <?= Form::close() ?>
     </div>
 </div>
 

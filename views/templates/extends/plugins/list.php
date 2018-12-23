@@ -11,12 +11,14 @@ Themes::view('admin/views/partials/navbar')
                                                         'link'       => Http::getBaseUrl() . '/admin/plugins',
                                                         'title'      => __('admin_plugins_heading'),
                                                         'attributes' => ['class' => 'navbar-item active']
-                                                  ],
-                            'plugins_get_more' => [
-                                                        'link' => 'http://flextype.org/download/plugins',
-                                                        'title' => __('admin_plugins_get_more_plugins'),
-                                                        'attributes' => ['class' => 'navbar-item', 'target' => '_blank']
                                                   ]
+                        ])
+    ->assign('buttons', [
+                            'plugins_get_more' => [
+                                                'link' => 'http://flextype.org/download/plugins',
+                                                'title' => __('admin_plugins_get_more_plugins'),
+                                                'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
+                                            ]
                         ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();

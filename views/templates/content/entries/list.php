@@ -56,7 +56,7 @@
     </tbody>
 </table>
 <?php else: ?>
-    <h3 class="no-data-message"><?= __('admin_entries_create_new') ?></h3>
+    
 <?php endif ?>
 
 <?php Themes::view('admin/views/partials/content-end')->display() ?>

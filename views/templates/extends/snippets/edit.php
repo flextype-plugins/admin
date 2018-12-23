@@ -13,7 +13,7 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                        'snippet' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets/edit?snippet=' . Http::get('snippet'),
-                                        'title' => __('admin_snippet_heading'),
+                                        'title' => __('admin_snippets_heading'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])

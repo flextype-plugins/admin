@@ -18,7 +18,7 @@ Themes::view('admin/views/partials/navbar')
                                     ],
                        'fieldsets_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/fieldsets/rename?fieldset=' . $name_current,
-                                        'title' => __('admin_fieldset_rename'),
+                                        'title' => __('admin_rename'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])

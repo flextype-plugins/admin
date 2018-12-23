@@ -17,8 +17,8 @@ Themes::view('admin/views/partials/navbar')
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'templates_add' => [
-                                        'link' => Http::getBaseUrl() . '/admin/templates/add',
-                                        'title' => __('admin_template_create_new'),
+                                        'link' => Http::getBaseUrl() . '/admin/templates/rename?template=' . $name_current,
+                                        'title' => __('admin_template_rename'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])

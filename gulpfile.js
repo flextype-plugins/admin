@@ -59,6 +59,10 @@ gulp.task('js', function(){
                    'node_modules/codemirror/lib/codemirror.js',
                    'node_modules/codemirror/lib/codemirror.js',
                    'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
+                   'node_modules/codemirror/mode/xml/xml.js',
+                   'node_modules/codemirror/mode/javascript/javascript.js',
+                   'node_modules/codemirror/mode/php/php.js',
+                   'node_modules/codemirror/mode/clike/clike.js',
                    'node_modules/codemirror/mode/yaml/yaml.js',
                    'node_modules/messenger-hubspot/build/js/messenger.min.js',
                    'node_modules/messenger-hubspot/build/js/messenger-theme-flat.js'

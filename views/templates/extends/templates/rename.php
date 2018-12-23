@@ -4,23 +4,24 @@ namespace Flextype;
 use Flextype\Component\Registry\Registry;
 use Flextype\Component\Http\Http;
 use Flextype\Component\Form\Form;
+use Flextype\Component\Html\Html;
 use Flextype\Component\Token\Token;
 use function Flextype\Component\I18n\__;
 
 Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
-                            'entries'     => [
-                                                'link'  => Http::getBaseUrl() . '/admin/entries',
-                                                'title' => __('admin_entries_heading'),
-                                                'attributes' => ['class' => 'navbar-item']
-                                            ],
-                            'entries_add' => [
-                                                'link' => Http::getBaseUrl() . '/admin/entries/rename',
-                                                'title' => __('admin_entries_rename'),
-                                                'attributes' => ['class' => 'navbar-item active']
-                                            ]
-                     ])
+                        'templates' => [
+                                        'link' => Http::getBaseUrl() . '/admin/templates',
+                                        'title' => __('admin_template_heading'),
+                                        'attributes' => ['class' => 'navbar-item']
+                                    ],
+                       'templates_add' => [
+                                        'link' => Http::getBaseUrl() . '/admin/templates/add',
+                                        'title' => __('admin_template_create_new'),
+                                        'attributes' => ['class' => 'navbar-item active']
+                                      ]
+                      ])
     ->display();
 Themes::view('admin/views/partials/content-start')->display();
 ?>

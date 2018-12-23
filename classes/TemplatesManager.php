@@ -26,7 +26,6 @@ class TemplatesManager
                         $file = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Text::safeString(Http::post('name'), '-', true) . '.php';
 
                         if (!Filesystem::fileExists($file)) {
-
                             // Create a template!
                             if (Filesystem::setFileContent(
                                   $file,
@@ -89,6 +88,29 @@ class TemplatesManager
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
+            break;
+            case 'edit':
+                $action = Http::post('action');
+
+                if (isset($action) && $action == 'save-form') {
+                    if (Token::check((Http::post('token')))) {
+
+                        // Save a template!
+                        if (Filesystem::setFileContent(
+                              PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('name') . '.php',
+                              Http::post('template')
+                        )) {
+                            Notification::set('success', __('admin_message_template_saved'));
+                            Http::redirect(Http::getBaseUrl() . '/admin/templates');
+                        }
+                    } else {
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                    }
+                }
+
+                Themes::view('admin/views/templates/extends/templates/edit')
+                    ->assign('template', Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::get('template') . '.php'))
+                    ->display();
             break;
             default:
                 $templates_list = Themes::getTemplates();

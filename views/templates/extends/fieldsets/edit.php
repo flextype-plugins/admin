@@ -13,7 +13,7 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                        'fieldset' => [
                                         'link' => Http::getBaseUrl() . '/admin/fieldsets/edit?fieldset=' . Http::get('fieldset'),
-                                        'title' => __('admin_fieldset_heading'),
+                                        'title' => __('admin_fieldsets_heading'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])

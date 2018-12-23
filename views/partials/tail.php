@@ -131,7 +131,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             <?php if (Http::get('fieldset')) { ?>
             mode: "yaml",
             <?php } else { ?>
-            mode: "text/html",
+            mode: "application/x-httpd-php",
             <?php } ?>
             indentWithTabs: false,
             theme: "monokai",

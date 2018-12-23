@@ -12,7 +12,7 @@
                         ])
     ->assign('buttons', [
                             'entries' => [
-                                            'link' => Http::getBaseUrl() . '/admin/entries/?entry='.Http::get('entry').'&create_new_entry=1' ,
+                                            'link' => Http::getBaseUrl() . '/admin/entries/add?entry='.Http::get('entry') ,
                                             'title' => __('admin_entries_create_new'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]

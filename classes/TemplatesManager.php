@@ -101,7 +101,7 @@ class TemplatesManager
                               Http::post('template')
                         )) {
                             Notification::set('success', __('admin_message_template_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/templates');
+                            Http::redirect(Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::post('name'));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

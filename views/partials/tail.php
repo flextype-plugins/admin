@@ -137,7 +137,7 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
             theme: "monokai",
             styleActiveLine: true,
         });
-
+        
         editor.addKeyMap({
             "Tab": function (cm) {
                 if (cm.somethingSelected()) {

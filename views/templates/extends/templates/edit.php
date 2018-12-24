@@ -29,7 +29,7 @@ Themes::view('admin/views/partials/content-start')->display();
 ?>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-12">
         <?= Form::open(null, ['id' => 'form']) ?>
         <?= Form::hidden('token', Token::generate()) ?>
         <?= Form::hidden('action', 'save-form') ?>

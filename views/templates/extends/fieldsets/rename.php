@@ -13,7 +13,7 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'fieldsets' => [
                                         'link' => Http::getBaseUrl() . '/admin/fieldsets',
-                                        'title' => __('admin_fieldsets_heading'),
+                                        'title' => __('admin_fieldsets'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'fieldsets_add' => [
@@ -32,7 +32,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('token', Token::generate()) ?>
         <?= Form::hidden('name_current', $name_current) ?>
         <div class="form-group">
-            <?= Form::label('name', __('admin_fieldset_name'), ['for' => 'fieldsetName']) ?>
+            <?= Form::label('name', __('admin_name'), ['for' => 'fieldsetName']) ?>
             <?= Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'fieldsetName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_fieldset_error_title_empty_input')]) ?>
         </div>
         <?= Form::submit('rename_fieldset', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>

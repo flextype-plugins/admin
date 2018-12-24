@@ -6,14 +6,14 @@
     ->assign('links',   [
                             'templates' => [
                                             'link' => Http::getBaseUrl() . '/admin/templates',
-                                            'title' => __('admin_templates_heading'),
+                                            'title' => __('admin_templates'),
                                             'attributes' => ['class' => 'navbar-item active']
                                        ]
                         ])
     ->assign('buttons', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/templates/add',
-                                            'title' => __('admin_template_create_new'),
+                                            'title' => __('admin_create_new_template'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
                         ])

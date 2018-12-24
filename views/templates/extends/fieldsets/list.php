@@ -6,14 +6,14 @@
     ->assign('links',   [
                             'fieldsets' => [
                                             'link' => Http::getBaseUrl() . '/admin/fieldsets',
-                                            'title' => __('admin_fieldsets_heading'),
+                                            'title' => __('admin_fieldsets'),
                                             'attributes' => ['class' => 'navbar-item active']
                                        ]
                         ])
     ->assign('buttons', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/fieldsets/add',
-                                            'title' => __('admin_fieldset_create_new'),
+                                            'title' => __('admin_create_new_fieldset'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
                         ])

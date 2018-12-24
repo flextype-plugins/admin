@@ -13,7 +13,7 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                        'menu' => [
                                         'link' => Http::getBaseUrl() . '/admin/menus/edit?menu=' . Http::get('menu'),
-                                        'title' => __('admin_menu_heading'),
+                                        'title' => __('admin_menu'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])

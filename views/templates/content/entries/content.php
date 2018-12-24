@@ -35,7 +35,7 @@ Themes::view('admin/views/partials/navbar')
                                             ],
                             'view_entry' => [
                                                 'link'       => Http::getBaseUrl() . '/' . $entry_name,
-                                                'title'      => __('admin_view_entry'),
+                                                'title'      => __('admin_preview'),
                                                 'attributes' => ['class' => 'float-right btn', 'target' => '_blank']
                                             ]
                         ])

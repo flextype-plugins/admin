@@ -13,12 +13,12 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'snippets' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets',
-                                        'title' => __('admin_snippets_heading'),
+                                        'title' => __('admin_snippets'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'snippets_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets/rename?snippet=' . $name_current,
-                                        'title' => __('admin_snippet_rename'),
+                                        'title' => __('admin_rename'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])
@@ -32,7 +32,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::hidden('token', Token::generate()) ?>
         <?= Form::hidden('name_current', $name_current) ?>
         <div class="form-group">
-            <?= Form::label('name', __('admin_snippet_name'), ['for' => 'snippetName']) ?>
+            <?= Form::label('name', __('admin_name'), ['for' => 'snippetName']) ?>
             <?= Form::input('name', $name_current, ['class' => 'form-control', 'id' => 'snippetName',  'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_snippet_error_title_empty_input')]) ?>
         </div>
         <?= Form::submit('rename_snippet', __('admin_save'), ['class' => 'btn btn-black btn-fill btn-wd']) ?>

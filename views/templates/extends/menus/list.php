@@ -13,7 +13,7 @@
     ->assign('buttons', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/menus/add',
-                                            'title' => __('admin_menu_create_new'),
+                                            'title' => __('admin_create_new_menu'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
                         ])

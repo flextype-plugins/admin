@@ -6,14 +6,14 @@
     ->assign('links',   [
                             'snippets' => [
                                             'link' => Http::getBaseUrl() . '/admin/snippets',
-                                            'title' => __('admin_snippets_heading'),
+                                            'title' => __('admin_snippets'),
                                             'attributes' => ['class' => 'navbar-item active']
                                        ]
                         ])
     ->assign('buttons', [
                             'entries' => [
                                             'link' => Http::getBaseUrl() . '/admin/snippets/add',
-                                            'title' => __('admin_snippet_create_new'),
+                                            'title' => __('admin_create_new_snippet'),
                                             'attributes' => ['class' => 'float-right btn']
                                        ]
                         ])

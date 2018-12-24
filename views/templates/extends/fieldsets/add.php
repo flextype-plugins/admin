@@ -13,12 +13,12 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'fieldsets' => [
                                         'link' => Http::getBaseUrl() . '/admin/fieldsets',
-                                        'title' => __('admin_fieldsets_heading'),
+                                        'title' => __('admin_fieldsets'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'fieldsets_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/fieldsets/add',
-                                        'title' => __('admin_fieldset_create_new'),
+                                        'title' => __('admin_create_new_fieldset'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])
@@ -31,11 +31,11 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::open(); ?>
         <?= Form::hidden('token', Token::generate()); ?>
         <div class="form-group">
-            <?= Form::label('title', __('admin_fieldset_title'), ['for' => 'fieldsetTitle']) ?>
+            <?= Form::label('title', __('admin_title'), ['for' => 'fieldsetTitle']) ?>
             <?= Form::input('title', '', ['class' => 'form-control', 'id' => 'fieldsetTitle', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_fieldsets_error_name_empty_input')]) ?>
         </div>
         <div class="form-group">
-            <?= Form::label('name', __('admin_fieldset_name'), ['for' => 'fieldsetName']) ?>
+            <?= Form::label('name', __('admin_name'), ['for' => 'fieldsetName']) ?>
             <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'fieldsetName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_fieldsets_error_name_empty_input')]) ?>
         </div>
     </div>

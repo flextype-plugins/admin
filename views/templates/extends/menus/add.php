@@ -18,7 +18,7 @@ Themes::view('admin/views/partials/navbar')
                                     ],
                        'menus_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/menus/add',
-                                        'title' => __('admin_menu_create_new'),
+                                        'title' => __('admin_create_new_menu'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])

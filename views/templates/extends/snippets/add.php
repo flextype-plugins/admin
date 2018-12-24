@@ -13,12 +13,12 @@ Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                         'snippets' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets',
-                                        'title' => __('admin_snippets_heading'),
+                                        'title' => __('admin_snippets'),
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'snippets_add' => [
                                         'link' => Http::getBaseUrl() . '/admin/snippets/add',
-                                        'title' => __('admin_snippet_create_new'),
+                                        'title' => __('admin_create_new_snippet'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
                       ])
@@ -31,7 +31,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::open(); ?>
         <?= Form::hidden('token', Token::generate()); ?>
         <div class="form-group">
-            <?= Form::label('name', __('admin_snippet_name'), ['for' => 'snippetName']) ?>
+            <?= Form::label('name', __('admin_name'), ['for' => 'snippetName']) ?>
             <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'snippetName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_snippets_error_name_empty_input')]) ?>
         </div>
     </div>

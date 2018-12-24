@@ -104,7 +104,7 @@ class SnippetsManager
                               Http::post('snippet')
                         )) {
                             Notification::set('success', __('admin_message_snippet_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/snippets');
+                            Http::redirect(Http::getBaseUrl() . '/admin/snippets/edit?snippet='.Http::post('name'));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

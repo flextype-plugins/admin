@@ -104,7 +104,7 @@ class MenusManager
                               Http::post('menu')
                         )) {
                             Notification::set('success', __('admin_message_menu_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/menus/' . Http::post('name'));
+                            Http::redirect(Http::getBaseUrl() . '/admin/menus/edit?menu=' . Http::post('name'));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

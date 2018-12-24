@@ -101,7 +101,7 @@ class FieldsetsManager
                               Http::post('fieldset')
                         )) {
                             Notification::set('success', __('admin_message_fieldset_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
+                            Http::redirect(Http::getBaseUrl() . '/admin/fieldsets/edit?fieldset='.Http::post('name'));
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

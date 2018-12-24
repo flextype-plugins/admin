@@ -34,6 +34,10 @@
         <tr>
             <td>
                 <a href="<?= Http::getBaseUrl() ?>/admin/entries/?entry=<?= $entry['slug'] ?>"><?= $entry['title'] ?></a>
+                <?php $count = count(Entries::getEntries($entry['slug'], false, 'slug', 'ASC', null, null, false)) ?>
+                <?php if ($count > 0): ?>
+                    (<?= $count ?>)
+                <?php endif ?>
             </td>
             <td class="text-right">
                 <div class="btn-group">

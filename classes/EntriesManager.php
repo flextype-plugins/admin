@@ -106,7 +106,7 @@ class EntriesManager
                         Filesystem::recursiveCopy(PATH['entries'] . '/' . Http::get('entry'),
                                                   PATH['entries'] . '/' . Http::get('entry') . '-clone-' . date("Ymd_His"));
                         Notification::set('success', __('admin_message_entry_cloned'));
-                        Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.Http::get('entry'));
+                        Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }

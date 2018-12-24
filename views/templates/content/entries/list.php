@@ -47,7 +47,7 @@
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/add?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_add') ?></a>
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/clone?entry=<?= $entry['slug'] ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_clone') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/duplicate?entry=<?= $entry['slug'] ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/rename?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/move?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_move') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/<?= $entry['slug'] ?>" target="_blank"><?= __('admin_entries_preview') ?></a>

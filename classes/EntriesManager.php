@@ -100,12 +100,12 @@ class EntriesManager
                     }
                 }
             break;
-            case 'clone':
+            case 'duplicate':
                 if (Http::get('entry') != '') {
                     if (Token::check((Http::get('token')))) {
                         Filesystem::recursiveCopy(PATH['entries'] . '/' . Http::get('entry'),
-                                                  PATH['entries'] . '/' . Http::get('entry') . '-clone-' . date("Ymd_His"));
-                        Notification::set('success', __('admin_message_entry_cloned'));
+                                                  PATH['entries'] . '/' . Http::get('entry') . '-duplicate-' . date("Ymd_His"));
+                        Notification::set('success', __('admin_message_entry_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/entries/?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

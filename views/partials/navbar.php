@@ -40,11 +40,12 @@ use function Flextype\Component\I18n\__;
 </div>
 <?php endif ?>
 
-<?php if (in_array(Registry::get('sidebar_menu_item'), ['templates', 'snippets', 'fieldsets'])): ?>
+<?php if (in_array(Registry::get('sidebar_menu_item'), ['templates', 'snippets', 'fieldsets', 'menus'])): ?>
 <div class="entry-editor-heading">
     /
     <?= Http::get('template') ?? Http::get('template') ?>
     <?= Http::get('fieldset') ?? Http::get('fieldset') ?>
-    <?= Http::get('snippet') ?? Http::get('snippet') ?>
+    <?= Http::get('snippet')  ?? Http::get('snippet') ?>
+    <?= Http::get('menu')     ?? Http::get('menu') ?>
 </div>
 <?php endif ?>

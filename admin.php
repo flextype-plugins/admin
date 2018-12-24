@@ -47,6 +47,7 @@ if (Admin::isAdminArea()) {
 
         // Add navigation links
         NavigationManager::addItem('content', 'entries', '<i class="far fa-newspaper"></i>' . __('admin_menu_content_entries', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/entries', ['class' => 'nav-link']);
+        NavigationManager::addItem('extends', 'menus', '<i class="fab fa-elementor"></i>' . __('admin_menu_content_menus', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/menus', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'fieldsets', '<i class="fas fa-list"></i>' . __('admin_menu_extends_fieldsets', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/fieldsets', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'templates', '<i class="fas fa-layer-group"></i>' . __('admin_menu_extends_templates', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/templates', ['class' => 'nav-link']);
         NavigationManager::addItem('extends', 'snippets', '<i class="far fa-file-code"></i>' . __('admin_menu_extends_snippets', Registry::get('settings.locale')), Http::getBaseUrl() . '/admin/snippets', ['class' => 'nav-link']);
@@ -143,6 +144,7 @@ class Admin
         // Route the Uri
         Http::getUriSegment(1) == ''             and DashboardManager::getDashboardManager();
         Http::getUriSegment(1) == 'entries'      and EntriesManager::getEntriesManager();
+        Http::getUriSegment(1) == 'menus'        and MenusManager::getMenusManager();
         Http::getUriSegment(1) == 'fieldsets'    and FieldsetsManager::getFieldsetsManager();
         Http::getUriSegment(1) == 'templates'    and TemplatesManager::getTemplatesManager();
         Http::getUriSegment(1) == 'snippets'     and SnippetsManager::getSnippetsManager();

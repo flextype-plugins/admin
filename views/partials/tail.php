@@ -121,14 +121,14 @@ use Flextype\Component\{Http\Http, Event\Event, Registry\Registry, Assets\Assets
 
         var editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorEditor"), {
             lineNumbers: true,
-            <?php if (Http::get('fieldset')) { ?>
+            <?php if (Http::get('fieldset') || Http::get('menu')) { ?>
             indentUnit: 2,
             tabSize: 2,
             <?php } else { ?>
             tabSize: 4,
             indentUnit: 4,
             <?php } ?>
-            <?php if (Http::get('fieldset')) { ?>
+            <?php if (Http::get('fieldset') || Http::get('menu')) { ?>
             mode: "yaml",
             <?php } else { ?>
             mode: "application/x-httpd-php",

@@ -64,7 +64,7 @@ class FieldsetsManager
                                 PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name_current') . '.yaml',
                                 PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('name') . '.yaml')
                             ) {
-                                Notification::set('success', __('admin_message_fieldsets_renamed'));
+                                Notification::set('success', __('admin_message_fieldset_renamed'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');
                             }
                         }
@@ -82,7 +82,7 @@ class FieldsetsManager
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '.yaml',
                                          PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::get('fieldset') . '-duplicate-' . date("Ymd_His") . '.yaml');
-                        Notification::set('success', __('admin_message_entry_duplicated'));
+                        Notification::set('success', __('admin_message_fieldset_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/fieldsets');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

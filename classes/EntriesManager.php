@@ -151,6 +151,48 @@ class EntriesManager
                     ->assign('entry', $entry)
                     ->display();
             break;
+            case 'type':
+
+                $type_entry = Http::post('type_entry');
+
+                if (isset($type_entry)) {
+                    if (Token::check((Http::post('token')))) {
+
+                        $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+
+                        $content = $entry['content'];
+                        Arr::delete($entry, 'content');
+                        Arr::delete($entry, 'url');
+                        Arr::delete($entry, 'slug');
+
+                        $frontmatter = $_POST;
+                        Arr::delete($frontmatter, 'token');
+                        Arr::delete($frontmatter, 'type_entry');
+                        Arr::delete($frontmatter, 'entry');
+                        $frontmatter = YamlParser::encode(array_merge($entry, $frontmatter));
+
+                        if (Filesystem::setFileContent(
+                            PATH['entries'] . '/' . Http::post('entry') . '/entry.html',
+                                                  '---'."\n".
+                                                  $frontmatter."\n".
+                                                  '---'."\n".
+                                                  $content
+                        )) {
+                              Notification::set('success', __('admin_message_entry_changes_saved'));
+                              Http::redirect(Http::getBaseUrl() . '/admin/entries?entry='.implode('/', array_slice(explode("/", Http::get('entry')), 0, -1)));
+                        }
+                    } else {
+                        die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
+                    }
+                }
+
+                $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
+
+                Themes::view('admin/views/templates/content/entries/type')
+                    ->assign('fieldset', $entry['fieldset'])
+                    ->assign('fieldsets', Themes::getFieldsets())
+                    ->display();
+            break;
             case 'move':
                 $entry = Entries::processEntry(PATH['entries'] . '/' . Http::get('entry') . '/entry.html', false, true);
 

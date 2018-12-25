@@ -67,7 +67,7 @@ class SnippetsManager
                                 PATH['snippets'] . '/' . Http::post('name_current') . '.php',
                                 PATH['snippets'] . '/' . Http::post('name') . '.php')
                             ) {
-                                Notification::set('success', __('admin_message_snippets_renamed'));
+                                Notification::set('success', __('admin_message_snippet_renamed'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/snippets');
                             }
                         }
@@ -85,7 +85,7 @@ class SnippetsManager
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['snippets'] . '/' . Http::get('snippet') . '.php',
                                          PATH['snippets'] . '/' . Http::get('snippet') . '-duplicate-' . date("Ymd_His") . '.php');
-                        Notification::set('success', __('admin_message_entry_duplicated'));
+                        Notification::set('success', __('admin_message_snippet_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/snippets');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

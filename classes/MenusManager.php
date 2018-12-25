@@ -49,7 +49,7 @@ class MenusManager
             case 'delete':
                 if (Http::get('menu') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteFile(PATH['menus'] . '/' . Registry::get('settings.theme') . '/menus/' . Http::get('menu') . '.yaml');
+                        Filesystem::deleteFile(PATH['menus'] . '/' . Http::get('menu') . '.yaml');
                         Notification::set('success', __('admin_message_menu_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/menus');
                     } else {

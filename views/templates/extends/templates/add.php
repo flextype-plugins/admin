@@ -34,6 +34,10 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::label('name', __('admin_name'), ['for' => 'templateName']) ?>
             <?= Form::input('name', '', ['class' => 'form-control', 'id' => 'templateName', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_templates_error_name_empty_input')]) ?>
         </div>
+        <div class="form-group">
+            <?= Form::label('type', __('admin_type'), ['for' => 'templateType']) ?>
+            <?= Form::select('type', ['template' => __('admin_template'), 'partial' => __('admin_partial')], 'template', ['class' => 'form-control', 'id' => 'templateType']) ?>
+        </div>
     </div>
 </div>
 <?= Form::submit('create_template', __('admin_create'), ['class' => 'btn btn-black']) ?>

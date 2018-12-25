@@ -12,7 +12,7 @@ Themes::view('admin/views/partials/head')->display();
 Themes::view('admin/views/partials/navbar')
     ->assign('links', [
                        'template' => [
-                                        'link' => Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::get('template'),
+                                        'link' => Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::get('template') . '&type='.$type,
                                         'title' => __('admin_template'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]
@@ -33,6 +33,7 @@ Themes::view('admin/views/partials/content-start')->display();
         <?= Form::open(null, ['id' => 'form']) ?>
         <?= Form::hidden('token', Token::generate()) ?>
         <?= Form::hidden('action', 'save-form') ?>
+        <?= Form::hidden('type', $type) ?>
         <?= Form::hidden('name', Http::get('template')) ?>
         <div class="row">
             <div class="col-12">

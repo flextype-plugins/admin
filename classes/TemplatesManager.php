@@ -23,7 +23,9 @@ class TemplatesManager
                 if (isset($create_template)) {
                     if (Token::check((Http::post('token')))) {
 
-                        $file = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Text::safeString(Http::post('name'), '-', true) . '.php';
+                        $type = (Http::post('type') && Http::post('type') == 'partial') ? 'partial' : 'template';
+
+                        $file = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Text::safeString(Http::post('name'), '-', true) . '.php';
 
                         if (!Filesystem::fileExists($file)) {
                             // Create a template!
@@ -46,7 +48,8 @@ class TemplatesManager
             case 'delete':
                 if (Http::get('template') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::deleteFile(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::get('template') . '.php');
+                        $type = (Http::get('type') && Http::get('type') == 'partial') ? 'partial' : 'template';
+                        Filesystem::deleteFile(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::get('template') . '.php');
                         Notification::set('success', __('admin_message_template_deleted'));
                         Http::redirect(Http::getBaseUrl() . '/admin/templates');
                     } else {
@@ -59,10 +62,12 @@ class TemplatesManager
 
                 if (isset($rename_template)) {
                     if (Token::check((Http::post('token')))) {
-                        if (!Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('name') . '.php')) {
+                        $type = (Http::post('type') && Http::post('type') == 'partial') ? 'partial' : 'template';
+                        $type_current = (Http::post('type_current') && Http::post('type_current') == 'partial') ? 'partial' : 'template';
+                        if (!Filesystem::fileExists(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::post('name') . '.php')) {
                             if (rename(
-                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('name_current') . '.php',
-                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('name') . '.php')
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type_current . 's' . '/' . Http::post('name_current') . '.php',
+                                PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::post('name') . '.php')
                             ) {
                                 Notification::set('success', __('admin_message_templates_renamed'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/templates');
@@ -75,13 +80,15 @@ class TemplatesManager
 
                 Themes::view('admin/views/templates/extends/templates/rename')
                     ->assign('name_current', Http::get('template'))
+                    ->assign('type', ((Http::get('type') && Http::get('type') == 'partial') ? 'partial' : 'template'))
                     ->display();
             break;
             case 'duplicate':
                 if (Http::get('template') != '') {
                     if (Token::check((Http::get('token')))) {
-                        Filesystem::copy(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::get('template') . '.php',
-                                         PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::get('template') . '-duplicate-' . date("Ymd_His") . '.php');
+                        $type = (Http::get('type') && Http::get('type') == 'partial') ? 'partial' : 'template';
+                        Filesystem::copy(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::get('template') . '.php',
+                                         PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::get('template') . '-duplicate-' . date("Ymd_His") . '.php');
                         Notification::set('success', __('admin_message_entry_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/templates');
                     } else {
@@ -95,28 +102,35 @@ class TemplatesManager
                 if (isset($action) && $action == 'save-form') {
                     if (Token::check((Http::post('token')))) {
 
+                        $type = (Http::post('type') && Http::post('type') == 'partial') ? 'partial' : 'template';
+
                         // Save a template!
                         if (Filesystem::setFileContent(
-                              PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('name') . '.php',
+                              PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::post('name') . '.php',
                               Http::post('template')
                         )) {
                             Notification::set('success', __('admin_message_template_saved'));
-                            Http::redirect(Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::post('name'));
+                            Http::redirect(Http::getBaseUrl() . '/admin/templates/edit?template=' . Http::post('name') . '&type=' . $type);
                         }
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');
                     }
                 }
 
+                $type = (Http::get('type') && Http::get('type') == 'partial') ? 'partials' : 'templates';
+
                 Themes::view('admin/views/templates/extends/templates/edit')
-                    ->assign('template', Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::get('template') . '.php'))
+                    ->assign('template', Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . '/' . Http::get('template') . '.php'))
+                    ->assign('type', ((Http::get('type') && Http::get('type') == 'partial') ? 'partial' : 'template'))
                     ->display();
             break;
             default:
                 $templates_list = Themes::getTemplates();
+                $partials_list  = Themes::getPartials();
 
                 Themes::view('admin/views/templates/extends/templates/list')
                 ->assign('templates_list', $templates_list)
+                ->assign('partials_list', $partials_list)
                 ->display();
             break;
         }

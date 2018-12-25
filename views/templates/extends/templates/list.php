@@ -26,6 +26,7 @@
     <thead>
         <tr>
             <th><?= __('admin_entries_name') ?></th>
+            <th><?= __('admin_type') ?></th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +36,7 @@
             <td>
                 <?= $template ?>
             </td>
+            <td><?= Text::lowercase(__('admin_template')) ?></td>
             <td class="text-right">
                 <div class="btn-group">
                   <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/templates/edit?template=<?= $template ?>"><?= __('admin_entries_edit') ?></a>
@@ -49,7 +51,28 @@
                 <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/templates/delete?template=<?= $template ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>
             </td>
         </tr>
-    <?php endforeach ?>
+        <?php endforeach ?>
+        <?php foreach ($partials_list as $partial): ?>
+        <tr>
+            <td>
+                <?= $partial ?>
+            </td>
+            <td><?= Text::lowercase(__('admin_partial')) ?></td>
+            <td class="text-right">
+                <div class="btn-group">
+                  <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/templates/edit?template=<?= $partial ?>&type=partial"><?= __('admin_entries_edit') ?></a>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/templates/rename?template=<?= $partial ?>&type=partial"><?= __('admin_entries_rename') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/templates/duplicate?template=<?= $partial ?>&type=partial&token=<?= Token::generate() ?>"><?= __('admin_entries_clone') ?></a>
+                  </div>
+                </div>
+                <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/templates/delete?template=<?= $partial ?>&type=partial&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>
+            </td>
+        </tr>
+        <?php endforeach ?>
     </tbody>
 </table>
 <?php else: ?>

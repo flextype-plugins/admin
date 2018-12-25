@@ -40,7 +40,7 @@ Themes::view('admin/views/partials/content-start')->display();
             <?= Form::input('slug', '', ['class' => 'form-control', 'id' => 'entrySlug', 'required', 'data-validation' => 'length required', 'data-validation-allowing' => '-_', 'data-validation-length' => 'min1', 'data-validation-error-msg' => __('admin_entries_error_name_empty_input')]) ?>
         </div>
         <div class="form-group">
-            <label><?= __('admin_entries_type') ?></label>
+            <label><?= __('admin_type') ?></label>
             <select class="form-control" name="template">
             <?php foreach ($templates as $key => $template): ?>
                 <option value="<?= $key ?>"><?= $template ?></option>

@@ -46,7 +46,7 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/add?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_add') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/add?entry=<?= $entry['slug'] ?>"><?= __('admin_add') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/duplicate?entry=<?= $entry['slug'] ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/rename?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/entries/move?entry=<?= $entry['slug'] ?>"><?= __('admin_entries_move') ?></a>

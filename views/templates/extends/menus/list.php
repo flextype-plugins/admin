@@ -42,14 +42,14 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/menus/rename?menu=<?= $name ?>"><?= __('admin_entries_rename') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/menus/rename?menu=<?= $name ?>"><?= __('admin_rename') ?></a>
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/menus/duplicate?menu=<?= $name ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/menus/delete?menu=<?= $name ?>&token=<?= Token::generate() ?>"><?= __('admin_delete') ?></a>
             </td>
         </tr>
-    <?php endforeach ?>
+        <?php endforeach ?>
     </tbody>
 </table>
 <?php else: ?>

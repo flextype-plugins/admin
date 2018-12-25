@@ -69,7 +69,7 @@ class TemplatesManager
                                 PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type_current . 's' . '/' . Http::post('name_current') . '.php',
                                 PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::post('name') . '.php')
                             ) {
-                                Notification::set('success', __('admin_message_templates_renamed'));
+                                Notification::set('success', __('admin_message_template_renamed'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/templates');
                             }
                         }
@@ -89,7 +89,7 @@ class TemplatesManager
                         $type = (Http::get('type') && Http::get('type') == 'partial') ? 'partial' : 'template';
                         Filesystem::copy(PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::get('template') . '.php',
                                          PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/' . $type . 's' . '/' . Http::get('template') . '-duplicate-' . date("Ymd_His") . '.php');
-                        Notification::set('success', __('admin_message_entry_duplicated'));
+                        Notification::set('success', __('admin_message_template_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/templates');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

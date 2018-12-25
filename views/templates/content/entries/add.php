@@ -41,9 +41,9 @@ Themes::view('admin/views/partials/content-start')->display();
         </div>
         <div class="form-group">
             <label><?= __('admin_type') ?></label>
-            <select class="form-control" name="template">
-            <?php foreach ($templates as $key => $template): ?>
-                <option value="<?= $key ?>"><?= $template ?></option>
+            <select class="form-control" name="fieldset">
+            <?php foreach ($fieldsets as $key => $fieldset): ?>
+                <option value="<?= $key ?>"><?= $fieldset ?></option>
             <?php endforeach ?>
             </select>
         </div>

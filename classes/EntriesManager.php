@@ -41,21 +41,32 @@ class EntriesManager
                         if (!Filesystem::fileExists($file)) {
 
                             // Get fieldset
-                            $fieldset = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('template') . '.yaml'));
+                            $fieldset = YamlParser::decode(Filesystem::getFileContent(PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . Http::post('fieldset') . '.yaml'));
+
+                            // We need to check if template for current fieldset is exists
+                            // if template is not exist then default template will be used!
+                            $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/templates/' . Http::post('fieldset') . '.php';
+                            if (Filesystem::fileExists($template_path)) {
+                                $template = Http::post('fieldset');
+                            } else {
+                                $template = 'default';
+                            }
 
                             // Init frontmatter
                             $frontmatter = [];
+                            $_frontmatter = [];
 
                             // Define frontmatter values based on POST data
-                            $value['title']    = Http::post('title');
-                            $value['template'] = Http::post('template');
-                            $value['date']     = date(Registry::get('settings.date_format'), time());
+                            $_frontmatter['title']     = Http::post('title');
+                            $_frontmatter['template']  = $template;
+                            $_frontmatter['fieldset']  = Http::post('fieldset');
+                            $_frontmatter['date']      = date(Registry::get('settings.date_format'), time());
 
                             // Define frontmatter values based on fieldset
                             foreach ($fieldset['fields'] as $key => $field) {
 
-                                if (isset($value[$key])) {
-                                    $_value = $value[$key];
+                                if (isset($_frontmatter[$key])) {
+                                    $_value = $_frontmatter[$key];
                                 } elseif(isset($field['value'])) {
                                     $_value = $field['value'];
                                 } else {
@@ -72,7 +83,7 @@ class EntriesManager
                             if (Filesystem::setFileContent(
                                   $file,
                                   '---'."\n".
-                                  YamlParser::encode($frontmatter).
+                                  YamlParser::encode(array_replace_recursive($frontmatter, $_frontmatter)).
                                   '---'."\n"
                             )) {
                                 Notification::set('success', __('admin_message_entry_created'));
@@ -85,7 +96,7 @@ class EntriesManager
                 }
 
                 Themes::view('admin/views/templates/content/entries/add')
-                    ->assign('templates', Themes::getFieldsets())
+                    ->assign('fieldsets', Themes::getFieldsets())
                     ->assign('entries_list', Entries::getEntries('', false, 'slug'))
                     ->display();
             break;

@@ -45,7 +45,7 @@
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/templates/rename?template=<?= $template ?>"><?= __('admin_rename') ?></a>
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/templates/duplicate?template=<?= $template ?>&token=<?= Token::generate() ?>"><?= __('admin_clone') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/templates/duplicate?template=<?= $template ?>&token=<?= Token::generate() ?>"><?= __('admin_template') ?></a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/templates/delete?template=<?= $template ?>&token=<?= Token::generate() ?>"><?= __('admin_delete') ?></a>

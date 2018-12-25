@@ -259,7 +259,7 @@ class EntriesManager
                         }
 
                         // Fieldset for current entry template
-                        $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['template'] . '.yaml';
+                        $fieldset_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/fieldsets/' . $entry['fieldset'] . '.yaml';
                         $fieldset = YamlParser::decode(Filesystem::getFileContent($fieldset_path));
                         is_null($fieldset) and $fieldset = [];
 
@@ -367,7 +367,7 @@ class EntriesManager
 
                     // Template select field for selecting entry template
                     case 'template_select':
-                        $form_element = Form::select($form_element_name, Themes::getFieldsets(), $form_value, $property['attributes']);
+                        $form_element = Form::select($form_element_name, Themes::getTemplates(), $form_value, $property['attributes']);
                     break;
 
                     // Visibility select field for selecting entry visibility state

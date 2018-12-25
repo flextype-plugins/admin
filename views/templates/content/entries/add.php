@@ -17,7 +17,7 @@ Themes::view('admin/views/partials/navbar')
                                         'attributes' => ['class' => 'navbar-item']
                                     ],
                        'entries_add' => [
-                                        'link' => Http::getBaseUrl() . '/admin/entries/add',
+                                        'link' => Http::getBaseUrl() . '/admin/entries/add?entry='.Http::get('entry'),
                                         'title' => __('admin_entries_create_new'),
                                         'attributes' => ['class' => 'navbar-item active']
                                       ]

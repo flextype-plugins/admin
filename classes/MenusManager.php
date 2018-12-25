@@ -67,7 +67,7 @@ class MenusManager
                                 PATH['menus'] . '/' . Http::post('name_current') . '.yaml',
                                 PATH['menus'] . '/' . Http::post('name') . '.yaml')
                             ) {
-                                Notification::set('success', __('admin_message_menus_renamed'));
+                                Notification::set('success', __('admin_message_menu_renamed'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/menus');
                             }
                         }
@@ -85,7 +85,7 @@ class MenusManager
                     if (Token::check((Http::get('token')))) {
                         Filesystem::copy(PATH['menus'] . '/' . Http::get('menu') . '.yaml',
                                          PATH['menus'] . '/' . Http::get('menu') . '-duplicate-' . date("Ymd_His") . '.yaml');
-                        Notification::set('success', __('admin_message_entry_duplicated'));
+                        Notification::set('success', __('admin_message_menu_duplicated'));
                         Http::redirect(Http::getBaseUrl().'/admin/menus');
                     } else {
                         die('Request was denied because it contained an invalid security token. Please refresh the entry and try again.');

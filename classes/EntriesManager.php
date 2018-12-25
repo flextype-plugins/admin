@@ -45,7 +45,7 @@ class EntriesManager
 
                             // We need to check if template for current fieldset is exists
                             // if template is not exist then default template will be used!
-                            $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/templates/' . Http::post('fieldset') . '.php';
+                            $template_path = PATH['themes'] . '/' . Registry::get('settings.theme') . '/views/templates/' . Http::post('fieldset') . '.php';
                             if (Filesystem::fileExists($template_path)) {
                                 $template = Http::post('fieldset');
                             } else {

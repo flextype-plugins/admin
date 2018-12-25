@@ -29,7 +29,16 @@ class FieldsetsManager
                             // Create a fieldset!
                             if (Filesystem::setFileContent(
                                   $file,
-                                  YamlParser::encode(['title' => Http::post('title')])
+                                  YamlParser::encode([
+                                                        'title' => Http::post('title'),
+                                                        'fields' => [
+                                                            'title' => [
+                                                                'title' => 'admin_title',
+                                                                'type'  => 'text',
+                                                                'size'  => 'col-12'
+                                                            ]
+                                                         ]
+                                                      ])
                             )) {
                                 Notification::set('success', __('admin_message_fieldset_created'));
                                 Http::redirect(Http::getBaseUrl() . '/admin/fieldsets');

@@ -43,7 +43,7 @@
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/rename?snippet=<?= basename($snippet, '.php') ?>"><?= __('admin_entries_rename') ?></a>
-                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/duplicate?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_clone') ?></a>
+                    <a class="dropdown-item" href="<?= Http::getBaseUrl() ?>/admin/snippets/duplicate?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_duplicate') ?></a>
                   </div>
                 </div>
                 <a class="btn btn-default" href="<?= Http::getBaseUrl() ?>/admin/snippets/delete?snippet=<?= basename($snippet, '.php') ?>&token=<?= Token::generate() ?>"><?= __('admin_entries_delete') ?></a>

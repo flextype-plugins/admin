@@ -318,7 +318,7 @@ class EntriesManager
             default:
                 if (!Http::get('add')) {
                     Themes::view('admin/views/templates/content/entries/list')
-                        ->assign('entries_list', Entries::getEntries($query, false, 'slug', 'ASC', null, null, false))
+                        ->assign('entries_list', Entries::getEntries($query, false, 'date', 'DESC', null, null, false))
                         ->display();
                 }
             break;

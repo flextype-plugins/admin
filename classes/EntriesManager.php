@@ -97,7 +97,7 @@ class EntriesManager
 
                 Themes::view('admin/views/templates/content/entries/add')
                     ->assign('fieldsets', Themes::getFieldsets())
-                    ->assign('entries_list', Entries::getEntries('', false, 'slug'))
+                    ->assign('entries_list', Entries::getEntries('', 'slug'))
                     ->display();
             break;
             case 'delete':
@@ -214,7 +214,7 @@ class EntriesManager
                     }
                 }
 
-                $_entries_list = Entries::getEntries('', false, 'slug');
+                $_entries_list = Entries::getEntries('', 'slug');
                 $entries_list['/'] = '/';
                 foreach ($_entries_list as $_entry) {
                     if ($_entry['slug'] != '') {
@@ -318,7 +318,7 @@ class EntriesManager
             default:
                 if (!Http::get('add')) {
                     Themes::view('admin/views/templates/content/entries/list')
-                        ->assign('entries_list', Entries::getEntries($query, false, 'date', 'DESC', null, null, false))
+                        ->assign('entries_list', Entries::getEntries($query, 'date', 'DESC'))
                         ->display();
                 }
             break;

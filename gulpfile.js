@@ -27,15 +27,15 @@ const tailwindConfig = "tailwind.config.js";
          cascade: false
      }))
      .pipe(csso())
-     .pipe(concat('vendor-build.min.css'))
+     .pipe(concat('admin-vendor-build.min.css'))
      .pipe(gulp.dest("assets/dist/css/"));
  });
 
 
 /**
- * Task: gulp admin-panel-css
+ * Task: gulp admin-css
  */
-gulp.task("admin-panel-css", function() {
+gulp.task("admin-css", function() {
   const atimport = require("postcss-import");
   const postcss = require("gulp-postcss");
   const tailwindcss = require("tailwindcss");
@@ -46,9 +46,7 @@ gulp.task("admin-panel-css", function() {
   const autoprefixer = require('gulp-autoprefixer');
 
   return gulp
-    .src([
-           // Admin Panel CSS
-          'assets/src/admin-panel.css'])
+    .src(['assets/src/admin-panel.css'])
     .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
     .pipe(
       purgecss({
@@ -70,7 +68,7 @@ gulp.task("admin-panel-css", function() {
         cascade: false
     }))
     .pipe(csso())
-    .pipe(concat('admin-panel-build.min.css'))
+    .pipe(concat('admin-build.min.css'))
     .pipe(gulp.dest("assets/dist/css/"));
 });
 
@@ -112,7 +110,7 @@ gulp.task("admin-panel-css", function() {
                     'node_modules/codemirror/mode/yaml/yaml.js'
                  ])
      .pipe(sourcemaps.init())
-     .pipe(concat('admin-panel-build.min.js'))
+     .pipe(concat('admin-vendor-build.min.js'))
      .pipe(sourcemaps.write())
      .pipe(gulp.dest('assets/dist/js/'));
  });
@@ -121,12 +119,12 @@ gulp.task("admin-panel-css", function() {
  * Task: gulp default
  */
 gulp.task('default', gulp.series(
-    'vendor-css', 'admin-panel-css', 'vendor-js'
+    'vendor-css', 'admin-css', 'vendor-js'
 ));
 
 /**
  * Task: gulp watch
  */
 gulp.task('watch', function () {
-    gulp.watch(["templates/**/*.html", "assets/src/"], gulp.series('vendor-css', 'admin-panel-css'));
+    gulp.watch(["templates/**/*.html", "assets/src/"], gulp.series('vendor-css', 'admin-css'));
 });

@@ -1,3 +1,4 @@
+/* purgecss start ignore */
 .icon > svg
 {
     font-size: inherit;
@@ -48,3 +49,4 @@
     width: 5rem;
     height: 5rem;
 }
+/* purgecss end ignore */

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ registry.settings.locale }}">
+<html lang="{{ registry.get('flextype.locale') }}">
     <head>
         {% block head %}
             <meta charset="utf-8">
@@ -15,17 +15,12 @@
 
             <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-            {% set vendor_build_css = url() ~ '/site/plugins/admin/assets/dist/css/vendor-build.min.css' %}
-            {% set admin_panel_build_css = url() ~ '/site/plugins/admin/assets/dist/css/admin-panel-build.min.css' %}
-            {% do
-                assets.add('css', vendor_build_css, 'admin', 1) %}
-            {% do
-                assets.add('css', admin_panel_build_css, 'admin', 2) %}
+            {% set theme = registry.get('plugins.site.settings.theme') %}
 
-            {% for assets_admin in assets.get('css', 'admin') %}
-                {% for assets_by_priorities in assets_admin %}
-                    <link href="{{ assets_by_priorities.asset }}" rel="stylesheet">
-                {% endfor %}
+            {% for css in registry.get('assets.admin.css') %}
+                {% if css %}
+                    <link href="{{ url() }}/{{ css }}" rel="stylesheet">
+                {% endif %}
             {% endfor %}
 
             {% do
@@ -60,34 +55,42 @@
                             </form>
                         </div>
                     </li>
-                    {% for key, item in registry.plugins.admin.settings.navigation.content %}
-                        <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
-                            </a>
-                        </li>
-                    {% endfor %}
-                    {% for key, item in registry.plugins.admin.settings.navigation.extends %}
-                        <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
-                            </a>
-                        </li>
-                    {% endfor %}
-                    {% for key, item in registry.plugins.admin.settings.navigation.system %}
-                        <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
-                            </a>
-                        </li>
-                    {% endfor %}
-                    {% for key, item in registry.plugins.admin.settings.navigation.information %}
-                        <li>
-                            <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                <i class="icon icon--white">{{ icon(item.icon) }}</i>
-                            </a>
-                        </li>
-                    {% endfor %}
+                    {% if registry.has('plugins.admin.settings.navigation.system') %}
+                        {% for key, item in registry.get('plugins.admin.settings.navigation.content') %}
+                            <li>
+                                <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                    <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if registry.has('plugins.admin.settings.navigation.system') %}
+                        {% for key, item in registry.get('plugins.admin.settings.navigation.extends') %}
+                            <li>
+                                <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                    <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if registry.has('plugins.admin.settings.navigation.system') %}
+                        {% for key, item in registry.get('plugins.admin.settings.navigation.system') %}
+                            <li>
+                                <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                    <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if registry.has('plugins.admin.settings.navigation.information') %}
+                        {% for key, item in registry.get('plugins.admin.settings.navigation.information') %}
+                            <li>
+                                <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
+                                    <i class="icon icon--white">{{ icon(item.icon) }}</i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
             </nav>
             <div class="content {% if not is_logged %}w-full max-w-full m-0{% endif %}">
@@ -254,14 +257,11 @@
                 </div>
             </div>
         </main>
-
-        {% set admin_panel_build_js = url() ~ '/site/plugins/admin/assets/dist/js/admin-panel-build.min.js' %}
-        {% do
-            assets.add('js', admin_panel_build_js, 'admin', 1) %}
-        {% for assets_admin in assets.get('js', 'admin') %}
-            {% for assets_by_priorities in assets_admin %}
-                <script type="text/javascript" src="{{ assets_by_priorities.asset }}"></script>
-            {% endfor %}
+        
+        {% for js in registry.get('assets.admin.js') %}
+            {% if js %}
+                <script type="text/javascript" src="{{ url() }}/{{ js }}"></script>
+            {% endif %}
         {% endfor %}
 
         {% include "plugins/admin/templates/partials/modules/codemirror.html" %}

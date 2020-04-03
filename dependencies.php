@@ -31,6 +31,21 @@ $flextype->twig->addExtension(new GlobalVarsAdminTwigExtension($flextype));
 $flextype->twig->addExtension(new FlashTwigExtension($flextype));
 
 /**
+ * Add Assets
+ */
+$_admin_css = ($flextype['registry']->has('assets.admin.css')) ? $flextype['registry']->get('assets.admin.css') : [];
+$_admin_js  = ($flextype['registry']->has('assets.admin.js')) ? $flextype['registry']->get('assets.admin.js') : [];
+
+$flextype['registry']->set('assets.admin.css',
+                           array_merge($_admin_css,
+                           ['site/plugins/admin/assets/dist/css/admin-vendor-build.min.css',
+                            'site/plugins/admin/assets/dist/css/admin-build.min.css']));
+
+$flextype['registry']->set('assets.admin.js',
+                       array_merge($_admin_js,
+                       ['site/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
+
+/**
  * Add flash service to Flextype container
  */
 $flextype['flash'] = static function ($container) {

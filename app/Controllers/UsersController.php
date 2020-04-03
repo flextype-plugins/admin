@@ -60,7 +60,7 @@ class UsersController extends Container
     {
         $data = $request->getParsedBody();
 
-        if (Filesystem::has($_user_file = PATH['accounts'] . '/' . $data['username'] . '/profile.yaml')) {
+        if (Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $data['username'] . '/profile.yaml')) {
             $user_file = $this->parser->decode(Filesystem::read($_user_file), 'yaml', false);
             if (password_verify(trim($data['password']), $user_file['hashed_password'])) {
                 Session::set('username', $user_file['username']);
@@ -115,7 +115,7 @@ class UsersController extends Container
         // Get POST data
         $data = $request->getParsedBody();
 
-        if (! Filesystem::has($_user_file = PATH['accounts'] . '/' . $this->slugify->slugify($data['username']) . '/profile.yaml')) {
+        if (! Filesystem::has($_user_file = PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '/profile.yaml')) {
             // Generate UUID
             $uuid = Uuid::uuid4()->toString();
 
@@ -123,11 +123,11 @@ class UsersController extends Container
             $time = date($this->registry->get('flextype.date_format'), time());
 
             // Create accounts directory and account
-            Filesystem::createDir(PATH['accounts'] . '/' . $this->slugify->slugify($data['username']));
+            Filesystem::createDir(PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']));
 
             // Create admin account
             if (Filesystem::write(
-                PATH['accounts'] . '/' . $this->slugify->slugify($data['username']) . '/profile.yaml',
+                PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']) . '/profile.yaml',
                 $this->parser->encode([
                     'username' => $this->slugify->slugify($data['username']),
                     'hashed_password' => password_hash($data['password'], PASSWORD_BCRYPT),
@@ -221,8 +221,8 @@ class UsersController extends Container
                 Filesystem::write($custom_flextype_settings_file_path, $this->parser->encode($custom_flextype_settings_file_data, 'yaml'));
 
                 // Create uploads dir for default entries
-                if (! Filesystem::has(PATH['uploads'] . '/entries/home/')) {
-                    Filesystem::createDir(PATH['uploads'] . '/entries/home/');
+                if (! Filesystem::has(PATH['site'] . '/uploads/entries/home/')) {
+                    Filesystem::createDir(PATH['site'] . '/uploads/entries/home/');
                 }
 
                 return $response->withRedirect($this->router->pathFor('admin.users.login'));
@@ -255,7 +255,7 @@ class UsersController extends Container
     public function getUsersList() : array
     {
         // Get Users Profiles
-        $users_list = Filesystem::listContents(PATH['accounts']);
+        $users_list = Filesystem::listContents(PATH['site'] . '/accounts');
 
         // Users
         $users = [];

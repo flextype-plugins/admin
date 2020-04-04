@@ -79,9 +79,7 @@ gulp.task("admin-css", function() {
    const sourcemaps = require('gulp-sourcemaps');
    const concat = require('gulp-concat');
 
-   return gulp.src([ // jQuery
-                    'node_modules/jquery/dist/jquery.min.js',
-
+   return gulp.src([
                     // Swal2
                     'node_modules/sweetalert2/dist/sweetalert2.min.js',
 

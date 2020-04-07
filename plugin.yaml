@@ -16,3 +16,4 @@ dependencies:
     twig: 1.0.0
     icon: 1.0.0
     form: 1.0.0
+    jquery: 1.0.0

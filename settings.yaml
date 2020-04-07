@@ -16,3 +16,6 @@ entries:
 
 # Admin plugin priority
 priority: 90
+
+# Admin flextype menu
+flextype_menu: []

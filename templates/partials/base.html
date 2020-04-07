@@ -212,6 +212,8 @@
                                 /
                                 <span class="pr-1 pl-1">{{ id }}</span>
                             {% endif %}
+
+                            {% block navigation_top_secondary %}{% endblock %}
                         </div>
 
                         {% if is_current_path('admin.entries.index') %}

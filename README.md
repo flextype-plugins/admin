@@ -1,4 +1,4 @@
-# Admin Panel Plugin for [Flextype](http://flextype.org/)
+<h1 align="center">Admin Panel Plugin for <a href="http://flextype.org/">Flextype</a></h1>
 
 ![preview](preview.png)
 

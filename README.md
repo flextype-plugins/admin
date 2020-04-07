@@ -1,5 +1,4 @@
 # Admin Panel Plugin for [Flextype](http://flextype.org/)
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
 ![preview](preview.png)
 

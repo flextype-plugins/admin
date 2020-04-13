@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 {% for key, token in tokens %}
-                    {% set token_file_path = PATH_TOKENS ~ '/delivery/images/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
+                    {% set token_file_path = PATH_SITE ~ '/tokens/delivery/images/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem_has(token_file_path) %}
                         {% set token_data = parser_decode(filesystem_read(token_file_path), 'yaml') %}
                     {% endif %}

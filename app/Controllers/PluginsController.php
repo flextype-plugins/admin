@@ -69,7 +69,7 @@ class PluginsController extends Container
         // Get data from the request
         $post_data = $request->getParsedBody();
 
-        $custom_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
+        $custom_plugin_settings_file = PATH['site'] . '/config/' . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
         $custom_plugin_settings_file_data = $this->parser->decode(Filesystem::read($custom_plugin_settings_file), 'yaml');
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
@@ -97,7 +97,7 @@ class PluginsController extends Container
         $id = $request->getQueryParams()['id'];
 
         // Set plugin custom manifest content
-        $custom_plugin_manifest_file = PATH['plugins'] . '/' . $id . '/plugin.yaml';
+        $custom_plugin_manifest_file = PATH['site'] . '/plugins/' . '/' . $id . '/plugin.yaml';
 
         // Get plugin custom manifest content
         $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
@@ -137,7 +137,7 @@ class PluginsController extends Container
         $id = $request->getQueryParams()['id'];
 
         // Set plugin custom setting file
-        $custom_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
+        $custom_plugin_settings_file = PATH['site'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
 
         // Get plugin custom setting file content
         $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
@@ -184,8 +184,8 @@ class PluginsController extends Container
         $id   = $post_data['id'];
         $data = $post_data['data'];
 
-        $custom_plugin_settings_dir  = PATH['config']['site'] . '/plugins/' . $id;
-        $custom_plugin_settings_file = PATH['config']['site'] . '/plugins/' . $id . '/settings.yaml';
+        $custom_plugin_settings_dir  = PATH['site'] . '/config/' . '/plugins/' . $id;
+        $custom_plugin_settings_file = PATH['site'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
 
         if (Filesystem::write($custom_plugin_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));

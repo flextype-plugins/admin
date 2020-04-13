@@ -695,8 +695,8 @@ class EntriesController extends Container
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
-            $entry['published_at'] = date($this->registry->get('flextype.date_format'), $entry['published_at']);
-            $entry['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
+            $entry['published_at'] = date($this->registry->get('flextype.settings.date_format'), $entry['published_at']);
+            $entry['created_at'] = date($this->registry->get('flextype.settings.date_format'), $entry['created_at']);
 
             return $this->twig->render(
                 $response,
@@ -878,15 +878,15 @@ class EntriesController extends Container
             Arr::delete($entry, 'modified_at');
 
             if (isset($data['created_at'])) {
-                $data['created_at'] = date($this->registry->get('flextype.date_format'), strtotime($data['created_at']));
+                $data['created_at'] = date($this->registry->get('flextype.settings.date_format'), strtotime($data['created_at']));
             } else {
-                $data['created_at'] = date($this->registry->get('flextype.date_format'), $entry['created_at']);
+                $data['created_at'] = date($this->registry->get('flextype.settings.date_format'), $entry['created_at']);
             }
 
             if (isset($data['published_at'])) {
-                $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), strtotime($data['published_at']));
+                $data['published_at'] = (string) date($this->registry->get('flextype.settings.date_format'), strtotime($data['published_at']));
             } else {
-                $data['published_at'] = (string) date($this->registry->get('flextype.date_format'), $entry['published_at']);
+                $data['published_at'] = (string) date($this->registry->get('flextype.settings.date_format'), $entry['published_at']);
             }
 
             if (isset($data['routable'])) {
@@ -1158,9 +1158,9 @@ class EntriesController extends Container
 
         if ($post_data['id'] == '') {
             $data = [];
-            $admin_plugin_settings = $this->parser->decode(Filesystem::read(PATH['config']['site'] . '/plugins/admin/settings.yaml'), 'yaml');
+            $admin_plugin_settings = $this->parser->decode(Filesystem::read(PATH['site'] . '/config/' . '/plugins/admin/settings.yaml'), 'yaml');
             $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
-            Filesystem::write(PATH['config']['site'] . '/plugins/admin/settings.yaml', $this->parser->encode($admin_plugin_settings, 'yaml'));
+            Filesystem::write(PATH['site'] . '/config/' . '/plugins/admin/settings.yaml', $this->parser->encode($admin_plugin_settings, 'yaml'));
         } else {
             $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
         }

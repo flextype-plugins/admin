@@ -26,11 +26,11 @@ class ApiDeliveryImagesController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['tokens'] . '/delivery/images/');
+        $tokens_list = Filesystem::listContents(PATH['site'] . '/tokens' . '/delivery/images/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['tokens'] . '/delivery/images/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['site'] . '/tokens' . '/delivery/images/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -117,7 +117,7 @@ class ApiDeliveryImagesController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['tokens'] . '/delivery/images/' . $api_token;
+        $api_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/images/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -128,7 +128,7 @@ class ApiDeliveryImagesController extends Container
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = date($this->registry->get('flextype.date_format'), time());
+            $time = date($this->registry->get('flextype.settings.date_format'), time());
 
             // Create API Token account
             if (Filesystem::write(
@@ -170,7 +170,7 @@ class ApiDeliveryImagesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->parser->decode(Filesystem::read(PATH['tokens'] . '/delivery/images/' . $token . '/token.yaml'), 'yaml');
+        $token_data = $this->parser->decode(Filesystem::read(PATH['site'] . '/tokens' . '/delivery/images/' . $token . '/token.yaml'), 'yaml');
 
         return $this->twig->render(
             $response,
@@ -213,7 +213,7 @@ class ApiDeliveryImagesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['tokens'] . '/delivery/images/' . $post_data['token'];
+        $api_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/images/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
@@ -230,7 +230,7 @@ class ApiDeliveryImagesController extends Container
                     'created_by' => $post_data['created_by'],
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
-                    'updated_at' => date($this->registry->get('flextype.date_format'), time()),
+                    'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
                 ], 'yaml')
             )) {
                 $this->flash->addMessage('success', __('admin_message_delivery_images_api_token_updated'));
@@ -253,7 +253,7 @@ class ApiDeliveryImagesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['tokens'] . '/delivery/images/' . $post_data['token'];
+        $api_token_dir_path = PATH['site'] . '/tokens' . '/delivery/images/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
             $this->flash->addMessage('success', __('admin_message_delivery_images_api_token_deleted'));

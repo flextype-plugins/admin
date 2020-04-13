@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ registry.get('flextype.locale') }}">
+<html lang="{{ registry.get('flextype.settings.locale') }}">
     <head>
         {% block head %}
             <meta charset="utf-8">
@@ -39,7 +39,7 @@
                             <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
                         </a>
                         <div id="dropdown-flextype-menu" class="dropdown">
-                            {% if(registry.has('plugins.admin.settings.flextype_menu') ) %}
+                            {% if(registry.has('plugins.admin.settings.flextype_menu')) %}
                                 {% for flextype_menu in registry.get('plugins.admin.settings.flextype_menu') %}
                                     <a class="dropdown__item"
                                        target="{% if (flextype_menu.link.is_external) %}_blank{% else %}_self{% endif %}"

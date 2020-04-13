@@ -120,7 +120,7 @@ class UsersController extends Container
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = date($this->registry->get('flextype.date_format'), time());
+            $time = date($this->registry->get('flextype.settings.date_format'), time());
 
             // Create accounts directory and account
             Filesystem::createDir(PATH['site'] . '/accounts/' . $this->slugify->slugify($data['username']));
@@ -143,7 +143,7 @@ class UsersController extends Container
 
                 // Create default entries delivery token
                 $api_delivery_entries_token = bin2hex(random_bytes(16));
-                $api_delivery_entries_token_dir_path  = PATH['tokens'] . '/delivery/entries/' . $api_delivery_entries_token;
+                $api_delivery_entries_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/entries/' . $api_delivery_entries_token;
                 $api_delivery_entries_token_file_path = $api_delivery_entries_token_dir_path . '/token.yaml';
 
                 if (! Filesystem::has($api_delivery_entries_token_dir_path)) Filesystem::createDir($api_delivery_entries_token_dir_path);
@@ -166,7 +166,7 @@ class UsersController extends Container
 
                 // Create default images delivery token
                 $api_delivery_images_token = bin2hex(random_bytes(16));
-                $api_delivery_images_token_dir_path  = PATH['tokens'] . '/delivery/images/' . $api_delivery_images_token;
+                $api_delivery_images_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/images/' . $api_delivery_images_token;
                 $api_delivery_images_token_file_path = $api_delivery_images_token_dir_path . '/token.yaml';
 
                 if (! Filesystem::has($api_delivery_images_token_dir_path)) Filesystem::createDir($api_delivery_images_token_dir_path);
@@ -189,7 +189,7 @@ class UsersController extends Container
 
                 // Create default registry delivery token
                 $api_delivery_registry_token = bin2hex(random_bytes(16));
-                $api_delivery_registry_token_dir_path  = PATH['tokens'] . '/delivery/registry/' . $api_delivery_registry_token;
+                $api_delivery_registry_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/registry/' . $api_delivery_registry_token;
                 $api_delivery_registry_token_file_path = $api_delivery_registry_token_dir_path . '/token.yaml';
 
                 if (! Filesystem::has($api_delivery_registry_token_dir_path)) Filesystem::createDir($api_delivery_registry_token_dir_path);
@@ -211,7 +211,7 @@ class UsersController extends Container
                 );
 
                 // Set Default API's tokens
-                $custom_flextype_settings_file_path = PATH['config']['site'] . '/settings.yaml';
+                $custom_flextype_settings_file_path = PATH['site'] . '/config/' . '/settings.yaml';
                 $custom_flextype_settings_file_data = $this->parser->decode(Filesystem::read($custom_flextype_settings_file_path), 'yaml');
 
                 $custom_flextype_settings_file_data['api']['images']['default_token']  = $api_delivery_images_token;

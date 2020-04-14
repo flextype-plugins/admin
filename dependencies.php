@@ -60,10 +60,6 @@ $flextype['SettingsController'] = static function ($container) {
     return new SettingsController($container);
 };
 
-$flextype['InformationController'] = static function ($container) {
-    return new InformationController($container);
-};
-
 $flextype['PluginsController'] = static function ($container) {
     return new PluginsController($container);
 };

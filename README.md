@@ -18,14 +18,21 @@ However, the amount of effort needed to maintain and develop new features for th
 
 ## Dependencies
 
+### System
+
 | Item | Version |
 |---|---|
 | [flextype](https://github.com/flextype/flextype) | 0.9.7 |
-| twig | 1.0.0 |
-| icon | 1.0.0 |
-| form | 1.0.0 |
-| form-admin | 1.0.0 |
-| jquery | 1.0.0 |
+
+### Plugins
+
+| Item | Version |
+|---|---|
+| [twig](https://github.com/flextype-plugins/twig) | 1.0.0 |
+| [icon](https://github.com/flextype-plugins/icon) | 1.0.0 |
+| [form](https://github.com/flextype-plugins/form) | 1.0.0 |
+| [form-admin](https://github.com/flextype-plugins/form-admin) | 1.0.0 |
+| [jquery](https://github.com/flextype-plugins/jquery) | 1.0.0 |
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)

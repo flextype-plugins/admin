@@ -30,8 +30,8 @@ The following dependencies need to be installed for Admin Panel Plugin.
 
 * Download & Install all required dependencies.
 * Download Admin Panel Plugin and unzip plugin to the folder /site/plugins/
-* Go to http://YOUR_SITE_URL/admin and create new user account.
+* Go to YOUR_SITE_URL/admin and create new user account.
 
 ## LICENSE
-[The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
+[The MIT License (MIT)](https://github.com/flextype-plugins/admin/blob/master/LICENSE.txt)
 Copyright (c) 2018-2020 [Sergey Romanenko](https://github.com/Awilum)

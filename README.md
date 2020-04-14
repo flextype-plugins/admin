@@ -16,6 +16,17 @@ However, the amount of effort needed to maintain and develop new features for th
 - [One-time donation via PayPal, QIWI, Sberbank, Yandex](http://flextype.org/en/one-time-donation)
 - [Visit our Sponsors & Backers page](http://flextype.org/en/sponsors)
 
+## Dependencies
+
+| Item | Version |
+|---|---|
+| [flextype](https://github.com/flextype/flextype) | 0.9.7 |
+| twig | 1.0.0 |
+| icon | 1.0.0 |
+| form | 1.0.0 |
+| form-admin | 1.0.0 |
+| jquery | 1.0.0 |
+
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)
 Copyright (c) 2018-2020 [Sergey Romanenko](https://github.com/Awilum)

@@ -282,8 +282,8 @@ class EntriesController extends Container
 
                 if ($this->entries->create($id, $data_result)) {
 
-                    if (! Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
-                        Filesystem::createDir(PATH['uploads'] . '/entries/' . $id);
+                    if (! Filesystem::has(PATH['site'] . '/uploads' . '/entries/' . $id)) {
+                        Filesystem::createDir(PATH['site'] . '/uploads' . '/entries/' . $id);
                     }
 
                     $this->clearEntryCounter($parent_entry_id);
@@ -507,7 +507,7 @@ class EntriesController extends Container
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                rename(PATH['uploads'] . '/entries/' . $data['entry_id_path_current'], PATH['uploads'] . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+                rename(PATH['site'] . '/uploads' . '/entries/' . $data['entry_id_path_current'], PATH['site'] . '/uploads' . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -590,7 +590,7 @@ class EntriesController extends Container
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $name)
         ) {
-            rename(PATH['uploads'] . '/entries/' . $data['entry_path_current'], PATH['uploads'] . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
+            rename(PATH['site'] . '/uploads' . '/entries/' . $data['entry_path_current'], PATH['site'] . '/uploads' . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
@@ -617,7 +617,7 @@ class EntriesController extends Container
 
         if ($this->entries->delete($id)) {
 
-            Filesystem::deleteDir(PATH['uploads'] . '/entries/' . $id);
+            Filesystem::deleteDir(PATH['site'] . '/uploads' . '/entries/' . $id);
 
             $this->clearEntryCounter($id_current);
 
@@ -648,10 +648,10 @@ class EntriesController extends Container
 
         $this->entries->copy($id, $id . '-duplicate-' . $random_date, true);
 
-        if (Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
-            Filesystem::copy(PATH['uploads'] . '/entries/' . $id, PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date, true);
+        if (Filesystem::has(PATH['site'] . '/uploads' . '/entries/' . $id)) {
+            Filesystem::copy(PATH['site'] . '/uploads' . '/entries/' . $id, PATH['site'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date, true);
         } else {
-            Filesystem::createDir(PATH['uploads'] . '/entries/' . $id . '-duplicate-' . $random_date);
+            Filesystem::createDir(PATH['site'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         }
 
         $this->clearEntryCounter($parent_id);
@@ -926,7 +926,7 @@ class EntriesController extends Container
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['uploads'] . '/entries/' . $entry_id . '/' . $media_id;
+        $files_directory = PATH['site'] . '/uploads' . '/entries/' . $entry_id . '/' . $media_id;
 
         Filesystem::delete($files_directory);
 
@@ -949,7 +949,7 @@ class EntriesController extends Container
 
         $id = $data['entry-id'];
 
-        $files_directory = PATH['uploads'] . '/entries/' . $id . '/';
+        $files_directory = PATH['site'] . '/uploads' . '/entries/' . $id . '/';
 
         $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), 27000000);
 
@@ -1125,11 +1125,11 @@ class EntriesController extends Container
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
 
-        if (!Filesystem::has(PATH['uploads'] . '/entries/' . $id)) {
-            Filesystem::createDir(PATH['uploads'] . '/entries/' . $id);
+        if (!Filesystem::has(PATH['site'] . '/uploads' . '/entries/' . $id)) {
+            Filesystem::createDir(PATH['site'] . '/uploads' . '/entries/' . $id);
         }
 
-        foreach (array_diff(scandir(PATH['uploads'] . '/entries/' . $id), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['site'] . '/uploads' . '/entries/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {

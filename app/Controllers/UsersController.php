@@ -214,9 +214,9 @@ class UsersController extends Container
                 $custom_flextype_settings_file_path = PATH['site'] . '/config/' . '/settings.yaml';
                 $custom_flextype_settings_file_data = $this->parser->decode(Filesystem::read($custom_flextype_settings_file_path), 'yaml');
 
-                $custom_flextype_settings_file_data['api']['images']['default_token']  = $api_delivery_images_token;
-                $custom_flextype_settings_file_data['api']['entries']['default_token'] = $api_delivery_entries_token;
-                $custom_flextype_settings_file_data['api']['registry']['default_token'] = $api_delivery_registry_token;
+                $custom_flextype_settings_file_data['api']['delivery']['images']['default_token']   = $api_delivery_images_token;
+                $custom_flextype_settings_file_data['api']['delivery']['entries']['default_token']  = $api_delivery_entries_token;
+                $custom_flextype_settings_file_data['api']['delivery']['registry']['default_token'] = $api_delivery_registry_token;
 
                 Filesystem::write($custom_flextype_settings_file_path, $this->parser->encode($custom_flextype_settings_file_data, 'yaml'));
 

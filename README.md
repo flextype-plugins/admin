@@ -22,19 +22,19 @@ The following dependencies need to be installed for Admin Panel Plugin.
 
 ### System
 
-| Item | Version |
-|---|---|
-| [flextype](https://github.com/flextype/flextype) | 0.9.7 |
+| Item | Version | Download |
+|---|---|---|
+| [flextype](https://github.com/flextype/flextype) | 0.9.7 | [download](https://github.com/flextype/flextype/releases/download/v0.9.7/flextype-0.9.7.zip) |
 
 ### Plugins
 
-| Item | Version |
-|---|---|
-| [twig](https://github.com/flextype-plugins/twig) | 1.0.0 |
-| [icon](https://github.com/flextype-plugins/icon) | 1.0.0 |
-| [form](https://github.com/flextype-plugins/form) | 1.0.0 |
-| [form-admin](https://github.com/flextype-plugins/form-admin) | 1.0.0 |
-| [jquery](https://github.com/flextype-plugins/jquery) | 1.0.0 |
+| Item | Version | Download |
+|---|---|---|
+| [twig](https://github.com/flextype-plugins/twig) | 1.0.0 | [download](https://github.com/flextype-plugins/twig/releases/download/v1.0.0/twig-1.0.0.zip) |
+| [icon](https://github.com/flextype-plugins/icon) | 1.0.0 | [download](https://github.com/flextype-plugins/icon/releases/download/v1.0.0/icon-1.0.0.zip) |
+| [form](https://github.com/flextype-plugins/form) | 1.0.0 | [download](https://github.com/flextype-plugins/form/releases/download/v1.0.0/form-1.0.0.zip) |
+| [form-admin](https://github.com/flextype-plugins/form-admin) | 1.0.0 | [download](https://github.com/flextype-plugins/form-admin/releases/download/v1.0.0/form-admin-1.0.0.zip) |
+| [jquery](https://github.com/flextype-plugins/jquery) | 1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases/download/v1.0.0/jquery-1.0.0.zip) |
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype/flextype/blob/master/LICENSE.txt)

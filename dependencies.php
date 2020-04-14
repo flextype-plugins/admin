@@ -27,7 +27,7 @@ $flextype->registry->set('plugins.admin.settings.navigation.system.api', ['title
 // Add Global Vars Admin Twig Extension
 $flextype->twig->addExtension(new GlobalVarsAdminTwigExtension($flextype));
 
-//
+// Add Flash Twig Extension
 $flextype->twig->addExtension(new FlashTwigExtension($flextype));
 
 /**
@@ -48,7 +48,7 @@ $flextype['registry']->set('assets.admin.js',
 /**
  * Add flash service to Flextype container
  */
-$flextype['flash'] = static function ($container) {
+$flextype['flash'] = static function () {
     return new Messages();
 };
 

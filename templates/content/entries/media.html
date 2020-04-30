@@ -41,7 +41,7 @@
                 {% set index = loop.index0 %}
                 <tr
                     id="file_{{ index }}"
-                    data-direct-link="{{ url() }}/site/uploads/entries/{{ id }}/{{ filesystem_basename(file) }}"
+                    data-direct-link="{{ url() }}/project/uploads/entries/{{ id }}/{{ filesystem_basename(file) }}"
                     {% if (filesystem_ext(file) in allowed_image_files) %}
                     data-delivery-images-api-link-state="true"
                     data-delivery-images-api-link="{{ url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.get('flextype.settings.api.delivery.images.default_token') }}"

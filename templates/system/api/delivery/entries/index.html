@@ -19,9 +19,9 @@
             </thead>
             <tbody>
                 {% for key, token in tokens %}
-                    {% set token_file_path = PATH_SITE ~ '/tokens/delivery/entries/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
+                    {% set token_file_path = PATH_PROJECT ~ '/tokens/delivery/entries/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem_has(token_file_path) %}
-                        {% set token_data = parser_decode(filesystem_read(token_file_path), 'yaml') %}
+                        {% set token_data = serializer_decode(filesystem_read(token_file_path), 'yaml') %}
                     {% endif %}
                     <tr>
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">

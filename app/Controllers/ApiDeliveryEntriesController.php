@@ -26,11 +26,11 @@ class ApiDeliveryEntriesController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['site'] . '/tokens' . '/delivery/entries/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/delivery/entries/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['site'] . '/tokens' . '/delivery/entries/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/delivery/entries/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -117,7 +117,7 @@ class ApiDeliveryEntriesController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/entries/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/entries/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -133,7 +133,7 @@ class ApiDeliveryEntriesController extends Container
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->parser->encode([
+                $this->serializer->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -170,7 +170,7 @@ class ApiDeliveryEntriesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->parser->decode(Filesystem::read(PATH['site'] . '/tokens' . '/delivery/entries/' . $token . '/token.yaml'), 'yaml');
+        $token_data = $this->serializer->decode(Filesystem::read(PATH['project'] . '/tokens' . '/delivery/entries/' . $token . '/token.yaml'), 'yaml');
 
         return $this->twig->render(
             $response,
@@ -213,14 +213,14 @@ class ApiDeliveryEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['site'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->parser->encode([
+                $this->serializer->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -253,7 +253,7 @@ class ApiDeliveryEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['site'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
             $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_deleted'));

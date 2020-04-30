@@ -69,13 +69,13 @@ class EntriesController extends Container
         $fieldsets = [];
 
         // Get fieldsets files
-        $fieldsets_list = Filesystem::listContents(PATH['site'] . '/fieldsets/');
+        $fieldsets_list = Filesystem::listContents(PATH['project'] . '/fieldsets/');
 
         // If there is any fieldset file then go...
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) &&
                         isset($fieldset_content['sections']['main']) &&
                         isset($fieldset_content['sections']['main']['form']['fields']) &&
@@ -231,8 +231,8 @@ class EntriesController extends Container
 
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then `default` template will be used!
-                $template_path = PATH['themes'] . '/' . $this->registry->get('flextype.theme') . '/templates/' . $data['fieldset'] . '.html';
-                $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
+                //$template_path = PATH['themes'] . '/' . $this->registry->get('flextype.theme') . '/templates/' . $data['fieldset'] . '.html';
+                //$template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
 
                 // Init entry data
                 $data_from_post          = [];
@@ -241,7 +241,7 @@ class EntriesController extends Container
 
                 // Define data values based on POST data
                 $data_from_post['title']      = $data['title'];
-                $data_from_post['template']   = $template;
+                //$data_from_post['template']   = $template;
                 $data_from_post['fieldset']   = $data['fieldset'];
                 $data_from_post['visibility'] = $data['visibility'];
                 $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
@@ -282,8 +282,8 @@ class EntriesController extends Container
 
                 if ($this->entries->create($id, $data_result)) {
 
-                    if (! Filesystem::has(PATH['site'] . '/uploads' . '/entries/' . $id)) {
-                        Filesystem::createDir(PATH['site'] . '/uploads' . '/entries/' . $id);
+                    if (! Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
+                        Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id);
                     }
 
                     $this->clearEntryCounter($parent_entry_id);
@@ -330,13 +330,13 @@ class EntriesController extends Container
         $fieldsets = [];
 
         // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['site'] . '/fieldsets/');
+        $_fieldsets = Filesystem::listContents(PATH['project'] . '/fieldsets/');
 
-        // If there is any template file then go...
+        // If there is any fieldsets file then go...
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->parser->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) &&
                         isset($fieldset_content['sections']['main']) &&
                         isset($fieldset_content['sections']['main']['fields']) &&
@@ -507,7 +507,7 @@ class EntriesController extends Container
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                rename(PATH['site'] . '/uploads' . '/entries/' . $data['entry_id_path_current'], PATH['site'] . '/uploads' . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+                rename(PATH['project'] . '/uploads' . '/entries/' . $data['entry_id_path_current'], PATH['project'] . '/uploads' . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -590,7 +590,7 @@ class EntriesController extends Container
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $name)
         ) {
-            rename(PATH['site'] . '/uploads' . '/entries/' . $data['entry_path_current'], PATH['site'] . '/uploads' . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
+            rename(PATH['project'] . '/uploads' . '/entries/' . $data['entry_path_current'], PATH['project'] . '/uploads' . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
@@ -617,7 +617,7 @@ class EntriesController extends Container
 
         if ($this->entries->delete($id)) {
 
-            Filesystem::deleteDir(PATH['site'] . '/uploads' . '/entries/' . $id);
+            Filesystem::deleteDir(PATH['project'] . '/uploads' . '/entries/' . $id);
 
             $this->clearEntryCounter($id_current);
 
@@ -648,10 +648,10 @@ class EntriesController extends Container
 
         $this->entries->copy($id, $id . '-duplicate-' . $random_date, true);
 
-        if (Filesystem::has(PATH['site'] . '/uploads' . '/entries/' . $id)) {
-            Filesystem::copy(PATH['site'] . '/uploads' . '/entries/' . $id, PATH['site'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date, true);
+        if (Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
+            Filesystem::copy(PATH['project'] . '/uploads' . '/entries/' . $id, PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date, true);
         } else {
-            Filesystem::createDir(PATH['site'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
+            Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         }
 
         $this->clearEntryCounter($parent_id);
@@ -690,8 +690,8 @@ class EntriesController extends Container
         Arr::delete($entry, 'modified_at');
 
         // Fieldsets for current entry template
-        $fieldsets_path = PATH['site'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = $this->parser->decode(Filesystem::read($fieldsets_path), 'yaml');
+        $fieldsets_path = PATH['project'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
+        $fieldsets = $this->serializer->decode(Filesystem::read($fieldsets_path), 'yaml');
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -706,7 +706,7 @@ class EntriesController extends Container
                         'i' => count($parts),
                         'last' => Arr::last($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => $this->parser->encode($entry, 'frontmatter'),
+                        'data' => $this->serializer->encode($entry, 'frontmatter'),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -844,7 +844,7 @@ class EntriesController extends Container
             // Data from POST
             $data = $request->getParsedBody();
 
-            $entry = $this->parser->decode($data['data'], 'frontmatter');
+            $entry = $this->serializer->decode($data['data'], 'frontmatter');
 
             $entry['published_by'] = Session::get('uuid');
 
@@ -852,7 +852,7 @@ class EntriesController extends Container
             Arr::delete($entry, 'modified_at');
 
             // Update entry
-            if (Filesystem::write(PATH['entries'] . '/' . $id . '/entry.md', $this->parser->encode($entry, 'frontmatter'))) {
+            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', $this->serializer->encode($entry, 'frontmatter'))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
@@ -926,7 +926,7 @@ class EntriesController extends Container
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['site'] . '/uploads' . '/entries/' . $entry_id . '/' . $media_id;
+        $files_directory = PATH['project'] . '/uploads' . '/entries/' . $entry_id . '/' . $media_id;
 
         Filesystem::delete($files_directory);
 
@@ -949,7 +949,7 @@ class EntriesController extends Container
 
         $id = $data['entry-id'];
 
-        $files_directory = PATH['site'] . '/uploads' . '/entries/' . $id . '/';
+        $files_directory = PATH['project'] . '/uploads' . '/entries/' . $id . '/';
 
         $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), 27000000);
 
@@ -1125,11 +1125,11 @@ class EntriesController extends Container
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
 
-        if (!Filesystem::has(PATH['site'] . '/uploads' . '/entries/' . $id)) {
-            Filesystem::createDir(PATH['site'] . '/uploads' . '/entries/' . $id);
+        if (!Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
+            Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id);
         }
 
-        foreach (array_diff(scandir(PATH['site'] . '/uploads' . '/entries/' . $id), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['project'] . '/uploads' . '/entries/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
@@ -1158,9 +1158,9 @@ class EntriesController extends Container
 
         if ($post_data['id'] == '') {
             $data = [];
-            $admin_plugin_settings = $this->parser->decode(Filesystem::read(PATH['site'] . '/config/' . '/plugins/admin/settings.yaml'), 'yaml');
+            $admin_plugin_settings = $this->serializer->decode(Filesystem::read(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml'), 'yaml');
             $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
-            Filesystem::write(PATH['site'] . '/config/' . '/plugins/admin/settings.yaml', $this->parser->encode($admin_plugin_settings, 'yaml'));
+            Filesystem::write(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml', $this->serializer->encode($admin_plugin_settings, 'yaml'));
         } else {
             $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
         }

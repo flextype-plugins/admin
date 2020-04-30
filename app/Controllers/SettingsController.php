@@ -37,7 +37,7 @@ class SettingsController extends Container
             $response,
             'plugins/admin/templates/system/settings/index.html',
             [
-                'data' => Filesystem::read(PATH['site'] . '/config/' . '/settings.yaml'),
+                'data' => Filesystem::read(PATH['project'] . '/config/' . '/settings.yaml'),
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [
@@ -67,7 +67,7 @@ class SettingsController extends Container
     {
         $post_data = $request->getParsedBody();
 
-        if (Filesystem::write(PATH['site'] . '/config/' . '/settings.yaml', $post_data['data'])) {
+        if (Filesystem::write(PATH['project'] . '/config/' . '/settings.yaml', $post_data['data'])) {
             $this->flash->addMessage('success', __('admin_message_settings_saved'));
         } else {
             $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));

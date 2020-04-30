@@ -69,14 +69,14 @@ class PluginsController extends Container
         // Get data from the request
         $post_data = $request->getParsedBody();
 
-        $custom_plugin_settings_file = PATH['site'] . '/config/' . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $custom_plugin_settings_file_data = $this->parser->decode(Filesystem::read($custom_plugin_settings_file), 'yaml');
+        $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
+        $custom_plugin_settings_file_data = $this->serializer->decode(Filesystem::read($custom_plugin_settings_file), 'yaml');
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
 
         Arr::set($custom_plugin_settings_file_data, 'enabled', $status);
 
-        Filesystem::write($custom_plugin_settings_file, $this->parser->encode($custom_plugin_settings_file_data, 'yaml'));
+        Filesystem::write($custom_plugin_settings_file, $this->serializer->encode($custom_plugin_settings_file_data, 'yaml'));
 
         // Clear doctrine cache
         $this->cache->clear('doctrine');
@@ -97,7 +97,7 @@ class PluginsController extends Container
         $id = $request->getQueryParams()['id'];
 
         // Set plugin custom manifest content
-        $custom_plugin_manifest_file = PATH['site'] . '/plugins/' . '/' . $id . '/plugin.yaml';
+        $custom_plugin_manifest_file = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
 
         // Get plugin custom manifest content
         $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
@@ -108,7 +108,7 @@ class PluginsController extends Container
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => $this->parser->decode($custom_plugin_manifest_file_content, 'yaml'),
+                'plugin_manifest' => $this->serializer->decode($custom_plugin_manifest_file_content, 'yaml'),
                 'links' =>  [
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),
@@ -137,7 +137,7 @@ class PluginsController extends Container
         $id = $request->getQueryParams()['id'];
 
         // Set plugin custom setting file
-        $custom_plugin_settings_file = PATH['site'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
+        $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
 
         // Get plugin custom setting file content
         $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
@@ -184,8 +184,8 @@ class PluginsController extends Container
         $id   = $post_data['id'];
         $data = $post_data['data'];
 
-        $custom_plugin_settings_dir  = PATH['site'] . '/config/' . '/plugins/' . $id;
-        $custom_plugin_settings_file = PATH['site'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
+        $custom_plugin_settings_dir  = PATH['project'] . '/config/' . '/plugins/' . $id;
+        $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
 
         if (Filesystem::write($custom_plugin_settings_file, $data)) {
             $this->flash->addMessage('success', __('admin_message_plugin_settings_saved'));

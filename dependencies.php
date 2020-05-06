@@ -38,12 +38,12 @@ $_admin_js  = ($flextype['registry']->has('assets.admin.js')) ? $flextype['regis
 
 $flextype['registry']->set('assets.admin.css',
                            array_merge($_admin_css,
-                           ['site/plugins/admin/assets/dist/css/admin-vendor-build.min.css',
-                            'site/plugins/admin/assets/dist/css/admin-build.min.css']));
+                           ['project/plugins/admin/assets/dist/css/admin-vendor-build.min.css',
+                            'project/plugins/admin/assets/dist/css/admin-build.min.css']));
 
 $flextype['registry']->set('assets.admin.js',
                        array_merge($_admin_js,
-                       ['site/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
+                       ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
 
 /**
  * Add flash service to Flextype container

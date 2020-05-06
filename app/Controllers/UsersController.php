@@ -164,15 +164,15 @@ class UsersController extends Container
                     ], 'yaml')
                 );
 
-                // Create default images delivery token
-                $api_delivery_images_token = bin2hex(random_bytes(16));
-                $api_delivery_images_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/images/' . $api_delivery_images_token;
-                $api_delivery_images_token_file_path = $api_delivery_images_token_dir_path . '/token.yaml';
+                // Create default images token
+                $api_images_token = bin2hex(random_bytes(16));
+                $api_images_token_dir_path  = PATH['project'] . '/tokens' . '/images/' . $api_images_token;
+                $api_images_token_file_path = $api_images_token_dir_path . '/token.yaml';
 
-                if (! Filesystem::has($api_delivery_images_token_dir_path)) Filesystem::createDir($api_delivery_images_token_dir_path);
+                if (! Filesystem::has($api_images_token_dir_path)) Filesystem::createDir($api_images_token_dir_path);
 
                 Filesystem::write(
-                    $api_delivery_images_token_file_path,
+                    $api_images_token_file_path,
                     $this->serializer->encode([
                         'title' => 'Default',
                         'icon' => 'far fa-images',
@@ -214,7 +214,7 @@ class UsersController extends Container
                 $custom_flextype_settings_file_path = PATH['project'] . '/config/' . '/settings.yaml';
                 $custom_flextype_settings_file_data = $this->serializer->decode(Filesystem::read($custom_flextype_settings_file_path), 'yaml');
 
-                $custom_flextype_settings_file_data['api']['delivery']['images']['default_token']   = $api_delivery_images_token;
+                $custom_flextype_settings_file_data['api']['images']['default_token']               = $api_images_token;
                 $custom_flextype_settings_file_data['api']['delivery']['entries']['default_token']  = $api_delivery_entries_token;
                 $custom_flextype_settings_file_data['api']['delivery']['registry']['default_token'] = $api_delivery_registry_token;
 

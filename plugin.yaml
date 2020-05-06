@@ -11,10 +11,9 @@ bugs: https://github.com/flextype-plugins/admin/issues
 license: MIT
 
 dependencies:
-  flextype: 0.9.7
-  plugins:
-    twig: 1.0.0
-    icon: 1.0.0
-    form: 1.0.0
-    form-admin: 1.0.0
-    jquery: 1.0.0
+  flextype: 0.9.8
+  twig: '>=1.0.0'
+  icon: '>=1.0.0'
+  form: '>=1.0.0'
+  form-admin: '>=1.0.0'
+  jquery: '>=1.0.0'

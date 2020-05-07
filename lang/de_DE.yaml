@@ -293,7 +293,7 @@ admin_you_have_not_created_any_delivery_entries_api_tokens_yet: "Sie haben noch 
 admin_create_new_token: "Neuen Delivery-API-Token erstellen"
 admin_confirmation_required: "Bestätigung erforderlich"
 admin_confirmation_required_for_entry_delete: "Sind Sie sicher, dass Sie diesen Eintrag und die untergeordneten Einträge löschen möchten?"
-admin_confirmation_required_for_deactivate_system_plugin: "Sind Sie sicher, dass Sie das System-Plugin deaktivieren möchten?"
+admin_confirmation_required_for_deactivate_plugin: "Are you sure you want to deactivate this plugin?"
 admin_message_delivery_entries_api_token_updated: "Delivery-API-Token für Einträge aktualisiert."
 admin_message_delivery_entries_api_token_was_not_updated: "Delivery-API-Token für Einträge wurde nicht aktualisiert."
 admin_message_delivery_entries_api_token_created: "Delivery-API-Token für Einträge wurde erstellt."

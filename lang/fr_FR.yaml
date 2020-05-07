@@ -340,7 +340,7 @@ admin_installation_username_tip: "Caractères minuscules uniquement, par exemple
 admin_installation_email_tip: "Adresse e-mail valide"
 admin_installation_password_tip: "Le mot de passe doit contenir au moins 8 caractères, des lettres majuscules, des lettres minuscules, des caractères spéciaux et des chiffres."
 admin_direct_link: "Lien direct"
-admin_images_api_link: "Delivery Images Api Link"
+admin_images_api_link: "Images Api Link"
 admin_confirmation_required_for_file_delete: "Êtes-vous sûr de vouloir supprimer ce fichier ?"
 admin_you_have_not_upload_any_files_yet: "Vous n'avez pas encore téléchargé de fichiers."
 admin_selected_file: "Fichier sélectionné"

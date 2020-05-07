@@ -43,15 +43,15 @@
                     id="file_{{ index }}"
                     data-direct-link="{{ url() }}/project/uploads/entries/{{ id }}/{{ filesystem_basename(file) }}"
                     {% if (filesystem_ext(file) in allowed_image_files) %}
-                    data-delivery-images-api-link-state="true"
-                    data-delivery-images-api-link="{{ url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.get('flextype.settings.api.delivery.images.default_token') }}"
+                    data-images-api-link-state="true"
+                    data-images-api-link="{{ url() }}/api/images/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.get('flextype.settings.api.images.default_token') }}"
                     {% endif %}>
                     <td style="height: 64px;">
                         {{ filesystem_basename(file) }}
                     </td>
                     <td class="text-center flex justify-center" style="height: 64px;">
                         {% if (filesystem_ext(file) in allowed_image_files) %}
-                            <img src="{{ url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=64&q=70&dpr=2&token={{ registry.get('flextype.settings.api.delivery.images.default_token') }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
+                            <img src="{{ url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=64&q=70&dpr=2&token={{ registry.get('flextype.settings.api.images.default_token') }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
                         {% endif %}
                     </td>
                     <td class="text-right" style="height: 64px;">
@@ -105,9 +105,9 @@
             <label for="shortcode" class="form-control-title text-left">{{ tr('admin_direct_link') }}</label>
             <textarea class="js-direct-link form-control" style="height: 82px;"></textarea>
         </div>
-        <div class="form-group js-delivery-images-api-link-wrapper hidden">
-            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_delivery_images_api_link') }}</label>
-            <textarea class="js-delivery-images-api-link form-control" style="height: 82px;"></textarea>
+        <div class="form-group js-images-api-link-wrapper hidden">
+            <label for="shortcode" class="form-control-title text-left">{{ tr('admin_images_api_link') }}</label>
+            <textarea class="js-images-api-link form-control" style="height: 82px;"></textarea>
         </div>
     </div>
 {% endblock %}
@@ -137,11 +137,11 @@
                 showConfirmButton: false,
                 html: $('._embeded-code-template').html(),
                 onBeforeOpen: () => {
-                    $('.js-delivery-images-api-link-wrapper').addClass('hidden');
-                    const data = $('#file_' + row_num).attr('data-delivery-images-api-link-state');
+                    $('.js-images-api-link-wrapper').addClass('hidden');
+                    const data = $('#file_' + row_num).attr('data-images-api-link-state');
                     if (data === 'true') {
-                        $('.js-delivery-images-api-link-wrapper').removeClass('hidden');
-                        $('.js-delivery-images-api-link').val($('#file_' + row_num).attr('data-delivery-images-api-link'));
+                        $('.js-images-api-link-wrapper').removeClass('hidden');
+                        $('.js-images-api-link').val($('#file_' + row_num).attr('data-images-api-link'));
                     }
                     $('.js-direct-link').val($('#file_' + row_num).attr('data-direct-link'));
                 }

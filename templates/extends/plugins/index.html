@@ -52,17 +52,10 @@
                                     {{ tr('admin_settings') }}</a>
 
                                 {% if plugin.settings.enabled %}
-                                    {% if key == 'admin' or key == 'site' or key == 'form' or key == 'icon' %}
-                                        <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
-                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
-                                            {{ tr('admin_deactivate') }}
-                                        </a>
-                                    {% else %}
-                                        <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                            <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
-                                            {{ tr('admin_deactivate') }}
-                                        </a>
-                                    {% endif %}
+                                    <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
+                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
+                                        {{ tr('admin_deactivate') }}
+                                    </a>
                                 {% else %}
                                     <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
@@ -98,7 +91,7 @@
                 dropdown[row_num].hide();
             }
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_deactivate_system_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_deactivate_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('update-plugin-status-' + id).submit();

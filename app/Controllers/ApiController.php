@@ -32,19 +32,19 @@ class ApiController extends Container
                 'menu_item' => 'api',
                 'api_list' => [
                                 'delivery' => [
-                                  'title' => 'Delivery',
+                                  'title' => __('admin_delivery'),
                                   'icon' => 'fas fa-truck'
                                 ],
                                 'images' => [
-                                  'title' => 'Images',
+                                  'title' => __('admin_images'),
                                   'icon' => 'far fa-images'
                                 ],
                                 'management' => [
-                                  'title' => 'Management',
+                                  'title' => __('admin_management'),
                                   'icon' => 'fas fa-user-cog'
                                 ],
                                 'access' => [
-                                  'title' => 'Access',
+                                  'title' => __('admin_access'),
                                   'icon' => 'fas fa-user-shield'
                                 ],
                                ],

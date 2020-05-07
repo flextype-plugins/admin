@@ -10,8 +10,6 @@ Form Admin Plugin to manage user forms in Flextype Admin Panel.
 
 The following dependencies need to be installed for Form Admin Plugin.
 
-### System
-
 | Item | Version | Download |
 |---|---|---|
 | [flextype](https://github.com/flextype/flextype) | 0.9.8 | [download](https://github.com/flextype/flextype/releases) |

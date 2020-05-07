@@ -6,7 +6,7 @@
 
 Form Admin Plugin to manage user forms in Flextype Admin Panel.
 
-## DEPENDENCIES
+## Dependencies
 
 The following dependencies need to be installed for Form Admin Plugin.
 
@@ -22,11 +22,33 @@ The following dependencies need to be installed for Form Admin Plugin.
 | [jquery](https://github.com/flextype-plugins/jquery) | >=1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases) |
 | [icon](https://github.com/flextype-plugins/icon) | >=1.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
 
-## INSTALLATION
+## Installation
 
 1. Download & Install all required dependencies.
 2. Create new folder `/project/plugins/admin`
 3. Download Themes Admin Plugin and unzip plugin content to the folder `/project/plugins/admin`
+
+## Settings
+
+| Key | Value | Description |
+|---|---|---|
+| enabled | true | true or false to disable the plugin |
+| priority | 80 | admin plugin priority |
+| flextype_menu | [] | admin flextype menu |
+| route | admin | custom admin pane route |
+
+
+### Entries settings
+```
+entries:
+  items_view_default: list
+  slugify: true
+  media:
+    upload_images_quality: 70
+    upload_images_width: 1600
+    upload_images_height: 0
+    accept_file_types: gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg
+```
 
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype-plugins/admin/blob/master/LICENSE.txt)

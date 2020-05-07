@@ -293,7 +293,7 @@ admin_you_have_not_created_any_delivery_entries_api_tokens_yet: "Vous n'avez pas
 admin_create_new_token: "Créer un nouveau jeton"
 admin_confirmation_required: "Confirmation requise"
 admin_confirmation_required_for_entry_delete: "Êtes-vous sûr de vouloir supprimer cette entrée et tous ses enfants ?"
-admin_confirmation_required_for_deactivate_system_plugin: "Êtes-vous sûr de vouloir désactiver le plugin système?"
+admin_confirmation_required_for_deactivate_plugin: "Are you sure you want to deactivate this plugin?"
 admin_message_delivery_entries_api_token_updated: "Jeton de distribution pour les entrées mis à jour."
 admin_message_delivery_entries_api_token_was_not_updated: "Le jeton de livraison pour les entrées n'a pas été mis à jour."
 admin_message_delivery_entries_api_token_created: "Jeton de livraison pour les entrées créées."

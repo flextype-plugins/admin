@@ -194,7 +194,7 @@ class ApiDeliveryRegistryController extends Container
                     ],
                     'api_tokens_edit' => [
                         'link' => $this->router->pathFor('admin.api_delivery_registry.edit'),
-                        'title' => __('admin_edit_delivery_token'),
+                        'title' => __('admin_edit_token'),
                         'active' => true
                     ],
                 ]

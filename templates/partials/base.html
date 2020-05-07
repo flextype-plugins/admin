@@ -174,34 +174,112 @@
                                     <span class="pr-1 pl-1">entries</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_images.index') %}
+                            {% if is_current_path('admin.api_delivery_registry.index') %}
                                 /
                                 <a href="{{ path_for('admin.api_delivery.index') }}">
                                     <span class="pr-1 pl-1">delivery</span></a>
                                 /
-                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
-                                    <span class="pr-1 pl-1">images</span></a>
+                                <a href="{{ path_for('admin.api_delivery_registry.index') }}">
+                                    <span class="pr-1 pl-1">registry</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_images.edit') %}
+                            {% if is_current_path('admin.api_delivery_registry.edit') %}
                                 /
                                 <a href="{{ path_for('admin.api_delivery.index') }}">
                                     <span class="pr-1 pl-1">delivery</span></a>
                                 /
-                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
-                                    <span class="pr-1 pl-1">images</span></a>
+                                <a href="{{ path_for('admin.api_delivery_registry.index') }}">
+                                    <span class="pr-1 pl-1">registry</span></a>
                                 /
-                                <a href="{{ path_for('admin.api_delivery_images.edit') }}?token={{ token }}">
+                                <a href="{{ path_for('admin.api_delivery_registry.edit') }}?token={{ token }}">
                                     <span class="pr-1 pl-1">{{ token }}</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_images.add') %}
+                            {% if is_current_path('admin.api_delivery_registry.add') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
+                                <a href="{{ path_for('admin.api_delivery_registry.index') }}">
                                     <span class="pr-1 pl-1">delivery</span></a>
                                 /
-                                <a href="{{ path_for('admin.api_delivery_images.index') }}">
+                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
+                                    <span class="pr-1 pl-1">registry</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_images.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_images.index') }}">
                                     <span class="pr-1 pl-1">images</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_images.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_images.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_images.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_images.index') }}">
+                                    <span class="pr-1 pl-1">images</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_access.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_access.index') }}">
+                                    <span class="pr-1 pl-1">access</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_access.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_access.index') }}">
+                                    <span class="pr-1 pl-1">access</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_access.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_access.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_access.index') }}">
+                                    <span class="pr-1 pl-1">access</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_management.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_management.index') }}">
+                                    <span class="pr-1 pl-1">management</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_management_entries.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_management.index') }}">
+                                    <span class="pr-1 pl-1">management</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_management_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_management_entries.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_management.index') }}">
+                                    <span class="pr-1 pl-1">management</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_management_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_delivery_entries.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_management_entries.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_management.index') }}">
+                                    <span class="pr-1 pl-1">management</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_management_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
                             {% endif %}
 
                             {% if is_current_path('admin.plugins.index')or

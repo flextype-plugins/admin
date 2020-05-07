@@ -15,10 +15,12 @@
                 {% for key, api in api_list %}
                     <tr>
                         <td class="w-1 text-center">
-                            <i class="icon">{{ icon(api.icon) }}</i>
+                            {% if key == 'entries' %}
+                                <i class="icon">{{ icon('fas fa-database') }}</i>
+                            {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path_for('admin.api.index') }}/{{ key }}">{{ api.title }}</a>
+                            <a href="{{ path_for('admin.api.index') }}/management/{{ key }}">{{ api }}</a>
                         </td>
                     </tr>
                 {% endfor %}

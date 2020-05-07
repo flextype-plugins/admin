@@ -30,7 +30,24 @@ class ApiController extends Container
             'plugins/admin/templates/system/api/index.html',
             [
                 'menu_item' => 'api',
-                'api_list' => ['delivery' => 'Delivery'],
+                'api_list' => [
+                                'delivery' => [
+                                  'title' => 'Delivery',
+                                  'icon' => 'fas fa-truck'
+                                ],
+                                'images' => [
+                                  'title' => 'Images',
+                                  'icon' => 'far fa-images'
+                                ],
+                                'management' => [
+                                  'title' => 'Management',
+                                  'icon' => 'fas fa-user-cog'
+                                ],
+                                'access' => [
+                                  'title' => 'Access',
+                                  'icon' => 'fas fa-user-shield'
+                                ],
+                               ],
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),

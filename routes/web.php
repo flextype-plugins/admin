@@ -60,8 +60,8 @@ $app->group('/' . $admin_route, function () use ($app) : void {
 
     // ApiController
     $app->get('/api', 'ApiController:index')->setName('admin.api.index');
-    $app->get('/api/delivery', 'ApiDeliveryController:index')->setName('admin.api_delivery.index');
 
+    $app->get('/api/delivery', 'ApiDeliveryController:index')->setName('admin.api_delivery.index');
     $app->get('/api/delivery/entries', 'ApiDeliveryEntriesController:index')->setName('admin.api_delivery_entries.index');
     $app->get('/api/delivery/entries/add', 'ApiDeliveryEntriesController:add')->setName('admin.api_delivery_entries.add');
     $app->post('/api/delivery/entries/add', 'ApiDeliveryEntriesController:addProcess')->setName('admin.api_delivery_entries.addProcess');
@@ -69,18 +69,33 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/api/delivery/entries/edit', 'ApiDeliveryEntriesController:editProcess')->setName('admin.api_delivery_entries.editProcess');
     $app->post('/api/delivery/entries/delete', 'ApiDeliveryEntriesController:deleteProcess')->setName('admin.api_delivery_entries.deleteProcess');
 
-    $app->get('/api/delivery/images', 'ApiDeliveryImagesController:index')->setName('admin.api_delivery_images.index');
-    $app->get('/api/delivery/images/add', 'ApiDeliveryImagesController:add')->setName('admin.api_delivery_images.add');
-    $app->post('/api/delivery/images/add', 'ApiDeliveryImagesController:addProcess')->setName('admin.api_delivery_images.addProcess');
-    $app->get('/api/delivery/images/edit', 'ApiDeliveryImagesController:edit')->setName('admin.api_delivery_images.edit');
-    $app->post('/api/delivery/images/edit', 'ApiDeliveryImagesController:editProcess')->setName('admin.api_delivery_images.editProcess');
-    $app->post('/api/delivery/images/delete', 'ApiDeliveryImagesController:deleteProcess')->setName('admin.api_delivery_images.deleteProcess');
-
     $app->get('/api/delivery/registry', 'ApiDeliveryRegistryController:index')->setName('admin.api_delivery_registry.index');
     $app->get('/api/delivery/registry/add', 'ApiDeliveryRegistryController:add')->setName('admin.api_delivery_registry.add');
     $app->post('/api/delivery/registry/add', 'ApiDeliveryRegistryController:addProcess')->setName('admin.api_delivery_registry.addProcess');
     $app->get('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:edit')->setName('admin.api_delivery_registry.edit');
     $app->post('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:editProcess')->setName('admin.api_delivery_registry.editProcess');
     $app->post('/api/delivery/registry/delete', 'ApiDeliveryRegistryController:deleteProcess')->setName('admin.api_delivery_registry.deleteProcess');
+
+    $app->get('/api/images', 'ApiImagesController:index')->setName('admin.api_images.index');
+    $app->get('/api/images/add', 'ApiImagesController:add')->setName('admin.api_images.add');
+    $app->post('/api/images/add', 'ApiImagesController:addProcess')->setName('admin.api_images.addProcess');
+    $app->get('/api/images/edit', 'ApiImagesController:edit')->setName('admin.api_images.edit');
+    $app->post('/api/images/edit', 'ApiImagesController:editProcess')->setName('admin.api_images.editProcess');
+    $app->post('/api/images/delete', 'ApiImagesController:deleteProcess')->setName('admin.api_images.deleteProcess');
+
+    $app->get('/api/access', 'ApiAccessController:index')->setName('admin.api_access.index');
+    $app->get('/api/access/add', 'ApiAccessController:add')->setName('admin.api_access.add');
+    $app->post('/api/access/add', 'ApiAccessController:addProcess')->setName('admin.api_access.addProcess');
+    $app->get('/api/access/edit', 'ApiAccessController:edit')->setName('admin.api_access.edit');
+    $app->post('/api/access/edit', 'ApiAccessController:editProcess')->setName('admin.api_access.editProcess');
+    $app->post('/api/access/delete', 'ApiAccessController:deleteProcess')->setName('admin.api_access.deleteProcess');
+
+    $app->get('/api/management', 'ApiManagementController:index')->setName('admin.api_management.index');
+    $app->get('/api/management/entries', 'ApiManagementEntriesController:index')->setName('admin.api_management_entries.index');
+    $app->get('/api/management/entries/add', 'ApiManagementEntriesController:add')->setName('admin.api_management_entries.add');
+    $app->post('/api/management/entries/add', 'ApiManagementEntriesController:addProcess')->setName('admin.api_management_entries.addProcess');
+    $app->get('/api/management/entries/edit', 'ApiManagementEntriesController:edit')->setName('admin.api_management_entries.edit');
+    $app->post('/api/management/entries/edit', 'ApiManagementEntriesController:editProcess')->setName('admin.api_management_entries.editProcess');
+    $app->post('/api/management/entries/delete', 'ApiManagementEntriesController:deleteProcess')->setName('admin.api_management_entries.deleteProcess');
 
 })->add(new AdminPanelAuthMiddleware($flextype));

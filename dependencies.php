@@ -80,6 +80,14 @@ $flextype['ApiController'] = static function ($container) {
     return new ApiController($container);
 };
 
+$flextype['ApiManagementController'] = static function ($container) {
+    return new ApiManagementController($container);
+};
+
+$flextype['ApiManagementEntriesController'] = static function ($container) {
+    return new ApiManagementEntriesController($container);
+};
+
 $flextype['ApiDeliveryController'] = static function ($container) {
     return new ApiDeliveryController($container);
 };
@@ -88,8 +96,12 @@ $flextype['ApiDeliveryEntriesController'] = static function ($container) {
     return new ApiDeliveryEntriesController($container);
 };
 
-$flextype['ApiDeliveryImagesController'] = static function ($container) {
-    return new ApiDeliveryImagesController($container);
+$flextype['ApiImagesController'] = static function ($container) {
+    return new ApiImagesController($container);
+};
+
+$flextype['ApiAccessController'] = static function ($container) {
+    return new ApiAccessController($container);
 };
 
 $flextype['ApiDeliveryRegistryController'] = static function ($container) {

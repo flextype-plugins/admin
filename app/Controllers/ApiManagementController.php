@@ -15,10 +15,10 @@ use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
 
-class ApiDeliveryController extends Container
+class ApiManagementController extends Container
 {
     /**
-     * Delivery Index page
+     * Management Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -27,18 +27,18 @@ class ApiDeliveryController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/index.html',
+            'plugins/admin/templates/system/api/management/index.html',
             [
                 'menu_item' => 'api',
-                'api_list' => ['entries' => __('admin_entries'), 'registry' => __('admin_registry')],
+                'api_list' => ['entries' => __('admin_entries')],
                 'links' =>  [
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery'),
+                    'api_management' => [
+                        'link' => $this->router->pathFor('admin.api_management.index'),
+                        'title' => __('admin_management'),
                         'active' => true,
                     ],
                 ],

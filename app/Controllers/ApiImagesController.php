@@ -15,10 +15,10 @@ use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
 
-class ApiDeliveryImagesController extends Container
+class ApiImagesController extends Container
 {
     /**
-     * Delivery Entries Index page
+     * Images Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -26,11 +26,11 @@ class ApiDeliveryImagesController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/delivery/images/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/images/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/delivery/images/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/images/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -38,7 +38,7 @@ class ApiDeliveryImagesController extends Container
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/images/index.html',
+            'plugins/admin/templates/system/api/images/index.html',
             [
                 'menu_item' => 'api',
                 'tokens' => $tokens,
@@ -47,19 +47,15 @@ class ApiDeliveryImagesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery')
-                    ],
-                    'api_delivery_images' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.index'),
+                    'api_images' => [
+                        'link' => $this->router->pathFor('admin.api_images.index'),
                         'title' => __('admin_images'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
-                    'api_delivery_images_add' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.add'),
+                    'api_images_add' => [
+                        'link' => $this->router->pathFor('admin.api_images.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -77,7 +73,7 @@ class ApiDeliveryImagesController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/images/add.html',
+            'plugins/admin/templates/system/api/images/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
@@ -85,16 +81,12 @@ class ApiDeliveryImagesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery')
-                    ],
-                    'api_delivery_images' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.index'),
+                    'api_images' => [
+                        'link' => $this->router->pathFor('admin.api_images.index'),
                         'title' => __('admin_images')
                     ],
-                    'api_delivery_images_add' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.add'),
+                    'api_images_add' => [
+                        'link' => $this->router->pathFor('admin.api_images.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -117,7 +109,7 @@ class ApiDeliveryImagesController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/images/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens' . '/images/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -146,18 +138,18 @@ class ApiDeliveryImagesController extends Container
                     'updated_at' => $time,
                 ], 'yaml')
             )) {
-                $this->flash->addMessage('success', __('admin_message_delivery_images_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_images_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_delivery_images_api_token_was_not_created1'));
+                $this->flash->addMessage('error', __('admin_message_images_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_images_api_token_was_not_created2'));
+            $this->flash->addMessage('error', __('admin_message_images_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->router->pathFor('admin.api_delivery_images.edit') . '?token=' . $api_token);
+            return $response->withRedirect($this->router->pathFor('admin.api_images.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.api_delivery_images.index'));
+            return $response->withRedirect($this->router->pathFor('admin.api_images.index'));
         }
     }
 
@@ -170,11 +162,11 @@ class ApiDeliveryImagesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->serializer->decode(Filesystem::read(PATH['project'] . '/tokens' . '/delivery/images/' . $token . '/token.yaml'), 'yaml');
+        $token_data = $this->serializer->decode(Filesystem::read(PATH['project'] . '/tokens' . '/images/' . $token . '/token.yaml'), 'yaml');
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/images/edit.html',
+            'plugins/admin/templates/system/api/images/edit.html',
             [
                 'menu_item' => 'api',
                 'token' => $token,
@@ -184,17 +176,13 @@ class ApiDeliveryImagesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery')
-                    ],
-                    'api_delivery_images' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.index'),
+                    'api_images' => [
+                        'link' => $this->router->pathFor('admin.api_images.index'),
                         'title' => __('admin_images')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_images.edit'),
-                        'title' => __('admin_edit_delivery_token'),
+                        'link' => $this->router->pathFor('admin.api_images.edit'),
+                        'title' => __('admin_edit_token'),
                         'active' => true
                     ],
                 ]
@@ -213,7 +201,7 @@ class ApiDeliveryImagesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/images/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens' . '/images/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
@@ -233,13 +221,13 @@ class ApiDeliveryImagesController extends Container
                     'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
                 ], 'yaml')
             )) {
-                $this->flash->addMessage('success', __('admin_message_delivery_images_api_token_updated'));
+                $this->flash->addMessage('success', __('admin_message_images_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_images_api_token_was_not_updated'));
+            $this->flash->addMessage('error', __('admin_message_images_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_delivery_images.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_images.index'));
     }
 
     /**
@@ -253,14 +241,14 @@ class ApiDeliveryImagesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens' . '/delivery/images/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens' . '/images/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_delivery_images_api_token_deleted'));
+            $this->flash->addMessage('success', __('admin_message_images_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_images_api_token_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_images_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_delivery_images.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_images.index'));
     }
 }

@@ -37,4 +37,10 @@
 {
     padding: 0 14px;
 }
+
+.code-editor {
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
 /* purgecss end ignore */

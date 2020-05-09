@@ -248,7 +248,7 @@ class EntriesController extends Container
 
                 // Predefine data values based on fieldset default values
                 foreach ($fieldset['sections'] as $section_name => $section_body) {
-                    foreach ($section_body['fields'] as $field => $properties) {
+                    foreach ($section_body['form']['fields'] as $field => $properties) {
 
                         // Ingnore fields where property: heading
                         if ($properties['type'] == 'heading') {
@@ -339,8 +339,8 @@ class EntriesController extends Container
                     $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
                     if (isset($fieldset_content['sections']) &&
                         isset($fieldset_content['sections']['main']) &&
-                        isset($fieldset_content['sections']['main']['fields']) &&
-                        isset($fieldset_content['sections']['main']['fields']['title'])) {
+                        isset($fieldset_content['sections']['main']['form']['fields']) &&
+                        isset($fieldset_content['sections']['main']['form']['fields']['title'])) {
                         if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
                             continue;
                         }

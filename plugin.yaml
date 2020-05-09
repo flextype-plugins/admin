@@ -5,7 +5,7 @@ icon: fab fa-fort-awesome
 author:
   name: Sergey Romanenko
   email: support@flextype.org
-  url: http://flextype.org
+  url: https://flextype.org
 homepage: https://github.com/flextype-plugins/admin
 bugs: https://github.com/flextype-plugins/admin/issues
 license: MIT

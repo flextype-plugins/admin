@@ -51,7 +51,7 @@
                     </td>
                     <td class="text-center flex justify-center" style="height: 64px;">
                         {% if (filesystem_ext(file) in allowed_image_files) %}
-                            <img src="{{ url() }}/api/delivery/images/{{ id }}/{{ filesystem_basename(file) }}?w=64&q=70&dpr=2&token={{ registry.get('flextype.settings.api.images.default_token') }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
+                            <img src="{{ url() }}/api/images/{{ id }}/{{ filesystem_basename(file) }}?w=64&q=70&dpr=2&token={{ registry.get('flextype.settings.api.images.default_token') }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
                         {% endif %}
                     </td>
                     <td class="text-right" style="height: 64px;">

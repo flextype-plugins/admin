@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# Admin Plugin for Flextype is a part of Flextype (starting from Flextype 0.8.0) Please check main repository for future updates: https://github.com/flextype/flextype
-=======
 <h1 align="center">Admin Plugin for <a href="https://flextype.org/">Flextype</a></h1>
 
 ![preview](preview.png)
@@ -56,4 +53,3 @@ entries:
 ## LICENSE
 [The MIT License (MIT)](https://github.com/flextype-plugins/admin/blob/master/LICENSE.txt)
 Copyright (c) 2018-2020 [Sergey Romanenko](https://github.com/Awilum)
->>>>>>> dev

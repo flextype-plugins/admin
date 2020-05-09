@@ -3,25 +3,34 @@
     "type": "project",
     "description": "Admin plugin for Flextype",
     "keywords": ["admin", "plugin", "manager", "panel", "flextype", "php", "html"],
-    "homepage": "https://github.com/flextype-plugins/admin",
+    "homepage": "https://github.com/flextype",
     "license": "MIT",
     "authors": [
         {
             "name": "Sergey Romanenko",
-            "email": "awilum@yandex.ru",
-            "homepage": "https://github.com/Awilum"
+            "email": "hello@romanenko.digital",
+            "homepage": "http://digital.flextype.org"
         }
     ],
     "support": {
-      "issues": "https://github.com/flextype-plugins/admin/issues"
+      "issues": "https://github.com/flextype/issues"
     },
     "require": {
-        "php": ">=7.1.3",
-        "gajus/dindent": "2.0.2"
+        "php": ">=7.2.0",
+        "slim/flash": "~0.4.0"
+    },
+    "config": {
+        "apcu-autoloader": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2.0"
+        }
     },
     "autoload": {
         "classmap": [
-            "classes"
+            "app",
+            "twig",
+            "middlewares"
         ]
     }
 }

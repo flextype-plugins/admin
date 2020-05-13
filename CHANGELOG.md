@@ -1,3 +1,10 @@
+<a name="1.0.2"></a>
+# [1.0.2](https://github.com/flextype-plugins/admin) (2020-05-13)
+
+### Bug Fixes
+
+* **core:** fix slugify
+
 <a name="1.0.1"></a>
 # [1.0.1](https://github.com/flextype-plugins/admin) (2020-05-13)
 

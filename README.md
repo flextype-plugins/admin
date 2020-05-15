@@ -18,7 +18,6 @@ The following dependencies need to be installed for Form Admin Plugin.
 | [twig](https://github.com/flextype-plugins/twig) | >=1.0.0 | [download](https://github.com/flextype-plugins/twig/releases) |
 | [form](https://github.com/flextype-plugins/form) | >=1.0.0 | [download](https://github.com/flextype-plugins/form/releases) |
 | [form-admin](https://github.com/flextype-plugins/form-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/form-admin/releases) |
-| [admin](https://github.com/flextype-plugins/admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/admin/releases) |
 | [jquery](https://github.com/flextype-plugins/jquery) | >=1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases) |
 | [icon](https://github.com/flextype-plugins/icon) | >=1.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
 

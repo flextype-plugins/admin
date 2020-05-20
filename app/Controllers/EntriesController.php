@@ -711,7 +711,7 @@ class EntriesController extends Container
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
-                                'link' => $this->router->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'link' => $this->router->pathFor('admin.entries.index'),
                                 'title' => __('admin_entries'),
 
                             ],

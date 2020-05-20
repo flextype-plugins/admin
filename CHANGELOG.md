@@ -1,3 +1,13 @@
+<a name="1.0.3"></a>
+# [1.0.3](https://github.com/flextype-plugins/admin) (2020-05-20)
+
+### Bug Fixes
+
+* **core:** delete specific hidden fields from Form Plugin on Entry Edit Proccess
+* **lang:** fix translate key admin_you_have_not_created_any_fieldsets_yet
+* **entries-controller** fix translate key for renameProcess() method
+* **entries:** fix filepicker module
+
 <a name="1.0.2"></a>
 # [1.0.2](https://github.com/flextype-plugins/admin) (2020-05-13)
 

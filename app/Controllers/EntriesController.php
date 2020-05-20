@@ -594,7 +594,7 @@ class EntriesController extends Container
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_renamed'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
@@ -865,10 +865,15 @@ class EntriesController extends Container
             $data = $request->getParsedBody();
 
             // Delete system fields
-            Arr::delete($data, 'slug');
-            Arr::delete($data, 'csrf_value');
-            Arr::delete($data, 'csrf_name');
-            Arr::delete($data, 'action');
+            isset($data['slug'])                  and Arr::delete($data, 'slug');
+            isset($data['csrf_value'])            and Arr::delete($data, 'csrf_value');
+            isset($data['csrf_name'])             and Arr::delete($data, 'csrf_name');
+            isset($data['action'])                and Arr::delete($data, 'action');
+            isset($data['trumbowyg-icons-path'])  and Arr::delete($data, 'trumbowyg-icons-path');
+            isset($data['trumbowyg-locale'])      and Arr::delete($data, 'trumbowyg-locale');
+            isset($data['flatpickr-date-format']) and Arr::delete($data, 'flatpickr-date-format');
+            isset($data['flatpickr-locale'])      and Arr::delete($data, 'flatpickr-locale');
+
 
             $data['published_by'] = Session::get('uuid');
 

@@ -594,7 +594,7 @@ class EntriesController extends Container
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
+            $this->flash->addMessage('error', __('admin_message_entry_was_not_renamed'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);

@@ -1,3 +1,12 @@
+<a name="1.0.4"></a>
+# [1.0.4](https://github.com/flextype-plugins/admin) (2020-05-21)
+
+### Bug Fixes
+
+* **entries-controller** fix Entries tab link on Entries Edit page
+* **plugins-template** fix plugin author urls
+* **entries-controller** fix strange redirect behavior on new entry create
+
 <a name="1.0.3"></a>
 # [1.0.3](https://github.com/flextype-plugins/admin) (2020-05-20)
 

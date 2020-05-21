@@ -213,14 +213,14 @@ class EntriesController extends Container
             $parent_entry_id = '';
         }
 
-        // Set new Entry ID
+        // Set new Entry ID using slugify or without it
         if ($this->registry->get('plugins.admin.settings.entries.slugify') == true) {
-            $id = $parent_entry_id . '/' . $this->slugify->slugify($data['id']);
+            $id = ltrim($parent_entry_id . '/' . $this->slugify->slugify($data['id']), '/');
         } else {
-            $id = $parent_entry_id . '/' . $data['id'];
+            $id = ltrim($parent_entry_id . '/' . $data['id'], '/');
         }
 
-        // Check if entry exists then try to create
+        // Check if entry exists then try to create it
         if (!$this->entries->has($id)) {
 
             // Check if we have fieldset for this entry
@@ -229,11 +229,6 @@ class EntriesController extends Container
                 // Get fieldset
                 $fieldset = $this->fieldsets->fetch($data['fieldset']);
 
-                // We need to check if template for current fieldset is exists
-                // if template is not exist then `default` template will be used!
-                //$template_path = PATH['themes'] . '/' . $this->registry->get('flextype.theme') . '/templates/' . $data['fieldset'] . '.html';
-                //$template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
-
                 // Init entry data
                 $data_from_post          = [];
                 $data_from_post_override = [];
@@ -241,7 +236,6 @@ class EntriesController extends Container
 
                 // Define data values based on POST data
                 $data_from_post['title']      = $data['title'];
-                //$data_from_post['template']   = $template;
                 $data_from_post['fieldset']   = $data['fieldset'];
                 $data_from_post['visibility'] = $data['visibility'];
                 $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
@@ -269,7 +263,6 @@ class EntriesController extends Container
                         }
 
                         $data_from_post_override[$field] = $value;
-
                     }
                 }
 
@@ -299,7 +292,7 @@ class EntriesController extends Container
         }
 
         if (isset($data['create-and-edit'])) {
-            return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $data['id'] . '&type=editor');
+            return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
         } else {
             return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
         }

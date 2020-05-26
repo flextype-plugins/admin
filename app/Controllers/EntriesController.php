@@ -240,6 +240,15 @@ class EntriesController extends Container
                 $data_from_post['visibility'] = $data['visibility'];
                 $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
 
+                // Themes/Templates support for Site Plugin
+                // We need to check if template for current fieldset is exists
+                // if template is not exist then `default` template will be used!
+                if ($this->registry->has('plugins.site')) {
+                    $template_path = PATH['project'] . '/themes/' . $this->registry->get('plugins.site.settings.theme') . '/templates/' . $data['fieldset'] . '.html';
+                    $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
+                    $data_from_post['template']   = $template;
+                }
+
                 // Predefine data values based on fieldset default values
                 foreach ($fieldset['sections'] as $section_name => $section_body) {
                     foreach ($section_body['form']['fields'] as $field => $properties) {

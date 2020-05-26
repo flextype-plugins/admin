@@ -1,3 +1,10 @@
+<a name="1.0.5"></a>
+# [1.0.5](https://github.com/flextype-plugins/admin) (2020-05-26)
+
+### Bug Fixes
+
+* **entries-controller** fix/restore old logic for themes/templates support on new entry creation
+
 <a name="1.0.4"></a>
 # [1.0.4](https://github.com/flextype-plugins/admin) (2020-05-21)
 

@@ -7,7 +7,6 @@ use Flextype\Component\Session\Session;
 use Flextype\Component\Arr\Arr;
 use function Flextype\Component\I18n\__;
 use Respect\Validation\Validator as v;
-use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
@@ -283,11 +282,7 @@ class EntriesController extends Container
                 }
 
                 if ($this->entries->create($id, $data_result)) {
-
-                    if (! Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
-                        Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id);
-                    }
-
+                    $this->media_folders->create('entries/' . $id);
                     $this->clearEntryCounter($parent_entry_id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
@@ -509,7 +504,7 @@ class EntriesController extends Container
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                rename(PATH['project'] . '/uploads' . '/entries/' . $data['entry_id_path_current'], PATH['project'] . '/uploads' . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+                $this->media_folders->rename('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
                 $this->clearEntryCounter($data['parent_entry']);
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -592,7 +587,7 @@ class EntriesController extends Container
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $name)
         ) {
-            rename(PATH['project'] . '/uploads' . '/entries/' . $data['entry_path_current'], PATH['project'] . '/uploads' . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
+            $this->media_folders->rename('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
@@ -619,7 +614,7 @@ class EntriesController extends Container
 
         if ($this->entries->delete($id)) {
 
-            Filesystem::deleteDir(PATH['project'] . '/uploads' . '/entries/' . $id);
+            $this->media_folders->delete('entries/' . $id);
 
             $this->clearEntryCounter($id_current);
 
@@ -933,9 +928,7 @@ class EntriesController extends Container
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['project'] . '/uploads' . '/entries/' . $entry_id . '/' . $media_id;
-
-        Filesystem::delete($files_directory);
+        $this->media_files->delete('entries/' . $entry_id . '/' . $media_id);
 
         $this->flash->addMessage('success', __('admin_message_entry_file_deleted'));
 
@@ -954,169 +947,13 @@ class EntriesController extends Container
     {
         $data = $request->getParsedBody();
 
-        $id = $data['entry-id'];
-
-        $files_directory = PATH['project'] . '/uploads' . '/entries/' . $id . '/';
-
-        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), 27000000);
-
-        if ($file !== false) {
-            if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
-                // open an image file
-                $img = Image::make($file);
-                // now you are able to resize the instance
-                if ($this->registry->get('plugins.admin.settings.entries.media.upload_images_width') > 0 && $this->registry->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                    $img->resize($this->registry->get('plugins.admin.settings.entries.media.upload_images_width'), $this->registry->get('plugins.admin.settings.entries.media.upload_images_height'), function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                } elseif ($this->registry->get('plugins.admin.settings.entries.media.upload_images_width') > 0) {
-                    $img->resize($this->registry->get('plugins.admin.settings.entries.media.upload_images_width'), null, function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                } elseif ($this->registry->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                    $img->resize(null, $this->registry->get('plugins.admin.settings.entries.media.upload_images_height'), function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }
-                // finally we save the image as a new file
-                $img->save($file, $this->registry->get('plugins.admin.settings.entries.media.upload_images_quality'));
-
-                // destroy
-                $img->destroy();
-            }
-
+        if ($this->media_files->create($_FILES['file'], '/entries/' . $data['entry-id'] . '/')) {
             $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_file_not_uploaded'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
-    }
-
-    /**
-     * Upload files on the Server with several type of Validations!
-     *
-     * _uploadFile($_FILES['file'], $files_directory);
-     *
-     * @param   array   $file             Uploaded file data
-     * @param   string  $upload_directory Upload directory
-     * @param   string  $allowed          Allowed file extensions
-     * @param   int     $max_size         Max file size in bytes
-     * @param   string  $filename         New filename
-     * @param   bool    $remove_spaces    Remove spaces from the filename
-     * @param   int     $max_width        Maximum width of image
-     * @param   int     $max_height       Maximum height of image
-     * @param   bool    $exact            Match width and height exactly?
-     * @param   int     $chmod            Chmod mask
-     * @return  string  on success, full path to new file
-     * @return  false   on failure
-     */
-    public function _uploadFile(
-        array $file,
-        string $upload_directory,
-        string $allowed = 'jpeg, png, gif, jpg',
-        int $max_size = 5000000,
-        string $filename = null,
-        bool $remove_spaces = true,
-        int $max_width = null,
-        int $max_height = null,
-        bool $exact = false,
-        int $chmod = 0644
-    ) {
-        //
-        // Tests if a successful upload has been made.
-        //
-        if (isset($file['error'])
-            and isset($file['tmp_name'])
-            and $file['error'] === UPLOAD_ERR_OK
-            and is_uploaded_file($file['tmp_name'])) {
-            //
-            // Tests if upload data is valid, even if no file was uploaded.
-            //
-            if (isset($file['error'])
-                    and isset($file['name'])
-                    and isset($file['type'])
-                    and isset($file['tmp_name'])
-                    and isset($file['size'])) {
-                //
-                // Test if an uploaded file is an allowed file type, by extension.
-                //
-                if (strpos($allowed, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
-                    //
-                    // Validation rule to test if an uploaded file is allowed by file size.
-                    //
-                    if (($file['error'] != UPLOAD_ERR_INI_SIZE)
-                                  and ($file['error'] == UPLOAD_ERR_OK)
-                                  and ($file['size'] <= $max_size)) {
-                        //
-                        // Validation rule to test if an upload is an image and, optionally, is the correct size.
-                        //
-                        if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
-                            function validateImage($file, $max_width, $max_height, $exact)
-                            {
-                                try {
-                                    // Get the width and height from the uploaded image
-                                    list($width, $height) = getimagesize($file['tmp_name']);
-                                } catch (ErrorException $e) {
-                                    // Ignore read errors
-                                }
-                                if (empty($width) or empty($height)) {
-                                    // Cannot get image size, cannot validate
-                                    return false;
-                                }
-                                if (!$max_width) {
-                                    // No limit, use the image width
-                                    $max_width = $width;
-                                }
-                                if (!$max_height) {
-                                    // No limit, use the image height
-                                    $max_height = $height;
-                                }
-                                if ($exact) {
-                                    // Check if dimensions match exactly
-                                    return ($width === $max_width and $height === $max_height);
-                                } else {
-                                    // Check if size is within maximum dimensions
-                                    return ($width <= $max_width and $height <= $max_height);
-                                }
-                                return false;
-                            }
-                            if (validateImage($file, $max_width, $max_height, $exact) === false) {
-                                return false;
-                            }
-                        }
-                        if (!isset($file['tmp_name']) or !is_uploaded_file($file['tmp_name'])) {
-                            // Ignore corrupted uploads
-                            return false;
-                        }
-                        if ($filename === null) {
-                            // Use the default filename
-                            $filename = $file['name'];
-                        }
-                        if ($remove_spaces === true) {
-                            // Remove spaces from the filename
-                            $filename = $this->slugify->slugify(pathinfo($filename)['filename']) . '.' . pathinfo($filename)['extension'];
-                        }
-                        if (!is_dir($upload_directory) or !is_writable(realpath($upload_directory))) {
-                            throw new \RuntimeException("Directory {$upload_directory} must be writable");
-                        }
-                        // Make the filename into a complete path
-                        $filename = realpath($upload_directory) . DIRECTORY_SEPARATOR . $filename;
-                        if (move_uploaded_file($file['tmp_name'], $filename)) {
-                            // Set permissions on filename
-                            chmod($filename, $chmod);
-                            // Return new file path
-                            return $filename;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $data['entry-id'] . '&type=media');
     }
 
     /**

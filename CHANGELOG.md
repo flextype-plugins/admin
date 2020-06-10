@@ -1,3 +1,17 @@
+<a name="1.0.7"></a>
+# [1.0.7](https://github.com/flextype-plugins/admin) (2020-06-10)
+
+### Bug Fixes
+
+* **entries-controller** fix Entries saving issue
+
+<a name="1.0.6"></a>
+# [1.0.6](https://github.com/flextype-plugins/admin) (2020-06-10)
+
+### Bug Fixes
+
+* **entries-controller** updates for Form Plugin 1.1.0
+
 <a name="1.0.6"></a>
 # [1.0.6](https://github.com/flextype-plugins/admin) (2020-06-10)
 

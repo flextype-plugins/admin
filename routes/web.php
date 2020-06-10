@@ -10,7 +10,7 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/installation', 'UsersController:installationProcess')->setName('admin.users.installationProcess');
     $app->get('/login', 'UsersController:login')->setName('admin.users.login');
     $app->post('/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
-});
+})->add('csrf');
 
 $app->group('/' . $admin_route, function () use ($app) : void {
     // Dashboard
@@ -98,4 +98,4 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/api/management/entries/edit', 'ApiManagementEntriesController:editProcess')->setName('admin.api_management_entries.editProcess');
     $app->post('/api/management/entries/delete', 'ApiManagementEntriesController:deleteProcess')->setName('admin.api_management_entries.deleteProcess');
 
-})->add(new AdminPanelAuthMiddleware($flextype));
+})->add(new AdminPanelAuthMiddleware($flextype))->add('csrf');

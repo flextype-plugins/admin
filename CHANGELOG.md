@@ -1,3 +1,10 @@
+<a name="1.0.6"></a>
+# [1.0.6](https://github.com/flextype-plugins/admin) (2020-06-10)
+
+### Bug Fixes
+
+* **entries-controller** updates for Form Plugin 1.1.0
+
 <a name="1.0.5"></a>
 # [1.0.5](https://github.com/flextype-plugins/admin) (2020-05-26)
 

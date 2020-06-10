@@ -738,6 +738,7 @@ class EntriesController extends Container
                         ],
                         'buttons' => [
                             'save_entry' => [
+                                            'id' => 'form',
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
                                             'type' => 'action'
@@ -818,8 +819,9 @@ class EntriesController extends Container
                         ],
                         'buttons' => [
                             'save_entry' => [
-                                            'link'       => 'javascript:;',
-                                            'title'      => __('admin_save'),
+                                            'id' => 'form',
+                                            'link'  => 'javascript:;',
+                                            'title' => __('admin_save'),
                                             'type' => 'action'
                                         ],
                         ]
@@ -873,7 +875,7 @@ class EntriesController extends Container
             isset($data['slug'])                  and Arr::delete($data, 'slug');
             isset($data['csrf_value'])            and Arr::delete($data, 'csrf_value');
             isset($data['csrf_name'])             and Arr::delete($data, 'csrf_name');
-            isset($data['action'])                and Arr::delete($data, 'action');
+            isset($data['form-save-action'])      and Arr::delete($data, 'form-save-action');
             isset($data['trumbowyg-icons-path'])  and Arr::delete($data, 'trumbowyg-icons-path');
             isset($data['trumbowyg-locale'])      and Arr::delete($data, 'trumbowyg-locale');
             isset($data['flatpickr-date-format']) and Arr::delete($data, 'flatpickr-date-format');

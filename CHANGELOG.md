@@ -1,3 +1,10 @@
+<a name="1.0.8"></a>
+# [1.0.8](https://github.com/flextype-plugins/admin) (2020-06-13)
+
+### Refactor
+
+* **refactor(core)** move FlashTwigExtension from core to Twig Plugin 1.0.4
+
 <a name="1.0.7"></a>
 # [1.0.7](https://github.com/flextype-plugins/admin) (2020-06-10)
 

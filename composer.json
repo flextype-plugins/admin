@@ -16,8 +16,7 @@
       "issues": "https://github.com/flextype/issues"
     },
     "require": {
-        "php": ">=7.2.0",
-        "slim/flash": "~0.4.0"
+        "php": ">=7.2.0"
     },
     "config": {
         "apcu-autoloader": true,

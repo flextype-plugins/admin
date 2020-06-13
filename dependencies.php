@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-use Slim\Flash\Messages;
 use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
@@ -27,9 +26,6 @@ $flextype->registry->set('plugins.admin.settings.navigation.system.api', ['title
 // Add Global Vars Admin Twig Extension
 $flextype->twig->addExtension(new GlobalVarsAdminTwigExtension($flextype));
 
-// Add Flash Twig Extension
-$flextype->twig->addExtension(new FlashTwigExtension($flextype));
-
 /**
  * Add Assets
  */
@@ -44,13 +40,6 @@ $flextype['registry']->set('assets.admin.css',
 $flextype['registry']->set('assets.admin.js',
                        array_merge($_admin_js,
                        ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
-
-/**
- * Add flash service to Flextype container
- */
-$flextype['flash'] = static function () {
-    return new Messages();
-};
 
 $flextype['DashboardController'] = static function ($container) {
     return new DashboardController($container);

@@ -4,20 +4,9 @@ declare(strict_types=1);
 
 namespace Flextype;
 
-// UsersController
-$app->group('/' . $admin_route, function () use ($app) : void {
-    $app->get('/installation', 'UsersController:installation')->setName('admin.users.installation');
-    $app->post('/installation', 'UsersController:installationProcess')->setName('admin.users.installationProcess');
-    $app->get('/login', 'UsersController:login')->setName('admin.users.login');
-    $app->post('/login', 'UsersController:loginProcess')->setName('admin.users.loginProcess');
-})->add('csrf');
-
-$app->group('/' . $admin_route, function () use ($app) : void {
+$app->group('/' . $admin_route, function () use ($app, $flextype) : void {
     // Dashboard
     $app->get('', 'DashboardController:index')->setName('admin.dashboard.index');
-
-    // UsersController
-    $app->post('/logout', 'UsersController:logoutProcess')->setName('admin.users.logoutProcess');
 
     // EntriesController
     $app->get('/entries', 'EntriesController:index')->setName('admin.entries.index');
@@ -37,7 +26,6 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/entries/delete-media-file', 'EntriesController:deleteMediaFileProcess')->setName('admin.entries.deleteMediaFileProcess');
     $app->post('/entries/upload-media-file', 'EntriesController:uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
     $app->post('/entries/display-view-process', 'EntriesController:displayViewProcess')->setName('admin.entries.displayViewProcess');
-
 
     // Settings Controller
     $app->get('/settings', 'SettingsController:index')->setName('admin.settings.index');
@@ -98,4 +86,8 @@ $app->group('/' . $admin_route, function () use ($app) : void {
     $app->post('/api/management/entries/edit', 'ApiManagementEntriesController:editProcess')->setName('admin.api_management_entries.editProcess');
     $app->post('/api/management/entries/delete', 'ApiManagementEntriesController:deleteProcess')->setName('admin.api_management_entries.deleteProcess');
 
-})->add(new AdminPanelAuthMiddleware($flextype))->add('csrf');
+})->add(new AclAccountIsUserLoggedInMiddleware(['container' => $flextype, 'redirect' => 'admin.accounts.login']))
+  ->add(new AclAccountsIsUserLoggedInRolesOneOfMiddleware(['container' => $flextype,
+                                                           'redirect' => 'admin.accounts.no-access',
+                                                           'roles' => 'admin']))
+  ->add('csrf');

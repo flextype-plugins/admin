@@ -27,7 +27,7 @@
     </head>
     <body>
         <main>
-            <nav class="navigation {% if not is_logged %}hidden{% endif %}">
+            <nav class="navigation {% if not acl.isUserLoggedInRolesOneOf('admin') %}hidden{% endif %}">
                 <ul>
                     <li class="navigation__item--logo-wrapper">
                         <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">
@@ -54,7 +54,7 @@
                                     document.getElementById('logoutProcess').submit();">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-sign-out-alt') }}</i>
                                 {{ tr('admin_logout') }}</a>
-                            <form id="logoutProcess" action="{{ path_for('admin.users.logoutProcess') }}" method="POST" style="display: none;">
+                            <form id="logoutProcess" action="{{ path_for('admin.accounts.logoutProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
                             </form>
                         </div>
@@ -97,8 +97,8 @@
                     {% endif %}
                 </ul>
             </nav>
-            <div class="content {% if not is_logged %}w-full max-w-full m-0{% endif %}">
-                <div class="bars clearfix {% if not is_logged %}hidden{% endif %}">
+            <div class="content {% if not acl.isUserLoggedInRolesOneOf('admin') %}w-full max-w-full m-0{% endif %}">
+                <div class="bars clearfix {% if not acl.isUserLoggedInRolesOneOf('admin') %}hidden{% endif %}">
                     <div class="navigation-top-primary">
                         {% if links %}
                             <div class="lg:w-auto block float-left">

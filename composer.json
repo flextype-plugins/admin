@@ -28,8 +28,7 @@
     "autoload": {
         "classmap": [
             "app",
-            "twig",
-            "middlewares"
+            "twig"
         ]
     }
 }

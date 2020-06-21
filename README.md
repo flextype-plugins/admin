@@ -20,6 +20,8 @@ The following dependencies need to be installed for Form Admin Plugin.
 | [form-admin](https://github.com/flextype-plugins/form-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/form-admin/releases) |
 | [jquery](https://github.com/flextype-plugins/jquery) | >=1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases) |
 | [icon](https://github.com/flextype-plugins/icon) | >=1.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
+| [acl](https://github.com/flextype-plugins/acl) | >=1.0.0 | [download](https://github.com/flextype-plugins/acl/releases) |
+| [accounts-admin](https://github.com/flextype-plugins/accounts-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/accounts-admin/releases) |
 
 ## Installation
 

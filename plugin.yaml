@@ -1,5 +1,5 @@
 name: Admin
-version: 1.0.8
+version: 1.0.9
 description: Admin Panel plugin for Flextype.
 icon: fab fa-fort-awesome
 author:
@@ -17,3 +17,5 @@ dependencies:
   form: '>=1.0.0'
   form-admin: '>=1.0.0'
   jquery: '>=1.0.0'
+  acl: '>=1.0.0'
+  accounts-admin: '>=1.0.0'

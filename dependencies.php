@@ -23,9 +23,6 @@ $flextype->registry->set('plugins.admin.settings.navigation.extends.plugins', ['
 $flextype->registry->set('plugins.admin.settings.navigation.system.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->router->pathFor('admin.tools.index')]);
 $flextype->registry->set('plugins.admin.settings.navigation.system.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->router->pathFor('admin.api.index')]);
 
-// Add Global Vars Admin Twig Extension
-$flextype->twig->addExtension(new GlobalVarsAdminTwigExtension($flextype));
-
 /**
  * Add Assets
  */
@@ -55,10 +52,6 @@ $flextype['PluginsController'] = static function ($container) {
 
 $flextype['EntriesController'] = static function ($container) {
     return new EntriesController($container);
-};
-
-$flextype['UsersController'] = static function ($container) {
-    return new UsersController($container);
 };
 
 $flextype['ToolsController'] = static function ($container) {

@@ -20,12 +20,15 @@ The following dependencies need to be installed for Form Admin Plugin.
 | [form-admin](https://github.com/flextype-plugins/form-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/form-admin/releases) |
 | [jquery](https://github.com/flextype-plugins/jquery) | >=1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases) |
 | [icon](https://github.com/flextype-plugins/icon) | >=1.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
+| [acl](https://github.com/flextype-plugins/acl) | >=1.0.0 | [download](https://github.com/flextype-plugins/acl/releases) |
+| [accounts-admin](https://github.com/flextype-plugins/accounts-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/accounts-admin/releases) |
 
 ## Installation
 
 1. Download & Install all required dependencies.
 2. Create new folder `/project/plugins/admin`
-3. Download Themes Admin Plugin and unzip plugin content to the folder `/project/plugins/admin`
+3. Download Admin Plugin and unzip plugin content to the folder `/project/plugins/admin`
+4. Go to `YOUR_SITE_URL/admin/accounts/registration` and create your super admin account.
 
 ## Settings
 
@@ -34,7 +37,7 @@ The following dependencies need to be installed for Form Admin Plugin.
 | enabled | true | true or false to disable the plugin |
 | priority | 80 | admin plugin priority |
 | flextype_menu | [] | admin flextype menu |
-| route | admin | custom admin pane route |
+| route | admin | custom admin panel route |
 
 
 ### Entries settings

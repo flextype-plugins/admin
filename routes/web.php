@@ -88,6 +88,6 @@ $app->group('/' . $admin_route, function () use ($app, $flextype) : void {
 
 })->add(new AclAccountIsUserLoggedInMiddleware(['container' => $flextype, 'redirect' => 'admin.accounts.login']))
   ->add(new AclAccountsIsUserLoggedInRolesOneOfMiddleware(['container' => $flextype,
-                                                           'redirect' => 'admin.accounts.no-access',
+                                                           'redirect' => ($flextype->acl->isUserLoggedIn() ? 'admin.accounts.no-access' : 'admin.accounts.login'),
                                                            'roles' => 'admin']))
   ->add('csrf');

@@ -22,6 +22,7 @@ The following dependencies need to be installed for Form Admin Plugin.
 | [icon](https://github.com/flextype-plugins/icon) | >=1.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
 | [acl](https://github.com/flextype-plugins/acl) | >=1.0.0 | [download](https://github.com/flextype-plugins/acl/releases) |
 | [accounts-admin](https://github.com/flextype-plugins/accounts-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/accounts-admin/releases) |
+| [phpmailer](https://github.com/flextype-plugins/phpmailer) | >=1.0.0 | [download](https://github.com/flextype-plugins/phpmailer/releases) |
 
 ## Installation
 

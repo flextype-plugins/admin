@@ -29,7 +29,7 @@ The following dependencies need to be installed for Form Admin Plugin.
 1. Download & Install all required dependencies.
 2. Create new folder `/project/plugins/admin`
 3. Download Admin Plugin and unzip plugin content to the folder `/project/plugins/admin`
-4. Go to `YOUR_SITE_URL/admin/accounts/registration` and create your super admin account.
+4. **Go to `YOUR_SITE_URL/admin/accounts/registration` and create your super admin account.**
 
 ## Settings
 

@@ -86,8 +86,8 @@ $app->group('/' . $admin_route, function () use ($app, $flextype) : void {
     $app->post('/api/management/entries/edit', 'ApiManagementEntriesController:editProcess')->setName('admin.api_management_entries.editProcess');
     $app->post('/api/management/entries/delete', 'ApiManagementEntriesController:deleteProcess')->setName('admin.api_management_entries.deleteProcess');
 
-})->add(new AclAccountIsUserLoggedInMiddleware(['container' => $flextype, 'redirect' => 'admin.accounts.login']))
-  ->add(new AclAccountsIsUserLoggedInRolesOneOfMiddleware(['container' => $flextype,
-                                                           'redirect' => ($flextype->acl->isUserLoggedIn() ? 'admin.accounts.no-access' : 'admin.accounts.login'),
-                                                           'roles' => 'admin']))
+})->add(new AclIsUserLoggedInMiddleware(['container' => $flextype, 'redirect' => 'admin.accounts.login']))
+  ->add(new AclIsUserLoggedInRolesInMiddleware(['container' => $flextype,
+                                                'redirect' => ($flextype->acl->isUserLoggedIn() ? 'admin.accounts.no-access' : 'admin.accounts.login'),
+                                                'roles' => 'admin']))
   ->add('csrf');

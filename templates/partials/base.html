@@ -27,7 +27,7 @@
     </head>
     <body>
         <main>
-            <nav class="navigation {% if not acl.isUserLoggedInRolesOneOf('admin') %}hidden{% endif %}">
+            <nav class="navigation {% if not acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
                 <ul>
                     <li class="navigation__item--logo-wrapper">
                         <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">
@@ -97,8 +97,8 @@
                     {% endif %}
                 </ul>
             </nav>
-            <div class="content {% if not acl.isUserLoggedInRolesOneOf('admin') %}w-full max-w-full m-0{% endif %}">
-                <div class="bars clearfix {% if not acl.isUserLoggedInRolesOneOf('admin') %}hidden{% endif %}">
+            <div class="content {% if not acl.isUserLoggedInRolesIn('admin') %}w-full max-w-full m-0{% endif %}">
+                <div class="bars clearfix {% if not acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
                     <div class="navigation-top-primary">
                         {% if links %}
                             <div class="lg:w-auto block float-left">

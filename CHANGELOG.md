@@ -1,3 +1,10 @@
+<a name="1.0.10"></a>
+# [1.0.10](https://github.com/flextype-plugins/admin) (2020-06-23)
+
+### Refactor
+
+* **refactor(core)** update code base for new ACL
+
 <a name="1.0.9"></a>
 # [1.0.9](https://github.com/flextype-plugins/admin) (2020-06-21)
 

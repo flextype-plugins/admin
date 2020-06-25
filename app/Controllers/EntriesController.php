@@ -75,10 +75,10 @@ class EntriesController extends Container
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
                     $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) &&
-                        isset($fieldset_content['sections']['main']) &&
-                        isset($fieldset_content['sections']['main']['form']['fields']) &&
-                        isset($fieldset_content['sections']['main']['form']['fields']['title'])) {
+                    if (isset($fieldset_content['form']) &&
+                        isset($fieldset_content['form']['tabs']) &&
+                        isset($fieldset_content['form']['tabs']['main']['fields']) &&
+                        isset($fieldset_content['form']['tabs']['main']['fields']['title'])) {
                         if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
                             continue;
                         }
@@ -248,9 +248,12 @@ class EntriesController extends Container
                     $data_from_post['template']   = $template;
                 }
 
+                //foreach ($fieldset['sections'] as $section_name => $section_body) {
+                //    foreach ($section_body['form']['fields'] as $field => $properties) {
+
                 // Predefine data values based on fieldset default values
-                foreach ($fieldset['sections'] as $section_name => $section_body) {
-                    foreach ($section_body['form']['fields'] as $field => $properties) {
+                foreach ($fieldset['form']['tabs'] as $form_tab => $form_tab_body) {
+                    foreach ($form_tab_body['fields'] as $field => $properties) {
 
                         // Ingnore fields where property: heading
                         if ($properties['type'] == 'heading') {
@@ -334,10 +337,10 @@ class EntriesController extends Container
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
                     $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
-                    if (isset($fieldset_content['sections']) &&
-                        isset($fieldset_content['sections']['main']) &&
-                        isset($fieldset_content['sections']['main']['form']['fields']) &&
-                        isset($fieldset_content['sections']['main']['form']['fields']['title'])) {
+                    if (isset($fieldset_content['form']) &&
+                        isset($fieldset_content['form']['tabs']['main']) &&
+                        isset($fieldset_content['form']['tabs']['main']['fields']) &&
+                        isset($fieldset_content['form']['tabs']['main']['fields']['title'])) {
                         if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
                             continue;
                         }
@@ -730,6 +733,7 @@ class EntriesController extends Container
                         ],
                         'buttons' => [
                             'save_entry' => [
+                                            'id' => 'form',
                                             'link'       => 'javascript:;',
                                             'title'      => __('admin_save'),
                                             'type' => 'action'
@@ -810,8 +814,9 @@ class EntriesController extends Container
                         ],
                         'buttons' => [
                             'save_entry' => [
-                                            'link'       => 'javascript:;',
-                                            'title'      => __('admin_save'),
+                                            'id' => 'form',
+                                            'link'  => 'javascript:;',
+                                            'title' => __('admin_save'),
                                             'type' => 'action'
                                         ],
                         ]
@@ -865,7 +870,7 @@ class EntriesController extends Container
             isset($data['slug'])                  and Arr::delete($data, 'slug');
             isset($data['csrf_value'])            and Arr::delete($data, 'csrf_value');
             isset($data['csrf_name'])             and Arr::delete($data, 'csrf_name');
-            isset($data['action'])                and Arr::delete($data, 'action');
+            isset($data['form-save-action'])      and Arr::delete($data, 'form-save-action');
             isset($data['trumbowyg-icons-path'])  and Arr::delete($data, 'trumbowyg-icons-path');
             isset($data['trumbowyg-locale'])      and Arr::delete($data, 'trumbowyg-locale');
             isset($data['flatpickr-date-format']) and Arr::delete($data, 'flatpickr-date-format');

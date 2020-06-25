@@ -1,3 +1,45 @@
+<a name="1.0.10"></a>
+# [1.0.10](https://github.com/flextype-plugins/admin) (2020-06-23)
+
+### Refactor
+
+* **refactor(core)** update code base for new ACL
+
+<a name="1.0.9"></a>
+# [1.0.9](https://github.com/flextype-plugins/admin) (2020-06-21)
+
+### Refactor
+
+* **refactor(core)** remove User functionality and update code base for new ACL
+
+<a name="1.0.8"></a>
+# [1.0.8](https://github.com/flextype-plugins/admin) (2020-06-13)
+
+### Refactor
+
+* **refactor(core)** move FlashTwigExtension from core to Twig Plugin 1.0.4
+
+<a name="1.0.7"></a>
+# [1.0.7](https://github.com/flextype-plugins/admin) (2020-06-10)
+
+### Bug Fixes
+
+* **entries-controller** fix Entries saving issue
+
+<a name="1.0.6"></a>
+# [1.0.6](https://github.com/flextype-plugins/admin) (2020-06-10)
+
+### Bug Fixes
+
+* **entries-controller** updates for Form Plugin 1.1.0
+
+<a name="1.0.6"></a>
+# [1.0.6](https://github.com/flextype-plugins/admin) (2020-06-10)
+
+### Bug Fixes
+
+* **entries-controller** updates for Form Plugin 1.1.0
+
 <a name="1.0.5"></a>
 # [1.0.5](https://github.com/flextype-plugins/admin) (2020-05-26)
 

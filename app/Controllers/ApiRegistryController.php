@@ -48,10 +48,6 @@ class ApiRegistryController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_delivery')
-                    ],
                     'api_registry' => [
                         'link' => $this->router->pathFor('admin.api_registry.index'),
                         'title' => __('admin_registry'),
@@ -85,10 +81,6 @@ class ApiRegistryController extends Container
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                    ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_delivery')
                     ],
                     'api_registry' => [
                         'link' => $this->router->pathFor('admin.api_registry.index'),

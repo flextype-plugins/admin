@@ -48,10 +48,6 @@ class ApiEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_delivery')
-                    ],
                     'api_entries' => [
                         'link' => $this->router->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries'),
@@ -85,10 +81,6 @@ class ApiEntriesController extends Container
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
-                    ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_delivery')
                     ],
                     'api_entries' => [
                         'link' => $this->router->pathFor('admin.api_entries.index'),

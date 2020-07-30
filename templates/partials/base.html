@@ -138,6 +138,52 @@
                                 /
                             {% endif %}
 
+
+                            {% if is_current_path('admin.api_files.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_files.index') }}">
+                                    <span class="pr-1 pl-1">files</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_files.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_files.index') }}">
+                                    <span class="pr-1 pl-1">files</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_files.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_files.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_files.index') }}">
+                                    <span class="pr-1 pl-1">files</span></a>
+                            {% endif %}
+
+
+                            {% if is_current_path('admin.api_folders.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_folders.index') }}">
+                                    <span class="pr-1 pl-1">folders</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_folders.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_folders.index') }}">
+                                    <span class="pr-1 pl-1">folders</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_folders.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_folders.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_folders.index') }}">
+                                    <span class="pr-1 pl-1">folders</span></a>
+                            {% endif %}
+
+
+
                             {% if is_current_path('admin.api_entries.index') %}
                                 /
                                 <a href="{{ path_for('admin.api_entries.index') }}">

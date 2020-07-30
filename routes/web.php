@@ -57,6 +57,20 @@ $app->group('/' . $admin_route, function () use ($app, $flextype) : void {
     $app->post('/api/entries/edit', 'ApiEntriesController:editProcess')->setName('admin.api_entries.editProcess');
     $app->post('/api/entries/delete', 'ApiEntriesController:deleteProcess')->setName('admin.api_entries.deleteProcess');
 
+    $app->get('/api/files', 'ApiFilesController:index')->setName('admin.api_files.index');
+    $app->get('/api/files/add', 'ApiFilesController:add')->setName('admin.api_files.add');
+    $app->post('/api/files/add', 'ApiFilesController:addProcess')->setName('admin.api_files.addProcess');
+    $app->get('/api/files/edit', 'ApiFilesController:edit')->setName('admin.api_files.edit');
+    $app->post('/api/files/edit', 'ApiFilesController:editProcess')->setName('admin.api_files.editProcess');
+    $app->post('/api/files/delete', 'ApiFilesController:deleteProcess')->setName('admin.api_files.deleteProcess');
+
+    $app->get('/api/folders', 'ApiFoldersController:index')->setName('admin.api_folders.index');
+    $app->get('/api/folders/add', 'ApiFoldersController:add')->setName('admin.api_folders.add');
+    $app->post('/api/folders/add', 'ApiFoldersController:addProcess')->setName('admin.api_folders.addProcess');
+    $app->get('/api/folders/edit', 'ApiFoldersController:edit')->setName('admin.api_folders.edit');
+    $app->post('/api/folders/edit', 'ApiFoldersController:editProcess')->setName('admin.api_folders.editProcess');
+    $app->post('/api/folders/delete', 'ApiFoldersController:deleteProcess')->setName('admin.api_folders.deleteProcess');
+
     $app->get('/api/registry', 'ApiRegistryController:index')->setName('admin.api_registry.index');
     $app->get('/api/registry/add', 'ApiRegistryController:add')->setName('admin.api_registry.add');
     $app->post('/api/registry/add', 'ApiRegistryController:addProcess')->setName('admin.api_registry.addProcess');

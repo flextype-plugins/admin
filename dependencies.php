@@ -22,6 +22,8 @@ use Flextype\Plugin\Admin\Controllers\ApiController;
 use Flextype\Plugin\Admin\Controllers\ApiImagesController;
 use Flextype\Plugin\Admin\Controllers\ApiRegistryController;
 use Flextype\Plugin\Admin\Controllers\ApiEntriesController;
+use Flextype\Plugin\Admin\Controllers\ApiFilesController;
+use Flextype\Plugin\Admin\Controllers\ApiFoldersController;
 use Flextype\Plugin\Admin\Controllers\ApiAccessController;
 
 // Set Default Admin locale
@@ -74,6 +76,14 @@ $flextype['ApiController'] = static function ($container) {
 
 $flextype['ApiEntriesController'] = static function ($container) {
     return new ApiEntriesController($container);
+};
+
+$flextype['ApiFilesController'] = static function ($container) {
+    return new ApiFilesController($container);
+};
+
+$flextype['ApiFoldersController'] = static function ($container) {
+    return new ApiFoldersController($container);
 };
 
 $flextype['ApiImagesController'] = static function ($container) {

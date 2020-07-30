@@ -19,7 +19,7 @@ use Flextype\App\Foundation\Container;
 class ApiEntriesController extends Container
 {
     /**
-     * Delivery Entries Index page
+     * Entries Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -27,11 +27,11 @@ class ApiEntriesController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/delivery/entries/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens/entries/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/delivery/entries/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens/entries/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -39,7 +39,7 @@ class ApiEntriesController extends Container
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/entries/index.html',
+            'plugins/admin/templates/system/api/entries/index.html',
             [
                 'menu_item' => 'api',
                 'tokens' => $tokens,
@@ -74,7 +74,7 @@ class ApiEntriesController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/entries/add.html',
+            'plugins/admin/templates/system/api/entries/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
@@ -110,7 +110,7 @@ class ApiEntriesController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/entries/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens/entries/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -163,11 +163,11 @@ class ApiEntriesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens' . '/delivery/entries/' . $token . '/token.yaml'));
+        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml'));
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/entries/edit.html',
+            'plugins/admin/templates/system/api/entries/edit.html',
             [
                 'menu_item' => 'api',
                 'token' => $token,
@@ -176,10 +176,6 @@ class ApiEntriesController extends Container
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
-                    ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_delivery')
                     ],
                     'api_entries' => [
                         'link' => $this->router->pathFor('admin.api_entries.index'),
@@ -206,7 +202,7 @@ class ApiEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens/entries/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
@@ -246,7 +242,7 @@ class ApiEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens/entries/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
             $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_deleted'));

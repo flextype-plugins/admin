@@ -19,7 +19,7 @@ use Flextype\App\Foundation\Container;
 class ApiRegistryController extends Container
 {
     /**
-     * Delivery Registry Index page
+     * Registry Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -27,11 +27,11 @@ class ApiRegistryController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/delivery/registry/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/registry/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/delivery/registry/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/registry/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -39,7 +39,7 @@ class ApiRegistryController extends Container
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/registry/index.html',
+            'plugins/admin/templates/system/api/registry/index.html',
             [
                 'menu_item' => 'api',
                 'tokens' => $tokens,
@@ -74,7 +74,7 @@ class ApiRegistryController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/registry/add.html',
+            'plugins/admin/templates/system/api/registry/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
@@ -110,7 +110,7 @@ class ApiRegistryController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/registry/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens/registry/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -163,11 +163,11 @@ class ApiRegistryController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens' . '/delivery/registry/' . $token . '/token.yaml'));
+        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml'));
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/registry/edit.html',
+            'plugins/admin/templates/system/api/registry/edit.html',
             [
                 'menu_item' => 'api',
                 'token' => $token,
@@ -176,10 +176,6 @@ class ApiRegistryController extends Container
                     'api' => [
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
-                    ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
-                        'title' => __('admin_delivery')
                     ],
                     'api_registry' => [
                         'link' => $this->router->pathFor('admin.api_registry.index'),
@@ -206,7 +202,7 @@ class ApiRegistryController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/registry/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens/registry/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
@@ -246,7 +242,7 @@ class ApiRegistryController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens' . '/delivery/registry/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens/registry/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
             $this->flash->addMessage('success', __('admin_message_delivery_registry_api_token_deleted'));

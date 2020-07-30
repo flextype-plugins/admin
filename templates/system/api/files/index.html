@@ -66,7 +66,7 @@
                 <i class="icon icon--4xl">{{ icon('fas fa-database') }}</i>
                 <i class="icon icon--4xl mr-3 ml-3">{{ icon('fas angle-right') }}</i>
                 <i class="icon icon--4xl">{{ icon('fas fa-truck') }}</i>
-                <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_delivery_files_api_tokens_yet') }}</h3>
+                <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_files_api_tokens_yet') }}</h3>
                 <a href="{{ path_for('admin.api_files.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
             </div>
         </div>
@@ -80,7 +80,7 @@
                 dropdown[row_num].hide();
             }
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_delivery_files_token_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_files_token_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('delete-api-token-id-' + id).submit();

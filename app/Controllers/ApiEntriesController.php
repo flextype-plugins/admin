@@ -139,12 +139,12 @@ class ApiEntriesController extends Container
                     'updated_at' => $time,
                 ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_entries_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_created1'));
+                $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_created2'));
+            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
@@ -222,10 +222,10 @@ class ApiEntriesController extends Container
                     'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
                 ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_updated'));
+                $this->flash->addMessage('success', __('admin_message_entries_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_updated'));
+            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_updated'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
@@ -245,9 +245,9 @@ class ApiEntriesController extends Container
         $api_token_dir_path = PATH['project'] . '/tokens/entries/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_deleted'));
+            $this->flash->addMessage('success', __('admin_message_entries_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_deleted'));
         }
 
         return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));

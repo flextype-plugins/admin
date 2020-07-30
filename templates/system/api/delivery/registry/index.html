@@ -21,14 +21,14 @@
                 {% for key, token in tokens %}
                     {% set token_file_path = PATH_PROJECT ~ '/tokens/delivery/registry/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem_has(token_file_path) %}
-                        {% set token_data = serializer_decode(filesystem_read(token_file_path), 'yaml') %}
+                        {% set token_data = yaml_decode(filesystem_read(token_file_path)) %}
                     {% endif %}
                     <tr>
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             <i class="icon">{{ icon(token_data.icon) }}</i>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <a href="{{ path_for('admin.api_delivery_registry.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
+                            <a href="{{ path_for('admin.api_registry.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
@@ -41,7 +41,7 @@
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
                             <div id="dropdown-delivery-registry-{{ token.dirname }}" class="dropdown">
-                                <a class="dropdown__item" href="{{ path_for('admin.api_delivery_registry.edit') }}?token={{ token.dirname }}">
+                                <a class="dropdown__item" href="{{ path_for('admin.api_registry.edit') }}?token={{ token.dirname }}">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                     {{ tr('admin_edit') }}
                                 </a>
@@ -50,7 +50,7 @@
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}
                                 </a>
-                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_delivery_registry.deleteProcess') }}" method="POST" style="display: none;">
+                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_registry.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="token" value="{{ token.dirname }}">
                                 </form>
@@ -67,7 +67,7 @@
                 <i class="icon icon--4xl mr-3 ml-3">{{ icon('fas angle-right') }}</i>
                 <i class="icon icon--4xl">{{ icon('fas fa-truck') }}</i>
                 <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_delivery_registry_api_tokens_yet') }}</h3>
-                <a href="{{ path_for('admin.api_delivery_registry.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
+                <a href="{{ path_for('admin.api_registry.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
             </div>
         </div>
     {% endif %}

@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+use Flextype\Plugin\Acl\Middlewares\AclIsUserLoggedInMiddleware;
+use Flextype\Plugin\Acl\Middlewares\AclIsUserLoggedInRolesInMiddleware;
 
 $app->group('/' . $admin_route, function () use ($app, $flextype) : void {
     // Dashboard
@@ -49,20 +50,19 @@ $app->group('/' . $admin_route, function () use ($app, $flextype) : void {
     // ApiController
     $app->get('/api', 'ApiController:index')->setName('admin.api.index');
 
-    $app->get('/api/delivery', 'ApiDeliveryController:index')->setName('admin.api_delivery.index');
-    $app->get('/api/delivery/entries', 'ApiDeliveryEntriesController:index')->setName('admin.api_delivery_entries.index');
-    $app->get('/api/delivery/entries/add', 'ApiDeliveryEntriesController:add')->setName('admin.api_delivery_entries.add');
-    $app->post('/api/delivery/entries/add', 'ApiDeliveryEntriesController:addProcess')->setName('admin.api_delivery_entries.addProcess');
-    $app->get('/api/delivery/entries/edit', 'ApiDeliveryEntriesController:edit')->setName('admin.api_delivery_entries.edit');
-    $app->post('/api/delivery/entries/edit', 'ApiDeliveryEntriesController:editProcess')->setName('admin.api_delivery_entries.editProcess');
-    $app->post('/api/delivery/entries/delete', 'ApiDeliveryEntriesController:deleteProcess')->setName('admin.api_delivery_entries.deleteProcess');
+    $app->get('/api/entries', 'ApiEntriesController:index')->setName('admin.api_entries.index');
+    $app->get('/api/entries/add', 'ApiEntriesController:add')->setName('admin.api_entries.add');
+    $app->post('/api/entries/add', 'ApiEntriesController:addProcess')->setName('admin.api_entries.addProcess');
+    $app->get('/api/entries/edit', 'ApiEntriesController:edit')->setName('admin.api_entries.edit');
+    $app->post('/api/entries/edit', 'ApiEntriesController:editProcess')->setName('admin.api_entries.editProcess');
+    $app->post('/api/entries/delete', 'ApiEntriesController:deleteProcess')->setName('admin.api_entries.deleteProcess');
 
-    $app->get('/api/delivery/registry', 'ApiDeliveryRegistryController:index')->setName('admin.api_delivery_registry.index');
-    $app->get('/api/delivery/registry/add', 'ApiDeliveryRegistryController:add')->setName('admin.api_delivery_registry.add');
-    $app->post('/api/delivery/registry/add', 'ApiDeliveryRegistryController:addProcess')->setName('admin.api_delivery_registry.addProcess');
-    $app->get('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:edit')->setName('admin.api_delivery_registry.edit');
-    $app->post('/api/delivery/registry/edit', 'ApiDeliveryRegistryController:editProcess')->setName('admin.api_delivery_registry.editProcess');
-    $app->post('/api/delivery/registry/delete', 'ApiDeliveryRegistryController:deleteProcess')->setName('admin.api_delivery_registry.deleteProcess');
+    $app->get('/api/registry', 'ApiRegistryController:index')->setName('admin.api_registry.index');
+    $app->get('/api/registry/add', 'ApiRegistryController:add')->setName('admin.api_registry.add');
+    $app->post('/api/registry/add', 'ApiRegistryController:addProcess')->setName('admin.api_registry.addProcess');
+    $app->get('/api/registry/edit', 'ApiRegistryController:edit')->setName('admin.api_registry.edit');
+    $app->post('/api/registry/edit', 'ApiRegistryController:editProcess')->setName('admin.api_registry.editProcess');
+    $app->post('/api/registry/delete', 'ApiRegistryController:deleteProcess')->setName('admin.api_registry.deleteProcess');
 
     $app->get('/api/images', 'ApiImagesController:index')->setName('admin.api_images.index');
     $app->get('/api/images/add', 'ApiImagesController:add')->setName('admin.api_images.add');
@@ -77,14 +77,6 @@ $app->group('/' . $admin_route, function () use ($app, $flextype) : void {
     $app->get('/api/access/edit', 'ApiAccessController:edit')->setName('admin.api_access.edit');
     $app->post('/api/access/edit', 'ApiAccessController:editProcess')->setName('admin.api_access.editProcess');
     $app->post('/api/access/delete', 'ApiAccessController:deleteProcess')->setName('admin.api_access.deleteProcess');
-
-    $app->get('/api/management', 'ApiManagementController:index')->setName('admin.api_management.index');
-    $app->get('/api/management/entries', 'ApiManagementEntriesController:index')->setName('admin.api_management_entries.index');
-    $app->get('/api/management/entries/add', 'ApiManagementEntriesController:add')->setName('admin.api_management_entries.add');
-    $app->post('/api/management/entries/add', 'ApiManagementEntriesController:addProcess')->setName('admin.api_management_entries.addProcess');
-    $app->get('/api/management/entries/edit', 'ApiManagementEntriesController:edit')->setName('admin.api_management_entries.edit');
-    $app->post('/api/management/entries/edit', 'ApiManagementEntriesController:editProcess')->setName('admin.api_management_entries.editProcess');
-    $app->post('/api/management/entries/delete', 'ApiManagementEntriesController:deleteProcess')->setName('admin.api_management_entries.deleteProcess');
 
 })->add(new AclIsUserLoggedInMiddleware(['container' => $flextype, 'redirect' => 'admin.accounts.login']))
   ->add(new AclIsUserLoggedInRolesInMiddleware(['container' => $flextype,

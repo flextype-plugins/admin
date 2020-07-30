@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use FilesystemIterator;
 use Flextype\Component\Number\Number;
@@ -18,6 +18,7 @@ use function is_array;
 use function php_sapi_name;
 use function php_uname;
 use function realpath;
+use Flextype\App\Foundation\Container;
 
 /**
  * @property View $view
@@ -132,7 +133,7 @@ class ToolsController extends Container
             'plugins/admin/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
-                'registry_dump' => $this->dotArray($this->registry->dump()),
+                'registry_dump' => $this->dotArray($this->registry->all()),
                 'links' =>  [
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),

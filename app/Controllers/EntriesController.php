@@ -1,16 +1,17 @@
 <?php
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Arr\Arr;
+use Flextype\Component\Arrays\Arrays;
 use function Flextype\Component\I18n\__;
 use Respect\Validation\Validator as v;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Flextype\App\Foundation\Container;
 
 
 /**
@@ -74,7 +75,7 @@ class EntriesController extends Container
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->yaml->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['form']) &&
                         isset($fieldset_content['form']['tabs']) &&
                         isset($fieldset_content['form']['tabs']['main']['fields']) &&
@@ -100,7 +101,7 @@ class EntriesController extends Container
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
+                            'entries_list' => collect($this->entries->fetchCollection($this->getEntryID($query)))->orderBy('published_at', 'DESC')->all(),
                             'id_current' => $this->getEntryID($query),
                             'entry_current' => $entry_current,
                             'items_view' => $items_view,
@@ -108,7 +109,7 @@ class EntriesController extends Container
                             'fieldsets' => $fieldsets,
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                         'entries' => [
                                                 'link' => $this->router->pathFor('admin.entries.index'),
@@ -153,12 +154,12 @@ class EntriesController extends Container
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
+                            'entries_list' => collect($this->entries->fetchCollection($this->getEntryID($query)))->orderBy('order_by', 'ASC')->all(),
                             'menu_item' => 'entries',
                             'current_id' => $this->getEntryID($query),
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'type' => $type,
                             'links' => [
                                         'entries' => [
@@ -336,7 +337,7 @@ class EntriesController extends Container
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->yaml->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['form']) &&
                         isset($fieldset_content['form']['tabs']['main']) &&
                         isset($fieldset_content['form']['tabs']['main']['fields']) &&
@@ -360,7 +361,7 @@ class EntriesController extends Container
                             'menu_item' => 'entries',
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -393,15 +394,15 @@ class EntriesController extends Container
 
         $entry = $this->entries->fetch($id);
 
-        Arr::delete($entry, 'slug');
-        Arr::delete($entry, 'modified_at');
-        Arr::delete($entry, 'created_at');
-        Arr::delete($entry, 'published_at');
+        Arrays::delete($entry, 'slug');
+        Arrays::delete($entry, 'modified_at');
+        Arrays::delete($entry, 'created_at');
+        Arrays::delete($entry, 'published_at');
 
-        Arr::delete($post_data, 'csrf_name');
-        Arr::delete($post_data, 'csrf_value');
-        Arr::delete($post_data, 'save_entry');
-        Arr::delete($post_data, 'id');
+        Arrays::delete($post_data, 'csrf_name');
+        Arrays::delete($post_data, 'csrf_value');
+        Arrays::delete($post_data, 'save_entry');
+        Arrays::delete($post_data, 'id');
 
         $post_data['published_by'] = Session::get('uuid');
 
@@ -436,7 +437,7 @@ class EntriesController extends Container
         $entry_id = $this->getEntryID($query);
 
         // Get current Entry ID
-        $entry_id_current = Arr::last(explode("/", $entry_id));
+        $entry_id_current = array_pop(explode("/", $entry_id));
 
         // Fetch entry
         $entry = $this->entries->fetch($this->getEntryID($query));
@@ -469,7 +470,7 @@ class EntriesController extends Container
                             'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -544,13 +545,13 @@ class EntriesController extends Container
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
-                            'name_current' => Arr::last(explode("/", $this->getEntryID($query))),
+                            'name_current' => array_pop(explode("/", $this->getEntryID($query))),
                             'entry_path_current' => $this->getEntryID($query),
                             'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                             'menu_item' => 'entries',
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -686,12 +687,12 @@ class EntriesController extends Container
 
         // Get Entry
         $entry = $this->entries->fetch($this->getEntryID($query));
-        Arr::delete($entry, 'slug');
-        Arr::delete($entry, 'modified_at');
+        Arrays::delete($entry, 'slug');
+        Arrays::delete($entry, 'modified_at');
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['project'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = $this->serializer->decode(Filesystem::read($fieldsets_path), 'yaml');
+        $fieldsets = $this->yaml->decode(Filesystem::read($fieldsets_path));
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -704,9 +705,9 @@ class EntriesController extends Container
                 [
                         'parts' => $parts,
                         'i' => count($parts),
-                        'last' => Arr::last($parts),
+                        'last' => array_pop($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => $this->serializer->encode($entry, 'frontmatter'),
+                        'data' => $this->frontmatter->encode($entry),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -748,7 +749,7 @@ class EntriesController extends Container
                 [
                         'parts' => $parts,
                         'i' => count($parts),
-                        'last' => Arr::last($parts),
+                        'last' => array_pop($parts),
                         'id' => $this->getEntryID($query),
                         'files' => $this->getMediaList($this->getEntryID($query), true),
                         'menu_item' => 'entries',
@@ -790,7 +791,7 @@ class EntriesController extends Container
                 [
                         'parts' => $parts,
                         'i' => count($parts),
-                        'last' => Arr::last($parts),
+                        'last' => array_pop($parts),
                         'form' => $form,
                         'menu_item' => 'entries',
                         'links' => [
@@ -846,15 +847,15 @@ class EntriesController extends Container
             // Data from POST
             $data = $request->getParsedBody();
 
-            $entry = $this->serializer->decode($data['data'], 'frontmatter');
+            $entry = $this->frontmatter->decode($data['data']);
 
             $entry['published_by'] = Session::get('uuid');
 
-            Arr::delete($entry, 'slug');
-            Arr::delete($entry, 'modified_at');
+            Arrays::delete($entry, 'slug');
+            Arrays::delete($entry, 'modified_at');
 
             // Update entry
-            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', $this->serializer->encode($entry, 'frontmatter'))) {
+            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', $this->frontmatter->encode($entry))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
@@ -867,22 +868,22 @@ class EntriesController extends Container
             $data = $request->getParsedBody();
 
             // Delete system fields
-            isset($data['slug'])                  and Arr::delete($data, 'slug');
-            isset($data['csrf_value'])            and Arr::delete($data, 'csrf_value');
-            isset($data['csrf_name'])             and Arr::delete($data, 'csrf_name');
-            isset($data['form-save-action'])      and Arr::delete($data, 'form-save-action');
-            isset($data['trumbowyg-icons-path'])  and Arr::delete($data, 'trumbowyg-icons-path');
-            isset($data['trumbowyg-locale'])      and Arr::delete($data, 'trumbowyg-locale');
-            isset($data['flatpickr-date-format']) and Arr::delete($data, 'flatpickr-date-format');
-            isset($data['flatpickr-locale'])      and Arr::delete($data, 'flatpickr-locale');
+            isset($data['slug'])                  and Arrays::delete($data, 'slug');
+            isset($data['csrf_value'])            and Arrays::delete($data, 'csrf_value');
+            isset($data['csrf_name'])             and Arrays::delete($data, 'csrf_name');
+            isset($data['form-save-action'])      and Arrays::delete($data, 'form-save-action');
+            isset($data['trumbowyg-icons-path'])  and Arrays::delete($data, 'trumbowyg-icons-path');
+            isset($data['trumbowyg-locale'])      and Arrays::delete($data, 'trumbowyg-locale');
+            isset($data['flatpickr-date-format']) and Arrays::delete($data, 'flatpickr-date-format');
+            isset($data['flatpickr-locale'])      and Arrays::delete($data, 'flatpickr-locale');
 
 
             $data['published_by'] = Session::get('uuid');
 
             // Fetch entry
             $entry = $this->entries->fetch($id);
-            Arr::delete($entry, 'slug');
-            Arr::delete($entry, 'modified_at');
+            Arrays::delete($entry, 'slug');
+            Arrays::delete($entry, 'modified_at');
 
             if (isset($data['created_at'])) {
                 $data['created_at'] = date($this->registry->get('flextype.settings.date_format'), strtotime($data['created_at']));
@@ -952,7 +953,7 @@ class EntriesController extends Container
     {
         $data = $request->getParsedBody();
 
-        if ($this->media_files->create($_FILES['file'], '/entries/' . $data['entry-id'] . '/')) {
+        if ($this->media_files->upload($_FILES['file'], '/entries/' . $data['entry-id'] . '/')) {
             $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_file_not_uploaded'));
@@ -1007,9 +1008,9 @@ class EntriesController extends Container
 
         if ($post_data['id'] == '') {
             $data = [];
-            $admin_plugin_settings = $this->serializer->decode(Filesystem::read(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml'), 'yaml');
+            $admin_plugin_settings = $this->yaml->decode(Filesystem::read(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml'));
             $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
-            Filesystem::write(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml', $this->serializer->encode($admin_plugin_settings, 'yaml'));
+            Filesystem::write(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml', $this->yaml->encode($admin_plugin_settings));
         } else {
             $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
         }

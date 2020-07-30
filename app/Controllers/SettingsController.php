@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use DateTime;
-use Flextype\Component\Arr\Arr;
-use Flextype\Component\Date\Date;
+use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use function array_merge;
 use function explode;
 use function Flextype\Component\I18n\__;
+use Flextype\App\Foundation\Container;
 
 /**
  * @property View $view
@@ -37,7 +37,7 @@ class SettingsController extends Container
             $response,
             'plugins/admin/templates/system/settings/index.html',
             [
-                'data' => Filesystem::read(PATH['project'] . '/config/' . '/settings.yaml'),
+                'data' => Filesystem::read(PATH['project'] . '/config/flextype/settings.yaml'),
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [

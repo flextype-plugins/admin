@@ -110,11 +110,11 @@
                     </div>
                     <div class="navigation-top-secondary">
                         <div class="block w-6/12 {% if is_current_path('admin.entries.index') %}w-4/12{% endif %}">
-                            {% if is_current_path('admin.entries.index')or
-                            is_current_path('admin.entries.edit')or
-                            is_current_path('admin.entries.add')or
-                            is_current_path('admin.entries.move')or
-                            is_current_path('admin.entries.rename')or
+                            {% if is_current_path('admin.entries.index') or
+                            is_current_path('admin.entries.edit') or
+                            is_current_path('admin.entries.add') or
+                            is_current_path('admin.entries.move') or
+                            is_current_path('admin.entries.rename') or
                             is_current_path('admin.entries.type') %}
                                 {% for part in parts %}
                                     {% set i = i - 1 %}
@@ -130,7 +130,7 @@
                             {% endif %}
 
 
-                            {% if is_current_path('admin.tools.information')or is_current_path('admin.tools.cache')or is_current_path('admin.tools.registry') %}
+                            {% if is_current_path('admin.tools.information') or is_current_path('admin.tools.cache') or is_current_path('admin.tools.registry') %}
                                 /
                             {% endif %}
 
@@ -138,69 +138,91 @@
                                 /
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery.index') %}
+
+                            {% if is_current_path('admin.api_files.index') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
+                                <a href="{{ path_for('admin.api_files.index') }}">
+                                    <span class="pr-1 pl-1">files</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_entries.index') %}
+                            {% if is_current_path('admin.api_files.edit') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
+                                <a href="{{ path_for('admin.api_files.index') }}">
+                                    <span class="pr-1 pl-1">files</span></a>
                                 /
-                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                            {% endif %}
-
-                            {% if is_current_path('admin.api_delivery_entries.edit') %}
-                                /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_delivery_entries.edit') }}?token={{ token }}">
+                                <a href="{{ path_for('admin.api_files.edit') }}?token={{ token }}">
                                     <span class="pr-1 pl-1">{{ token }}</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_entries.add') %}
+                            {% if is_current_path('admin.api_files.add') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
+                                <a href="{{ path_for('admin.api_files.index') }}">
+                                    <span class="pr-1 pl-1">files</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_registry.index') %}
+
+                            {% if is_current_path('admin.api_folders.index') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_delivery_registry.index') }}">
-                                    <span class="pr-1 pl-1">registry</span></a>
+                                <a href="{{ path_for('admin.api_folders.index') }}">
+                                    <span class="pr-1 pl-1">folders</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_registry.edit') %}
+                            {% if is_current_path('admin.api_folders.edit') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
+                                <a href="{{ path_for('admin.api_folders.index') }}">
+                                    <span class="pr-1 pl-1">folders</span></a>
                                 /
-                                <a href="{{ path_for('admin.api_delivery_registry.index') }}">
-                                    <span class="pr-1 pl-1">registry</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_delivery_registry.edit') }}?token={{ token }}">
+                                <a href="{{ path_for('admin.api_folders.edit') }}?token={{ token }}">
                                     <span class="pr-1 pl-1">{{ token }}</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_delivery_registry.add') %}
+                            {% if is_current_path('admin.api_folders.add') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery_registry.index') }}">
-                                    <span class="pr-1 pl-1">delivery</span></a>
+                                <a href="{{ path_for('admin.api_folders.index') }}">
+                                    <span class="pr-1 pl-1">folders</span></a>
+                            {% endif %}
+
+
+
+                            {% if is_current_path('admin.api_entries.index') %}
                                 /
-                                <a href="{{ path_for('admin.api_delivery_entries.index') }}">
+                                <a href="{{ path_for('admin.api_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_entries.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_entries.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_entries.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_entries.index') }}">
+                                    <span class="pr-1 pl-1">entries</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_registry.index') %}
+                                /
+                                <a href="{{ path_for('admin.api_registry.index') }}">
+                                    <span class="pr-1 pl-1">registry</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_registry.edit') %}
+                                /
+                                <a href="{{ path_for('admin.api_registry.index') }}">
+                                    <span class="pr-1 pl-1">registry</span></a>
+                                /
+                                <a href="{{ path_for('admin.api_registry.edit') }}?token={{ token }}">
+                                    <span class="pr-1 pl-1">{{ token }}</span></a>
+                            {% endif %}
+
+                            {% if is_current_path('admin.api_registry.add') %}
+                                /
+                                <a href="{{ path_for('admin.api_entries.index') }}">
                                     <span class="pr-1 pl-1">registry</span></a>
                             {% endif %}
 
@@ -246,44 +268,8 @@
                                     <span class="pr-1 pl-1">access</span></a>
                             {% endif %}
 
-                            {% if is_current_path('admin.api_management.index') %}
-                                /
-                                <a href="{{ path_for('admin.api_management.index') }}">
-                                    <span class="pr-1 pl-1">management</span></a>
-                            {% endif %}
-
-                            {% if is_current_path('admin.api_management_entries.index') %}
-                                /
-                                <a href="{{ path_for('admin.api_management.index') }}">
-                                    <span class="pr-1 pl-1">management</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_management_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                            {% endif %}
-
-                            {% if is_current_path('admin.api_management_entries.edit') %}
-                                /
-                                <a href="{{ path_for('admin.api_management.index') }}">
-                                    <span class="pr-1 pl-1">management</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_management_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_delivery_entries.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if is_current_path('admin.api_management_entries.add') %}
-                                /
-                                <a href="{{ path_for('admin.api_management.index') }}">
-                                    <span class="pr-1 pl-1">management</span></a>
-                                /
-                                <a href="{{ path_for('admin.api_management_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                            {% endif %}
-
-                            {% if is_current_path('admin.plugins.index')or
-                            is_current_path('admin.plugins.information')or
+                            {% if is_current_path('admin.plugins.index') or
+                            is_current_path('admin.plugins.information') or
                             is_current_path('admin.plugins.settings') %}
                                 /
                                 <span class="pr-1 pl-1">{{ id }}</span>

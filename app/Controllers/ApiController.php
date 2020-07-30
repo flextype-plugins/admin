@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
@@ -14,6 +14,7 @@ use function date;
 use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
+use Flextype\App\Foundation\Container;
 
 class ApiController extends Container
 {
@@ -31,17 +32,25 @@ class ApiController extends Container
             [
                 'menu_item' => 'api',
                 'api_list' => [
-                                'delivery' => [
-                                  'title' => __('admin_delivery'),
-                                  'icon' => 'fas fa-truck'
+                                'entries' => [
+                                  'title' => __('admin_entries'),
+                                  'icon' => 'fas fa-database'
+                                ],
+                                'registry' => [
+                                  'title' => __('admin_registry'),
+                                  'icon' => 'fas fa-archive'
                                 ],
                                 'images' => [
                                   'title' => __('admin_images'),
                                   'icon' => 'far fa-images'
                                 ],
-                                'management' => [
-                                  'title' => __('admin_management'),
-                                  'icon' => 'fas fa-user-cog'
+                                'files' => [
+                                  'title' => __('admin_files'),
+                                  'icon' => 'fas fa-file'
+                                ],
+                                'folders' => [
+                                  'title' => __('admin_folders'),
+                                  'icon' => 'fas fa-folder'
                                 ],
                                 'access' => [
                                   'title' => __('admin_access'),

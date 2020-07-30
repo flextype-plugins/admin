@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
@@ -14,11 +14,12 @@ use function date;
 use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
+use Flextype\App\Foundation\Container;
 
-class ApiManagementEntriesController extends Container
+class ApiEntriesController extends Container
 {
     /**
-     * Management Entries Index page
+     * Entries Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -26,11 +27,11 @@ class ApiManagementEntriesController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/management/entries/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens/entries/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/management/entries/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens/entries/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -38,7 +39,7 @@ class ApiManagementEntriesController extends Container
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/management/entries/index.html',
+            'plugins/admin/templates/system/api/entries/index.html',
             [
                 'menu_item' => 'api',
                 'tokens' => $tokens,
@@ -47,19 +48,15 @@ class ApiManagementEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_management' => [
-                        'link' => $this->router->pathFor('admin.api_management.index'),
-                        'title' => __('admin_management')
-                    ],
-                    'api_management_entries' => [
-                        'link' => $this->router->pathFor('admin.api_management_entries.index'),
+                    'api_entries' => [
+                        'link' => $this->router->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
-                    'api_management_entries_add' => [
-                        'link' => $this->router->pathFor('admin.api_management_entries.add'),
+                    'api_entries_add' => [
+                        'link' => $this->router->pathFor('admin.api_entries.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -77,7 +74,7 @@ class ApiManagementEntriesController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/management/entries/add.html',
+            'plugins/admin/templates/system/api/entries/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
@@ -85,16 +82,12 @@ class ApiManagementEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_management' => [
-                        'link' => $this->router->pathFor('admin.api_management.index'),
-                        'title' => __('admin_management')
-                    ],
-                    'api_management_entries' => [
-                        'link' => $this->router->pathFor('admin.api_management_entries.index'),
+                    'api_entries' => [
+                        'link' => $this->router->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries')
                     ],
-                    'api_management_entries_add' => [
-                        'link' => $this->router->pathFor('admin.api_management_entries.add'),
+                    'api_entries_add' => [
+                        'link' => $this->router->pathFor('admin.api_entries.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -117,7 +110,7 @@ class ApiManagementEntriesController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/management/entries/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens/entries/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -133,7 +126,7 @@ class ApiManagementEntriesController extends Container
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->serializer->encode([
+                $this->yaml->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -144,20 +137,20 @@ class ApiManagementEntriesController extends Container
                     'created_at' => $time,
                     'updated_by' => Session::get('uuid'),
                     'updated_at' => $time,
-                ], 'yaml')
+                ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_management_entries_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_entries_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_management_entries_api_token_was_not_created1'));
+                $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_management_entries_api_token_was_not_created2'));
+            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->router->pathFor('admin.api_management_entries.edit') . '?token=' . $api_token);
+            return $response->withRedirect($this->router->pathFor('admin.api_entries.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.api_management_entries.index'));
+            return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
         }
     }
 
@@ -170,11 +163,11 @@ class ApiManagementEntriesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->serializer->decode(Filesystem::read(PATH['project'] . '/tokens' . '/management/entries/' . $token . '/token.yaml'), 'yaml');
+        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml'));
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/management/entries/edit.html',
+            'plugins/admin/templates/system/api/entries/edit.html',
             [
                 'menu_item' => 'api',
                 'token' => $token,
@@ -184,17 +177,13 @@ class ApiManagementEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_management.index'),
-                        'title' => __('admin_management')
-                    ],
-                    'api_management_entries' => [
-                        'link' => $this->router->pathFor('admin.api_management_entries.index'),
+                    'api_entries' => [
+                        'link' => $this->router->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->router->pathFor('admin.api_management_entries.edit'),
-                        'title' => __('admin_edit_delivery_token'),
+                        'link' => $this->router->pathFor('admin.api_entries.edit'),
+                        'title' => __('admin_edit_token'),
                         'active' => true
                     ],
                 ]
@@ -213,14 +202,14 @@ class ApiManagementEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/management/entries/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens/entries/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->serializer->encode([
+                $this->yaml->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -231,15 +220,15 @@ class ApiManagementEntriesController extends Container
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
                     'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
-                ], 'yaml')
+                ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_management_entries_api_token_updated'));
+                $this->flash->addMessage('success', __('admin_message_entries_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_management_entries_api_token_was_not_updated'));
+            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_management_entries.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
     }
 
     /**
@@ -253,14 +242,14 @@ class ApiManagementEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens' . '/management/entries/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens/entries/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_management_entries_api_token_deleted'));
+            $this->flash->addMessage('success', __('admin_message_entries_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_management_entries_api_token_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_management_entries.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
     }
 }

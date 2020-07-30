@@ -9,7 +9,7 @@
                         {% if cache.contains(entry.slug ~ '_counter') %}
                             {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
                         {% else %}
-                            {% set _entries = entries.fetch(entry.slug, {}) %}
+                            {% set _entries = entries.fetchCollection(entry.slug) %}
                             {% set _entries_length = _entries | length %}
                             {% do
                                 cache.save(entry.slug ~ '_counter', _entries_length) %}
@@ -65,7 +65,7 @@
                                     {% if entry.fieldset %}
                                         {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
                                         {% if filesystem_has(fieldset_path) %}
-                                            {% set fieldset = serializer_decode(filesystem_read(fieldset_path), 'yaml') %}
+                                            {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
                                             {% if fieldset.icon %}
                                                 <i class="icon icon--large">{{ icon(fieldset.icon) }}</i>
                                             {% else %}
@@ -128,7 +128,7 @@
                                     {% if entry.fieldset %}
                                         {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
                                         {% if filesystem_has(fieldset_path) %}
-                                            {% set fieldset = serializer_decode(filesystem_read(fieldset_path), 'yaml') %}
+                                            {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
                                             {% if fieldset.icon %}
                                                 <i class="icon">{{ icon(fieldset.icon) }}</i>
                                             {% else %}
@@ -145,7 +145,7 @@
                                     {% if cache.contains(entry.slug ~ '_counter') %}
                                         {% set _entries_length = cache.fetch(entry.slug ~ '_counter') %}
                                     {% else %}
-                                        {% set _entries = entries.fetch(entry.slug, {}) %}
+                                        {% set _entries = entries.fetchCollection(entry.slug) %}
                                         {% set _entries_length = _entries | length %}
                                         {% do
                                             cache.save(entry.slug ~ '_counter', _entries_length) %}

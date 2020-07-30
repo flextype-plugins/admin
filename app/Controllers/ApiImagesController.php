@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
@@ -14,6 +14,7 @@ use function date;
 use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
+use Flextype\App\Foundation\Container;
 
 class ApiImagesController extends Container
 {
@@ -125,7 +126,7 @@ class ApiImagesController extends Container
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->serializer->encode([
+                $this->yaml->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -136,7 +137,7 @@ class ApiImagesController extends Container
                     'created_at' => $time,
                     'updated_by' => Session::get('uuid'),
                     'updated_at' => $time,
-                ], 'yaml')
+                ])
             )) {
                 $this->flash->addMessage('success', __('admin_message_images_api_token_created'));
             } else {
@@ -162,7 +163,7 @@ class ApiImagesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->serializer->decode(Filesystem::read(PATH['project'] . '/tokens' . '/images/' . $token . '/token.yaml'), 'yaml');
+        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens' . '/images/' . $token . '/token.yaml'));
 
         return $this->twig->render(
             $response,
@@ -208,7 +209,7 @@ class ApiImagesController extends Container
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->serializer->encode([
+                $this->yaml->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -219,7 +220,7 @@ class ApiImagesController extends Container
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
                     'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
-                ], 'yaml')
+                ])
             )) {
                 $this->flash->addMessage('success', __('admin_message_images_api_token_updated'));
             }

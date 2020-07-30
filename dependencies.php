@@ -9,10 +9,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin;
 
 use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
+use Flextype\Plugin\Admin\Controllers\DashboardController;
+use Flextype\Plugin\Admin\Controllers\SettingsController;
+use Flextype\Plugin\Admin\Controllers\PluginsController;
+use Flextype\Plugin\Admin\Controllers\EntriesController;
+use Flextype\Plugin\Admin\Controllers\ToolsController;
+use Flextype\Plugin\Admin\Controllers\ApiController;
+use Flextype\Plugin\Admin\Controllers\ApiImagesController;
+use Flextype\Plugin\Admin\Controllers\ApiRegistryController;
+use Flextype\Plugin\Admin\Controllers\ApiEntriesController;
+use Flextype\Plugin\Admin\Controllers\ApiFilesController;
+use Flextype\Plugin\Admin\Controllers\ApiFoldersController;
+use Flextype\Plugin\Admin\Controllers\ApiAccessController;
 
 // Set Default Admin locale
 I18n::$locale = $flextype->registry->get('flextype.settings.locale');
@@ -62,20 +74,16 @@ $flextype['ApiController'] = static function ($container) {
     return new ApiController($container);
 };
 
-$flextype['ApiManagementController'] = static function ($container) {
-    return new ApiManagementController($container);
+$flextype['ApiEntriesController'] = static function ($container) {
+    return new ApiEntriesController($container);
 };
 
-$flextype['ApiManagementEntriesController'] = static function ($container) {
-    return new ApiManagementEntriesController($container);
+$flextype['ApiFilesController'] = static function ($container) {
+    return new ApiFilesController($container);
 };
 
-$flextype['ApiDeliveryController'] = static function ($container) {
-    return new ApiDeliveryController($container);
-};
-
-$flextype['ApiDeliveryEntriesController'] = static function ($container) {
-    return new ApiDeliveryEntriesController($container);
+$flextype['ApiFoldersController'] = static function ($container) {
+    return new ApiFoldersController($container);
 };
 
 $flextype['ApiImagesController'] = static function ($container) {
@@ -86,6 +94,6 @@ $flextype['ApiAccessController'] = static function ($container) {
     return new ApiAccessController($container);
 };
 
-$flextype['ApiDeliveryRegistryController'] = static function ($container) {
-    return new ApiDeliveryRegistryController($container);
+$flextype['ApiRegistryController'] = static function ($container) {
+    return new ApiRegistryController($container);
 };

@@ -97,11 +97,22 @@ class EntriesController extends Container
             $items_view = $this->registry->get('plugins.admin.settings.entries.items_view_default');
         }
 
+        $entries_list = [];
+        $entries_collection = [];
+        $entries_collection = collect($this->entries->fetchCollection($this->getEntryID($query), ['depth' => ['1']]))->orderBy('published_at', 'DESC')->all();
+
+        foreach ($entries_collection as $slug => $body) {
+            $entries_list[$slug] = $body;
+            if (find()->in(PATH['project'] . '/entries/' . $slug)->depth('>=1')->depth('<=2')->hasResults()) {
+                $entries_list[$slug] += ['has_children' => true];
+            }
+        }
+
         return $this->twig->render(
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                            'entries_list' => collect($this->entries->fetchCollection($this->getEntryID($query)))->orderBy('published_at', 'DESC')->all(),
+                            'entries_list' => $entries_list,
                             'id_current' => $this->getEntryID($query),
                             'entry_current' => $entry_current,
                             'items_view' => $items_view,
@@ -685,6 +696,8 @@ class EntriesController extends Container
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
+        $this->registry->set('entries.fields.parsers.settings.enabled', false);
+
         // Get Entry
         $entry = $this->entries->fetch($this->getEntryID($query));
         Arrays::delete($entry, 'slug');
@@ -995,28 +1008,6 @@ class EntriesController extends Container
         return $files;
     }
 
-    /**
-     * Display view - process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     */
-    public function displayViewProcess(Request $request, Response $response) : Response
-    {
-        // Get POST data
-        $post_data = $request->getParsedBody();
-
-        if ($post_data['id'] == '') {
-            $data = [];
-            $admin_plugin_settings = $this->yaml->decode(Filesystem::read(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml'));
-            $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
-            Filesystem::write(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml', $this->yaml->encode($admin_plugin_settings));
-        } else {
-            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
-        }
-
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
-    }
 
     /**
      * Clear entry counter

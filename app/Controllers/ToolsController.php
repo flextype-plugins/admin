@@ -165,7 +165,8 @@ class ToolsController extends Container
     {
         $id = $request->getParsedBody()['cache-id'];
 
-        $this->cache->clear($id);
+        $this->cache->clear('doctrine');
+        $this->cache->clear('preflight');
 
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
 

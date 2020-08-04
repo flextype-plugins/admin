@@ -246,6 +246,8 @@ class EntriesController extends Container
                 $data_result             = [];
 
                 // Define data values based on POST data
+                $data_from_post['created_by'] = $this->acl->getUserLoggedInUuid();
+                $data_from_post['published_by'] = $this->acl->getUserLoggedInUuid();
                 $data_from_post['title']      = $data['title'];
                 $data_from_post['fieldset']   = $data['fieldset'];
                 $data_from_post['visibility'] = $data['visibility'];
@@ -298,7 +300,6 @@ class EntriesController extends Container
 
                 if ($this->entries->create($id, $data_result)) {
                     $this->media_folders->create('entries/' . $id);
-                    $this->clearEntryCounter($parent_entry_id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -415,7 +416,8 @@ class EntriesController extends Container
         Arrays::delete($post_data, 'save_entry');
         Arrays::delete($post_data, 'id');
 
-        $post_data['published_by'] = Session::get('uuid');
+        $post_data['created_by'] = $this->acl->getUserLoggedInUuid();
+        $post_data['published_by'] = $this->acl->getUserLoggedInUuid();
 
         $data = array_merge($entry, $post_data);
 
@@ -462,7 +464,7 @@ class EntriesController extends Container
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach ($this->entries->fetch('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
+        foreach ($this->entries->fetch('', ['depth' => '>0', 'order_by' => ['field' => ['slug']]]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
@@ -630,8 +632,6 @@ class EntriesController extends Container
         if ($this->entries->delete($id)) {
 
             $this->media_folders->delete('entries/' . $id);
-
-            $this->clearEntryCounter($id_current);
 
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
@@ -862,7 +862,8 @@ class EntriesController extends Container
 
             $entry = $this->frontmatter->decode($data['data']);
 
-            $entry['published_by'] = Session::get('uuid');
+            $entry['created_by'] = $this->acl->getUserLoggedInUuid();
+            $entry['published_by'] = $this->acl->getUserLoggedInUuid();
 
             Arrays::delete($entry, 'slug');
             Arrays::delete($entry, 'modified_at');
@@ -988,11 +989,11 @@ class EntriesController extends Container
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
 
-        if (!Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
-            Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id);
+        if (!Filesystem::has(PATH['project'] . '/uploads/entries/' . $id)) {
+            Filesystem::createDir(PATH['project'] . '/uploads/entries/' . $id);
         }
 
-        foreach (array_diff(scandir(PATH['project'] . '/uploads' . '/entries/' . $id), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['project'] . '/uploads/entries/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
@@ -1008,16 +1009,4 @@ class EntriesController extends Container
         return $files;
     }
 
-
-    /**
-     * Clear entry counter
-     *
-     * @param string $id Entry ID
-     */
-    public function clearEntryCounter($id) : void
-    {
-        if ($this->cache->contains($id . '_counter')) {
-            $this->cache->delete($id . '_counter');
-        }
-    }
 }

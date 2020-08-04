@@ -464,7 +464,7 @@ class EntriesController extends Container
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach ($this->entries->fetch('', ['depth' => '>0', 'order_by' => ['field' => ['slug']]]) as $_entry) {
+        foreach ($this->entries->fetchCollection('', ['depth' => '>0', 'order_by' => ['field' => ['slug']]]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {

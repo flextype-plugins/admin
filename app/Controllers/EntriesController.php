@@ -522,7 +522,7 @@ class EntriesController extends Container
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
                 $this->media_folders->rename('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
-                $this->clearEntryCounter($data['parent_entry']);
+
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
@@ -605,7 +605,6 @@ class EntriesController extends Container
             $data['entry_parent'] . '/' . $name)
         ) {
             $this->media_folders->rename('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
-            $this->clearEntryCounter($data['entry_path_current']);
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_renamed'));
@@ -665,8 +664,6 @@ class EntriesController extends Container
         } else {
             Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         }
-
-        $this->clearEntryCounter($parent_id);
 
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 

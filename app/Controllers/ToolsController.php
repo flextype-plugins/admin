@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use FilesystemIterator;
 use Flextype\Component\Number\Number;
@@ -18,6 +18,7 @@ use function is_array;
 use function php_sapi_name;
 use function php_uname;
 use function realpath;
+use Flextype\App\Foundation\Container;
 
 /**
  * @property View $view
@@ -132,7 +133,7 @@ class ToolsController extends Container
             'plugins/admin/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
-                'registry_dump' => $this->dotArray($this->registry->dump()),
+                'registry_dump' => $this->dotArray($this->registry->all()),
                 'links' =>  [
                     'information' => [
                         'link' => $this->router->pathFor('admin.tools.index'),
@@ -164,7 +165,8 @@ class ToolsController extends Container
     {
         $id = $request->getParsedBody()['cache-id'];
 
-        $this->cache->clear($id);
+        $this->cache->purge('doctrine');
+        $this->cache->purge('preflight');
 
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
 
@@ -179,7 +181,7 @@ class ToolsController extends Container
      */
     public function clearCacheAllProcess(Request $request, Response $response) : Response
     {
-        $this->cache->clearAll();
+        $this->cache->purgeAll();
 
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
 

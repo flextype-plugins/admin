@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
@@ -14,11 +14,12 @@ use function date;
 use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
+use Flextype\App\Foundation\Container;
 
-class ApiDeliveryEntriesController extends Container
+class ApiRegistryController extends Container
 {
     /**
-     * Delivery Entries Index page
+     * Registry Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -26,11 +27,11 @@ class ApiDeliveryEntriesController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/delivery/entries/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/registry/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/delivery/entries/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/registry/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -38,7 +39,7 @@ class ApiDeliveryEntriesController extends Container
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/entries/index.html',
+            'plugins/admin/templates/system/api/registry/index.html',
             [
                 'menu_item' => 'api',
                 'tokens' => $tokens,
@@ -47,19 +48,15 @@ class ApiDeliveryEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery')
-                    ],
-                    'api_delivery_entries' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
-                        'title' => __('admin_entries'),
+                    'api_registry' => [
+                        'link' => $this->router->pathFor('admin.api_registry.index'),
+                        'title' => __('admin_registry'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
-                    'api_delivery_entries_add' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_entries.add'),
+                    'api_registry_add' => [
+                        'link' => $this->router->pathFor('admin.api_registry.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -77,7 +74,7 @@ class ApiDeliveryEntriesController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/entries/add.html',
+            'plugins/admin/templates/system/api/registry/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
@@ -85,16 +82,12 @@ class ApiDeliveryEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_delivery' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery')
+                    'api_registry' => [
+                        'link' => $this->router->pathFor('admin.api_registry.index'),
+                        'title' => __('admin_registry')
                     ],
-                    'api_delivery_entries' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
-                        'title' => __('admin_entries')
-                    ],
-                    'api_delivery_entries_add' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_entries.add'),
+                    'api_registry_add' => [
+                        'link' => $this->router->pathFor('admin.api_registry.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -117,7 +110,7 @@ class ApiDeliveryEntriesController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/entries/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens/registry/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -133,7 +126,7 @@ class ApiDeliveryEntriesController extends Container
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->serializer->encode([
+                $this->yaml->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -144,20 +137,20 @@ class ApiDeliveryEntriesController extends Container
                     'created_at' => $time,
                     'updated_by' => Session::get('uuid'),
                     'updated_at' => $time,
-                ], 'yaml')
+                ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_registry_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_created1'));
+                $this->flash->addMessage('error', __('admin_message_registry_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_created2'));
+            $this->flash->addMessage('error', __('admin_message_registry_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.edit') . '?token=' . $api_token);
+            return $response->withRedirect($this->router->pathFor('admin.api_registry.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
+            return $response->withRedirect($this->router->pathFor('admin.api_registry.index'));
         }
     }
 
@@ -170,11 +163,11 @@ class ApiDeliveryEntriesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->serializer->decode(Filesystem::read(PATH['project'] . '/tokens' . '/delivery/entries/' . $token . '/token.yaml'), 'yaml');
+        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens/registry/' . $token . '/token.yaml'));
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/delivery/entries/edit.html',
+            'plugins/admin/templates/system/api/registry/edit.html',
             [
                 'menu_item' => 'api',
                 'token' => $token,
@@ -184,16 +177,12 @@ class ApiDeliveryEntriesController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
-                    'api_tokens' => [
-                        'link' => $this->router->pathFor('admin.api_delivery.index'),
-                        'title' => __('admin_delivery')
-                    ],
-                    'api_delivery_entries' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_entries.index'),
-                        'title' => __('admin_entries')
+                    'api_registry' => [
+                        'link' => $this->router->pathFor('admin.api_registry.index'),
+                        'title' => __('admin_registry')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->router->pathFor('admin.api_delivery_entries.edit'),
+                        'link' => $this->router->pathFor('admin.api_registry.edit'),
                         'title' => __('admin_edit_token'),
                         'active' => true
                     ],
@@ -213,14 +202,14 @@ class ApiDeliveryEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens/registry/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->serializer->encode([
+                $this->yaml->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -231,15 +220,15 @@ class ApiDeliveryEntriesController extends Container
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
                     'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
-                ], 'yaml')
+                ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_updated'));
+                $this->flash->addMessage('success', __('admin_message_registry_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_updated'));
+            $this->flash->addMessage('error', __('admin_message_registry_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_registry.index'));
     }
 
     /**
@@ -253,14 +242,14 @@ class ApiDeliveryEntriesController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens' . '/delivery/entries/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens/registry/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_delivery_entries_api_token_deleted'));
+            $this->flash->addMessage('success', __('admin_message_registry_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_delivery_entries_api_token_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_registry_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_delivery_entries.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_registry.index'));
     }
 }

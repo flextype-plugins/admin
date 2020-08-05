@@ -16,10 +16,10 @@ use function random_bytes;
 use function time;
 use Flextype\App\Foundation\Container;
 
-class ApiAccessController extends Container
+class ApiFilesController extends Container
 {
     /**
-     * Access Index page
+     * files Index page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -27,11 +27,11 @@ class ApiAccessController extends Container
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens' . '/access/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens/files/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens' . '/access/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens/files/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -39,7 +39,7 @@ class ApiAccessController extends Container
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/access/index.html',
+            'plugins/admin/templates/system/api/files/index.html',
             [
                 'menu_item' => 'api',
                 'tokens' => $tokens,
@@ -48,15 +48,15 @@ class ApiAccessController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_Access' => [
-                        'link' => $this->router->pathFor('admin.api_access.index'),
-                        'title' => __('admin_access'),
+                    'api_files' => [
+                        'link' => $this->router->pathFor('admin.api_files.index'),
+                        'title' => __('admin_files'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
-                    'api_access_add' => [
-                        'link' => $this->router->pathFor('admin.api_access.add'),
+                    'api_files_add' => [
+                        'link' => $this->router->pathFor('admin.api_files.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -74,7 +74,7 @@ class ApiAccessController extends Container
     {
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/access/add.html',
+            'plugins/admin/templates/system/api/files/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
@@ -82,12 +82,12 @@ class ApiAccessController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_access' => [
-                        'link' => $this->router->pathFor('admin.api_access.index'),
-                        'title' => __('admin_access')
+                    'api_files' => [
+                        'link' => $this->router->pathFor('admin.api_files.index'),
+                        'title' => __('admin_files')
                     ],
-                    'api_access_add' => [
-                        'link' => $this->router->pathFor('admin.api_access.add'),
+                    'api_files_add' => [
+                        'link' => $this->router->pathFor('admin.api_files.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -110,7 +110,7 @@ class ApiAccessController extends Container
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/access/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens/files/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -139,18 +139,18 @@ class ApiAccessController extends Container
                     'updated_at' => $time,
                 ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_access_api_token_created'));
+                $this->flash->addMessage('success', __('admin_message_files_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_access_api_token_was_not_created1'));
+                $this->flash->addMessage('error', __('admin_message_files_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_access_api_token_was_not_created2'));
+            $this->flash->addMessage('error', __('admin_message_files_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->router->pathFor('admin.api_access.edit') . '?token=' . $api_token);
+            return $response->withRedirect($this->router->pathFor('admin.api_files.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.api_access.index'));
+            return $response->withRedirect($this->router->pathFor('admin.api_files.index'));
         }
     }
 
@@ -163,11 +163,11 @@ class ApiAccessController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens' . '/access/' . $token . '/token.yaml'));
+        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens/files/' . $token . '/token.yaml'));
 
         return $this->twig->render(
             $response,
-            'plugins/admin/templates/system/api/access/edit.html',
+            'plugins/admin/templates/system/api/files/edit.html',
             [
                 'menu_item' => 'api',
                 'token' => $token,
@@ -177,12 +177,12 @@ class ApiAccessController extends Container
                         'link' => $this->router->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
-                    'api_access' => [
-                        'link' => $this->router->pathFor('admin.api_access.index'),
-                        'title' => __('admin_access')
+                    'api_files' => [
+                        'link' => $this->router->pathFor('admin.api_files.index'),
+                        'title' => __('admin_files')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->router->pathFor('admin.api_access.edit'),
+                        'link' => $this->router->pathFor('admin.api_files.edit'),
                         'title' => __('admin_edit_token'),
                         'active' => true
                     ],
@@ -202,7 +202,7 @@ class ApiAccessController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens' . '/access/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens/files/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
@@ -222,13 +222,13 @@ class ApiAccessController extends Container
                     'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
                 ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_access_api_token_updated'));
+                $this->flash->addMessage('success', __('admin_message_files_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_access_api_token_was_not_updated'));
+            $this->flash->addMessage('error', __('admin_message_files_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_access.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_files.index'));
     }
 
     /**
@@ -242,14 +242,14 @@ class ApiAccessController extends Container
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens' . '/access/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens/files/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_access_api_token_deleted'));
+            $this->flash->addMessage('success', __('admin_message_files_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_access_api_token_was_not_deleted'));
+            $this->flash->addMessage('error', __('admin_message_files_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_access.index'));
+        return $response->withRedirect($this->router->pathFor('admin.api_files.index'));
     }
 }

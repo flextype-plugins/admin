@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
-use Flextype\Component\Arr\Arr;
+use Flextype\Component\Arrays\Arrays;
 use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,6 +12,7 @@ use function array_merge;
 use function array_replace_recursive;
 use function Flextype\Component\I18n\__;
 use function trim;
+use Flextype\App\Foundation\Container;
 
 /**
  * @property View $view
@@ -70,16 +71,16 @@ class PluginsController extends Container
         $post_data = $request->getParsedBody();
 
         $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $custom_plugin_settings_file_data = $this->serializer->decode(Filesystem::read($custom_plugin_settings_file), 'yaml');
+        $custom_plugin_settings_file_data = $this->yaml->decode(Filesystem::read($custom_plugin_settings_file));
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
 
-        Arr::set($custom_plugin_settings_file_data, 'enabled', $status);
+        Arrays::set($custom_plugin_settings_file_data, 'enabled', $status);
 
-        Filesystem::write($custom_plugin_settings_file, $this->serializer->encode($custom_plugin_settings_file_data, 'yaml'));
+        Filesystem::write($custom_plugin_settings_file, $this->yaml->encode($custom_plugin_settings_file_data));
 
         // Clear doctrine cache
-        $this->cache->clear('doctrine');
+        $this->cache->purge('doctrine');
 
         // Redirect to plugins index page
         return $response->withRedirect($this->router->pathFor('admin.plugins.index'));
@@ -108,7 +109,7 @@ class PluginsController extends Container
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => $this->serializer->decode($custom_plugin_manifest_file_content, 'yaml'),
+                'plugin_manifest' => $this->yaml->decode($custom_plugin_manifest_file_content),
                 'links' =>  [
                     'plugins' => [
                         'link' => $this->router->pathFor('admin.plugins.index'),

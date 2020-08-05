@@ -19,16 +19,16 @@
             </thead>
             <tbody>
                 {% for key, token in tokens %}
-                    {% set token_file_path = PATH_PROJECT ~ '/tokens/delivery/registry/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
+                    {% set token_file_path = PATH_PROJECT ~ '/tokens/folders/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem_has(token_file_path) %}
-                        {% set token_data = serializer_decode(filesystem_read(token_file_path), 'yaml') %}
+                        {% set token_data = yaml_decode(filesystem_read(token_file_path)) %}
                     {% endif %}
                     <tr>
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             <i class="icon">{{ icon(token_data.icon) }}</i>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <a href="{{ path_for('admin.api_delivery_registry.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
+                            <a href="{{ path_for('admin.api_folders.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
@@ -37,20 +37,20 @@
                             {% else %}&infin;{% endif %}
                         </td>
                         <td class="text-right">
-                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-delivery-registry-{{ token.dirname }}">
+                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-delivery-folders-{{ token.dirname }}">
                                 <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                             </button>
-                            <div id="dropdown-delivery-registry-{{ token.dirname }}" class="dropdown">
-                                <a class="dropdown__item" href="{{ path_for('admin.api_delivery_registry.edit') }}?token={{ token.dirname }}">
+                            <div id="dropdown-delivery-folders-{{ token.dirname }}" class="dropdown">
+                                <a class="dropdown__item" href="{{ path_for('admin.api_folders.edit') }}?token={{ token.dirname }}">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                     {{ tr('admin_edit') }}
                                 </a>
                                 <div class="dropdown__divider"></div>
-                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteDeliveryRegistryToken('{{ token.dirname }}', {{ loop.index0 }});">
+                                <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteDeliveryfoldersToken('{{ token.dirname }}', {{ loop.index0 }});">
                                     <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                     {{ tr('admin_delete') }}
                                 </a>
-                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_delivery_registry.deleteProcess') }}" method="POST" style="display: none;">
+                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_folders.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="token" value="{{ token.dirname }}">
                                 </form>
@@ -63,11 +63,9 @@
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
-                <i class="icon icon--4xl">{{ icon('fas fa-archive') }}</i>
-                <i class="icon icon--4xl mr-3 ml-3">{{ icon('fas angle-right') }}</i>
-                <i class="icon icon--4xl">{{ icon('fas fa-truck') }}</i>
-                <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_delivery_registry_api_tokens_yet') }}</h3>
-                <a href="{{ path_for('admin.api_delivery_registry.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
+                <i class="icon icon--4xl">{{ icon('fas fa-folder') }}</i>
+                <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_folders_api_tokens_yet') }}</h3>
+                <a href="{{ path_for('admin.api_folders.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
             </div>
         </div>
     {% endif %}
@@ -75,12 +73,12 @@
 
 {% block tail %}
     <script>
-        function deleteDeliveryRegistryToken(id, row_num) {
+        function deleteDeliveryfoldersToken(id, row_num) {
             if (dropdown[row_num]) {
                 dropdown[row_num].hide();
             }
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_delivery_registry_token_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_folders_token_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('delete-api-token-id-' + id).submit();

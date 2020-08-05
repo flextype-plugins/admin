@@ -1,17 +1,17 @@
 <?php
 
-namespace Flextype;
+namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
 use Flextype\Component\Session\Session;
-use Flextype\Component\Arr\Arr;
+use Flextype\Component\Arrays\Arrays;
 use function Flextype\Component\I18n\__;
 use Respect\Validation\Validator as v;
-use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Flextype\App\Foundation\Container;
 
 
 /**
@@ -75,7 +75,7 @@ class EntriesController extends Container
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->yaml->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['form']) &&
                         isset($fieldset_content['form']['tabs']) &&
                         isset($fieldset_content['form']['tabs']['main']['fields']) &&
@@ -97,11 +97,22 @@ class EntriesController extends Container
             $items_view = $this->registry->get('plugins.admin.settings.entries.items_view_default');
         }
 
+        $entries_list = [];
+        $entries_collection = [];
+        $entries_collection = collect($this->entries->fetchCollection($this->getEntryID($query), ['depth' => ['1']]))->orderBy('published_at', 'DESC')->all();
+
+        foreach ($entries_collection as $slug => $body) {
+            $entries_list[$slug] = $body;
+            if (find()->in(PATH['project'] . '/entries/' . $slug)->depth('>=1')->depth('<=2')->hasResults()) {
+                $entries_list[$slug] += ['has_children' => true];
+            }
+        }
+
         return $this->twig->render(
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'published_at', 'direction' => 'desc']]),
+                            'entries_list' => $entries_list,
                             'id_current' => $this->getEntryID($query),
                             'entry_current' => $entry_current,
                             'items_view' => $items_view,
@@ -109,7 +120,7 @@ class EntriesController extends Container
                             'fieldsets' => $fieldsets,
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                         'entries' => [
                                                 'link' => $this->router->pathFor('admin.entries.index'),
@@ -154,12 +165,12 @@ class EntriesController extends Container
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                            'entries_list' => $this->entries->fetch($this->getEntryID($query), ['order_by' => ['field' => 'title', 'direction' => 'asc']]),
+                            'entries_list' => collect($this->entries->fetchCollection($this->getEntryID($query)))->orderBy('order_by', 'ASC')->all(),
                             'menu_item' => 'entries',
                             'current_id' => $this->getEntryID($query),
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'type' => $type,
                             'links' => [
                                         'entries' => [
@@ -235,6 +246,8 @@ class EntriesController extends Container
                 $data_result             = [];
 
                 // Define data values based on POST data
+                $data_from_post['created_by'] = $this->acl->getUserLoggedInUuid();
+                $data_from_post['published_by'] = $this->acl->getUserLoggedInUuid();
                 $data_from_post['title']      = $data['title'];
                 $data_from_post['fieldset']   = $data['fieldset'];
                 $data_from_post['visibility'] = $data['visibility'];
@@ -286,12 +299,7 @@ class EntriesController extends Container
                 }
 
                 if ($this->entries->create($id, $data_result)) {
-
-                    if (! Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
-                        Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id);
-                    }
-
-                    $this->clearEntryCounter($parent_entry_id);
+                    $this->media_folders->create('entries/' . $id);
                     $this->flash->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     $this->flash->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -341,7 +349,7 @@ class EntriesController extends Container
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->serializer->decode(Filesystem::read($fieldset['path']), 'yaml');
+                    $fieldset_content = $this->yaml->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['form']) &&
                         isset($fieldset_content['form']['tabs']['main']) &&
                         isset($fieldset_content['form']['tabs']['main']['fields']) &&
@@ -365,7 +373,7 @@ class EntriesController extends Container
                             'menu_item' => 'entries',
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -398,17 +406,18 @@ class EntriesController extends Container
 
         $entry = $this->entries->fetch($id);
 
-        Arr::delete($entry, 'slug');
-        Arr::delete($entry, 'modified_at');
-        Arr::delete($entry, 'created_at');
-        Arr::delete($entry, 'published_at');
+        Arrays::delete($entry, 'slug');
+        Arrays::delete($entry, 'modified_at');
+        Arrays::delete($entry, 'created_at');
+        Arrays::delete($entry, 'published_at');
 
-        Arr::delete($post_data, 'csrf_name');
-        Arr::delete($post_data, 'csrf_value');
-        Arr::delete($post_data, 'save_entry');
-        Arr::delete($post_data, 'id');
+        Arrays::delete($post_data, 'csrf_name');
+        Arrays::delete($post_data, 'csrf_value');
+        Arrays::delete($post_data, 'save_entry');
+        Arrays::delete($post_data, 'id');
 
-        $post_data['published_by'] = Session::get('uuid');
+        $post_data['created_by'] = $this->acl->getUserLoggedInUuid();
+        $post_data['published_by'] = $this->acl->getUserLoggedInUuid();
 
         $data = array_merge($entry, $post_data);
 
@@ -441,7 +450,7 @@ class EntriesController extends Container
         $entry_id = $this->getEntryID($query);
 
         // Get current Entry ID
-        $entry_id_current = Arr::last(explode("/", $entry_id));
+        $entry_id_current = array_pop(explode("/", $entry_id));
 
         // Fetch entry
         $entry = $this->entries->fetch($this->getEntryID($query));
@@ -455,7 +464,7 @@ class EntriesController extends Container
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach ($this->entries->fetch('', ['order_by' => ['field' => ['slug']], 'recursive' => true]) as $_entry) {
+        foreach ($this->entries->fetchCollection('', ['depth' => '>0', 'order_by' => ['field' => ['slug']]]) as $_entry) {
             if ($_entry['slug'] != '') {
                 $entries_list[$_entry['slug']] = $_entry['slug'];
             } else {
@@ -474,7 +483,7 @@ class EntriesController extends Container
                             'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -512,8 +521,8 @@ class EntriesController extends Container
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                rename(PATH['project'] . '/uploads' . '/entries/' . $data['entry_id_path_current'], PATH['project'] . '/uploads' . '/entries/' . $data['parent_entry'] . '/' . $entry_id_current);
-                $this->clearEntryCounter($data['parent_entry']);
+                $this->media_folders->rename('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+
                 $this->flash->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_was_not_moved'));
@@ -549,13 +558,13 @@ class EntriesController extends Container
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
-                            'name_current' => Arr::last(explode("/", $this->getEntryID($query))),
+                            'name_current' => array_pop(explode("/", $this->getEntryID($query))),
                             'entry_path_current' => $this->getEntryID($query),
                             'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                             'menu_item' => 'entries',
                             'parts' => $parts,
                             'i' => count($parts),
-                            'last' => Arr::last($parts),
+                            'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
                                     'link' => $this->router->pathFor('admin.entries.index'),
@@ -595,8 +604,7 @@ class EntriesController extends Container
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $name)
         ) {
-            rename(PATH['project'] . '/uploads' . '/entries/' . $data['entry_path_current'], PATH['project'] . '/uploads' . '/entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
-            $this->clearEntryCounter($data['entry_path_current']);
+            $this->media_folders->rename('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . $this->slugify->slugify($data['name']));
             $this->flash->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_was_not_renamed'));
@@ -622,9 +630,7 @@ class EntriesController extends Container
 
         if ($this->entries->delete($id)) {
 
-            Filesystem::deleteDir(PATH['project'] . '/uploads' . '/entries/' . $id);
-
-            $this->clearEntryCounter($id_current);
+            $this->media_folders->delete('entries/' . $id);
 
             $this->flash->addMessage('success', __('admin_message_entry_deleted'));
         } else {
@@ -659,8 +665,6 @@ class EntriesController extends Container
             Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         }
 
-        $this->clearEntryCounter($parent_id);
-
         $this->flash->addMessage('success', __('admin_message_entry_duplicated'));
 
         return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $parent_id);
@@ -689,14 +693,16 @@ class EntriesController extends Container
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
+        $this->registry->set('entries.fields.parsers.settings.enabled', false);
+
         // Get Entry
         $entry = $this->entries->fetch($this->getEntryID($query));
-        Arr::delete($entry, 'slug');
-        Arr::delete($entry, 'modified_at');
+        Arrays::delete($entry, 'slug');
+        Arrays::delete($entry, 'modified_at');
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['project'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = $this->serializer->decode(Filesystem::read($fieldsets_path), 'yaml');
+        $fieldsets = $this->yaml->decode(Filesystem::read($fieldsets_path));
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
@@ -709,9 +715,9 @@ class EntriesController extends Container
                 [
                         'parts' => $parts,
                         'i' => count($parts),
-                        'last' => Arr::last($parts),
+                        'last' => array_pop($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => $this->serializer->encode($entry, 'frontmatter'),
+                        'data' => $this->frontmatter->encode($entry),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
@@ -753,7 +759,7 @@ class EntriesController extends Container
                 [
                         'parts' => $parts,
                         'i' => count($parts),
-                        'last' => Arr::last($parts),
+                        'last' => array_pop($parts),
                         'id' => $this->getEntryID($query),
                         'files' => $this->getMediaList($this->getEntryID($query), true),
                         'menu_item' => 'entries',
@@ -795,7 +801,7 @@ class EntriesController extends Container
                 [
                         'parts' => $parts,
                         'i' => count($parts),
-                        'last' => Arr::last($parts),
+                        'last' => array_pop($parts),
                         'form' => $form,
                         'menu_item' => 'entries',
                         'links' => [
@@ -851,15 +857,16 @@ class EntriesController extends Container
             // Data from POST
             $data = $request->getParsedBody();
 
-            $entry = $this->serializer->decode($data['data'], 'frontmatter');
+            $entry = $this->frontmatter->decode($data['data']);
 
-            $entry['published_by'] = Session::get('uuid');
+            $entry['created_by'] = $this->acl->getUserLoggedInUuid();
+            $entry['published_by'] = $this->acl->getUserLoggedInUuid();
 
-            Arr::delete($entry, 'slug');
-            Arr::delete($entry, 'modified_at');
+            Arrays::delete($entry, 'slug');
+            Arrays::delete($entry, 'modified_at');
 
             // Update entry
-            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', $this->serializer->encode($entry, 'frontmatter'))) {
+            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', $this->frontmatter->encode($entry))) {
                 $this->flash->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
                 $this->flash->addMessage('error', __('admin_message_entry_changes_not_saved'));
@@ -872,22 +879,22 @@ class EntriesController extends Container
             $data = $request->getParsedBody();
 
             // Delete system fields
-            isset($data['slug'])                  and Arr::delete($data, 'slug');
-            isset($data['csrf_value'])            and Arr::delete($data, 'csrf_value');
-            isset($data['csrf_name'])             and Arr::delete($data, 'csrf_name');
-            isset($data['form-save-action'])      and Arr::delete($data, 'form-save-action');
-            isset($data['trumbowyg-icons-path'])  and Arr::delete($data, 'trumbowyg-icons-path');
-            isset($data['trumbowyg-locale'])      and Arr::delete($data, 'trumbowyg-locale');
-            isset($data['flatpickr-date-format']) and Arr::delete($data, 'flatpickr-date-format');
-            isset($data['flatpickr-locale'])      and Arr::delete($data, 'flatpickr-locale');
+            isset($data['slug'])                  and Arrays::delete($data, 'slug');
+            isset($data['csrf_value'])            and Arrays::delete($data, 'csrf_value');
+            isset($data['csrf_name'])             and Arrays::delete($data, 'csrf_name');
+            isset($data['form-save-action'])      and Arrays::delete($data, 'form-save-action');
+            isset($data['trumbowyg-icons-path'])  and Arrays::delete($data, 'trumbowyg-icons-path');
+            isset($data['trumbowyg-locale'])      and Arrays::delete($data, 'trumbowyg-locale');
+            isset($data['flatpickr-date-format']) and Arrays::delete($data, 'flatpickr-date-format');
+            isset($data['flatpickr-locale'])      and Arrays::delete($data, 'flatpickr-locale');
 
 
             $data['published_by'] = Session::get('uuid');
 
             // Fetch entry
             $entry = $this->entries->fetch($id);
-            Arr::delete($entry, 'slug');
-            Arr::delete($entry, 'modified_at');
+            Arrays::delete($entry, 'slug');
+            Arrays::delete($entry, 'modified_at');
 
             if (isset($data['created_at'])) {
                 $data['created_at'] = date($this->registry->get('flextype.settings.date_format'), strtotime($data['created_at']));
@@ -938,9 +945,7 @@ class EntriesController extends Container
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $files_directory = PATH['project'] . '/uploads' . '/entries/' . $entry_id . '/' . $media_id;
-
-        Filesystem::delete($files_directory);
+        $this->media_files->delete('entries/' . $entry_id . '/' . $media_id);
 
         $this->flash->addMessage('success', __('admin_message_entry_file_deleted'));
 
@@ -959,169 +964,13 @@ class EntriesController extends Container
     {
         $data = $request->getParsedBody();
 
-        $id = $data['entry-id'];
-
-        $files_directory = PATH['project'] . '/uploads' . '/entries/' . $id . '/';
-
-        $file = $this->_uploadFile($_FILES['file'], $files_directory, $this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), 27000000);
-
-        if ($file !== false) {
-            if (in_array(pathinfo($file)['extension'], ['jpg', 'jpeg', 'png', 'gif'])) {
-                // open an image file
-                $img = Image::make($file);
-                // now you are able to resize the instance
-                if ($this->registry->get('plugins.admin.settings.entries.media.upload_images_width') > 0 && $this->registry->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                    $img->resize($this->registry->get('plugins.admin.settings.entries.media.upload_images_width'), $this->registry->get('plugins.admin.settings.entries.media.upload_images_height'), function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                } elseif ($this->registry->get('plugins.admin.settings.entries.media.upload_images_width') > 0) {
-                    $img->resize($this->registry->get('plugins.admin.settings.entries.media.upload_images_width'), null, function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                } elseif ($this->registry->get('plugins.admin.settings.entries.media.upload_images_height') > 0) {
-                    $img->resize(null, $this->registry->get('plugins.admin.settings.entries.media.upload_images_height'), function($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }
-                // finally we save the image as a new file
-                $img->save($file, $this->registry->get('plugins.admin.settings.entries.media.upload_images_quality'));
-
-                // destroy
-                $img->destroy();
-            }
-
+        if ($this->media_files->upload($_FILES['file'], '/entries/' . $data['entry-id'] . '/')) {
             $this->flash->addMessage('success', __('admin_message_entry_file_uploaded'));
         } else {
             $this->flash->addMessage('error', __('admin_message_entry_file_not_uploaded'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $id . '&type=media');
-    }
-
-    /**
-     * Upload files on the Server with several type of Validations!
-     *
-     * _uploadFile($_FILES['file'], $files_directory);
-     *
-     * @param   array   $file             Uploaded file data
-     * @param   string  $upload_directory Upload directory
-     * @param   string  $allowed          Allowed file extensions
-     * @param   int     $max_size         Max file size in bytes
-     * @param   string  $filename         New filename
-     * @param   bool    $remove_spaces    Remove spaces from the filename
-     * @param   int     $max_width        Maximum width of image
-     * @param   int     $max_height       Maximum height of image
-     * @param   bool    $exact            Match width and height exactly?
-     * @param   int     $chmod            Chmod mask
-     * @return  string  on success, full path to new file
-     * @return  false   on failure
-     */
-    public function _uploadFile(
-        array $file,
-        string $upload_directory,
-        string $allowed = 'jpeg, png, gif, jpg',
-        int $max_size = 5000000,
-        string $filename = null,
-        bool $remove_spaces = true,
-        int $max_width = null,
-        int $max_height = null,
-        bool $exact = false,
-        int $chmod = 0644
-    ) {
-        //
-        // Tests if a successful upload has been made.
-        //
-        if (isset($file['error'])
-            and isset($file['tmp_name'])
-            and $file['error'] === UPLOAD_ERR_OK
-            and is_uploaded_file($file['tmp_name'])) {
-            //
-            // Tests if upload data is valid, even if no file was uploaded.
-            //
-            if (isset($file['error'])
-                    and isset($file['name'])
-                    and isset($file['type'])
-                    and isset($file['tmp_name'])
-                    and isset($file['size'])) {
-                //
-                // Test if an uploaded file is an allowed file type, by extension.
-                //
-                if (strpos($allowed, strtolower(pathinfo($file['name'], PATHINFO_EXTENSION))) !== false) {
-                    //
-                    // Validation rule to test if an uploaded file is allowed by file size.
-                    //
-                    if (($file['error'] != UPLOAD_ERR_INI_SIZE)
-                                  and ($file['error'] == UPLOAD_ERR_OK)
-                                  and ($file['size'] <= $max_size)) {
-                        //
-                        // Validation rule to test if an upload is an image and, optionally, is the correct size.
-                        //
-                        if (in_array(mime_content_type($file['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])) {
-                            function validateImage($file, $max_width, $max_height, $exact)
-                            {
-                                try {
-                                    // Get the width and height from the uploaded image
-                                    list($width, $height) = getimagesize($file['tmp_name']);
-                                } catch (ErrorException $e) {
-                                    // Ignore read errors
-                                }
-                                if (empty($width) or empty($height)) {
-                                    // Cannot get image size, cannot validate
-                                    return false;
-                                }
-                                if (!$max_width) {
-                                    // No limit, use the image width
-                                    $max_width = $width;
-                                }
-                                if (!$max_height) {
-                                    // No limit, use the image height
-                                    $max_height = $height;
-                                }
-                                if ($exact) {
-                                    // Check if dimensions match exactly
-                                    return ($width === $max_width and $height === $max_height);
-                                } else {
-                                    // Check if size is within maximum dimensions
-                                    return ($width <= $max_width and $height <= $max_height);
-                                }
-                                return false;
-                            }
-                            if (validateImage($file, $max_width, $max_height, $exact) === false) {
-                                return false;
-                            }
-                        }
-                        if (!isset($file['tmp_name']) or !is_uploaded_file($file['tmp_name'])) {
-                            // Ignore corrupted uploads
-                            return false;
-                        }
-                        if ($filename === null) {
-                            // Use the default filename
-                            $filename = $file['name'];
-                        }
-                        if ($remove_spaces === true) {
-                            // Remove spaces from the filename
-                            $filename = $this->slugify->slugify(pathinfo($filename)['filename']) . '.' . pathinfo($filename)['extension'];
-                        }
-                        if (!is_dir($upload_directory) or !is_writable(realpath($upload_directory))) {
-                            throw new \RuntimeException("Directory {$upload_directory} must be writable");
-                        }
-                        // Make the filename into a complete path
-                        $filename = realpath($upload_directory) . DIRECTORY_SEPARATOR . $filename;
-                        if (move_uploaded_file($file['tmp_name'], $filename)) {
-                            // Set permissions on filename
-                            chmod($filename, $chmod);
-                            // Return new file path
-                            return $filename;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
+        return $response->withRedirect($this->router->pathFor('admin.entries.edit') . '?id=' . $data['entry-id'] . '&type=media');
     }
 
     /**
@@ -1137,11 +986,11 @@ class EntriesController extends Container
         $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
 
-        if (!Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
-            Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id);
+        if (!Filesystem::has(PATH['project'] . '/uploads/entries/' . $id)) {
+            Filesystem::createDir(PATH['project'] . '/uploads/entries/' . $id);
         }
 
-        foreach (array_diff(scandir(PATH['project'] . '/uploads' . '/entries/' . $id), ['..', '.']) as $file) {
+        foreach (array_diff(scandir(PATH['project'] . '/uploads/entries/' . $id), ['..', '.']) as $file) {
             if (strpos($this->registry->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
@@ -1157,38 +1006,4 @@ class EntriesController extends Container
         return $files;
     }
 
-    /**
-     * Display view - process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     */
-    public function displayViewProcess(Request $request, Response $response) : Response
-    {
-        // Get POST data
-        $post_data = $request->getParsedBody();
-
-        if ($post_data['id'] == '') {
-            $data = [];
-            $admin_plugin_settings = $this->serializer->decode(Filesystem::read(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml'), 'yaml');
-            $admin_plugin_settings['entries']['items_view_default'] = $post_data['items_view'];
-            Filesystem::write(PATH['project'] . '/config/' . '/plugins/admin/settings.yaml', $this->serializer->encode($admin_plugin_settings, 'yaml'));
-        } else {
-            $this->entries->update($post_data['id'], ['items_view' => $post_data['items_view']]);
-        }
-
-        return $response->withRedirect($this->router->pathFor('admin.entries.index') . '?id=' . $post_data['id']);
-    }
-
-    /**
-     * Clear entry counter
-     *
-     * @param string $id Entry ID
-     */
-    public function clearEntryCounter($id) : void
-    {
-        if ($this->cache->contains($id . '_counter')) {
-            $this->cache->delete($id . '_counter');
-        }
-    }
 }

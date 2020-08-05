@@ -80,7 +80,7 @@ class PluginsController extends Container
         Filesystem::write($custom_plugin_settings_file, $this->yaml->encode($custom_plugin_settings_file_data));
 
         // Clear doctrine cache
-        $this->cache->clear('doctrine');
+        $this->cache->purge('doctrine');
 
         // Redirect to plugins index page
         return $response->withRedirect($this->router->pathFor('admin.plugins.index'));

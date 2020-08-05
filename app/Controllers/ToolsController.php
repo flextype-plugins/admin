@@ -165,8 +165,8 @@ class ToolsController extends Container
     {
         $id = $request->getParsedBody()['cache-id'];
 
-        $this->cache->clear('doctrine');
-        $this->cache->clear('preflight');
+        $this->cache->purge('doctrine');
+        $this->cache->purge('preflight');
 
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
 
@@ -181,7 +181,7 @@ class ToolsController extends Container
      */
     public function clearCacheAllProcess(Request $request, Response $response) : Response
     {
-        $this->cache->clearAll();
+        $this->cache->purgeAll();
 
         $this->flash->addMessage('success', __('admin_message_cache_files_deleted'));
 

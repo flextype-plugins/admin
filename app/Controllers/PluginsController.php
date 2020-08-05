@@ -50,7 +50,7 @@ class PluginsController extends Container
                 ],
                 'buttons' =>  [
                     'plugins_get_more' => [
-                        'link' => 'https://github.com/flextype/plugins',
+                        'link' => 'https://flextype.org/en/downloads/extend/plugins',
                         'title' => __('admin_get_more_plugins'),
                         'target' => '_blank'
                     ],

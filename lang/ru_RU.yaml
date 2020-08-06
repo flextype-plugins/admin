@@ -347,3 +347,4 @@ admin_confirmation_required_for_file_delete: "Вы точно хотите уд�
 admin_you_have_not_upload_any_files_yet: "Вы еще не загрузили ни одного файла!"
 admin_selected_file: "Выбранный файл"
 admin_select_file: "Выбрать файл"
+accounts_admin_you_have_no_acccounts: "You have no accounts"

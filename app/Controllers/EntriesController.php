@@ -450,7 +450,8 @@ class EntriesController extends Container
         $entry_id = $this->getEntryID($query);
 
         // Get current Entry ID
-        $entry_id_current = array_pop(explode("/", $entry_id));
+        $parts = explode("/", $entry_id);
+        $entry_id_current = array_pop($parts);
 
         // Fetch entry
         $entry = $this->entries->fetch($this->getEntryID($query));

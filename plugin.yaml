@@ -1,5 +1,5 @@
 name: Admin
-version: 1.1.0
+version: 1.2.0
 description: Admin Panel plugin for Flextype.
 icon: fab fa-fort-awesome
 author:
@@ -7,11 +7,14 @@ author:
   email: support@flextype.org
   url: https://flextype.org
 homepage: https://github.com/flextype-plugins/admin
+documentation: https://github.com/flextype-plugins/admin
+changelog: https://github.com/flextype-plugins/admin/blob/master/CHANGELOG.md
 bugs: https://github.com/flextype-plugins/admin/issues
+keywords: admin, panel, manager
 license: MIT
 
 dependencies:
-  flextype: 0.9.9
+  flextype: 0.9.10
   twig: '>=1.0.0'
   icon: '>=1.0.0'
   form: '>=1.0.0'

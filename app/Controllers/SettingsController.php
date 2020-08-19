@@ -12,19 +12,22 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use function array_merge;
 use function explode;
 use function Flextype\Component\I18n\__;
-use Flextype\App\Foundation\Container;
 
-/**
- * @property View $view
- * @property Router $router
- * @property Cache $cache
- * @property Entries $entries
- * @property Plugins $plugins
- * @property Registry $registry
- * @property Flash $flash
- */
-class SettingsController extends Container
+class SettingsController
 {
+    /**
+     * Flextype Application
+     */
+     protected $flextype;
+
+    /**
+     * __construct
+     */
+     public function __construct($flextype)
+     {
+         $this->flextype = $flextype;
+     }
+     
     /**
      * Index page
      *
@@ -33,7 +36,7 @@ class SettingsController extends Container
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
-        return $this->twig->render(
+        return $this->flextype->container('twig')->render(
             $response,
             'plugins/admin/templates/system/settings/index.html',
             [
@@ -41,7 +44,7 @@ class SettingsController extends Container
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [
-                        'link' => $this->router->pathFor('admin.settings.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.settings.index'),
                         'title' => __('admin_settings'),
                         'active' => true
                     ],
@@ -68,12 +71,12 @@ class SettingsController extends Container
         $post_data = $request->getParsedBody();
 
         if (Filesystem::write(PATH['project'] . '/config/flextype/' . '/settings.yaml', $post_data['data'])) {
-            $this->flash->addMessage('success', __('admin_message_settings_saved'));
+            $this->flextype->container('flash')->addMessage('success', __('admin_message_settings_saved'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_settings_was_not_saved'));
+            $this->flextype->container('flash')->addMessage('error', __('admin_message_settings_was_not_saved'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.settings.index'));
+        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.settings.index'));
     }
 
     /**

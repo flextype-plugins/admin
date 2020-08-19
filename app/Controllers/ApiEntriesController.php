@@ -14,10 +14,23 @@ use function date;
 use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
-use Flextype\App\Foundation\Container;
 
-class ApiEntriesController extends Container
+
+class ApiEntriesController
 {
+    /**
+     * Flextype Application
+     */
+     protected $flextype;
+
+    /**
+     * __construct
+     */
+     public function __construct($flextype)
+     {
+         $this->flextype = $flextype;
+     }
+
     /**
      * Entries Index page
      *
@@ -37,7 +50,7 @@ class ApiEntriesController extends Container
             }
         }
 
-        return $this->twig->render(
+        return $this->flextype->container('twig')->render(
             $response,
             'plugins/admin/templates/system/api/entries/index.html',
             [
@@ -45,18 +58,18 @@ class ApiEntriesController extends Container
                 'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_entries' => [
-                        'link' => $this->router->pathFor('admin.api_entries.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
                     'api_entries_add' => [
-                        'link' => $this->router->pathFor('admin.api_entries.add'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api_entries.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -72,22 +85,22 @@ class ApiEntriesController extends Container
      */
     public function add(Request $request, Response $response) : Response
     {
-        return $this->twig->render(
+        return $this->flextype->container('twig')->render(
             $response,
             'plugins/admin/templates/system/api/entries/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
                     'api' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_entries' => [
-                        'link' => $this->router->pathFor('admin.api_entries.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries')
                     ],
                     'api_entries_add' => [
-                        'link' => $this->router->pathFor('admin.api_entries.add'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api_entries.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -121,12 +134,12 @@ class ApiEntriesController extends Container
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = date($this->registry->get('flextype.settings.date_format'), time());
+            $time = date($this->flextype->container('registry')->get('flextype.settings.date_format'), time());
 
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->yaml->encode([
+                $this->flextype->container('yaml')->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -139,18 +152,18 @@ class ApiEntriesController extends Container
                     'updated_at' => $time,
                 ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_entries_api_token_created'));
+                $this->flextype->container('flash')->addMessage('success', __('admin_message_entries_api_token_created'));
             } else {
-                $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_created1'));
+                $this->flextype->container('flash')->addMessage('error', __('admin_message_entries_api_token_was_not_created1'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_created2'));
+            $this->flextype->container('flash')->addMessage('error', __('admin_message_entries_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->router->pathFor('admin.api_entries.edit') . '?token=' . $api_token);
+            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_entries.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
+            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_entries.index'));
         }
     }
 
@@ -163,9 +176,9 @@ class ApiEntriesController extends Container
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->yaml->decode(Filesystem::read(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml'));
+        $token_data = $this->flextype->container('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml'));
 
-        return $this->twig->render(
+        return $this->flextype->container('twig')->render(
             $response,
             'plugins/admin/templates/system/api/entries/edit.html',
             [
@@ -174,15 +187,15 @@ class ApiEntriesController extends Container
                 'token_data' => $token_data,
                 'links' =>  [
                     'api' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
                     'api_entries' => [
-                        'link' => $this->router->pathFor('admin.api_entries.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api_entries.index'),
                         'title' => __('admin_entries')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->router->pathFor('admin.api_entries.edit'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api_entries.edit'),
                         'title' => __('admin_edit_token'),
                         'active' => true
                     ],
@@ -209,7 +222,7 @@ class ApiEntriesController extends Container
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->yaml->encode([
+                $this->flextype->container('yaml')->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -219,16 +232,16 @@ class ApiEntriesController extends Container
                     'created_by' => $post_data['created_by'],
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
-                    'updated_at' => date($this->registry->get('flextype.settings.date_format'), time()),
+                    'updated_at' => date($this->flextype->container('registry')->get('flextype.settings.date_format'), time()),
                 ])
             )) {
-                $this->flash->addMessage('success', __('admin_message_entries_api_token_updated'));
+                $this->flextype->container('flash')->addMessage('success', __('admin_message_entries_api_token_updated'));
             }
         } else {
-            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_updated'));
+            $this->flextype->container('flash')->addMessage('error', __('admin_message_entries_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
+        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_entries.index'));
     }
 
     /**
@@ -245,11 +258,11 @@ class ApiEntriesController extends Container
         $api_token_dir_path = PATH['project'] . '/tokens/entries/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flash->addMessage('success', __('admin_message_entries_api_token_deleted'));
+            $this->flextype->container('flash')->addMessage('success', __('admin_message_entries_api_token_deleted'));
         } else {
-            $this->flash->addMessage('error', __('admin_message_entries_api_token_was_not_deleted'));
+            $this->flextype->container('flash')->addMessage('error', __('admin_message_entries_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->router->pathFor('admin.api_entries.index'));
+        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_entries.index'));
     }
 }

@@ -6,13 +6,22 @@ namespace Flextype\Plugin\Admin\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Flextype\App\Foundation\Container;
 
-/**
- * @property Router $router
- */
-class DashboardController extends Container
+class DashboardController
 {
+    /**
+     * Flextype Application
+     */
+     protected $flextype;
+
+    /**
+     * __construct
+     */
+     public function __construct($flextype)
+     {
+         $this->flextype = $flextype;
+     }
+
     /**
      * Index page
      *
@@ -21,6 +30,6 @@ class DashboardController extends Container
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
-        return $response->withRedirect($this->router->pathFor('admin.entries.index'));
+        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index'));
     }
 }

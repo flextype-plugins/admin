@@ -11,7 +11,7 @@
                             {{ tr('admin_title') }}
                         </th>
                         <th>
-                            {{ tr('admin_slug') }}
+                            {{ tr('admin_url') }}
                         </th>
                         <th>
                             {{ tr('admin_updated_at') }}
@@ -21,7 +21,6 @@
                 </thead>
                 <tbody>
                     {% for entry in entries_list %}
-
                         <tr>
                             <td class="w-1 text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                                 {% if entry.fieldset %}
@@ -41,8 +40,7 @@
                                 {% endif %}
                             </td>
                             <td class="pl-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-
-                                <a href="{% if entry.has_children %}{{ path_for('admin.entries.index') }}?id={{ entry.slug }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor{% endif %}">
+                                <a href="{% if entry.has_children %}{{ path_for('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
                                     {% if entry.fieldset %}
                                         {% if filesystem_has(fieldset_path) %}
                                             {% if fieldset.default_field %}
@@ -63,50 +61,50 @@
                                 </a>
                             </td>
                             <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                <a target="_blank" href="{{ base_url() }}/{{ entry.slug }}">/{{ entry.slug }}</a>
+                                <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
                             </td>
                             <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                {{ entry.published_at|date(registry.flextype.date_display_format) }}
+                                {{ entry.modified_at|date(registry.flextype.date_display_format) }}
                             </td>
                             <td class="text-right">
-                                <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.slug }}">
+                                <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.id }}">
                                     <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
                                 </button>
-                                <div id="dropdown-{{ entry.slug }}" class="dropdown">
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.slug }}&type=editor">
+                                <div id="dropdown-{{ entry.id }}" class="dropdown">
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
                                         {{ tr('admin_edit') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                    selectEntryType('{{ entry.slug }}', {{ loop.index0 }});">
+                                    selectEntryType('{{ entry.id }}', {{ loop.index0 }});">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
                                         {{ tr('admin_add') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                           document.getElementById('duplicate-id-{{ entry.slug }}').submit();">
+                                           document.getElementById('duplicate-id-{{ entry.id }}').submit();">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
                                         {{ tr('admin_duplicate') }}</a>
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.slug }}">
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.id }}">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
                                         {{ tr('admin_rename') }}</a>
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.slug }}">
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.id }}">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-angle-double-right') }}</i>
                                         {{ tr('admin_move') }}</a>
-                                    <a class="dropdown__item" href="{{ base_url() }}/{{ entry.slug }}" target="_blank">
+                                    <a class="dropdown__item" href="{{ base_url() }}/{{ entry.id }}" target="_blank">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-eye') }}</i>
                                         {{ tr('admin_preview') }}</a>
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.slug }}">
+                                    <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.id }}">
                                         <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
                                         {{ tr('admin_type') }}</a>
                                     <div class="dropdown__divider"></div>
-                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.slug }}', {{ loop.index0 }});">
+                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.id }}', {{ loop.index0 }});">
                                         <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                                         {{ tr('admin_delete') }}</a>
-                                    <form id="duplicate-id-{{ entry.slug }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                    <form id="duplicate-id-{{ entry.id }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
-                                        <input type="hidden" name="id" value="{{ entry.slug }}">
+                                        <input type="hidden" name="id" value="{{ entry.id }}">
                                     </form>
-                                    <form id="delete-id-{{ entry.slug }}" action="{{ path_for('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                    <form id="delete-id-{{ entry.id }}" action="{{ path_for('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
-                                        <input type="hidden" name="id" value="{{ entry.slug }}">
+                                        <input type="hidden" name="id" value="{{ entry.id }}">
                                         <input type="hidden" name="id-current" value="{{ id_current }}">
                                     </form>
                                 </div>

@@ -14,10 +14,23 @@ use function date;
 use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
-use Flextype\App\Foundation\Container;
 
-class ApiController extends Container
+
+class ApiController
 {
+    /**
+     * Flextype Application
+     */
+     protected $flextype;
+
+    /**
+     * __construct
+     */
+     public function __construct($flextype)
+     {
+         $this->flextype = $flextype;
+     }
+
     /**
      * Index page for API's
      *
@@ -26,7 +39,7 @@ class ApiController extends Container
      */
     public function index(Request $request, Response $response) : Response
     {
-        return $this->twig->render(
+        return $this->flextype->container('twig')->render(
             $response,
             'plugins/admin/templates/system/api/index.html',
             [
@@ -59,7 +72,7 @@ class ApiController extends Container
                                ],
                 'links' =>  [
                     'api' => [
-                        'link' => $this->router->pathFor('admin.api.index'),
+                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                         'active' => true,
                     ],

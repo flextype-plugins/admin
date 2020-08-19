@@ -27,73 +27,73 @@ use Flextype\Plugin\Admin\Controllers\ApiFoldersController;
 use Flextype\Plugin\Admin\Controllers\ApiAccessController;
 
 // Set Default Admin locale
-I18n::$locale = $flextype->registry->get('flextype.settings.locale');
+I18n::$locale = $flextype->container('registry')->get('flextype.settings.locale');
 
 // Add Admin Navigation
-$flextype->registry->set('plugins.admin.settings.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => 'fas fa-database', 'link' => $flextype->router->pathFor('admin.entries.index')]);
-$flextype->registry->set('plugins.admin.settings.navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => 'fas fa-plug', 'link' => $flextype->router->pathFor('admin.plugins.index')]);
-$flextype->registry->set('plugins.admin.settings.navigation.system.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->router->pathFor('admin.tools.index')]);
-$flextype->registry->set('plugins.admin.settings.navigation.system.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->router->pathFor('admin.api.index')]);
+$flextype->container('registry')->set('plugins.admin.settings.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => 'fas fa-database', 'link' => $flextype->container('router')->pathFor('admin.entries.index')]);
+$flextype->container('registry')->set('plugins.admin.settings.navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => 'fas fa-plug', 'link' => $flextype->container('router')->pathFor('admin.plugins.index')]);
+$flextype->container('registry')->set('plugins.admin.settings.navigation.system.tools', ['title' => __('admin_tools'),'icon' => 'fas fa-toolbox', 'link' => $flextype->container('router')->pathFor('admin.tools.index')]);
+$flextype->container('registry')->set('plugins.admin.settings.navigation.system.api', ['title' => __('admin_api'),'icon' => 'fas fa-network-wired', 'link' => $flextype->container('router')->pathFor('admin.api.index')]);
 
 /**
  * Add Assets
  */
-$_admin_css = ($flextype['registry']->has('assets.admin.css')) ? $flextype['registry']->get('assets.admin.css') : [];
-$_admin_js  = ($flextype['registry']->has('assets.admin.js')) ? $flextype['registry']->get('assets.admin.js') : [];
+$_admin_css = ($flextype->container('registry')->has('assets.admin.css')) ? $flextype->container('registry')->get('assets.admin.css') : [];
+$_admin_js  = ($flextype->container('registry')->has('assets.admin.js')) ? $flextype->container('registry')->get('assets.admin.js') : [];
 
-$flextype['registry']->set('assets.admin.css',
+$flextype->container('registry')->set('assets.admin.css',
                            array_merge($_admin_css,
                            ['project/plugins/admin/assets/dist/css/admin-vendor-build.min.css',
                             'project/plugins/admin/assets/dist/css/admin-build.min.css']));
 
-$flextype['registry']->set('assets.admin.js',
+$flextype->container('registry')->set('assets.admin.js',
                        array_merge($_admin_js,
                        ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
 
-$flextype['DashboardController'] = static function ($container) {
-    return new DashboardController($container);
+$flextype->container()['DashboardController'] = static function () use ($flextype) {
+    return new DashboardController($flextype);
 };
 
-$flextype['SettingsController'] = static function ($container) {
-    return new SettingsController($container);
+$flextype->container()['SettingsController'] = static function () use ($flextype) {
+    return new SettingsController($flextype);
 };
 
-$flextype['PluginsController'] = static function ($container) {
-    return new PluginsController($container);
+$flextype->container()['PluginsController'] = static function () use ($flextype) {
+    return new PluginsController($flextype);
 };
 
-$flextype['EntriesController'] = static function ($container) {
-    return new EntriesController($container);
+$flextype->container()['EntriesController'] = static function () use ($flextype) {
+    return new EntriesController($flextype);
 };
 
-$flextype['ToolsController'] = static function ($container) {
-    return new ToolsController($container);
+$flextype->container()['ToolsController'] = static function () use ($flextype) {
+    return new ToolsController($flextype);
 };
 
-$flextype['ApiController'] = static function ($container) {
-    return new ApiController($container);
+$flextype->container()['ApiController'] = static function () use ($flextype) {
+    return new ApiController($flextype);
 };
 
-$flextype['ApiEntriesController'] = static function ($container) {
-    return new ApiEntriesController($container);
+$flextype->container()['ApiEntriesController'] = static function () use ($flextype) {
+    return new ApiEntriesController($flextype);
 };
 
-$flextype['ApiFilesController'] = static function ($container) {
-    return new ApiFilesController($container);
+$flextype->container()['ApiFilesController'] = static function () use ($flextype) {
+    return new ApiFilesController($flextype);
 };
 
-$flextype['ApiFoldersController'] = static function ($container) {
-    return new ApiFoldersController($container);
+$flextype->container()['ApiFoldersController'] = static function () use ($flextype) {
+    return new ApiFoldersController($flextype);
 };
 
-$flextype['ApiImagesController'] = static function ($container) {
-    return new ApiImagesController($container);
+$flextype->container()['ApiImagesController'] = static function () use ($flextype) {
+    return new ApiImagesController($flextype);
 };
 
-$flextype['ApiAccessController'] = static function ($container) {
-    return new ApiAccessController($container);
+$flextype->container()['ApiAccessController'] = static function () use ($flextype) {
+    return new ApiAccessController($flextype);
 };
 
-$flextype['ApiRegistryController'] = static function ($container) {
-    return new ApiRegistryController($container);
+$flextype->container()['ApiRegistryController'] = static function () use ($flextype) {
+    return new ApiRegistryController($flextype);
 };

@@ -18,18 +18,13 @@ use function time;
 class ApiFoldersController
 {
     /**
-     * Flextype Application
-     */
-     protected $flextype;
-
-    /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
-     
+
     /**
      * folders Index page
      *
@@ -49,7 +44,7 @@ class ApiFoldersController
             }
         }
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/folders/index.html',
             [
@@ -57,18 +52,18 @@ class ApiFoldersController
                 'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_folders' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_folders.index'),
+                        'link' => flextype('router')->pathFor('admin.api_folders.index'),
                         'title' => __('admin_folders'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
                     'api_folders_add' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_folders.add'),
+                        'link' => flextype('router')->pathFor('admin.api_folders.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -84,22 +79,22 @@ class ApiFoldersController
      */
     public function add(Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/folders/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_folders' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_folders.index'),
+                        'link' => flextype('router')->pathFor('admin.api_folders.index'),
                         'title' => __('admin_folders')
                     ],
                     'api_folders_add' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_folders.add'),
+                        'link' => flextype('router')->pathFor('admin.api_folders.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -133,12 +128,12 @@ class ApiFoldersController
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = date($this->flextype->container('registry')->get('flextype.settings.date_format'), time());
+            $time = date(flextype('registry')->get('flextype.settings.date_format'), time());
 
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->flextype->container('yaml')->encode([
+                flextype('yaml')->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -151,18 +146,18 @@ class ApiFoldersController
                     'updated_at' => $time,
                 ])
             )) {
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_folders_api_token_created'));
+                flextype('flash')->addMessage('success', __('admin_message_folders_api_token_created'));
             } else {
-                $this->flextype->container('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_created1'));
+                flextype('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_created1'));
             }
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_created2'));
+            flextype('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_folders.edit') . '?token=' . $api_token);
+            return $response->withRedirect(flextype('router')->pathFor('admin.api_folders.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_folders.index'));
+            return $response->withRedirect(flextype('router')->pathFor('admin.api_folders.index'));
         }
     }
 
@@ -175,9 +170,9 @@ class ApiFoldersController
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->flextype->container('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/folders/' . $token . '/token.yaml'));
+        $token_data = flextype('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/folders/' . $token . '/token.yaml'));
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/folders/edit.html',
             [
@@ -186,15 +181,15 @@ class ApiFoldersController
                 'token_data' => $token_data,
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
                     'api_folders' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_folders.index'),
+                        'link' => flextype('router')->pathFor('admin.api_folders.index'),
                         'title' => __('admin_folders')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_folders.edit'),
+                        'link' => flextype('router')->pathFor('admin.api_folders.edit'),
                         'title' => __('admin_edit_token'),
                         'active' => true
                     ],
@@ -221,7 +216,7 @@ class ApiFoldersController
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->flextype->container('yaml')->encode([
+                flextype('yaml')->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -231,16 +226,16 @@ class ApiFoldersController
                     'created_by' => $post_data['created_by'],
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
-                    'updated_at' => date($this->flextype->container('registry')->get('flextype.settings.date_format'), time()),
+                    'updated_at' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
                 ])
             )) {
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_folders_api_token_updated'));
+                flextype('flash')->addMessage('success', __('admin_message_folders_api_token_updated'));
             }
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_updated'));
+            flextype('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_folders.index'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.api_folders.index'));
     }
 
     /**
@@ -257,11 +252,11 @@ class ApiFoldersController
         $api_token_dir_path = PATH['project'] . '/tokens/folders/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_folders_api_token_deleted'));
+            flextype('flash')->addMessage('success', __('admin_message_folders_api_token_deleted'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_deleted'));
+            flextype('flash')->addMessage('error', __('admin_message_folders_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_folders.index'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.api_folders.index'));
     }
 }

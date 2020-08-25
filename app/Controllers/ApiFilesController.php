@@ -20,16 +20,11 @@ class ApiFilesController
 {
 
     /**
-     * Flextype Application
-     */
-     protected $flextype;
-
-    /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
 
     /**
@@ -51,7 +46,7 @@ class ApiFilesController
             }
         }
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/files/index.html',
             [
@@ -59,18 +54,18 @@ class ApiFilesController
                 'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_files' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_files.index'),
+                        'link' => flextype('router')->pathFor('admin.api_files.index'),
                         'title' => __('admin_files'),
                         'active' => true
                     ],
                 ],
                 'buttons' => [
                     'api_files_add' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_files.add'),
+                        'link' => flextype('router')->pathFor('admin.api_files.add'),
                         'title' => __('admin_create_new_token')
                     ],
                 ],
@@ -86,22 +81,22 @@ class ApiFilesController
      */
     public function add(Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/files/add.html',
             [
                 'menu_item' => 'api',
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_files' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_files.index'),
+                        'link' => flextype('router')->pathFor('admin.api_files.index'),
                         'title' => __('admin_files')
                     ],
                     'api_files_add' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_files.add'),
+                        'link' => flextype('router')->pathFor('admin.api_files.add'),
                         'title' => __('admin_create_new_token'),
                         'active' => true
                     ],
@@ -135,12 +130,12 @@ class ApiFilesController
             $uuid = Uuid::uuid4()->toString();
 
             // Get time
-            $time = date($this->flextype->container('registry')->get('flextype.settings.date_format'), time());
+            $time = date(flextype('registry')->get('flextype.settings.date_format'), time());
 
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->flextype->container('yaml')->encode([
+                flextype('yaml')->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -153,18 +148,18 @@ class ApiFilesController
                     'updated_at' => $time,
                 ])
             )) {
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_files_api_token_created'));
+                flextype('flash')->addMessage('success', __('admin_message_files_api_token_created'));
             } else {
-                $this->flextype->container('flash')->addMessage('error', __('admin_message_files_api_token_was_not_created1'));
+                flextype('flash')->addMessage('error', __('admin_message_files_api_token_was_not_created1'));
             }
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_files_api_token_was_not_created2'));
+            flextype('flash')->addMessage('error', __('admin_message_files_api_token_was_not_created2'));
         }
 
         if (isset($post_data['create-and-edit'])) {
-            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_files.edit') . '?token=' . $api_token);
+            return $response->withRedirect(flextype('router')->pathFor('admin.api_files.edit') . '?token=' . $api_token);
         } else {
-            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_files.index'));
+            return $response->withRedirect(flextype('router')->pathFor('admin.api_files.index'));
         }
     }
 
@@ -177,9 +172,9 @@ class ApiFilesController
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = $this->flextype->container('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/files/' . $token . '/token.yaml'));
+        $token_data = flextype('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/files/' . $token . '/token.yaml'));
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/files/edit.html',
             [
@@ -188,15 +183,15 @@ class ApiFilesController
                 'token_data' => $token_data,
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
                     'api_files' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_files.index'),
+                        'link' => flextype('router')->pathFor('admin.api_files.index'),
                         'title' => __('admin_files')
                     ],
                     'api_tokens_edit' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api_files.edit'),
+                        'link' => flextype('router')->pathFor('admin.api_files.edit'),
                         'title' => __('admin_edit_token'),
                         'active' => true
                     ],
@@ -223,7 +218,7 @@ class ApiFilesController
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                $this->flextype->container('yaml')->encode([
+                flextype('yaml')->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -233,16 +228,16 @@ class ApiFilesController
                     'created_by' => $post_data['created_by'],
                     'created_at' => $post_data['created_at'],
                     'updated_by' => Session::get('uuid'),
-                    'updated_at' => date($this->flextype->container('registry')->get('flextype.settings.date_format'), time()),
+                    'updated_at' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
                 ])
             )) {
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_files_api_token_updated'));
+                flextype('flash')->addMessage('success', __('admin_message_files_api_token_updated'));
             }
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_files_api_token_was_not_updated'));
+            flextype('flash')->addMessage('error', __('admin_message_files_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_files.index'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.api_files.index'));
     }
 
     /**
@@ -259,11 +254,11 @@ class ApiFilesController
         $api_token_dir_path = PATH['project'] . '/tokens/files/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_files_api_token_deleted'));
+            flextype('flash')->addMessage('success', __('admin_message_files_api_token_deleted'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_files_api_token_was_not_deleted'));
+            flextype('flash')->addMessage('error', __('admin_message_files_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.api_files.index'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.api_files.index'));
     }
 }

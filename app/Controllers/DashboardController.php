@@ -10,16 +10,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class DashboardController
 {
     /**
-     * Flextype Application
-     */
-     protected $flextype;
-
-    /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
 
     /**
@@ -30,6 +25,6 @@ class DashboardController
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index'));
     }
 }

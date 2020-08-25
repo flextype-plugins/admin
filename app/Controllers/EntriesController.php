@@ -15,16 +15,11 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class EntriesController
 {
     /**
-     * Flextype Application
-     */
-     protected $flextype;
-
-    /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
 
     /**
@@ -73,7 +68,7 @@ class EntriesController
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->flextype->container('yaml')->decode(Filesystem::read($fieldset['path']));
+                    $fieldset_content = flextype('yaml')->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['form']) &&
                         isset($fieldset_content['form']['tabs']) &&
                         isset($fieldset_content['form']['tabs']['main']['fields']) &&
@@ -87,17 +82,17 @@ class EntriesController
             }
         }
 
-        $entry_current = $this->flextype->container('entries')->fetch($this->getEntryID($query));
+        $entry_current = flextype('entries')->fetch($this->getEntryID($query));
 
         if (isset($entry_current['items_view'])) {
             $items_view = $entry_current['items_view'];
         } else {
-            $items_view = $this->flextype->container('registry')->get('plugins.admin.settings.entries.items_view_default');
+            $items_view = flextype('registry')->get('plugins.admin.settings.entries.items_view_default');
         }
 
         $entries_list = [];
         $entries_collection = [];
-        $entries_collection = collect($this->flextype->container('entries')->fetchCollection($this->getEntryID($query), ['depth' => ['1']]))->orderBy('published_at', 'DESC')->all();
+        $entries_collection = collect(flextype('entries')->fetchCollection($this->getEntryID($query), ['depth' => ['1']]))->orderBy('published_at', 'DESC')->all();
 
         foreach ($entries_collection as $slug => $body) {
             $entries_list[$slug] = $body;
@@ -106,7 +101,7 @@ class EntriesController
             }
         }
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
@@ -121,7 +116,7 @@ class EntriesController
                             'last' => array_pop($parts),
                             'links' => [
                                         'entries' => [
-                                                'link' => $this->flextype->container('router')->pathFor('admin.entries.index'),
+                                                'link' => flextype('router')->pathFor('admin.entries.index'),
                                                 'title' => __('admin_entries'),
                                                 'active' => true
                                             ]
@@ -159,11 +154,11 @@ class EntriesController
 
         $type = isset($query['type']) ? $query['type']: '';
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                            'entries_list' => collect($this->flextype->container('entries')->fetchCollection($this->getEntryID($query)))->orderBy('order_by', 'ASC')->all(),
+                            'entries_list' => collect(flextype('entries')->fetchCollection($this->getEntryID($query)))->orderBy('order_by', 'ASC')->all(),
                             'menu_item' => 'entries',
                             'current_id' => $this->getEntryID($query),
                             'parts' => $parts,
@@ -172,12 +167,12 @@ class EntriesController
                             'type' => $type,
                             'links' => [
                                         'entries' => [
-                                            'link' => $this->flextype->container('router')->pathFor('admin.entries.index'),
+                                            'link' => flextype('router')->pathFor('admin.entries.index'),
                                             'title' => __('admin_entries'),
 
                                         ],
                                         'entries_add' => [
-                                            'link' => $this->flextype->container('router')->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
+                                            'link' => flextype('router')->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
                                             'title' => __('admin_create_new_entry'),
                                             'active' => true
                                             ]
@@ -199,7 +194,7 @@ class EntriesController
         // Get data from POST
         $data = $request->getParsedBody();
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.add') . '?id=' . $data['id'] . '&type=' . $data['type']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $data['id'] . '&type=' . $data['type']);
     }
 
     /**
@@ -223,20 +218,20 @@ class EntriesController
         }
 
         // Set new Entry ID using slugify or without it
-        if ($this->flextype->container('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $id = ltrim($parent_entry_id . '/' . $this->flextype->container('slugify')->slugify($data['id']), '/');
+        if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
+            $id = ltrim($parent_entry_id . '/' . flextype('slugify')->slugify($data['id']), '/');
         } else {
             $id = ltrim($parent_entry_id . '/' . $data['id'], '/');
         }
 
         // Check if entry exists then try to create it
-        if (!$this->flextype->container('entries')->has($id)) {
+        if (!flextype('entries')->has($id)) {
 
             // Check if we have fieldset for this entry
-            if ($this->flextype->container('fieldsets')->has($data['fieldset'])) {
+            if (flextype('fieldsets')->has($data['fieldset'])) {
 
                 // Get fieldset
-                $fieldset = $this->flextype->container('fieldsets')->fetch($data['fieldset']);
+                $fieldset = flextype('fieldsets')->fetch($data['fieldset']);
 
                 // Init entry data
                 $data_from_post          = [];
@@ -244,19 +239,19 @@ class EntriesController
                 $data_result             = [];
 
                 // Define data values based on POST data
-                $data_from_post['created_by'] = $this->flextype->container('acl')->getUserLoggedInUuid();
-                $data_from_post['published_by'] = $this->flextype->container('acl')->getUserLoggedInUuid();
+                $data_from_post['created_by'] = flextype('acl')->getUserLoggedInUuid();
+                $data_from_post['published_by'] = flextype('acl')->getUserLoggedInUuid();
                 $data_from_post['title']      = $data['title'];
                 $data_from_post['fieldset']   = $data['fieldset'];
                 $data_from_post['visibility'] = $data['visibility'];
-                $data_from_post['published_at'] = date($this->flextype->container('registry')->get('flextype.settings.date_format'), time());
+                $data_from_post['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), time());
                 $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
 
                 // Themes/Templates support for Site Plugin
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then `default` template will be used!
-                if ($this->flextype->container('registry')->has('plugins.site')) {
-                    $template_path = PATH['project'] . '/themes/' . $this->flextype->container('registry')->get('plugins.site.settings.theme') . '/templates/' . $data['fieldset'] . '.html';
+                if (flextype('registry')->has('plugins.site')) {
+                    $template_path = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $data['fieldset'] . '.html';
                     $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
                     $data_from_post['template']   = $template;
                 }
@@ -297,23 +292,23 @@ class EntriesController
                     $data_result = $data_from_post;
                 }
 
-                if ($this->flextype->container('entries')->create($id, $data_result)) {
-                    $this->flextype->container('media_folders')->create('entries/' . $id);
-                    $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_created'));
+                if (flextype('entries')->create($id, $data_result)) {
+                    flextype('media_folders')->create('entries/' . $id);
+                    flextype('flash')->addMessage('success', __('admin_message_entry_created'));
                 } else {
-                    $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
+                    flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
                 }
             } else {
-                $this->flextype->container('flash')->addMessage('error', __('admin_message_fieldset_not_found'));
+                flextype('flash')->addMessage('error', __('admin_message_fieldset_not_found'));
             }
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
+            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
         if (isset($data['create-and-edit'])) {
-            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
+            return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
         } else {
-            return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
+            return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
         }
     }
 
@@ -337,7 +332,7 @@ class EntriesController
             $parts = [0 => ''];
         }
 
-        $entry = $this->flextype->container('entries')->fetch($this->getEntryID($query));
+        $entry = flextype('entries')->fetch($this->getEntryID($query));
 
         $fieldsets = [];
 
@@ -348,7 +343,7 @@ class EntriesController
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = $this->flextype->container('yaml')->decode(Filesystem::read($fieldset['path']));
+                    $fieldset_content = flextype('yaml')->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldset_content['form']) &&
                         isset($fieldset_content['form']['tabs']['main']) &&
                         isset($fieldset_content['form']['tabs']['main']['fields']) &&
@@ -364,7 +359,7 @@ class EntriesController
 
         $fieldset = $entry['fieldset'] ?? [];
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/type.html',
             [
@@ -377,12 +372,12 @@ class EntriesController
                             'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
-                                    'link' => $this->flextype->container('router')->pathFor('admin.entries.index'),
+                                    'link' => flextype('router')->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
 
                                 ],
                                 'entries_type' => [
-                                    'link' => $this->flextype->container('router')->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
+                                    'link' => flextype('router')->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_type'),
                                     'active' => true
                                     ]
@@ -405,7 +400,7 @@ class EntriesController
 
         $id = $post_data['id'];
 
-        $entry = $this->flextype->container('entries')->fetch($id);
+        $entry = flextype('entries')->fetch($id);
 
         Arrays::delete($entry, 'slug');
         Arrays::delete($entry, 'id');
@@ -418,21 +413,21 @@ class EntriesController
         Arrays::delete($post_data, 'save_entry');
         Arrays::delete($post_data, 'id');
 
-        $post_data['created_by'] = $this->flextype->container('acl')->getUserLoggedInUuid();
-        $post_data['published_by'] = $this->flextype->container('acl')->getUserLoggedInUuid();
+        $post_data['created_by'] = flextype('acl')->getUserLoggedInUuid();
+        $post_data['published_by'] = flextype('acl')->getUserLoggedInUuid();
 
         $data = array_merge($entry, $post_data);
 
-        if ($this->flextype->container('entries')->update(
+        if (flextype('entries')->update(
             $id,
             $data
         )) {
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
+            flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
+            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
     }
 
     /**
@@ -456,7 +451,7 @@ class EntriesController
         $entry_id_current = array_pop($parts);
 
         // Fetch entry
-        $entry = $this->flextype->container('entries')->fetch($this->getEntryID($query));
+        $entry = flextype('entries')->fetch($this->getEntryID($query));
 
         // Set Entries IDs in parts
         if (isset($query['id'])) {
@@ -467,15 +462,15 @@ class EntriesController
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach ($this->flextype->container('entries')->fetchCollection('', ['depth' => '>0', 'order_by' => ['field' => ['id']]]) as $_entry) {
+        foreach (flextype('entries')->fetchCollection('', ['depth' => '>0', 'order_by' => ['field' => ['id']]]) as $_entry) {
             if ($_entry['id'] != '') {
                 $entries_list[$_entry['id']] = $_entry['id'];
             } else {
-                $entries_list[$this->flextype->container('registry')->get('flextype.entries.main')] = $this->flextype->container('registry')->get('flextype.entries.main');
+                $entries_list[flextype('registry')->get('flextype.entries.main')] = flextype('registry')->get('flextype.entries.main');
             }
         }
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/move.html',
             [
@@ -489,12 +484,12 @@ class EntriesController
                             'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
-                                    'link' => $this->flextype->container('router')->pathFor('admin.entries.index'),
+                                    'link' => flextype('router')->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
 
                                 ],
                                 'entries_move' => [
-                                    'link' => $this->flextype->container('router')->pathFor('admin.entries.move'),
+                                    'link' => flextype('router')->pathFor('admin.entries.move'),
                                     'title' => __('admin_move'),
                                     'active' => true
                                     ]
@@ -519,22 +514,22 @@ class EntriesController
         // Set entry id current
         $entry_id_current = $data['entry_id_current'];
 
-        if (!$this->flextype->container('entries')->has($data['parent_entry'] . '/' . $entry_id_current)) {
-            if ($this->flextype->container('entries')->rename(
+        if (!flextype('entries')->has($data['parent_entry'] . '/' . $entry_id_current)) {
+            if (flextype('entries')->rename(
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                $this->flextype->container('media_folders')->rename('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+                flextype('media_folders')->rename('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
 
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_moved'));
+                flextype('flash')->addMessage('success', __('admin_message_entry_moved'));
             } else {
-                $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
+                flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
             }
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
+            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . (($data['parent_entry'] == '/') ? '' : $data['parent_entry']));
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . (($data['parent_entry'] == '/') ? '' : $data['parent_entry']));
     }
 
     /**
@@ -560,7 +555,7 @@ class EntriesController
         $entry_id     = explode("/", $this->getEntryID($query));
         $name_current = array_pop($entry_id);
 
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
@@ -573,12 +568,12 @@ class EntriesController
                             'last' => array_pop($parts),
                             'links' => [
                                 'entries' => [
-                                    'link' => $this->flextype->container('router')->pathFor('admin.entries.index'),
+                                    'link' => flextype('router')->pathFor('admin.entries.index'),
                                     'title' => __('admin_entries'),
 
                                 ],
                                 'entries_type' => [
-                                    'link' => $this->flextype->container('router')->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
+                                    'link' => flextype('router')->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
                                     'title' => __('admin_rename'),
                                     'active' => true
                                     ]
@@ -600,23 +595,23 @@ class EntriesController
         $data = $request->getParsedBody();
 
         // Set name
-        if ($this->flextype->container('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $name = $this->flextype->container('slugify')->slugify($data['name']);
+        if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
+            $name = flextype('slugify')->slugify($data['name']);
         } else {
             $name = $data['name'];
         }
 
-        if ($this->flextype->container('entries')->rename(
+        if (flextype('entries')->rename(
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $name)
         ) {
-            $this->flextype->container('media_folders')->rename('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . $this->flextype->container('slugify')->slugify($data['name']));
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_renamed'));
+            flextype('media_folders')->rename('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . flextype('slugify')->slugify($data['name']));
+            flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
+            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
     }
 
     /**
@@ -634,16 +629,16 @@ class EntriesController
         $id = $data['id'];
         $id_current = $data['id-current'];
 
-        if ($this->flextype->container('entries')->delete($id)) {
+        if (flextype('entries')->delete($id)) {
 
-            $this->flextype->container('media_folders')->delete('entries/' . $id);
+            flextype('media_folders')->delete('entries/' . $id);
 
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_deleted'));
+            flextype('flash')->addMessage('success', __('admin_message_entry_deleted'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_was_not_deleted'));
+            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_deleted'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . $id_current);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $id_current);
     }
 
     /**
@@ -663,7 +658,7 @@ class EntriesController
 
         $random_date = date("Ymd_His");
 
-        $this->flextype->container('entries')->copy($id, $id . '-duplicate-' . $random_date, true);
+        flextype('entries')->copy($id, $id . '-duplicate-' . $random_date, true);
 
         if (Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
             Filesystem::copy(PATH['project'] . '/uploads' . '/entries/' . $id, PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date, true);
@@ -671,9 +666,9 @@ class EntriesController
             Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         }
 
-        $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_duplicated'));
+        flextype('flash')->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . $parent_id);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $parent_id);
     }
 
     /**
@@ -699,10 +694,10 @@ class EntriesController
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
-        $this->flextype->container('registry')->set('entries.fields.parsers.settings.enabled', false);
+        flextype('registry')->set('entries.fields.parsers.settings.enabled', false);
 
         // Get Entry
-        $entry = $this->flextype->container('entries')->fetch($this->getEntryID($query));
+        $entry = flextype('entries')->fetch($this->getEntryID($query));
 
         Arrays::delete($entry, 'slug');
         Arrays::delete($entry, 'id');
@@ -710,14 +705,14 @@ class EntriesController
 
         // Fieldsets for current entry template
         $fieldsets_path = PATH['project'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = $this->flextype->container('yaml')->decode(Filesystem::read($fieldsets_path));
+        $fieldsets = flextype('yaml')->decode(Filesystem::read($fieldsets_path));
         is_null($fieldsets) and $fieldsets = [];
 
         if ($type == 'source') {
-            $entry['published_at'] = date($this->flextype->container('registry')->get('flextype.settings.date_format'), $entry['published_at']);
-            $entry['created_at'] = date($this->flextype->container('registry')->get('flextype.settings.date_format'), $entry['created_at']);
+            $entry['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entry['published_at']);
+            $entry['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entry['created_at']);
 
-            return $this->flextype->container('twig')->render(
+            return flextype('twig')->render(
                 $response,
                 'plugins/admin/templates/content/entries/source.html',
                 [
@@ -725,27 +720,27 @@ class EntriesController
                         'i' => count($parts),
                         'last' => array_pop($parts),
                         'id' => $this->getEntryID($query),
-                        'data' => $this->flextype->container('frontmatter')->encode($entry),
+                        'data' => flextype('frontmatter')->encode($entry),
                         'type' => $type,
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.index'),
+                                'link' => flextype('router')->pathFor('admin.entries.index'),
                                 'title' => __('admin_entries'),
 
                             ],
                             'edit_entry' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
                                 'title' => __('admin_editor'),
 
                             ],
                             'edit_entry_media' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
 
                             ],
                             'edit_entry_source' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
                                 'active' => true
                             ],
@@ -761,7 +756,7 @@ class EntriesController
                 ]
             );
         } elseif ($type == 'media') {
-            return $this->flextype->container('twig')->render(
+            return flextype('twig')->render(
                 $response,
                 'plugins/admin/templates/content/entries/media.html',
                 [
@@ -773,22 +768,22 @@ class EntriesController
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries'),
 
                             ],
                             'edit_entry' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
 
                             ],
                             'edit_entry_media' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media'),
                                 'active' => true
                             ],
                             'edit_entry_source' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source'),
                             ],
                         ]
@@ -798,12 +793,12 @@ class EntriesController
 
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
-                $form = $this->flextype->container('form')->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry);
+                $form = flextype('form')->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry);
             } else {
-                $form = $this->flextype->container('form')->render($fieldsets, $entry);
+                $form = flextype('form')->render($fieldsets, $entry);
             }
 
-            return $this->flextype->container('twig')->render(
+            return flextype('twig')->render(
                 $response,
                 'plugins/admin/templates/content/entries/edit.html',
                 [
@@ -814,20 +809,20 @@ class EntriesController
                         'menu_item' => 'entries',
                         'links' => [
                             'entries' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                                'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries')
                             ],
                             'edit_entry' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
                                 'title' => __('admin_editor'),
                                 'active' => true
                             ],
                             'edit_entry_media' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
                                 'title' => __('admin_media')
                             ],
                             'edit_entry_source' => [
-                                'link' => $this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
+                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
                                 'title' => __('admin_source')
                             ],
                         ],
@@ -865,20 +860,20 @@ class EntriesController
             // Data from POST
             $data = $request->getParsedBody();
 
-            $entry = $this->flextype->container('frontmatter')->decode($data['data']);
+            $entry = flextype('frontmatter')->decode($data['data']);
 
-            $entry['created_by'] = $this->flextype->container('acl')->getUserLoggedInUuid();
-            $entry['published_by'] = $this->flextype->container('acl')->getUserLoggedInUuid();
+            $entry['created_by'] = flextype('acl')->getUserLoggedInUuid();
+            $entry['published_by'] = flextype('acl')->getUserLoggedInUuid();
 
             Arrays::delete($entry, 'slug');
             Arrays::delete($entry, 'id');
             Arrays::delete($entry, 'modified_at');
 
             // Update entry
-            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', $this->flextype->container('frontmatter')->encode($entry))) {
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
+            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', flextype('frontmatter')->encode($entry))) {
+                flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
-                $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
+                flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
         } else {
             // Result data to save
@@ -902,21 +897,21 @@ class EntriesController
             $data['published_by'] = Session::get('uuid');
 
             // Fetch entry
-            $entry = $this->flextype->container('entries')->fetch($id);
+            $entry = flextype('entries')->fetch($id);
             Arrays::delete($entry, 'slug');
             Arrays::delete($entry, 'id');
             Arrays::delete($entry, 'modified_at');
 
             if (isset($data['created_at'])) {
-                $data['created_at'] = date($this->flextype->container('registry')->get('flextype.settings.date_format'), strtotime($data['created_at']));
+                $data['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($data['created_at']));
             } else {
-                $data['created_at'] = date($this->flextype->container('registry')->get('flextype.settings.date_format'), $entry['created_at']);
+                $data['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entry['created_at']);
             }
 
             if (isset($data['published_at'])) {
-                $data['published_at'] = (string) date($this->flextype->container('registry')->get('flextype.settings.date_format'), strtotime($data['published_at']));
+                $data['published_at'] = (string) date(flextype('registry')->get('flextype.settings.date_format'), strtotime($data['published_at']));
             } else {
-                $data['published_at'] = (string) date($this->flextype->container('registry')->get('flextype.settings.date_format'), $entry['published_at']);
+                $data['published_at'] = (string) date(flextype('registry')->get('flextype.settings.date_format'), $entry['published_at']);
             }
 
             if (isset($data['routable'])) {
@@ -931,14 +926,14 @@ class EntriesController
             $result_data = array_merge($entry, $data);
 
             // Update entry
-            if ($this->flextype->container('entries')->update($id, $result_data)) {
-                $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
+            if (flextype('entries')->update($id, $result_data)) {
+                flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
             } else {
-                $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
+                flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
             }
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
     }
 
     /**
@@ -956,11 +951,11 @@ class EntriesController
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
 
-        $this->flextype->container('media_files')->delete('entries/' . $entry_id . '/' . $media_id);
+        flextype('media_files')->delete('entries/' . $entry_id . '/' . $media_id);
 
-        $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_file_deleted'));
+        flextype('flash')->addMessage('success', __('admin_message_entry_file_deleted'));
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
     }
 
     /**
@@ -975,13 +970,13 @@ class EntriesController
     {
         $data = $request->getParsedBody();
 
-        if ($this->flextype->container('media_files')->upload($_FILES['file'], '/entries/' . $data['entry-id'] . '/')) {
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_entry_file_uploaded'));
+        if (flextype('media_files')->upload($_FILES['file'], '/entries/' . $data['entry-id'] . '/')) {
+            flextype('flash')->addMessage('success', __('admin_message_entry_file_uploaded'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_entry_file_not_uploaded'));
+            flextype('flash')->addMessage('error', __('admin_message_entry_file_not_uploaded'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.entries.edit') . '?id=' . $data['entry-id'] . '&type=media');
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $data['entry-id'] . '&type=media');
     }
 
     /**
@@ -1002,7 +997,7 @@ class EntriesController
         }
 
         foreach (array_diff(scandir(PATH['project'] . '/uploads/entries/' . $id), ['..', '.']) as $file) {
-            if (strpos($this->flextype->container('registry')->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
+            if (strpos(flextype('registry')->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
                         if ($path) {

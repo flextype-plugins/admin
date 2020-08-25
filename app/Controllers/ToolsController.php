@@ -22,16 +22,11 @@ use function realpath;
 class ToolsController
 {
     /**
-     * Flextype Application
-     */
-     protected $flextype;
-
-    /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
 
     /**
@@ -42,7 +37,7 @@ class ToolsController
      */
     public function index(Request $request, Response $response) : Response
     {
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.tools.information'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.tools.information'));
     }
 
     /**
@@ -53,7 +48,7 @@ class ToolsController
      */
     public function information(Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/information.html',
             [
@@ -63,17 +58,17 @@ class ToolsController
                 'php_sapi_name' => php_sapi_name(),
                 'links' =>  [
                     'information' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.index'),
+                        'link' => flextype('router')->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
                         'active' => true
                     ],
                     'cache' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.cache'),
+                        'link' => flextype('router')->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
 
                     ],
                     'registry' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.registry'),
+                        'link' => flextype('router')->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
 
                     ],
@@ -90,7 +85,7 @@ class ToolsController
      */
     public function cache(Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/cache.html',
             [
@@ -100,17 +95,17 @@ class ToolsController
                 'twig_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/twig')),
                 'links' =>  [
                     'information' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.index'),
+                        'link' => flextype('router')->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
 
                     ],
                     'cache' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.cache'),
+                        'link' => flextype('router')->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
                         'active' => true
                     ],
                     'registry' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.registry'),
+                        'link' => flextype('router')->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
 
                     ],
@@ -119,7 +114,7 @@ class ToolsController
                     'tools_clear_cache' => [
                         'type' => 'action',
                         'id' => 'clear-cache-all',
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.clearCacheAllProcess'),
+                        'link' => flextype('router')->pathFor('admin.tools.clearCacheAllProcess'),
                         'title' => __('admin_clear_cache_all'),
                     ],
                 ],
@@ -135,25 +130,25 @@ class ToolsController
      */
     public function registry(Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
-                'registry_dump' => $this->dotArray($this->flextype->container('registry')->all()),
+                'registry_dump' => $this->dotArray(flextype('registry')->all()),
                 'links' =>  [
                     'information' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.index'),
+                        'link' => flextype('router')->pathFor('admin.tools.index'),
                         'title' => __('admin_information'),
 
                     ],
                     'cache' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.cache'),
+                        'link' => flextype('router')->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
 
                     ],
                     'registry' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.tools.registry'),
+                        'link' => flextype('router')->pathFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
                         'active' => true
                     ],
@@ -172,12 +167,12 @@ class ToolsController
     {
         $id = $request->getParsedBody()['cache-id'];
 
-        $this->flextype->container('cache')->purge('doctrine');
-        $this->flextype->container('cache')->purge('preflight');
+        flextype('cache')->purge('doctrine');
+        flextype('cache')->purge('preflight');
 
-        $this->flextype->container('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
+        flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.tools.cache'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
     }
 
     /**
@@ -188,11 +183,11 @@ class ToolsController
      */
     public function clearCacheAllProcess(Request $request, Response $response) : Response
     {
-        $this->flextype->container('cache')->purgeAll();
+        flextype('cache')->purgeAll();
 
-        $this->flextype->container('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
+        flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.tools.cache'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
     }
 
     /**

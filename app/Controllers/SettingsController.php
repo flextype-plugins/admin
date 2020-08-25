@@ -15,19 +15,15 @@ use function Flextype\Component\I18n\__;
 
 class SettingsController
 {
-    /**
-     * Flextype Application
-     */
-     protected $flextype;
 
     /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
-     
+
     /**
      * Index page
      *
@@ -36,7 +32,7 @@ class SettingsController
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/settings/index.html',
             [
@@ -44,7 +40,7 @@ class SettingsController
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.settings.index'),
+                        'link' => flextype('router')->pathFor('admin.settings.index'),
                         'title' => __('admin_settings'),
                         'active' => true
                     ],
@@ -71,12 +67,12 @@ class SettingsController
         $post_data = $request->getParsedBody();
 
         if (Filesystem::write(PATH['project'] . '/config/flextype/' . '/settings.yaml', $post_data['data'])) {
-            $this->flextype->container('flash')->addMessage('success', __('admin_message_settings_saved'));
+            flextype('flash')->addMessage('success', __('admin_message_settings_saved'));
         } else {
-            $this->flextype->container('flash')->addMessage('error', __('admin_message_settings_was_not_saved'));
+            flextype('flash')->addMessage('error', __('admin_message_settings_was_not_saved'));
         }
 
-        return $response->withRedirect($this->flextype->container('router')->pathFor('admin.settings.index'));
+        return $response->withRedirect(flextype('router')->pathFor('admin.settings.index'));
     }
 
     /**

@@ -19,16 +19,11 @@ use function time;
 class ApiController
 {
     /**
-     * Flextype Application
-     */
-     protected $flextype;
-
-    /**
      * __construct
      */
-     public function __construct($flextype)
+     public function __construct()
      {
-         $this->flextype = $flextype;
+
      }
 
     /**
@@ -39,7 +34,7 @@ class ApiController
      */
     public function index(Request $request, Response $response) : Response
     {
-        return $this->flextype->container('twig')->render(
+        return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/api/index.html',
             [
@@ -72,7 +67,7 @@ class ApiController
                                ],
                 'links' =>  [
                     'api' => [
-                        'link' => $this->flextype->container('router')->pathFor('admin.api.index'),
+                        'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                         'active' => true,
                     ],

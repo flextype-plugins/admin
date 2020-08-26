@@ -1,3 +1,10 @@
+<a name="1.3.1"></a>
+# [1.3.1(https://github.com/flextype-plugins/admin) (2020-08-26)
+
+### Features
+
+* **entries-controller** fix method duplicateProcess()
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/flextype-plugins/admin) (2020-08-25)
 

@@ -659,6 +659,7 @@ class EntriesController
         $random_date = date("Ymd_His");
 
         flextype('entries')->copy($id, $id . '-duplicate-' . $random_date, true);
+        flextype('media_folders')->copy('entries/' . $id, 'entries/' . $id . '-duplicate-' . $random_date, true);
 
         if (Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
             Filesystem::copy(PATH['project'] . '/uploads' . '/entries/' . $id, PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date, true);

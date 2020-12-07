@@ -15,7 +15,7 @@
                     {{ tr('admin_data') }}
                 </td>
                 <td>
-                    {% if doctrine_size %}{{ doctrine_size }}
+                    {% if data_size %}{{ data_size }}
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
@@ -24,12 +24,12 @@
                     </button>
                     <div id="dropdown-data" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                  document.getElementById('clear-id-doctrine').submit();">
+                                  document.getElementById('clear-id-data').submit();">
                             <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
                             {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-doctrine" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                        <form id="clear-id-data" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
-                            <input type="hidden" name="cache-id" value="doctrine">
+                            <input type="hidden" name="cache-id" value="data">
                         </form>
                     </div>
                 </td>
@@ -54,6 +54,30 @@
                         <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
                             <input type="hidden" name="cache-id" value="twig">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ tr('admin_preflight') }}
+                </td>
+                <td>
+                    {% if preflight_size %}{{ preflight_size }}
+                    {% else %}0 KB{% endif %}
+                </td>
+                <td class="text-right">
+                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
+                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                    </button>
+                    <div id="dropdown-image" class="dropdown">
+                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                  document.getElementById('clear-id-preflight').submit();">
+                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            {{ tr('admin_clear') }}</a>
+                        <form id="clear-id-preflight" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                            {{ csrf() }}
+                            <input type="hidden" name="cache-id" value="preflight">
                         </form>
                     </div>
                 </td>

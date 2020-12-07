@@ -6,6 +6,7 @@ namespace Flextype\Plugin\Admin\Controllers;
 
 use FilesystemIterator;
 use Flextype\Component\Number\Number;
+use Flextype\Component\Filesystem\Filesystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use RecursiveDirectoryIterator;
@@ -90,9 +91,10 @@ class ToolsController
             'plugins/admin/templates/system/tools/cache.html',
             [
                 'menu_item' => 'tools',
-                'doctrine_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/doctrine')),
-                'glide_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/glide')),
-                'twig_size' => Number::byteFormat($this->getDirectorySize(PATH['cache'] . '/twig')),
+                'data_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/data')),
+                'glide_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/glide')),
+                'twig_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/twig')),
+                'preflight_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/preflight')),
                 'links' =>  [
                     'information' => [
                         'link' => flextype('router')->pathFor('admin.tools.index'),
@@ -167,8 +169,21 @@ class ToolsController
     {
         $id = $request->getParsedBody()['cache-id'];
 
-        flextype('cache')->purge('doctrine');
-        flextype('cache')->purge('preflight');
+        if ($id == 'data') {
+            Filesystem::deleteDir(PATH['tmp'] . '/data');
+        }
+
+        if ($id == 'twig') {
+            Filesystem::deleteDir(PATH['tmp'] . '/twig');
+        }
+
+        if ($id == 'glide') {
+            Filesystem::deleteDir(PATH['tmp'] . '/glide');
+        }
+
+        if ($id == 'preflight') {
+            Filesystem::deleteDir(PATH['tmp'] . '/preflight');
+        }
 
         flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
 
@@ -183,7 +198,7 @@ class ToolsController
      */
     public function clearCacheAllProcess(Request $request, Response $response) : Response
     {
-        flextype('cache')->purgeAll();
+        Filesystem::deleteDir(ROOT_DIR . '/var');
 
         flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
 

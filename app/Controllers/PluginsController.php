@@ -81,8 +81,8 @@ class PluginsController
 
         Filesystem::write($custom_plugin_settings_file, flextype('yaml')->encode($custom_plugin_settings_file_data));
 
-        // Clear doctrine cache
-        flextype('cache')->purge('doctrine');
+        // clear cache
+        Filesystem::deleteDir(PATH['tmp'] . '/data');
 
         // Redirect to plugins index page
         return $response->withRedirect(flextype('router')->pathFor('admin.plugins.index'));

@@ -3,7 +3,7 @@
 namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Session\Session;
+
 use Flextype\Component\Arrays\Arrays;
 use function Flextype\Component\I18n\__;
 use Respect\Validation\Validator as v;
@@ -82,7 +82,7 @@ class EntriesController
             }
         }
 
-        $entry_current = flextype('entries')->fetch($this->getEntryID($query));
+        $entry_current = flextype('entries')->fetchSingle($this->getEntryID($query))->toArray();
 
         if (isset($entry_current['items_view'])) {
             $items_view = $entry_current['items_view'];
@@ -92,12 +92,16 @@ class EntriesController
 
         $entries_list = [];
         $entries_collection = [];
-        $entries_collection = collect(flextype('entries')->fetchCollection($this->getEntryID($query), ['depth' => ['1']]))->orderBy('published_at', 'DESC')->all();
+        $entries_collection = arrays(flextype('entries')
+                                        ->fetchCollection($this->getEntryID($query),
+                                                            ['depth' => ['1']]))
+                                                            ->sortBy('published_at', 'DESC')
+                                                            ->toArray();
 
         foreach ($entries_collection as $slug => $body) {
             $entries_list[$slug] = $body;
-            if (find()->in(PATH['project'] . '/entries/' . $slug)->depth('>=1')->depth('<=2')->hasResults()) {
-                $entries_list[$slug] += ['has_children' => true];
+            if (filesystem()->find()->in(PATH['project'] . '/entries/' . $slug)->depth('>=1')->depth('<=2')->hasResults()) {
+                $entries_list[$slug]['has_children'] = true;
             }
         }
 
@@ -158,7 +162,7 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                            'entries_list' => collect(flextype('entries')->fetchCollection($this->getEntryID($query)))->orderBy('order_by', 'ASC')->all(),
+                            'entries_list' => arrays(flextype('entries')->fetchCollection($this->getEntryID($query)))->sortBy('order_by', 'ASC')->toArray(),
                             'menu_item' => 'entries',
                             'current_id' => $this->getEntryID($query),
                             'parts' => $parts,
@@ -231,7 +235,7 @@ class EntriesController
             if (flextype('fieldsets')->has($data['fieldset'])) {
 
                 // Get fieldset
-                $fieldset = flextype('fieldsets')->fetch($data['fieldset']);
+                $fieldset = flextype('fieldsets')->fetchSingle($data['fieldset']);
 
                 // Init entry data
                 $data_from_post          = [];
@@ -332,7 +336,7 @@ class EntriesController
             $parts = [0 => ''];
         }
 
-        $entry = flextype('entries')->fetch($this->getEntryID($query));
+        $entry = flextype('entries')->fetchSingle($this->getEntryID($query))->toArray();
 
         $fieldsets = [];
 
@@ -400,7 +404,7 @@ class EntriesController
 
         $id = $post_data['id'];
 
-        $entry = flextype('entries')->fetch($id);
+        $entry = flextype('entries')->fetchSingle($id)->toArray();
 
         Arrays::delete($entry, 'slug');
         Arrays::delete($entry, 'id');
@@ -451,7 +455,7 @@ class EntriesController
         $entry_id_current = array_pop($parts);
 
         // Fetch entry
-        $entry = flextype('entries')->fetch($this->getEntryID($query));
+        $entry = flextype('entries')->fetchSingle($this->getEntryID($query))->toArray();
 
         // Set Entries IDs in parts
         if (isset($query['id'])) {
@@ -462,7 +466,7 @@ class EntriesController
 
         // Get entries list
         $entries_list['/'] = '/';
-        foreach (flextype('entries')->fetchCollection('', ['depth' => '>0', 'order_by' => ['field' => ['id']]]) as $_entry) {
+        foreach (flextype('entries')->fetchCollection('', ['depth' => '>0', 'order_by' => ['field' => ['id']]])->toArray() as $_entry) {
             if ($_entry['id'] != '') {
                 $entries_list[$_entry['id']] = $_entry['id'];
             } else {
@@ -515,11 +519,11 @@ class EntriesController
         $entry_id_current = $data['entry_id_current'];
 
         if (!flextype('entries')->has($data['parent_entry'] . '/' . $entry_id_current)) {
-            if (flextype('entries')->rename(
+            if (flextype('entries')->move(
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                flextype('media_folders')->rename('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
+                flextype('media_folders')->move('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
 
                 flextype('flash')->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -601,11 +605,11 @@ class EntriesController
             $name = $data['name'];
         }
 
-        if (flextype('entries')->rename(
+        if (flextype('entries')->move(
             $data['entry_path_current'],
             $data['entry_parent'] . '/' . $name)
         ) {
-            flextype('media_folders')->rename('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . flextype('slugify')->slugify($data['name']));
+            flextype('media_folders')->move('entries/' . $data['entry_path_current'], 'entries/' . $data['entry_parent'] . '/' . flextype('slugify')->slugify($data['name']));
             flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
@@ -662,7 +666,9 @@ class EntriesController
         flextype('media_folders')->copy('entries/' . $id, 'entries/' . $id . '-duplicate-' . $random_date, true);
 
         if (Filesystem::has(PATH['project'] . '/uploads' . '/entries/' . $id)) {
-            Filesystem::copy(PATH['project'] . '/uploads' . '/entries/' . $id, PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date, true);
+            filesystem()
+                ->directory(PATH['project'] . '/uploads' . '/entries/' . $id)
+                ->copy(PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         } else {
             Filesystem::createDir(PATH['project'] . '/uploads' . '/entries/' . $id . '-duplicate-' . $random_date);
         }
@@ -698,7 +704,7 @@ class EntriesController
         flextype('registry')->set('entries.fields.parsers.settings.enabled', false);
 
         // Get Entry
-        $entry = flextype('entries')->fetch($this->getEntryID($query));
+        $entry = flextype('entries')->fetchSingle($this->getEntryID($query))->toArray();
 
         Arrays::delete($entry, 'slug');
         Arrays::delete($entry, 'id');
@@ -894,11 +900,10 @@ class EntriesController
             isset($data['flatpickr-date-format']) and Arrays::delete($data, 'flatpickr-date-format');
             isset($data['flatpickr-locale'])      and Arrays::delete($data, 'flatpickr-locale');
 
-
-            $data['published_by'] = Session::get('uuid');
+            $data['published_by'] = flextype('session')->get('uuid');
 
             // Fetch entry
-            $entry = flextype('entries')->fetch($id);
+            $entry = flextype('entries')->fetchSingle($id)->toArray();
             Arrays::delete($entry, 'slug');
             Arrays::delete($entry, 'id');
             Arrays::delete($entry, 'modified_at');

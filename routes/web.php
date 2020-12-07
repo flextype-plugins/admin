@@ -93,6 +93,6 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/api/access/delete', 'ApiAccessController:deleteProcess')->setName('admin.api_access.deleteProcess');
 
 })->add(new AclIsUserLoggedInMiddleware(['redirect' => 'admin.accounts.login']))
-  ->add(new AclIsUserLoggedInRolesInMiddleware(['redirect' => (flextype()->getContainer()->acl->isUserLoggedIn() ? 'admin.accounts.no-access' : 'admin.accounts.login'),
-                                                      'roles' => 'admin']))
+  ->add(new AclIsUserLoggedInRolesInMiddleware(['redirect' => (flextype('acl')->isUserLoggedIn() ? 'admin.accounts.no-access' : 'admin.accounts.login'),
+                                                'roles' => 'admin']))
   ->add('csrf');

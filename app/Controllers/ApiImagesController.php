@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Flextype\Plugin\Admin\Controllers;
 
 use Flextype\Component\Filesystem\Filesystem;
-use Flextype\Component\Session\Session;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
@@ -140,9 +140,9 @@ class ApiImagesController
                     'calls' => (int) 0,
                     'state' => $post_data['state'],
                     'uuid' => $uuid,
-                    'created_by' => Session::get('uuid'),
+                    'created_by' => flextype('session')->get('uuid'),
                     'created_at' => $time,
-                    'updated_by' => Session::get('uuid'),
+                    'updated_by' => flextype('session')->get('uuid'),
                     'updated_at' => $time,
                 ])
             )) {
@@ -225,7 +225,7 @@ class ApiImagesController
                     'uuid' => $post_data['uuid'],
                     'created_by' => $post_data['created_by'],
                     'created_at' => $post_data['created_at'],
-                    'updated_by' => Session::get('uuid'),
+                    'updated_by' => flextype('session')->get('uuid'),
                     'updated_at' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
                 ])
             )) {

@@ -34,11 +34,11 @@ class ApiFoldersController
     public function index(Request $request, Response $response) : Response
     {
         $tokens = [];
-        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens/folders/');
+        $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens/media/folders/');
 
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
-                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens/folders/' . $token['dirname'] . '/token.yaml')) {
+                if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens/media/folders/' . $token['dirname'] . '/token.yaml')) {
                     $tokens[] = $token;
                 }
             }
@@ -117,7 +117,7 @@ class ApiFoldersController
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens/folders/' . $api_token;
+        $api_token_dir_path  = PATH['project'] . '/tokens/media/folders/' . $api_token;
         $api_token_file_path = $api_token_dir_path . '/token.yaml';
 
         if (! Filesystem::has($api_token_file_path)) {
@@ -133,7 +133,7 @@ class ApiFoldersController
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                flextype('yaml')->encode([
+                flextype('serializers')->yaml()->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -170,7 +170,7 @@ class ApiFoldersController
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = flextype('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/folders/' . $token . '/token.yaml'));
+        $token_data = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/media/folders/' . $token . '/token.yaml'));
 
         return flextype('twig')->render(
             $response,
@@ -209,14 +209,14 @@ class ApiFoldersController
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens/folders/' . $post_data['token'];
+        $api_token_dir_path  = PATH['project'] . '/tokens/media/folders/' . $post_data['token'];
         $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
 
         // Update API Token File
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                flextype('yaml')->encode([
+                flextype('serializers')->yaml()->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -249,7 +249,7 @@ class ApiFoldersController
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens/folders/' . $post_data['token'];
+        $api_token_dir_path = PATH['project'] . '/tokens/media/folders/' . $post_data['token'];
 
         if (Filesystem::deleteDir($api_token_dir_path)) {
             flextype('flash')->addMessage('success', __('admin_message_folders_api_token_deleted'));

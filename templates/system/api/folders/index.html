@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 {% for key, token in tokens %}
-                    {% set token_file_path = PATH_PROJECT ~ '/tokens/folders/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
+                    {% set token_file_path = PATH_PROJECT ~ '/tokens/media/folders/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem_has(token_file_path) %}
                         {% set token_data = yaml_decode(filesystem_read(token_file_path)) %}
                     {% endif %}

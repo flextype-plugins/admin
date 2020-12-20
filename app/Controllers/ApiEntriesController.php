@@ -135,7 +135,7 @@ class ApiEntriesController
             // Create API Token account
             if (Filesystem::write(
                 $api_token_file_path,
-                flextype('yaml')->encode([
+                flextype('serializers')->yaml()->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],
@@ -172,7 +172,7 @@ class ApiEntriesController
     public function edit(Request $request, Response $response) : Response
     {
         $token      = $request->getQueryParams()['token'];
-        $token_data = flextype('yaml')->decode(Filesystem::read(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml'));
+        $token_data = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/entries/' . $token . '/token.yaml'));
 
         return flextype('twig')->render(
             $response,
@@ -218,7 +218,7 @@ class ApiEntriesController
         if (Filesystem::has($api_token_file_path)) {
             if (Filesystem::write(
                 $api_token_file_path,
-                flextype('yaml')->encode([
+                flextype('serializers')->yaml()->encode([
                     'title' => $post_data['title'],
                     'icon' => $post_data['icon'],
                     'limit_calls' => (int) $post_data['limit_calls'],

@@ -73,13 +73,13 @@ class PluginsController
         $post_data = $request->getParsedBody();
 
         $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $custom_plugin_settings_file_data = flextype('yaml')->decode(Filesystem::read($custom_plugin_settings_file));
+        $custom_plugin_settings_file_data = flextype('serializers')->yaml()->decode(Filesystem::read($custom_plugin_settings_file));
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
 
         Arrays::set($custom_plugin_settings_file_data, 'enabled', $status);
 
-        Filesystem::write($custom_plugin_settings_file, flextype('yaml')->encode($custom_plugin_settings_file_data));
+        Filesystem::write($custom_plugin_settings_file, flextype('serializers')->yaml()->encode($custom_plugin_settings_file_data));
 
         // clear cache
         Filesystem::deleteDir(PATH['tmp'] . '/data');
@@ -111,7 +111,7 @@ class PluginsController
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => flextype('yaml')->decode($custom_plugin_manifest_file_content),
+                'plugin_manifest' => flextype('serializers')->yaml()->decode($custom_plugin_manifest_file_content),
                 'links' =>  [
                     'plugins' => [
                         'link' => flextype('router')->pathFor('admin.plugins.index'),

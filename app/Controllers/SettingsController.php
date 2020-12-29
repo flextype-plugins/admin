@@ -15,15 +15,6 @@ use function Flextype\Component\I18n\__;
 
 class SettingsController
 {
-
-    /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
     /**
      * Index page
      *

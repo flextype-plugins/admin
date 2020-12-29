@@ -15,14 +15,6 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class EntriesController
 {
     /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
-    /**
      * Get Entry ID
      *
      * @param array Query

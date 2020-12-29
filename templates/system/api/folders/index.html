@@ -20,8 +20,8 @@
             <tbody>
                 {% for key, token in tokens %}
                     {% set token_file_path = PATH_PROJECT ~ '/tokens/media/folders/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
-                    {% if filesystem_has(token_file_path) %}
-                        {% set token_data = yaml_decode(filesystem_read(token_file_path)) %}
+                    {% if filesystem().file(token_file_path).exists() %}
+                        {% set token_data = flextype.serializers.yaml.decode(filesystem().file(token_file_path).get()) %}
                     {% endif %}
                     <tr>
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">

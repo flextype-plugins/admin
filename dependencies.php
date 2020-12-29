@@ -50,50 +50,15 @@ flextype('registry')->set('assets.admin.js',
                        array_merge($_admin_js,
                        ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
 
-flextype()->container()['DashboardController'] = static function () {
-    return new DashboardController();
-};
-
-flextype()->container()['SettingsController'] = static function () {
-    return new SettingsController();
-};
-
-flextype()->container()['PluginsController'] = static function () {
-    return new PluginsController();
-};
-
-flextype()->container()['EntriesController'] = static function () {
-    return new EntriesController();
-};
-
-flextype()->container()['ToolsController'] = static function () {
-    return new ToolsController();
-};
-
-flextype()->container()['ApiController'] = static function () {
-    return new ApiController();
-};
-
-flextype()->container()['ApiEntriesController'] = static function () {
-    return new ApiEntriesController();
-};
-
-flextype()->container()['ApiFilesController'] = static function () {
-    return new ApiFilesController();
-};
-
-flextype()->container()['ApiFoldersController'] = static function () {
-    return new ApiFoldersController();
-};
-
-flextype()->container()['ApiImagesController'] = static function () {
-    return new ApiImagesController();
-};
-
-flextype()->container()['ApiAccessController'] = static function () {
-    return new ApiAccessController();
-};
-
-flextype()->container()['ApiRegistryController'] = static function () {
-    return new ApiRegistryController();
-};
+flextype()->container()['DashboardController'] = fn() => new DashboardController();
+flextype()->container()['SettingsController'] = fn() => new SettingsController();
+flextype()->container()['PluginsController'] = fn() => new PluginsController();
+flextype()->container()['EntriesController'] = fn() => new EntriesController();
+flextype()->container()['ToolsController'] = fn() => new ToolsController();
+flextype()->container()['ApiController'] = fn() => new ApiController();
+flextype()->container()['ApiEntriesController'] = fn() => new ApiEntriesController();
+flextype()->container()['ApiFilesController'] = fn() => new ApiFilesController();
+flextype()->container()['ApiFoldersController'] = fn() => new ApiFoldersController();
+flextype()->container()['ApiImagesController'] = fn() => new ApiImagesController();
+flextype()->container()['ApiAccessController'] = fn() => new ApiAccessController();
+flextype()->container()['ApiRegistryController'] = fn() => new ApiRegistryController();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ registry.get('flextype.settings.locale') }}">
+<html lang="{{ flextype.registry.get('flextype.settings.locale') }}">
     <head>
         {% block head %}
             <meta charset="utf-8">
@@ -9,25 +9,25 @@
             <meta name="robots" content="noindex,nofollow">
 
             {% do
-                emitter.emit('onAdminThemeMeta') %}
+                flextype.emitter.emit('onAdminThemeMeta') %}
 
             <title>FLEXTYPE</title>
 
             <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-            {% for css in registry.get('assets.admin.css') %}
+            {% for css in flextype.registry.get('assets.admin.css') %}
                 {% if css %}
                     <link href="{{ url() }}/{{ css }}" rel="stylesheet">
                 {% endif %}
             {% endfor %}
 
             {% do
-                emitter.emit('onAdminThemeHeader') %}
+                flextype.emitter.emit('onAdminThemeHeader') %}
         {% endblock %}
     </head>
     <body>
         <main>
-            <nav class="navigation {% if not acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
+            <nav class="navigation {% if not flextype.acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
                 <ul>
                     <li class="navigation__item--logo-wrapper">
                         <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">
@@ -37,8 +37,8 @@
                             <i class="icon icon--white">{{ icon('fas fa-bars') }}</i>
                         </a>
                         <div id="dropdown-flextype-menu" class="dropdown">
-                            {% if(registry.has('plugins.admin.settings.flextype_menu')) %}
-                                {% for flextype_menu in registry.get('plugins.admin.settings.flextype_menu') %}
+                            {% if(flextype.registry.has('plugins.admin.settings.flextype_menu')) %}
+                                {% for flextype_menu in flextype.registry.get('plugins.admin.settings.flextype_menu') %}
                                     <a class="dropdown__item"
                                        target="{% if (flextype_menu.link.is_external) %}_blank{% else %}_self{% endif %}"
                                        href="{% if (flextype_menu.link.is_external) %}{{ flextype_menu.link.url }}{% else %}{{ path_for(flextype_menu.link.service) }}{% endif %}">
@@ -59,8 +59,8 @@
                             </form>
                         </div>
                     </li>
-                    {% if registry.has('plugins.admin.settings.navigation.system') %}
-                        {% for key, item in registry.get('plugins.admin.settings.navigation.content') %}
+                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
+                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.content') %}
                             <li>
                                 <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                     <i class="icon icon--white">{{ icon(item.icon) }}</i>
@@ -68,8 +68,8 @@
                             </li>
                         {% endfor %}
                     {% endif %}
-                    {% if registry.has('plugins.admin.settings.navigation.system') %}
-                        {% for key, item in registry.get('plugins.admin.settings.navigation.extends') %}
+                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
+                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.extends') %}
                             <li>
                                 <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                     <i class="icon icon--white">{{ icon(item.icon) }}</i>
@@ -77,8 +77,8 @@
                             </li>
                         {% endfor %}
                     {% endif %}
-                    {% if registry.has('plugins.admin.settings.navigation.system') %}
-                        {% for key, item in registry.get('plugins.admin.settings.navigation.system') %}
+                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
+                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.system') %}
                             <li>
                                 <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                     <i class="icon icon--white">{{ icon(item.icon) }}</i>
@@ -86,8 +86,8 @@
                             </li>
                         {% endfor %}
                     {% endif %}
-                    {% if registry.has('plugins.admin.settings.navigation.information') %}
-                        {% for key, item in registry.get('plugins.admin.settings.navigation.information') %}
+                    {% if flextype.registry.has('plugins.admin.settings.navigation.information') %}
+                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.information') %}
                             <li>
                                 <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
                                     <i class="icon icon--white">{{ icon(item.icon) }}</i>
@@ -97,8 +97,8 @@
                     {% endif %}
                 </ul>
             </nav>
-            <div class="content {% if not acl.isUserLoggedInRolesIn('admin') %}w-full max-w-full m-0{% endif %}">
-                <div class="bars clearfix {% if not acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
+            <div class="content {% if not flextype.acl.isUserLoggedInRolesIn('admin') %}w-full max-w-full m-0{% endif %}">
+                <div class="bars clearfix {% if not flextype.acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
                     <div class="navigation-top-primary">
                         {% if links %}
                             <div class="lg:w-auto block float-left">
@@ -307,7 +307,7 @@
             </div>
         </main>
 
-        {% for js in registry.get('assets.admin.js') %}
+        {% for js in flextype.registry.get('assets.admin.js') %}
             {% if js %}
                 <script type="text/javascript" src="{{ url() }}/{{ js }}"></script>
             {% endif %}
@@ -322,7 +322,7 @@
         {% include "plugins/admin/templates/partials/modules/filepicker.html" %}
 
         {% do
-            emitter.emit('onAdminThemeTail') %}
+            flextype.emitter.emit('onAdminThemeTail') %}
 
         {% block tail %}{% endblock %}
     </body>

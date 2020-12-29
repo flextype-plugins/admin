@@ -25,8 +25,8 @@
                             <td class="w-1 text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                                 {% if entry.fieldset %}
                                     {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
-                                    {% if filesystem_has(fieldset_path) %}
-                                        {% set fieldset = yaml_decode(filesystem_read(fieldset_path)) %}
+                                    {% if filesystem().file(fieldset_path).exists() %}
+                                        {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
                                         {% if fieldset.icon %}
                                             <i class="icon">{{ icon(fieldset.icon) }}</i>
                                         {% else %}
@@ -42,7 +42,7 @@
                             <td class="pl-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                                 <a href="{% if entry.has_children %}{{ path_for('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
                                     {% if entry.fieldset %}
-                                        {% if filesystem_has(fieldset_path) %}
+                                        {% if filesystem().file(fieldset_path).exists() %}
                                             {% if fieldset.default_field %}
                                                 {% if entry[fieldset.default_field] != '' %}
                                                     {{ entry[fieldset.default_field] }}

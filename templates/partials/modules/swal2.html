@@ -12,16 +12,15 @@
             popup: 'animated fadeOutRight faster'
         }
     });
-
-    {% for message in flash()['success'] %}
+    {% for message in flextype.flash.getMessages()['success'] %}
         Toast.fire({icon: '', title: '{{ message }}'});
     {% endfor %}
 
-    {% for message in flash()['warning'] %}
+    {% for message in flextype.flash.getMessages()['warning'] %}
         Toast.fire({icon: '', title: '{{ message }}'});
     {% endfor %}
 
-    {% for message in flash()['error'] %}
+    {% for message in flextype.flash.getMessages()['error'] %}
         Toast.fire({icon: '', title: '{{ message }}'});
     {% endfor %}
 </script>

@@ -41,17 +41,17 @@
                 {% set index = loop.index0 %}
                 <tr
                     id="file_{{ index }}"
-                    data-direct-link="{{ url() }}/project/media/entries/{{ id }}/{{ filesystem_basename(file) }}"
-                    {% if (filesystem_ext(file) in allowed_image_files) %}
+                    data-direct-link="{{ url() }}/project/media/entries/{{ id }}/{{ filesystem().file(file).basename() }}"
+                    {% if (filesystem().file(file).extension() in allowed_image_files) %}
                     data-images-api-link-state="true"
-                    data-images-api-link="{{ url() }}/api/images/entries/{{ id }}/{{ filesystem_basename(file) }}?token={{ registry.get('flextype.settings.api.images.default_token') }}"
+                    data-images-api-link="{{ url() }}/api/images/entries/{{ id }}/{{ filesystem().file(file).basename() }}?token={{ flextype.registry.get('flextype.settings.api.images.default_token') }}"
                     {% endif %}>
                     <td style="height: 64px;">
-                        {{ filesystem_basename(file) }}
+                        {{ filesystem().file(file).basename() }}
                     </td>
                     <td class="text-center flex justify-center" style="height: 64px;">
-                        {% if (filesystem_ext(file) in allowed_image_files) %}
-                            <img src="{{ url() }}/api/images/entries/{{ id }}/{{ filesystem_basename(file) }}?w=64&q=70&dpr=2&token={{ registry.get('flextype.settings.api.images.default_token') }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
+                        {% if (filesystem().file(file).extension() in allowed_image_files) %}
+                            <img src="{{ url() }}/api/images/entries/{{ id }}/{{ filesystem().file(file).basename() }}?w=64&q=70&dpr=2&token={{ flextype.registry.get('flextype.settings.api.images.default_token') }}" alt="" class="border-2 rounded border-gray-200" style="height: 50px;">
                         {% endif %}
                     </td>
                     <td class="text-right" style="height: 64px;">
@@ -60,7 +60,7 @@
                         </button>
                         <div id="dropdown-{{ index }}" class="dropdown">
                             <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
-                            embededCode('{{ filesystem_basename(file) }}', {{ index }});">
+                            embededCode('{{ filesystem().file(file).basename() }}', {{ index }});">
                                 <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
                                 {{ tr('admin_embeded_code') }}</a>
                             <div class="dropdown__divider"></div>
@@ -71,7 +71,7 @@
                             <form id="delete-media-file-{{ index }}" action="{{ path_for('admin.entries.deleteMediaFileProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
                                 <input type="hidden" name="entry-id" value="{{ id }}">
-                                <input type="hidden" name="media-id" value="{{ filesystem_basename(file) }}">
+                                <input type="hidden" name="media-id" value="{{ filesystem().file(file).basename() }}">
                             </form>
                         </div>
                     </td>

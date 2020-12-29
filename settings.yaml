@@ -15,7 +15,7 @@ entries:
     accept_file_types: gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg
 
 # Admin plugin priority
-priority: 90
+priority: 50
 
 # Admin flextype menu
 flextype_menu: []

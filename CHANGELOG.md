@@ -1,3 +1,10 @@
+<a name="1.7.1"></a>
+# [1.7.1](https://github.com/flextype-plugins/admin) (2021-01-03)
+
+### Bug Fixes
+
+* **routes** fix routes for Api
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/flextype-plugins/admin) (2021-01-03)
 

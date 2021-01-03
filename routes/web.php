@@ -60,7 +60,7 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/tools/cache-all', ToolsController::class . ':clearCacheAllProcess')->setName('admin.tools.clearCacheAllProcess');
 
     // ApiController
-    flextype()->get('/api', 'ApiController:index')->setName('admin.api.index');
+    flextype()->get('/api', ApiController::class . ':index')->setName('admin.api.index');
 
     flextype()->get('/api/entries', ApiEntriesController::class . ':index')->setName('admin.api_entries.index');
     flextype()->get('/api/entries/add', ApiEntriesController::class . ':add')->setName('admin.api_entries.add');

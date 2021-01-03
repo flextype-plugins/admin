@@ -1,3 +1,12 @@
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/flextype-plugins/admin) (2021-01-03)
+
+### Features
+
+* **core** update code base for new Flextype 0.9.15
+* **routes** improve controllers handling in routes for performance enhancements
+* **plugins-controller** fix issue with empty manifest and settings yaml files
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/flextype-plugins/admin) (2020-12-29)
 

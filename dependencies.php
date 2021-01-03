@@ -13,18 +13,7 @@ namespace Flextype\Plugin\Admin;
 
 use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
-use Flextype\Plugin\Admin\Controllers\DashboardController;
-use Flextype\Plugin\Admin\Controllers\SettingsController;
-use Flextype\Plugin\Admin\Controllers\PluginsController;
-use Flextype\Plugin\Admin\Controllers\EntriesController;
-use Flextype\Plugin\Admin\Controllers\ToolsController;
-use Flextype\Plugin\Admin\Controllers\ApiController;
-use Flextype\Plugin\Admin\Controllers\ApiImagesController;
-use Flextype\Plugin\Admin\Controllers\ApiRegistryController;
-use Flextype\Plugin\Admin\Controllers\ApiEntriesController;
-use Flextype\Plugin\Admin\Controllers\ApiFilesController;
-use Flextype\Plugin\Admin\Controllers\ApiFoldersController;
-use Flextype\Plugin\Admin\Controllers\ApiAccessController;
+
 
 // Set Default Admin locale
 I18n::$locale = flextype('registry')->get('flextype.settings.locale');
@@ -49,16 +38,3 @@ flextype('registry')->set('assets.admin.css',
 flextype('registry')->set('assets.admin.js',
                        array_merge($_admin_js,
                        ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
-
-flextype()->container()['DashboardController'] = fn() => new DashboardController();
-flextype()->container()['SettingsController'] = fn() => new SettingsController();
-flextype()->container()['PluginsController'] = fn() => new PluginsController();
-flextype()->container()['EntriesController'] = fn() => new EntriesController();
-flextype()->container()['ToolsController'] = fn() => new ToolsController();
-flextype()->container()['ApiController'] = fn() => new ApiController();
-flextype()->container()['ApiEntriesController'] = fn() => new ApiEntriesController();
-flextype()->container()['ApiFilesController'] = fn() => new ApiFilesController();
-flextype()->container()['ApiFoldersController'] = fn() => new ApiFoldersController();
-flextype()->container()['ApiImagesController'] = fn() => new ApiImagesController();
-flextype()->container()['ApiAccessController'] = fn() => new ApiAccessController();
-flextype()->container()['ApiRegistryController'] = fn() => new ApiRegistryController();

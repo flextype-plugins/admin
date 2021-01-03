@@ -15,15 +15,6 @@ use function trim;
 
 class PluginsController
 {
-
-    /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
     /**
      * Index page
      *
@@ -72,8 +63,9 @@ class PluginsController
         // Get data from the request
         $post_data = $request->getParsedBody();
 
-        $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $custom_plugin_settings_file_data = flextype('serializers')->yaml()->decode(Filesystem::read($custom_plugin_settings_file));
+        $custom_plugin_settings_file = PATH['project'] . '/config/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
+        $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
+        $custom_plugin_settings_file_data = empty($custom_plugin_settings_file_content) ? [] : flextype('serializers')->yaml()->decode($custom_plugin_settings_file_content);
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
 

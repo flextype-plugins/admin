@@ -25,10 +25,10 @@
                     {% endif %}
                     <tr>
                         <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <i class="icon">{{ icon(token_data.icon) }}</i>
+                            <i class="icon">{{ icon(token_data.icon.name, token_data.icon.set) }}</i>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <a href="{{ path_for('admin.api_images.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
+                            <a href="{{ urlFor('admin.api_images.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
@@ -38,19 +38,19 @@
                         </td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-delivery-images-{{ token.dirname }}">
-                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                                <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                             </button>
                             <div id="dropdown-delivery-images-{{ token.dirname }}" class="dropdown">
-                                <a class="dropdown__item" href="{{ path_for('admin.api_images.edit') }}?token={{ token.dirname }}">
-                                    <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                <a class="dropdown__item" href="{{ urlFor('admin.api_images.edit') }}?token={{ token.dirname }}">
+                                    <i class="icon icon--white mr-3">{{ icon('edit', 'fontawesome|solid') }}</i>
                                     {{ tr('admin_edit') }}
                                 </a>
                                 <div class="dropdown__divider"></div>
                                 <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteImagesToken('{{ token.dirname }}', {{ loop.index0 }});">
-                                    <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                    <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                                     {{ tr('admin_delete') }}
                                 </a>
-                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ path_for('admin.api_images.deleteProcess') }}" method="POST" style="display: none;">
+                                <form id="delete-api-token-id-{{ token.dirname }}" action="{{ urlFor('admin.api_images.deleteProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="token" value="{{ token.dirname }}">
                                 </form>
@@ -63,9 +63,9 @@
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
-                <i class="icon icon--4xl">{{ icon('far fa-images') }}</i>
+                <i class="icon icon--4xl">{{ icon('images', 'fontawesome|solid') }}</i>
                 <h3 class="text-2xl pt-5 pb-8">{{ tr('admin_you_have_not_created_any_images_api_tokens_yet') }}</h3>
-                <a href="{{ path_for('admin.api_images.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
+                <a href="{{ urlFor('admin.api_images.add') }}" class="button">{{ tr('admin_create_new_token') }}</a>
             </div>
         </div>
     {% endif %}

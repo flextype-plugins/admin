@@ -16,8 +16,12 @@
                 <td>{{ plugin_manifest.description }}</td>
             </tr>
             <tr>
-                <td>{{ tr('admin_icon') }}</td>
-                <td>{{ plugin_manifest.icon }}</td>
+                <td>{{ tr('admin_icon_name') }}</td>
+                <td>{{ plugin_manifest.icon.name }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_icon_set') }}</td>
+                <td>{{ plugin_manifest.icon.set }}</td>
             </tr>
             <tr>
                 <td>{{ tr('admin_author_name') }}</td>

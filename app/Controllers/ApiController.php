@@ -19,14 +19,6 @@ use function time;
 class ApiController
 {
     /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
-    /**
      * Index page for API's
      *
      * @param Request  $request  PSR7 request
@@ -42,27 +34,27 @@ class ApiController
                 'api_list' => [
                                 'entries' => [
                                   'title' => __('admin_entries'),
-                                  'icon' => 'fas fa-database'
+                                  'icon' => ['name' => 'database', 'set' => 'fontawesome|solid'],
                                 ],
                                 'registry' => [
                                   'title' => __('admin_registry'),
-                                  'icon' => 'fas fa-archive'
+                                  'icon' => ['name' => 'archive', 'set' => 'fontawesome|solid'],
                                 ],
                                 'images' => [
                                   'title' => __('admin_images'),
-                                  'icon' => 'far fa-images'
+                                  'icon' => ['name' => 'images', 'set' => 'fontawesome|solid'],
                                 ],
                                 'files' => [
                                   'title' => __('admin_files'),
-                                  'icon' => 'fas fa-file'
+                                  'icon' => ['name' => 'file', 'set' => 'fontawesome|solid'],
                                 ],
                                 'folders' => [
                                   'title' => __('admin_folders'),
-                                  'icon' => 'fas fa-folder'
+                                  'icon' => ['name' => 'folder', 'set' => 'fontawesome|solid'],
                                 ],
                                 'access' => [
                                   'title' => __('admin_access'),
-                                  'icon' => 'fas fa-user-shield'
+                                  'icon' => ['name' => 'user-shield', 'set' => 'fontawesome|solid'],
                                 ],
                                ],
                 'links' =>  [

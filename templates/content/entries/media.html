@@ -9,7 +9,7 @@
 
     <div class="flex row">
         <div class="col w-full">
-            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
+            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ urlFor('admin.entries.uploadMediaFileProcess') }}">
                 {{ csrf() }}
                 <input type="hidden" name="entry-id" value="{{ id }}">
                 <div class="form-group bg-gray-000 p-4">
@@ -56,19 +56,19 @@
                     </td>
                     <td class="text-right" style="height: 64px;">
                         <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ index }}">
-                            <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                            <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                         </button>
                         <div id="dropdown-{{ index }}" class="dropdown">
                             <a class="dropdown__item js-snippets-info" href="javascript:;" onclick="event.preventDefault();
                             embededCode('{{ filesystem().file(file).basename() }}', {{ index }});">
-                                <i class="icon icon--white mr-3">{{ icon('fas fa-code') }}</i>
+                                <i class="icon icon--white mr-3">{{ icon('code', 'fontawesome|solid') }}</i>
                                 {{ tr('admin_embeded_code') }}</a>
                             <div class="dropdown__divider"></div>
                             <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                             deleteMedia('{{ index }}', {{ loop.index0 }});">
-                                <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                                 {{ tr('admin_delete') }}</a>
-                            <form id="delete-media-file-{{ index }}" action="{{ path_for('admin.entries.deleteMediaFileProcess') }}" method="POST" style="display: none;">
+                            <form id="delete-media-file-{{ index }}" action="{{ urlFor('admin.entries.deleteMediaFileProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
                                 <input type="hidden" name="entry-id" value="{{ id }}">
                                 <input type="hidden" name="media-id" value="{{ filesystem().file(file).basename() }}">
@@ -82,9 +82,9 @@
     {% else %}
     <div class="text-center flex justify-center items-center h-full">
         <div>
-            <i class="icon icon--4xl">{{ icon('fas fa-photo-video') }}</i>
+            <i class="icon icon--4xl">{{ icon('photo-video', 'fontawesome|solid') }}</i>
             <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_upload_any_files_yet') }}</h3>
-            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ path_for('admin.entries.uploadMediaFileProcess') }}">
+            <form method="post" id="form" class="form-inline form-upload" enctype="multipart/form-data" action="{{ urlFor('admin.entries.uploadMediaFileProcess') }}">
                 {{ csrf() }}
                 <input type="hidden" name="entry-id" value="{{ id }}">
                 <div class="button-group flex items-center justify-center">

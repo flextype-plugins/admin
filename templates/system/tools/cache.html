@@ -20,14 +20,14 @@
                 </td>
                 <td class="text-right">
                     <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-data">
-                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                     </button>
                     <div id="dropdown-data" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-data').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                             {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-data" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                        <form id="clear-id-data" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
                             <input type="hidden" name="cache-id" value="data">
                         </form>
@@ -44,14 +44,14 @@
                 </td>
                 <td class="text-right">
                     <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-template">
-                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                     </button>
                     <div id="dropdown-template" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-twig').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                             {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-twig" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                        <form id="clear-id-twig" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
                             <input type="hidden" name="cache-id" value="twig">
                         </form>
@@ -68,14 +68,14 @@
                 </td>
                 <td class="text-right">
                     <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
-                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                     </button>
                     <div id="dropdown-image" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-preflight').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                             {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-preflight" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                        <form id="clear-id-preflight" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
                             <input type="hidden" name="cache-id" value="preflight">
                         </form>
@@ -92,14 +92,14 @@
                 </td>
                 <td class="text-right">
                     <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
-                        <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                     </button>
                     <div id="dropdown-image" class="dropdown">
                         <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                   document.getElementById('clear-id-glide').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                             {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-glide" action="{{ path_for('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+                        <form id="clear-id-glide" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
                             {{ csrf() }}
                             <input type="hidden" name="cache-id" value="glide">
                         </form>

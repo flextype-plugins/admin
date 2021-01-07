@@ -18,15 +18,6 @@ use function time;
 
 class ApiAccessController
 {
-
-    /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
     /**
      * Access Index page
      *
@@ -57,7 +48,7 @@ class ApiAccessController
                         'link' => flextype('router')->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
-                    'api_Access' => [
+                    'api_access' => [
                         'link' => flextype('router')->pathFor('admin.api_access.index'),
                         'title' => __('admin_access'),
                         'active' => true

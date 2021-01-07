@@ -1,7 +1,9 @@
 name: Admin
-version: 1.7.1
+version: 1.8.0
 description: Admin Panel plugin for Flextype.
-icon: fab fa-fort-awesome
+icon:
+  name: fort-awesome
+  set: "fontawesome|brands"
 author:
   name: Sergey Romanenko
   email: support@flextype.org
@@ -15,8 +17,8 @@ license: MIT
 
 dependencies:
   flextype: 0.9.15
-  twig: '>=1.0.0'
-  icon: '>=1.0.0'
+  twig: '>=2.0.0'
+  icon: '>=2.0.0'
   form: '>=1.0.0'
   form-admin: '>=1.0.0'
   jquery: '>=1.0.0'

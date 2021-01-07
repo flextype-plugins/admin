@@ -18,15 +18,6 @@ use function time;
 
 class ApiFilesController
 {
-
-    /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
     /**
      * files Index page
      *

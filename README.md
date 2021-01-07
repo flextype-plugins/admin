@@ -15,11 +15,11 @@ The following dependencies need to be installed for Form Admin Plugin.
 | Item | Version | Download |
 |---|---|---|
 | [flextype](https://github.com/flextype/flextype) | 0.9.15 | [download](https://github.com/flextype/flextype/releases) |
-| [twig](https://github.com/flextype-plugins/twig) | >=1.0.0 | [download](https://github.com/flextype-plugins/twig/releases) |
+| [twig](https://github.com/flextype-plugins/twig) | >=2.0.0 | [download](https://github.com/flextype-plugins/twig/releases) |
 | [form](https://github.com/flextype-plugins/form) | >=1.0.0 | [download](https://github.com/flextype-plugins/form/releases) |
 | [form-admin](https://github.com/flextype-plugins/form-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/form-admin/releases) |
 | [jquery](https://github.com/flextype-plugins/jquery) | >=1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases) |
-| [icon](https://github.com/flextype-plugins/icon) | >=1.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
+| [icon](https://github.com/flextype-plugins/icon) | >=2.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
 | [acl](https://github.com/flextype-plugins/acl) | >=1.0.0 | [download](https://github.com/flextype-plugins/acl/releases) |
 | [accounts-admin](https://github.com/flextype-plugins/accounts-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/accounts-admin/releases) |
 | [phpmailer](https://github.com/flextype-plugins/phpmailer) | >=1.0.0 | [download](https://github.com/flextype-plugins/phpmailer/releases) |

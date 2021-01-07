@@ -997,7 +997,7 @@ class EntriesController
      */
     public function getMediaList(string $id, bool $path = false) : array
     {
-        $base_url = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
+        $baseUrl = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];
 
         if (!Filesystem::has(PATH['project'] . '/media/entries/' . $id)) {
@@ -1009,7 +1009,7 @@ class EntriesController
                 if (strpos($file, strtolower($file_ext), 1)) {
                     if ($file !== 'entry.md') {
                         if ($path) {
-                            $files[$base_url . '/' . $id . '/' . $file] = $base_url . '/' . $id . '/' . $file;
+                            $files[$baseUrl . '/' . $id . '/' . $file] = $baseUrl . '/' . $id . '/' . $file;
                         } else {
                             $files[$file] = $file;
                         }

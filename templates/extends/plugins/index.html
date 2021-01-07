@@ -26,13 +26,13 @@
                     <tr>
                         <td class="w-1 text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
                             {% if plugin.manifest.icon %}
-                                <i class="icon">{{ icon(plugin.manifest.icon) }}</i>
+                                <i class="icon">{{ icon(plugin.manifest.icon.name, plugin.manifest.icon.set) }}</i>
                             {% else %}
-                                <i class="icon">{{ icon('fas fa-plug') }}</i>
+                                <i class="icon">{{ icon('plug', 'fontawesome|solid') }}</i>
                             {% endif %}
                         </td>
                         <td class="pl-0 {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
-                            <a href="{{ path_for('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
+                            <a href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
                         </td>
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.description }}</td>
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">
@@ -41,28 +41,28 @@
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.version }}</td>
                         <td class="text-right">
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
-                                <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                                <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                             </button>
                             <div id="dropdown-{{ key }}" class="dropdown">
-                                <a class="dropdown__item" href="{{ path_for('admin.plugins.information') }}?id={{ key }}">
-                                    <i class="icon icon--white mr-3">{{ icon('fas fa-info-circle') }}</i>
+                                <a class="dropdown__item" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
+                                    <i class="icon icon--white mr-3">{{ icon('info-circle', 'fontawesome|solid') }}</i>
                                     {{ tr('admin_information') }}</a>
-                                <a class="dropdown__item" href="{{ path_for('admin.plugins.settings') }}?id={{ key }}">
-                                    <i class="icon icon--white mr-3">{{ icon('fas fa-cog') }}</i>
+                                <a class="dropdown__item" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
+                                    <i class="icon icon--white mr-3">{{ icon('cog', 'fontawesome|solid') }}</i>
                                     {{ tr('admin_settings') }}</a>
 
                                 {% if plugin.settings.enabled %}
                                     <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-on') }}</i>
+                                        <i class="icon icon--white mr-3">{{ icon('toggle-on', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_deactivate') }}
                                     </a>
                                 {% else %}
                                     <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-toggle-off') }}</i>
+                                        <i class="icon icon--white mr-3">{{ icon('toggle-off', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_activate') }}
                                     </a>
                                 {% endif %}
-                                <form id="update-plugin-status-{{ key }}" action="{{ path_for('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                                <form id="update-plugin-status-{{ key }}" action="{{ urlFor('admin.plugins.update-status') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
                                     <input type="hidden" name="plugin-key" value="{{ key }}">
                                     <input type="hidden" name="plugin-status" value="{% if plugin.settings.enabled %}true{% else %}false{% endif %}">
@@ -77,7 +77,7 @@
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
-                <i class="icon icon--4xl">{{ icon('fas fa-plug') }}</i>
+                <i class="icon icon--4xl">{{ icon('plug', 'fontawesome|solid') }}</i>
                 <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_no_plugins') }}</h3>
             </div>
         </div>

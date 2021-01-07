@@ -28,19 +28,19 @@
                                     {% if filesystem().file(fieldset_path).exists() %}
                                         {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
                                         {% if fieldset.icon %}
-                                            <i class="icon">{{ icon(fieldset.icon) }}</i>
+                                            <i class="icon">{{ icon(fieldset.icon.name, fieldset.icon.set) }}</i>
                                         {% else %}
-                                            <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                                            <i class="icon">{{ icon('file-alt', 'fontawesome|solid') }}</i>
                                         {% endif %}
                                     {% else %}
-                                        <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                                        <i class="icon">{{ icon('file-alt', 'fontawesome|solid') }}</i>
                                     {% endif %}
                                 {% else %}
-                                    <i class="icon">{{ icon('far fa-file-alt') }}</i>
+                                    <i class="icon">{{ icon('file-alt', 'fontawesome|solid') }}</i>
                                 {% endif %}
                             </td>
                             <td class="pl-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                <a href="{% if entry.has_children %}{{ path_for('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ path_for('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
+                                <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
                                     {% if entry.fieldset %}
                                         {% if filesystem().file(fieldset_path).exists() %}
                                             {% if fieldset.default_field %}
@@ -68,41 +68,41 @@
                             </td>
                             <td class="text-right">
                                 <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.id }}">
-                                    <i class="icon">{{ icon('fas fa-ellipsis-h') }}</i>
+                                    <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                                 </button>
                                 <div id="dropdown-{{ entry.id }}" class="dropdown">
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-edit') }}</i>
+                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
+                                        <i class="icon icon--white mr-3">{{ icon('edit', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_edit') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                     selectEntryType('{{ entry.id }}', {{ loop.index0 }});">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-plus-circle') }}</i>
+                                        <i class="icon icon--white mr-3">{{ icon('plus-circle', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_add') }}</a>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('duplicate-id-{{ entry.id }}').submit();">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-copy') }}</i>
+                                        <i class="icon icon--white mr-3">{{ icon('copy', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_duplicate') }}</a>
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.rename') }}?id={{ entry.id }}">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-font') }}</i>
+                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
+                                        <i class="icon icon--white mr-3">{{ icon('font', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_rename') }}</a>
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.move') }}?id={{ entry.id }}">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-angle-double-right') }}</i>
+                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
+                                        <i class="icon icon--white mr-3">{{ icon('angle-double-right', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_move') }}</a>
-                                    <a class="dropdown__item" href="{{ base_url() }}/{{ entry.id }}" target="_blank">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-eye') }}</i>
+                                    <a class="dropdown__item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
+                                        <i class="icon icon--white mr-3">{{ icon('eye', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_preview') }}</a>
-                                    <a class="dropdown__item" href="{{ path_for('admin.entries.type') }}?id={{ entry.id }}">
-                                        <i class="icon icon--white mr-3">{{ icon('far fa-list-alt') }}</i>
+                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
+                                        <i class="icon icon--white mr-3">{{ icon('list-alt', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_type') }}</a>
                                     <div class="dropdown__divider"></div>
                                     <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.id }}', {{ loop.index0 }});">
-                                        <i class="icon icon--white mr-3">{{ icon('fas fa-trash-alt') }}</i>
+                                        <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
                                         {{ tr('admin_delete') }}</a>
-                                    <form id="duplicate-id-{{ entry.id }}" action="{{ path_for('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                    <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
                                         <input type="hidden" name="id" value="{{ entry.id }}">
                                     </form>
-                                    <form id="delete-id-{{ entry.id }}" action="{{ path_for('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                    <form id="delete-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
                                         <input type="hidden" name="id" value="{{ entry.id }}">
                                         <input type="hidden" name="id-current" value="{{ id_current }}">
@@ -116,7 +116,7 @@
         {% else %}
             <div class="text-center flex justify-center items-center h-full">
                 <div>
-                    <i class="icon icon--4xl">{{ icon('fas fa-database') }}</i>
+                    <i class="icon icon--4xl">{{ icon('database', 'fontawesome|solid') }}</i>
                     <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
                     <a href="javascript:;" class="button" onclick="event.preventDefault();
                     selectEntryType('{{ id_current }}', 0);">{{ tr('admin_create_new_entry') }}</a>
@@ -126,9 +126,9 @@
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
-                <i class="icon icon--4xl">{{ icon('far fa-list-alt') }}</i>
+                <i class="icon icon--4xl">{{ icon('list-alt', 'fontawesome|solid') }}</i>
                 <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
-                <a href="{{ path_for('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
+                <a href="{{ urlFor('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
             </div>
         </div>
     {% endif %}
@@ -141,14 +141,14 @@
                 document.getElementById('add-entry-{{ key }}').submit();" class="block bg-gray-000 border-gray-100 border px-4 py-8 relative rounded">
                         <div>
                             {% if fieldset.icon %}
-                                <i class="icon icon--large">{{ icon(fieldset.icon) }}</i>
+                                <i class="icon icon--large">{{ icon(fieldset.icon.name, fieldset.icon.set) }}</i>
                             {% else %}
-                                <i class="icon icon--large">{{ icon('far fa-file-alt') }}</i>
+                                <i class="icon icon--large">{{ icon('file-alt', 'fontawesome|solid') }}</i>
                             {% endif %}
                         </div>
                         <div class="pt-3">{{ fieldset.title }}</div>
                     </a>
-                    <form id="add-entry-{{ key }}" action="{{ path_for('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class="js-add-entry">
+                    <form id="add-entry-{{ key }}" action="{{ urlFor('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class="js-add-entry">
                         {{ csrf() }}
                         <input type="hidden" name="type" value="{{ key }}">
                         <input type="hidden" name="id" value="{{ id_current }}">

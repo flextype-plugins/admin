@@ -1,5 +1,5 @@
 name: Admin
-version: 1.8.0
+version: 1.9.0
 description: Admin Panel plugin for Flextype.
 icon:
   name: fort-awesome
@@ -16,7 +16,7 @@ keywords: admin, panel, manager
 license: MIT
 
 dependencies:
-  flextype: 0.9.15
+  flextype: 0.9.16
   twig: '>=2.0.0'
   icon: '>=2.0.0'
   form: '>=1.0.0'

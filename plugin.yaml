@@ -1,18 +1,17 @@
 name: Admin
-version: 1.9.0
+version: 1.9.1
 description: Admin Panel plugin for Flextype.
 icon:
   name: fort-awesome
   set: "fontawesome|brands"
 author:
   name: Sergey Romanenko
-  email: support@flextype.org
+  email: sergey.romanenko@flextype.org
   url: https://flextype.org
 homepage: https://github.com/flextype-plugins/admin
 documentation: https://github.com/flextype-plugins/admin
 changelog: https://github.com/flextype-plugins/admin/blob/master/CHANGELOG.md
 bugs: https://github.com/flextype-plugins/admin/issues
-keywords: admin, panel, manager
 license: MIT
 
 dependencies:

@@ -1,3 +1,10 @@
+<a name="1.9.1"></a>
+# [1.9.1](https://github.com/flextype-plugins/admin) (2021-01-16)
+
+### Bug Fixes
+
+* **entries-controller** fix issue non exists media folders on entries actions
+
 <a name="1.9.0"></a>
 # [1.9.0](https://github.com/flextype-plugins/admin) (2021-01-14)
 

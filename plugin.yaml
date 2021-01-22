@@ -2,8 +2,8 @@ name: Admin
 version: 1.9.1
 description: Admin Panel plugin for Flextype.
 icon:
-  name: fort-awesome
-  set: "fontawesome|brands"
+  name: speedometer2
+  set: bootstrap
 author:
   name: Sergey Romanenko
   email: sergey.romanenko@flextype.org

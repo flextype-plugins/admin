@@ -2,26 +2,120 @@
  * ADMIN PANEL
  */
 
-@import 'tailwindcss/base';
+ html,
+ body {
+     color: rgb(16, 27, 66);
+     font-weight: 400;
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+ }
 
-/* Base */
-@import 'base/variables';
-@import 'base/common';
-@import 'base/content';
-@import 'base/icons';
+ a, a:hover {
+     color: rgb(16, 27, 66);
+     text-decoration: none;
+ }
 
-/* Vendor modules */
-@import 'modules/codemirror';
-@import 'modules/presley';
-@import 'modules/swal2';
-@import 'modules/filepicker';
+ tbody, td, tfoot, th, thead, tr,
+ .table > :not(:last-child) > :last-child > * {
+     border-bottom: 1px solid rgb(240, 242, 247);
+ }
 
-/* Components */
-@import 'components/tables';
-@import 'components/navigations';
-@import 'components/buttons';
-@import 'components/dropdowns';
-@import 'components/forms';
+ .table > thead > tr > th {
+     opacity: .9;
+ }
 
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+ .navbar {
+     position: fixed;
+     width: 100%;
+     top: 0;
+     z-index: 50;
+     padding-top: 14px;
+     padding-bottom: 14px;
+ }
+
+ .navbar > .container,
+ .navbar > .container-fluid {
+     padding: 0;
+     padding-left: 22px;
+     padding-right: 22px;
+     display: block;
+ }
+
+ .navbar-brand {
+     margin-right: 5px;
+     padding: 0;
+ }
+
+ .navbar-brand svg {
+     display: inline-block;
+ }
+
+ .text-muted {
+     opacity: .25;
+ }
+
+ nav svg {
+     margin-right: 10px;
+     display: inline-block;
+ }
+
+
+ .dropdown {
+     display: flex;
+     align-content: center;
+     align-items: center;
+ }
+
+ .dropdown-toggle {
+     background: transparent;
+     border: none;
+     cursor: pointer;
+     line-height: 0;
+ }
+
+ .dropdown-toggle::after {
+     vertical-align: .055em;
+ }
+
+ .dropdown-menu a {
+     display: flex;
+     align-content: center;
+     align-items: center;
+ }
+
+ .dropdown-menu a > svg {
+     margin-right: 10px;
+ }
+
+ .dropdown-item.active,
+ .dropdown-item:active {
+     background: #f0f0f0;
+     color: rgb(16, 27, 66);
+ }
+
+ .breadcrumbs {
+     display: flex;
+     align-content: center;
+     align-items: center;
+ }
+
+ .breadcrumbs > svg {
+     margin-right: 5px;
+ }
+
+ .navbar .dropdown-toggle {
+     margin-right: 10px;
+ }
+
+ .navbar .container {
+     position: relative;
+ }
+
+ button:active,
+ button:focus,
+ input:focus {
+     color: rgb(16, 27, 66);
+ }
+
+ .workspace-content {
+     margin-top: 60px;
+ }

@@ -76,11 +76,19 @@
      vertical-align: .055em;
  }
 
+.dropdown-toggle {
+    padding: 4px 0;
+}
+
+.dropdown-toggle.dropdown-dots::after {
+    border: none;
+}
+
  .dropdown-menu a {
      display: flex;
      align-content: center;
      align-items: center;
- }
+}
 
  .dropdown-menu a > svg {
      margin-right: 10px;

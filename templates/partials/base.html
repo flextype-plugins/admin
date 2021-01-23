@@ -8,12 +8,11 @@
             <meta name="author" content="">
             <meta name="robots" content="noindex,nofollow">
 
-            {% do
-                flextype.emitter.emit('onAdminThemeMeta') %}
+            {% do flextype.emitter.emit('onAdminThemeMeta') %}
 
-            <title>FLEXTYPE</title>
+            <title>Admin - Flextype</title>
 
-            <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
             {% for css in flextype.registry.get('assets.admin.css') %}
                 {% if css %}
@@ -21,291 +20,80 @@
                 {% endif %}
             {% endfor %}
 
-            {% do
-                flextype.emitter.emit('onAdminThemeHeader') %}
+            {% do flextype.emitter.emit('onAdminThemeHeader') %}
         {% endblock %}
     </head>
     <body>
-        <main>
-            <nav class="navigation {% if not flextype.acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
-                <ul>
-                    <li class="navigation__item--logo-wrapper">
-                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--flextype-logo relative">
-                            <i class="icon icon--white">{{ icon('user-circle', 'fontawesome|solid') }}</i>
-                        </a>
-                        <a href="javascript:;" class="navigation__item navigation__item--logo navigation__item--bars-logo hidden relative js-left-nav-dropdown-btn" data-dropdown="dropdown-flextype-menu">
-                            <i class="icon icon--white">{{ icon('bars', 'fontawesome|solid') }}</i>
-                        </a>
-                        <div id="dropdown-flextype-menu" class="dropdown">
-                            {% if(flextype.registry.has('plugins.admin.settings.flextype_menu')) %}
-                                {% for flextype_menu in flextype.registry.get('plugins.admin.settings.flextype_menu') %}
-                                    <a class="dropdown__item"
-                                       target="{% if (flextype_menu.link.is_external) %}_blank{% else %}_self{% endif %}"
-                                       href="{% if (flextype_menu.link.is_external) %}{{ flextype_menu.link.url }}{% else %}{{ urlFor(flextype_menu.link.service) }}{% endif %}">
-                                        <i class="icon icon--white mr-3">{{ icon(flextype_menu.link.icon.name, flextype_menu.link.icon.set) }}</i>
-                                        {{ tr(flextype_menu.link.title) }}</a>
-                                {% endfor %}
-                            {% endif %}
-                            <a class="dropdown__item" href="{{ urlFor('admin.settings.index') }}">
-                                <i class="icon icon--white mr-3">{{ icon('cog', 'fontawesome|solid') }}</i>
-                                {{ tr('admin_system_settings') }}</a>
-                            <div class="dropdown__divider"></div>
-                            <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                    document.getElementById('logoutProcess').submit();">
-                                <i class="icon icon--white mr-3">{{ icon('sign-out-alt', 'fontawesome|solid') }}</i>
-                                {{ tr('admin_logout') }}</a>
-                            <form id="logoutProcess" action="{{ urlFor('admin.accounts.logoutProcess') }}" method="POST" style="display: none;">
-                                {{ csrf() }}
-                            </form>
-                        </div>
-                    </li>
-                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
-                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.content') %}
-                            <li>
-                                <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                    <i class="icon icon--white">{{ icon(item.icon.name, item.icon.set) }}</i>
+        <div class="main">
+            <div class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <div class="row">
+                        <div class="col d-flex">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('menu-button-wide', 'bootstrap') }}
                                 </a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
-                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.extends') %}
-                            <li>
-                                <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                    <i class="icon icon--white">{{ icon(item.icon.name, item.icon.set) }}</i>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
-                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.system') %}
-                            <li>
-                                <a data-tippy-content="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                    <i class="icon icon--white">{{ icon(item.icon.name, item.icon.set) }}</i>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                    {% if flextype.registry.has('plugins.admin.settings.navigation.information') %}
-                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.information') %}
-                            <li>
-                                <a data-tippy-content="{{ item.title|raw }}" href="{{ item.link|raw }}" class="js-nav navigation__item {% if key == menu_item %}navigation__item--active{% endif %}">
-                                    <i class="icon icon--white">{{ icon(item.icon.name, item.icon.set) }}</i>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
-                </ul>
-            </nav>
-            <div class="content {% if not flextype.acl.isUserLoggedInRolesIn('admin') %}w-full max-w-full m-0{% endif %}">
-                <div class="bars clearfix {% if not flextype.acl.isUserLoggedInRolesIn('admin') %}hidden{% endif %}">
-                    <div class="navigation-top-primary">
-                        {% if links %}
-                            <div class="lg:w-auto block float-left">
-                                {% for link in links %}
-                                    <a href="{{ link.link }}" class="navigation-top-primary__item {% if link.active %}navigation-top-primary__item--active{% endif %}">{{ link.title }}</a>
-                                {% endfor %}
+                                <ul class="dropdown-menu">
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.content') %}
+                                        <li>
+                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
+                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.extends') %}
+                                        <li>
+                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
+                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.system') %}
+                                        <li>
+                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
+                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.information') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.information') %}
+                                        <li>
+                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
+                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
                             </div>
-                        {% endif %}
-                    </div>
-                    <div class="navigation-top-secondary">
-                        <div class="block w-6/12 {% if isCurrentUrl('admin.entries.index') %}w-4/12{% endif %}">
-                            {% if isCurrentUrl('admin.entries.index') or
-                            isCurrentUrl('admin.entries.edit') or
-                            isCurrentUrl('admin.entries.add') or
-                            isCurrentUrl('admin.entries.move') or
-                            isCurrentUrl('admin.entries.rename') or
-                            isCurrentUrl('admin.entries.type') %}
-                                {% for part in parts %}
-                                    {% set i = i - 1 %}
-                                    {% if (part != last) %}
-                                        <a href="{{ urlFor('admin.entries.index') }}?id={{ (parts|slice(0, -i))|join('/') }}">
-                                            /
-                                            <span class="pr-1 pl-1">{{ part }}</span></a>
-                                    {% else %}
-                                        /
-                                        <span class="pr-1 pl-1">{{ part }}</span>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-
-
-                            {% if isCurrentUrl('admin.tools.information') or isCurrentUrl('admin.tools.cache') or isCurrentUrl('admin.tools.registry') %}
-                                /
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api.index') %}
-                                /
-                            {% endif %}
-
-
-                            {% if isCurrentUrl('admin.api_files.index') %}
-                                /
-                                <a href="{{ urlFor('admin.api_files.index') }}">
-                                    <span class="pr-1 pl-1">files</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_files.edit') %}
-                                /
-                                <a href="{{ urlFor('admin.api_files.index') }}">
-                                    <span class="pr-1 pl-1">files</span></a>
-                                /
-                                <a href="{{ urlFor('admin.api_files.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_files.add') %}
-                                /
-                                <a href="{{ urlFor('admin.api_files.index') }}">
-                                    <span class="pr-1 pl-1">files</span></a>
-                            {% endif %}
-
-
-                            {% if isCurrentUrl('admin.api_folders.index') %}
-                                /
-                                <a href="{{ urlFor('admin.api_folders.index') }}">
-                                    <span class="pr-1 pl-1">folders</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_folders.edit') %}
-                                /
-                                <a href="{{ urlFor('admin.api_folders.index') }}">
-                                    <span class="pr-1 pl-1">folders</span></a>
-                                /
-                                <a href="{{ urlFor('admin.api_folders.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_folders.add') %}
-                                /
-                                <a href="{{ urlFor('admin.api_folders.index') }}">
-                                    <span class="pr-1 pl-1">folders</span></a>
-                            {% endif %}
-
-
-
-                            {% if isCurrentUrl('admin.api_entries.index') %}
-                                /
-                                <a href="{{ urlFor('admin.api_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_entries.edit') %}
-                                /
-                                <a href="{{ urlFor('admin.api_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                                /
-                                <a href="{{ urlFor('admin.api_entries.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_entries.add') %}
-                                /
-                                <a href="{{ urlFor('admin.api_entries.index') }}">
-                                    <span class="pr-1 pl-1">entries</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_registry.index') %}
-                                /
-                                <a href="{{ urlFor('admin.api_registry.index') }}">
-                                    <span class="pr-1 pl-1">registry</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_registry.edit') %}
-                                /
-                                <a href="{{ urlFor('admin.api_registry.index') }}">
-                                    <span class="pr-1 pl-1">registry</span></a>
-                                /
-                                <a href="{{ urlFor('admin.api_registry.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_registry.add') %}
-                                /
-                                <a href="{{ urlFor('admin.api_entries.index') }}">
-                                    <span class="pr-1 pl-1">registry</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_images.index') %}
-                                /
-                                <a href="{{ urlFor('admin.api_images.index') }}">
-                                    <span class="pr-1 pl-1">images</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_images.edit') %}
-                                /
-                                <a href="{{ urlFor('admin.api_images.index') }}">
-                                    <span class="pr-1 pl-1">images</span></a>
-                                /
-                                <a href="{{ urlFor('admin.api_images.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_images.add') %}
-                                /
-                                <a href="{{ urlFor('admin.api_images.index') }}">
-                                    <span class="pr-1 pl-1">images</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_access.index') %}
-                                /
-                                <a href="{{ urlFor('admin.api_access.index') }}">
-                                    <span class="pr-1 pl-1">access</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_access.edit') %}
-                                /
-                                <a href="{{ urlFor('admin.api_access.index') }}">
-                                    <span class="pr-1 pl-1">access</span></a>
-                                /
-                                <a href="{{ urlFor('admin.api_access.edit') }}?token={{ token }}">
-                                    <span class="pr-1 pl-1">{{ token }}</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.api_access.add') %}
-                                /
-                                <a href="{{ urlFor('admin.api_access.index') }}">
-                                    <span class="pr-1 pl-1">access</span></a>
-                            {% endif %}
-
-                            {% if isCurrentUrl('admin.plugins.index') or
-                            isCurrentUrl('admin.plugins.information') or
-                            isCurrentUrl('admin.plugins.settings') %}
-                                /
-                                <span class="pr-1 pl-1">{{ id }}</span>
-                            {% endif %}
-
-                            {% block admin_navigation_top_secondary %}{% endblock %}
+                            <div class="breadcrumbs">
+                                {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
+                                {% include "plugins/admin/templates/partials/breadcrumbs.html" %}
+                            </div>
                         </div>
-
-                        <div class="block w-6/12 {% if isCurrentUrl('admin.entries.index') %}w-4/12{% endif %} text-right">
-                            {% if buttons %}
-                                {% for button in buttons %}
-                                    {% if button.type == 'action' %}
-                                        <a
-                                            href="{{ button.link }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('{{ button.id }}').submit();"
-                                            class="js-save-form-submit navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
-                                            {{ button.title }}
-                                        </a>
-                                        <form id="{{ button.id }}" action="{{ button.link }}" method="POST" style="display: none;">
-                                            {{ csrf() }}
-                                        </form>
-                                    {% else %}
-                                        <a href="{{ button.link }}" {% if button.onclick %} onclick="{{ button.onclick }}" {% endif %} class="navigation-top-secondary__item {% if link.active %}navigation-top-secondary__item--active{% endif %}">
-                                            {{ button.title|raw }}</a>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
+                        <div class="col text-end">
+                            <a href="#">{{ icon('plus-circle', 'bootstrap') }}</a>
                         </div>
                     </div>
-                </div>
-                <div class="relative" style="padding-bottom: 10px; padding-left: 20px; padding-right: 20px; padding-top: 112px; height: 100%;">
-                    {% block content %}{% endblock %}
                 </div>
             </div>
-        </main>
+            <div class="workspace-content container">
+                <div class="row">
+                    <div class="col-12">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
         {% for js in flextype.registry.get('assets.admin.js') %}
             {% if js %}
@@ -321,8 +109,7 @@
         {% include "plugins/admin/templates/partials/modules/clipboard.html" %}
         {% include "plugins/admin/templates/partials/modules/filepicker.html" %}
 
-        {% do
-            flextype.emitter.emit('onAdminThemeTail') %}
+        {% do flextype.emitter.emit('onAdminThemeTail') %}
 
         {% block tail %}{% endblock %}
     </body>

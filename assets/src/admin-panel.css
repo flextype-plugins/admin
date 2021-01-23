@@ -4,6 +4,7 @@
 
  html,
  body {
+     font-size: 14px;
      color: rgb(16, 27, 66);
      font-weight: 400;
      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -58,7 +59,6 @@
      display: inline-block;
  }
 
-
  .dropdown {
      display: flex;
      align-content: center;
@@ -84,6 +84,15 @@
     border: none;
 }
 
+.dropdown-menu {
+    overflow: hidden;
+}
+
+hr:not([size]) {
+    height: 1px;
+    border-top: 1px solid #d9d9d9;
+}
+
  .dropdown-menu a {
      display: flex;
      align-content: center;
@@ -94,11 +103,16 @@
      margin-right: 10px;
  }
 
- .dropdown-item.active,
- .dropdown-item:active {
-     background: #f0f0f0;
-     color: rgb(16, 27, 66);
- }
+.dropdown-item:hover,
+.dropdown-item.active,
+.dropdown-item:active {
+    background: #fdfdfd;
+    color: black;
+}
+
+.dropdown-item {
+    padding: .35rem 1rem;
+}
 
  .breadcrumbs {
      display: flex;

@@ -112,6 +112,7 @@ hr:not([size]) {
 
 .dropdown-item {
     padding: .35rem 1rem;
+    min-width: 11.5rem;
 }
 
  .breadcrumbs {

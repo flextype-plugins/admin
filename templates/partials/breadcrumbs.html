@@ -1,0 +1,171 @@
+{% if links %}
+
+    {% for link in links %}
+        <a href="{{ link.link }}">{{ link.title }}</a>
+    {% endfor %}
+
+    {% if isCurrentUrl('admin.entries.index') or
+    isCurrentUrl('admin.entries.edit') or
+    isCurrentUrl('admin.entries.add') or
+    isCurrentUrl('admin.entries.move') or
+    isCurrentUrl('admin.entries.rename') or
+    isCurrentUrl('admin.entries.type') %}
+        {% for part in parts %}
+            {% set entryID = entryID ~ '/' ~ part %}
+            {% if (part != last) %}
+                <a href="{{ urlFor('admin.entries.index') }}?id={{ strings(entryID).trimLeft('/') }}">
+                    <span class="text-muted px-1">/</span>{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
+                </a>
+            {% elseif (part) %}
+                <span class="text-muted px-1">/</span>{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
+    {% if isCurrentUrl('admin.tools.information') or isCurrentUrl('admin.tools.cache') or isCurrentUrl('admin.tools.registry') %}
+
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api.index') %}
+        /
+    {% endif %}
+
+
+    {% if isCurrentUrl('admin.api_files.index') %}
+        /
+        <a href="{{ urlFor('admin.api_files.index') }}">
+            <span class="pr-1 pl-1">files</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_files.edit') %}
+        /
+        <a href="{{ urlFor('admin.api_files.index') }}">
+            <span class="pr-1 pl-1">files</span></a>
+        /
+        <a href="{{ urlFor('admin.api_files.edit') }}?token={{ token }}">
+            <span class="pr-1 pl-1">{{ token }}</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_files.add') %}
+        /
+        <a href="{{ urlFor('admin.api_files.index') }}">
+            <span class="pr-1 pl-1">files</span></a>
+    {% endif %}
+
+
+    {% if isCurrentUrl('admin.api_folders.index') %}
+        /
+        <a href="{{ urlFor('admin.api_folders.index') }}">
+            <span class="pr-1 pl-1">folders</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_folders.edit') %}
+        /
+        <a href="{{ urlFor('admin.api_folders.index') }}">
+            <span class="pr-1 pl-1">folders</span></a>
+        /
+        <a href="{{ urlFor('admin.api_folders.edit') }}?token={{ token }}">
+            <span class="pr-1 pl-1">{{ token }}</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_folders.add') %}
+        /
+        <a href="{{ urlFor('admin.api_folders.index') }}">
+            <span class="pr-1 pl-1">folders</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_entries.index') %}
+        /
+        <a href="{{ urlFor('admin.api_entries.index') }}">
+            <span class="pr-1 pl-1">entries</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_entries.edit') %}
+        /
+        <a href="{{ urlFor('admin.api_entries.index') }}">
+            <span class="pr-1 pl-1">entries</span></a>
+        /
+        <a href="{{ urlFor('admin.api_entries.edit') }}?token={{ token }}">
+            <span class="pr-1 pl-1">{{ token }}</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_entries.add') %}
+        /
+        <a href="{{ urlFor('admin.api_entries.index') }}">
+            <span class="pr-1 pl-1">entries</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_registry.index') %}
+        /
+        <a href="{{ urlFor('admin.api_registry.index') }}">
+            <span class="pr-1 pl-1">registry</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_registry.edit') %}
+        /
+        <a href="{{ urlFor('admin.api_registry.index') }}">
+            <span class="pr-1 pl-1">registry</span></a>
+        /
+        <a href="{{ urlFor('admin.api_registry.edit') }}?token={{ token }}">
+            <span class="pr-1 pl-1">{{ token }}</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_registry.add') %}
+        /
+        <a href="{{ urlFor('admin.api_entries.index') }}">
+            <span class="pr-1 pl-1">registry</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_images.index') %}
+        /
+        <a href="{{ urlFor('admin.api_images.index') }}">
+            <span class="pr-1 pl-1">images</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_images.edit') %}
+        /
+        <a href="{{ urlFor('admin.api_images.index') }}">
+            <span class="pr-1 pl-1">images</span></a>
+        /
+        <a href="{{ urlFor('admin.api_images.edit') }}?token={{ token }}">
+            <span class="pr-1 pl-1">{{ token }}</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_images.add') %}
+        /
+        <a href="{{ urlFor('admin.api_images.index') }}">
+            <span class="pr-1 pl-1">images</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_access.index') %}
+        /
+        <a href="{{ urlFor('admin.api_access.index') }}">
+            <span class="pr-1 pl-1">access</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_access.edit') %}
+        /
+        <a href="{{ urlFor('admin.api_access.index') }}">
+            <span class="pr-1 pl-1">access</span></a>
+        /
+        <a href="{{ urlFor('admin.api_access.edit') }}?token={{ token }}">
+            <span class="pr-1 pl-1">{{ token }}</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.api_access.add') %}
+        /
+        <a href="{{ urlFor('admin.api_access.index') }}">
+            <span class="pr-1 pl-1">access</span></a>
+    {% endif %}
+
+    {% if isCurrentUrl('admin.plugins.index') %}
+        {% if isCurrentUrl('admin.plugins.information') or
+              isCurrentUrl('admin.plugins.settings') %}
+            <span class="text-muted px-2">/</span>{{ id }}
+        {% endif %}
+    {% endif %}
+
+    {% block admin_navigation_top_secondary %}{% endblock %}
+
+{% endif %}

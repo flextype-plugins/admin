@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const tailwindConfig = "tailwind.config.js";
 
 /**
  * Task: gulp vendor-css
@@ -37,9 +36,6 @@ const tailwindConfig = "tailwind.config.js";
  */
 gulp.task("admin-css", function() {
   const atimport = require("postcss-import");
-  const postcss = require("gulp-postcss");
-  const tailwindcss = require("tailwindcss");
-  const purgecss = require("gulp-purgecss");
   const concat = require('gulp-concat');
   const csso = require('gulp-csso');
   const sourcemaps = require('gulp-sourcemaps');
@@ -47,20 +43,6 @@ gulp.task("admin-css", function() {
 
   return gulp
     .src(['assets/src/admin-panel.css'])
-    .pipe(postcss([atimport(), tailwindcss(tailwindConfig)]))
-    .pipe(
-      purgecss({
-        content: ["templates/**/*.html"],
-        extractors: [
-          {
-            extractor: TailwindExtractor = (content) => {
-                return content.match(/[\w-/:]+(?<!:)/g) || [];
-            },
-            extensions: ["html"]
-          }
-        ]
-      })
-    )
     .pipe(autoprefixer({
         overrideBrowserslist: [
             "last 1 version"
@@ -88,12 +70,6 @@ gulp.task("admin-css", function() {
 
                     // SpeakingURL
                     'node_modules/speakingurl/speakingurl.min.js',
-
-                    // Popper
-                    'node_modules/popper.js/dist/umd/popper.min.js',
-
-                    // Tippy
-                    'node_modules/tippy.js/dist/tippy-bundle.iife.min.js',
 
                     // Clipboard
                     'node_modules/clipboard/dist/clipboard.min.js',

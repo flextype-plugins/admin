@@ -46,6 +46,7 @@ tr,
     z-index: 50;
     padding-top: 14px;
     padding-bottom: 14px;
+    box-shadow: 1px 1px 3px #eee;
 }
 
 .navbar>.container,
@@ -101,6 +102,8 @@ nav svg {
 
 .dropdown-menu {
     overflow: hidden;
+    border: 1px solid rgb(240, 242, 247);
+    box-shadow: 1px 1px 3px #eee;
 }
 
 hr:not([size]) {
@@ -111,6 +114,7 @@ hr:not([size]) {
 .table-rounded {
     border: 1px solid rgb(240, 242, 247);
     border-radius: 4px;
+    box-shadow: 1px 1px 3px #eee;
 }
 
 .table-rounded > .table {
@@ -124,6 +128,10 @@ hr:not([size]) {
 
 .table tr:last-child td {
     padding-bottom: 6.5px;
+}
+
+.card {
+    box-shadow: 1px 1px 3px #eee;
 }
 
 .card-title .dropdown {

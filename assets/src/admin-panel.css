@@ -5,19 +5,24 @@
  html,
  body {
      font-size: 14px;
-     color: rgb(16, 27, 66);
+     color: rgba(16, 27, 66, .9);
      font-weight: 400;
      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
  }
 
+ h1, h2, h3, h4, h5 {
+     color: rgba(16, 27, 66, .9);
+ }
+
  a, a:hover {
-     color: rgb(16, 27, 66);
+     color: rgba(16, 27, 66, .9);
      text-decoration: none;
  }
 
  tbody, td, tfoot, th, thead, tr,
  .table > :not(:last-child) > :last-child > * {
      border-bottom: 1px solid rgb(240, 242, 247);
+     color: rgba(16, 27, 66, .9);
  }
 
  .table > thead > tr > th {
@@ -136,9 +141,31 @@ hr:not([size]) {
  button:active,
  button:focus,
  input:focus {
-     color: rgb(16, 27, 66);
+     color: rgba(16, 27, 66, .9);
  }
 
+.card {
+    border-color: rgb(240, 242, 247);
+}
+
+.card-title {
+    font-weight: 400;
+}
+
+.card-title svg {
+    margin-right: 10px;
+}
+
+.card-header {
+    background-color: #f8f9fa!important;
+    border-bottom-color: rgb(240, 242, 247);
+}
+
+.card-footer {
+    background-color: #f8f9fa!important;
+    border-top-color: rgb(240, 242, 247);
+}
+
  .workspace-content {
-     margin-top: 60px;
+     margin-top: 70px;
  }

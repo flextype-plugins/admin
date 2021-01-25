@@ -218,7 +218,7 @@ input:focus {
 }
 
 .card-title svg {
-    margin-right: 10px;
+    margin-right: 8px;
 }
 
 .card-header {
@@ -252,4 +252,30 @@ input:focus {
 .workspace-content {
     margin-top: 80px;
     margin-bottom: 50px;
+}
+
+.workspace-message {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.workspace-message__icon > svg {
+    width: 100px;
+    height: 100px;
+}
+
+.workspace-message__title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.workspace-message__button {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.workspace-message__button > svg {
+    margin-right: 8px;
 }

@@ -18,9 +18,17 @@ h5 {
     color: rgba(16, 27, 66, .9);
 }
 
-a,
-a:hover {
+.form-control-title {
     color: rgba(16, 27, 66, .9);
+}
+
+a {
+    color: rgba(16, 27, 66, .9);
+    text-decoration: none;
+}
+
+a:hover {
+    color: black;
     text-decoration: none;
 }
 
@@ -49,6 +57,19 @@ tr,
     box-shadow: 1px 1px 3px #eee;
 }
 
+.form-control {
+    border: 1px solid #e6e6e6;
+}
+
+.navbar > .container > .row .col:first-of-type {
+    padding-left: 0;
+}
+
+.navbar > .container > .row .col:last-of-type {
+    padding-right: 0;
+}
+
+
 .navbar>.container,
 .navbar>.container-fluid {
     padding: 0;
@@ -71,7 +92,7 @@ tr,
 }
 
 nav svg {
-    margin-right: 10px;
+    margin-right: 8px;
     display: inline-block;
 }
 
@@ -104,6 +125,28 @@ nav svg {
     overflow: hidden;
     border: 1px solid rgb(240, 242, 247);
     box-shadow: 1px 1px 3px #eee;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.dropdown-menu a > svg {
+    margin-right: 8px;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active,
+.dropdown-item:active {
+    background: #fdfdfd;
+    color: black;
+}
+
+.dropdown-item {
+    padding: .35rem 1rem;
+    min-width: 11.5rem;
 }
 
 hr:not([size]) {
@@ -141,36 +184,14 @@ hr:not([size]) {
     right: 0;
 }
 
-.dropdown-menu a {
-    display: flex;
-    align-content: center;
-    align-items: center;
-}
-
-.dropdown-menu a>svg {
-    margin-right: 10px;
-}
-
-.dropdown-item:hover,
-.dropdown-item.active,
-.dropdown-item:active {
-    background: #fdfdfd;
-    color: black;
-}
-
-.dropdown-item {
-    padding: .35rem 1rem;
-    min-width: 11.5rem;
-}
-
 .breadcrumbs {
     display: flex;
     align-content: center;
     align-items: center;
 }
 
-.breadcrumbs>svg {
-    margin-right: 5px;
+.breadcrumbs > svg {
+    margin-right: 8px;
 }
 
 .navbar .dropdown-toggle {
@@ -210,7 +231,25 @@ input:focus {
     border-top-color: rgb(240, 242, 247);
 }
 
+.actions-buttons a {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.actions-buttons a > svg {
+    margin-right: 8px;
+}
+
+.slash-divider {
+    padding-left: 6px;
+    padding-right: 6px;
+    opacity: .25;
+}
+
 .workspace-content {
-    margin-top: 70px;
+    margin-top: 80px;
     margin-bottom: 50px;
 }

@@ -39,12 +39,8 @@ th,
 thead,
 tr,
 .table> :not(:last-child)> :last-child>* {
-    border-bottom: 1px solid rgb(240, 242, 247);
+    border-bottom: 1px solid rgb(225, 228, 232);
     color: #333;
-}
-
-.table > thead > tr > th {
-    opacity: .9;
 }
 
 .navbar {
@@ -54,11 +50,12 @@ tr,
     z-index: 50;
     padding-top: 14px;
     padding-bottom: 14px;
-    box-shadow: 1px 1px 3px #eee;
+    border-bottom: 1px solid rgb(225, 228, 232);
+    background: white;
 }
 
 .form-control {
-    border: 1px solid #e6e6e6;
+    border: 1px solid rgb(225, 228, 232);
 }
 
 .navbar > .container > .row .col:first-of-type {
@@ -123,8 +120,8 @@ nav svg {
 
 .dropdown-menu {
     overflow: hidden;
-    border: 1px solid rgb(240, 242, 247);
-    box-shadow: 1px 1px 3px #eee;
+    border: 1px solid rgb(225, 228, 232);
+
 }
 
 .dropdown-menu a {
@@ -155,9 +152,10 @@ hr:not([size]) {
 }
 
 .table-rounded {
-    border: 1px solid rgb(240, 242, 247);
+    border: 1px solid rgb(225, 228, 232);
     border-radius: 4px;
-    box-shadow: 1px 1px 3px #eee;
+
+    background: white;
 }
 
 .table-rounded > .table {
@@ -173,8 +171,12 @@ hr:not([size]) {
     padding-bottom: 6.5px;
 }
 
+.form-label {
+    font-weight: 700;
+}
+
 .card {
-    box-shadow: 1px 1px 3px #eee;
+
 }
 
 .card-title .dropdown {
@@ -209,7 +211,7 @@ input:focus {
 }
 
 .card {
-    border-color: rgb(240, 242, 247);
+    border-color: rgb(225, 228, 232);
 }
 
 .card-title {
@@ -222,13 +224,13 @@ input:focus {
 }
 
 .card-header {
-    background-color: #f8f9fa!important;
-    border-bottom-color: rgb(240, 242, 247);
+    background-color: #fff;
+    border-bottom-color: rgb(225, 228, 232);
 }
 
 .card-footer {
     background-color: #f8f9fa!important;
-    border-top-color: rgb(240, 242, 247);
+    border-top-color: rgb(225, 228, 232);
 }
 
 .actions-buttons a {
@@ -249,8 +251,15 @@ input:focus {
     opacity: .25;
 }
 
+.form-control:active,
+.form-control:focus {
+    outline: none;
+    border-color: #aaa;
+    box-shadow: none;
+}
+
 .workspace-content {
-    margin-top: 80px;
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 
@@ -278,4 +287,16 @@ input:focus {
 
 .workspace-message__button > svg {
     margin-right: 8px;
+}
+
+.workspace-header {
+    margin: 5px 0;
+    vertical-align: middle;
+    align-content: center;
+    align-items: center;
+}
+
+.workspace-header h2 {
+    margin: 20px 0;
+    font-weight: 200;
 }

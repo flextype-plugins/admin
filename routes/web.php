@@ -61,6 +61,7 @@ flextype()->group('/' . $admin_route, function () : void {
 
     // ApiController
     flextype()->get('/api', ApiController::class . ':index')->setName('admin.api.index');
+    flextype()->post('/api/delete-api-tokens', ApiController::class . ':deleteApiTokensProcess')->setName('admin.api.deleteApiTokensProcess');
 
     flextype()->get('/api/entries', ApiEntriesController::class . ':index')->setName('admin.api_entries.index');
     flextype()->get('/api/entries/add', ApiEntriesController::class . ':add')->setName('admin.api_entries.add');

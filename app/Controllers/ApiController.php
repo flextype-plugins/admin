@@ -15,7 +15,6 @@ use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
 
-
 class ApiController
 {
     /**
@@ -65,7 +64,7 @@ class ApiController
                                   'title' => __('admin_access'),
                                   'icon' => ['name' => 'people', 'set' => 'bootstrap'],
                                 ],
-                               ],
+                             ],
                 'links' =>  [
                     'api' => [
                         'link' => flextype('router')->pathFor('admin.api.index'),

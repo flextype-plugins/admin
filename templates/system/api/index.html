@@ -2,34 +2,76 @@
 
 {% block content %}
     {% if (api_list | length > 0) %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        {{ tr('admin_name') }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for key, api in api_list %}
-                    <tr>
-                        <td class="w-1 text-center">
-                            <i class="icon">{{ icon(api.icon.name, api.icon.set) }}</i>
-                        </td>
-                        <td>
-                            <a href="{{ urlFor('admin.api.index') }}/{{ key }}">{{ api.title }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <div class="text-center flex justify-center items-center h-full">
-            <div>
-                <i class="icon icon--4xl">{{ icon('network-wired', 'fontawesome|solid') }}</i>
-                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_api_tokens_yet') }}</h3>
+    <div class="workspace-header row">
+        <div class="col p-0"><h2>API</h2></div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for key, api in api_list %}
+        <div class="col">
+          <div class="card">
+             <div class="card-header">
+                <div class="card-title d-flex align-middle align-items-center m-0">
+                    {{ icon(api.icon.name, api.icon.set) }}{{ api.title }}
+                    <div class="dropdown">
+                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ icon('three-dots', 'bootstrap') }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ urlFor('admin.api.tokens') }}?api={{ key }}">
+                                {{ icon('pencil-square', 'bootstrap') }} {{ tr('admin_manage') }}</a></li>
+                            <li>
+                            <a class="dropdown-item" href="{{ urlFor('admin.api.tokens') }}/add?api={{ key }}">
+                                {{ icon('plus-circle', 'bootstrap') }} {{ tr('admin_add') }}</a></li>
+                            <li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                            <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); deleteApiTokens('{{ key }}');">
+                                {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete_all') }}</a></li>
+                            <form id="delete-api-tokens-id-{{ key }}" action="{{ urlFor('admin.api.deleteApiTokensProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="token" value="{{ key }}">
+                            </form>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="card-body p-0">
+                <table class="table m-0">
+                  <tbody>
+                    <tr>
+                      <td class="px-3">{{ tr('admin_tokens') }}:</td>
+                      <td class="px-3 text-end">{{ api_stats[key].tokens ?? 0 }}</td>
+                    </tr>
+                    <tr>
+                      <td class="px-3">{{ tr('admin_calls') }}:</td>
+                      <td class="px-3 text-end">{{ api_stats[key].calls ?? 0 }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+          </div>
         </div>
+        {% endfor %}
+    </div>
     {% endif %}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteApiTokens(id) {
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}",
+                 text: "{{ tr('admin_confirmation_tokens_delete') }}",
+                 showCancelButton: true,
+                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                 cancelButtonText: "{{ tr('admin_cancel') }}",
+                 reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-api-tokens-id-' + id).submit();
+                }
+            });
+        }
+    </script>
 {% endblock %}

@@ -1,0 +1,105 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {% if (tokens | length > 0) %}
+    <div class="workspace-header row">
+        <div class="col p-0"><h2>Tokens</h2></div>
+        <div class="col p-0 text-end">
+            <a href="{{ urlFor('admin.api.add') }}"
+               class="btn btn-primary">{{ __('admin_create_new_token')|raw }}</a>
+        </div>
+    </div>
+    <div class="table-rounded">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="50"></th>
+                    <th>
+                        {{ tr('admin_title') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_token') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_calls') }}
+                    </th>
+                    <th width="50"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, token in tokens %}
+
+                    {% set token_file_path = PATH_PROJECT ~ '/tokens/' ~ api ~ '/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
+                    {% if filesystem().file(token_file_path).exists() %}
+                        {% set token_data = flextype.serializers.yaml.decode(filesystem().file(token_file_path).get()) %}
+                    {% endif %}
+                    <tr>
+                        <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                            {{ icon(token_data.icon.name, token_data.icon.set) }}
+                        </td>
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                            <a href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
+                        </td>
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>
+                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
+                            /
+                            {% if (token_data.limit_calls > 0) %}{{ token_data.limit_calls }}
+                            {% else %}&infin;{% endif %}
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}&api={{ api }}">
+                                        {{ icon('pencil', 'bootstrap') }} {{ tr('admin_edit') }}</a></li>
+                                    <li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                    <a class="dropdown-item" href="javascript:;" onclick="deleteToken('{{ token.dirname }}');">
+                                        {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                                    <form id="delete-api-token-id-{{ token.dirname }}"
+                                          action="{{ urlFor('admin.api.deleteProcess') }}"
+                                          method="POST"
+                                          style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="api" value="{{ api }}">
+                                        <input type="hidden" name="token" value="{{ token.dirname }}">
+                                    </form>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    {% else %}
+        <div class="workspace-message">
+            <div class="workspace-message__icon">{{ icon(icons[api].name, icons[api].set) }}</div>
+            <h3 class="workspace-message__title">{{ tr('admin_you_have_not_created_any_'~api~'_api_tokens_yet') }}</h3>
+            <a class="workspace-message__button btn btn-primary " href="{{ urlFor('admin.api.add') }}?api={{ api }}">{{ tr('admin_create_new_token') }}</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block tail %}
+    <script>
+        function deleteToken(id) {
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}",
+                 text: "{{ tr('admin_confirmation_required_for_'~api~'_token_delete') }}",
+                 showCancelButton: true,
+                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                 cancelButtonText: "{{ tr('admin_cancel') }}",
+                 reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-api-token-id-' + id).submit();
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -42,6 +42,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
+                            <a class="dropdown-item" href="javascript:;" data-bs-toggle="modal" data-bs-target="#clearCacheKeyModal">
+                                {{ icon('card-text', 'bootstrap') }} {{ tr('admin_clear_key') }}</a></li>
+                            <li>
                             <a class="dropdown-item" href="javascript:;" onclick="clearCache('data');">
                                 {{ icon('trash', 'bootstrap') }} {{ tr('admin_clear') }}</a></li>
                             <form id="cache-id-data"
@@ -151,6 +154,35 @@
         </tbody>
     </table>
 </div>
+
+<div class="modal" id="clearCacheKeyModal" tabindex="-1" aria-labelledby="clearCacheKeyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="clearCacheKeyModalLabel">{{ tr('admin_clear_key') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="post" id="form_cache_clear_key"
+                action="{{ urlFor('admin.tools.clearCacheKeyProcess') }}"
+                method="POST">
+              {{ csrf() }}
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="mb-3">
+                          <label for="title" class="form-label">{{ tr('admin_key') }}</label>
+                          <input type="text" id="key" name="key" value="" class="form-control">
+                      </div>
+                   </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="clearCacheKey();">{{ tr('admin_clear') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 
@@ -158,17 +190,30 @@
     <script>
         function clearCache(id) {
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}",
+                {
+                title: "{{ tr('admin_confirmation_required') }}",
                  text: "{{ tr('admin_confirmation_cache_clear') }}",
                  showCancelButton: true,
                  confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
                  cancelButtonText: "{{ tr('admin_cancel') }}",
-                 reverseButtons: true}
+                 reverseButtons: true,
+                 position: 'center',
+                 showClass: {
+                    popup: ''
+                 },
+                 hideClass: {
+                    popup: ''
+                 },
+                }
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('cache-id-' + id).submit();
                 }
             });
+        }
+
+        function clearCacheKey() {
+            document.getElementById('form_cache_clear_key').submit();
         }
     </script>
 {% endblock %}

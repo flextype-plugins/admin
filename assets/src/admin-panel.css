@@ -106,6 +106,13 @@ nav svg {
     display: inline-block;
 }
 
+table td .dropdown > .dropdown-toggle {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 21px;
+}
+
 .dropdown {
     display: flex;
     align-content: center;
@@ -117,14 +124,11 @@ nav svg {
     border: none;
     cursor: pointer;
     line-height: 0;
+    padding: 0;
 }
 
 .dropdown-toggle::after {
     vertical-align: .055em;
-}
-
-.dropdown-toggle {
-    padding: 4px 0;
 }
 
 .dropdown-toggle.dropdown-dots::after {
@@ -345,4 +349,99 @@ input:focus {
     color: rgb(36, 41, 46);
     box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
     background-color: rgb(237, 239, 242);
+}
+
+.swal2-container
+{
+    background: transparent;
+}
+
+.swal2-popup
+{
+    border-radius: 6px;
+}
+
+.swal2-title
+{
+    font-weight: 200px;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.swal2-content
+{
+    font-size: 14px;
+    color: rgb(36, 41, 46);
+}
+
+.swal2-styled.swal2-confirm
+{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    padding: .375rem .75rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    font-size: 14px;
+    background-color: rgb(250, 251, 252);
+    border-radius: 6px;
+    border: 1px solid rgba(27, 31, 35, 0.15)!important;
+    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
+    color: rgb(36, 41, 46);
+}
+
+.swal2-styled.swal2-confirm:focus
+{
+
+}
+
+.swal2-styled.swal2-cancel
+{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    padding: .375rem .75rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    font-size: 14px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border: 1px solid rgba(27, 31, 35, 0.15)!important;
+    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
+    color: rgb(36, 41, 46);
+}
+
+.swal2-actions:not(.swal2-loading) .swal2-styled:hover
+{
+
+}
+
+.swal2-close:focus
+{
+
+}
+
+.swal2-popup.swal2-toast .swal2-title
+{
+    font-weight: 400;
+    padding: 10px;
+}
+
+.swal2-popup.swal2-toast
+{
+    font-size: 14px;
+    padding: 4px 2px;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    color: rgb(36, 41, 46);
+    border-radius: 6px;
+    box-shadow: none;
+    background: white;
 }

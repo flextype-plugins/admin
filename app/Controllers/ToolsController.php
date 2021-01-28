@@ -210,7 +210,7 @@ class ToolsController
             Filesystem::deleteDir(ROOT_DIR . '/var');
         }
 
-        flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
+        flextype('flash')->addMessage('success', __('admin_message_cache_cleared'));
 
         return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
     }

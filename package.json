@@ -28,6 +28,8 @@
     "parsleyjs": "^2.9.2",
     "speakingurl": "^14.0.1",
     "sweetalert2": "^10.13.0",
-    "clipboard": "~2.0.6"
+    "clipboard": "~2.0.6",
+    "gulp-postcss": "^8.0.0",
+    "postcss-import": "^12.0.1"
   }
 }

@@ -35,14 +35,16 @@ const gulp = require('gulp');
  * Task: gulp admin-css
  */
 gulp.task("admin-css", function() {
-  const atimport = require("postcss-import");
   const concat = require('gulp-concat');
   const csso = require('gulp-csso');
   const sourcemaps = require('gulp-sourcemaps');
   const autoprefixer = require('gulp-autoprefixer');
+  const atimport = require("postcss-import");
+  const postcss = require("gulp-postcss");
 
   return gulp
     .src(['assets/src/admin-panel.css'])
+    .pipe(postcss([atimport()]))
     .pipe(autoprefixer({
         overrideBrowserslist: [
             "last 1 version"

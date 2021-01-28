@@ -55,8 +55,7 @@
                                         <a class="dropdown-item" href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}&api={{ api }}">
                                         {{ icon('pencil', 'bootstrap') }} {{ tr('admin_edit') }}</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                    <a class="dropdown-item" href="javascript:;" onclick="deleteToken('{{ token.dirname }}');">
+                                    <li><a class="dropdown-item" href="javascript:;" onclick="deleteToken('{{ token.dirname }}');">
                                         {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
                                     <form id="delete-api-token-id-{{ token.dirname }}"
                                           action="{{ urlFor('admin.api.deleteProcess') }}"

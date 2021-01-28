@@ -28,13 +28,12 @@
             </thead>
             <tbody>
                 {% for key, token in tokens %}
-
                     {% set token_file_path = PATH_PROJECT ~ '/tokens/' ~ api ~ '/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                     {% if filesystem().file(token_file_path).exists() %}
                         {% set token_data = flextype.serializers.yaml.decode(filesystem().file(token_file_path).get()) %}
                     {% endif %}
                     <tr>
-                        <td class="w-1 text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                        <td class="text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             {{ icon(token_data.icon.name, token_data.icon.set) }}
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">

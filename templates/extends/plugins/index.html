@@ -2,12 +2,21 @@
 
 {% block content %}
     {% if (plugins_list | length > 0) %}
+    <div class="workspace-header row">
+        <div class="col p-0"><h2>Plugins</h2></div>
+        <div class="col p-0 text-end">
+            <a href="https://flextype.org/en/downloads/extend/plugins"
+               target="_blank"
+               class="btn btn-primary">{{ __('admin_get_more_plugins')|raw }}</a>
+        </div>
+    </div>
+    <div class="table-rounded">
         <table class="table">
             <thead>
                 <tr>
-                    <th></th>
+                    <th width="50"></th>
                     <th>
-                        {{ tr('admin_plugin') }}
+                        {{ tr('admin_name') }}
                     </th>
                     <th>
                         {{ tr('admin_description') }}
@@ -18,20 +27,20 @@
                     <th>
                         {{ tr('admin_version') }}
                     </th>
-                    <th></th>
+                    <th width="50"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for key, plugin in plugins_list %}
                     <tr>
-                        <td class="w-1 text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                        <td width="50" class="text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
                             {% if plugin.manifest.icon %}
-                                <i class="icon">{{ icon(plugin.manifest.icon.name, plugin.manifest.icon.set) }}</i>
+                                {{ icon(plugin.manifest.icon.name, plugin.manifest.icon.set) }}
                             {% else %}
-                                <i class="icon">{{ icon('plug', 'fontawesome|solid') }}</i>
+                                {{ icon('plug', 'fontawesome|solid') }}
                             {% endif %}
                         </td>
-                        <td class="pl-0 {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                        <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">
                             <a href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
                         </td>
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.description }}</td>
@@ -40,6 +49,39 @@
                         </td>
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.version }}</td>
                         <td class="text-right">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
+                                        {{ icon('info-circle', 'bootstrap') }} {{ tr('admin_information') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
+                                        {{ icon('gear', 'bootstrap') }} {{ tr('admin_settings') }}</a></li>
+                                    {% if plugin.settings.enabled %}
+                                    <li>
+                                        <a class="dropdown-item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}');" href="javascript:;">
+                                            {{ icon('toggle-on', 'bootstrap') }} {{ tr('admin_deactivate') }}
+                                        </a>
+                                    </li>
+                                    {% else %}
+                                    <li>
+                                        <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                            {{ icon('toggle-off', 'bootstrap') }} {{ tr('admin_activate') }}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <form id="update-plugin-status-{{ key }}" action="{{ urlFor('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="plugin-key" value="{{ key }}">
+                                        <input type="hidden" name="plugin-status" value="{% if plugin.settings.enabled %}true{% else %}false{% endif %}">
+                                        <input type="hidden" name="plugin-set-status" value="{% if plugin.settings.enabled %}false{% else %}true{% endif %}">
+                                    </form>
+                                </ul>
+                            </div>
+                            {#
                             <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
                                 <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
                             </button>
@@ -69,11 +111,13 @@
                                     <input type="hidden" name="plugin-set-status" value="{% if plugin.settings.enabled %}false{% else %}true{% endif %}">
                                 </form>
                             </div>
+                            #}
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
@@ -86,10 +130,7 @@
 
 {% block tail %}
     <script>
-        function deactivatePlugin(id, row_num) {
-            if (dropdown[row_num]) {
-                dropdown[row_num].hide();
-            }
+        function deactivatePlugin(id) {
             Swal.fire(
                 {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_deactivate_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
             ).then((result) => {

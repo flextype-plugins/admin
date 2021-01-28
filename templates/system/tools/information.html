@@ -8,32 +8,48 @@
     <table class="table">
         <tbody>
             <tr>
-                <td class="w-3/12">{{ tr('admin_flextype_version') }}</td>
+                <td class="col-2">{{ tr('admin_name') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.name') }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_version') }}</td>
                 <td>{{ flextype.registry.get('flextype.manifest.version') }}</td>
             </tr>
             <tr>
-                <td>{{ tr('admin_php_version') }}</td>
-                <td>{{ PHP_VERSION }}</td>
+                <td>{{ tr('admin_description') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.description') }}</td>
             </tr>
             <tr>
-                <td>{{ tr('admin_php_built_on') }}</td>
-                <td>{{ php_uname }}</td>
+                <td>{{ tr('admin_author_name') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.author.name') }}</td>
             </tr>
             <tr>
-                <td>{{ tr('admin_web_server') }}</td>
-                <td>{{ webserver }}</td>
+                <td>{{ tr('admin_author_email') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.author.email') }}</td>
             </tr>
             <tr>
-                <td>{{ tr('admin_web_server_php_interface') }}</td>
-                <td>{{ php_sapi_name }}</td>
+                <td>{{ tr('admin_author_url') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.url') }}</td>
             </tr>
             <tr>
-                <td>{{ tr('admin_licence') }}</td>
-                <td>
-                    <a href="https://github.com/flextype/flextype/blob/master/LICENSE.txt" target="_blank">The MIT License (MIT)</a>
-                    Copyright (c) 2021
-                    <a href="https://github.com/Awilum" target="_blank">Sergey Romanenko</a>
-                </td>
+                <td>{{ tr('admin_homepage') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.homepage') }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_documentation') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.documentation') }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_changelog') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.changelog') }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_bugs') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.bugs') }}</td>
+            </tr>
+            <tr>
+                <td>{{ tr('admin_license') }}</td>
+                <td>{{ flextype.registry.get('flextype.manifest.license') }}</td>
             </tr>
         </tbody>
     </table>

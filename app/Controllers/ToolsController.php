@@ -23,14 +23,6 @@ use function realpath;
 class ToolsController
 {
     /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
-    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
@@ -38,7 +30,21 @@ class ToolsController
      */
     public function index(Request $request, Response $response) : Response
     {
-        return $response->withRedirect(flextype('router')->pathFor('admin.tools.information'));
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
+
+        return flextype('twig')->render(
+            $response,
+            'plugins/admin/templates/system/tools/index.html',
+            [
+                'menu_item' => 'tools',
+                'links' =>  [
+                    'tools' => [
+                        'link' => flextype('router')->pathFor('admin.tools.index'),
+                        'title' => __('admin_tools')
+                    ],
+                ],
+            ]
+        );
     }
 
     /**
@@ -49,6 +55,8 @@ class ToolsController
      */
     public function information(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/information.html',
@@ -58,19 +66,13 @@ class ToolsController
                 'webserver' => $_SERVER['SERVER_SOFTWARE'] ?? @getenv('SERVER_SOFTWARE'),
                 'php_sapi_name' => php_sapi_name(),
                 'links' =>  [
-                    'information' => [
+                    'tools' => [
                         'link' => flextype('router')->pathFor('admin.tools.index'),
+                        'title' => __('admin_tools')
+                    ],
+                    'information' => [
+                        'link' => flextype('router')->pathFor('admin.tools.information'),
                         'title' => __('admin_information'),
-                        'active' => true
-                    ],
-                    'cache' => [
-                        'link' => flextype('router')->pathFor('admin.tools.cache'),
-                        'title' => __('admin_cache'),
-
-                    ],
-                    'registry' => [
-                        'link' => flextype('router')->pathFor('admin.tools.registry'),
-                        'title' => __('admin_registry'),
 
                     ],
                 ],
@@ -86,6 +88,8 @@ class ToolsController
      */
     public function cache(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/cache.html',
@@ -96,28 +100,15 @@ class ToolsController
                 'twig_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/twig')),
                 'preflight_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/preflight')),
                 'links' =>  [
-                    'information' => [
+                    'tools' => [
                         'link' => flextype('router')->pathFor('admin.tools.index'),
-                        'title' => __('admin_information'),
+                        'title' => __('admin_tools'),
 
                     ],
                     'cache' => [
                         'link' => flextype('router')->pathFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
                         'active' => true
-                    ],
-                    'registry' => [
-                        'link' => flextype('router')->pathFor('admin.tools.registry'),
-                        'title' => __('admin_registry'),
-
-                    ],
-                ],
-                'buttons' => [
-                    'tools_clear_cache' => [
-                        'type' => 'action',
-                        'id' => 'clear-cache-all',
-                        'link' => flextype('router')->pathFor('admin.tools.clearCacheAllProcess'),
-                        'title' => __('admin_clear_cache_all'),
                     ],
                 ],
             ]
@@ -132,6 +123,8 @@ class ToolsController
      */
     public function registry(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/registry.html',
@@ -139,14 +132,9 @@ class ToolsController
                 'menu_item' => 'tools',
                 'registry_dump' => $this->dotArray(flextype('registry')->all()),
                 'links' =>  [
-                    'information' => [
+                    'tools' => [
                         'link' => flextype('router')->pathFor('admin.tools.index'),
-                        'title' => __('admin_information'),
-
-                    ],
-                    'cache' => [
-                        'link' => flextype('router')->pathFor('admin.tools.cache'),
-                        'title' => __('admin_cache'),
+                        'title' => __('admin_tools'),
 
                     ],
                     'registry' => [
@@ -185,20 +173,9 @@ class ToolsController
             Filesystem::deleteDir(PATH['tmp'] . '/preflight');
         }
 
-        flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
-
-        return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
-    }
-
-    /**
-     * Clear all cache process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     */
-    public function clearCacheAllProcess(Request $request, Response $response) : Response
-    {
-        Filesystem::deleteDir(ROOT_DIR . '/var');
+        if ($id == 'all') {
+            Filesystem::deleteDir(ROOT_DIR . '/var');
+        }
 
         flextype('flash')->addMessage('success', __('admin_message_cache_files_deleted'));
 

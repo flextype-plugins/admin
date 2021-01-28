@@ -38,7 +38,7 @@
                             {{ icon(token_data.icon.name, token_data.icon.set) }}
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
-                            <a href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}">{{ token_data.title }}</a>
+                            <a href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}&api={{ api }}">{{ token_data.title }}</a>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token_data.calls }}
@@ -55,7 +55,6 @@
                                     <li>
                                         <a class="dropdown-item" href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}&api={{ api }}">
                                         {{ icon('pencil', 'bootstrap') }} {{ tr('admin_edit') }}</a></li>
-                                    <li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                     <a class="dropdown-item" href="javascript:;" onclick="deleteToken('{{ token.dirname }}');">

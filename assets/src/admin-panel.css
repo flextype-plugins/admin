@@ -8,6 +8,7 @@
 @import 'components/forms';
 @import 'components/navigation';
 @import 'components/modals';
+@import 'components/buttons';
 
 @import 'modules/swal2';
 

@@ -59,5 +59,23 @@
         </div>
       </div>
     </div>
+    <div class="col">
+      <div class="card">
+         <div class="card-header card-plate">
+            <div class="card-title d-flex align-middle align-items-center m-0">
+                {{ icon('journals', 'bootstrap') }} Reports
+                <div class="dropdown">
+                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ icon('three-dots', 'bootstrap') }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ urlFor('admin.tools.reports') }}">
+                            {{ icon('eye', 'bootstrap') }} {{ tr('admin_view') }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock %}

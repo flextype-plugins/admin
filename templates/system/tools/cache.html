@@ -1,12 +1,26 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
+<div class="workspace-header row">
+    <div class="col p-0"><h2>Cache</h2></div>
+    <div class="col p-0 text-end">
+        <a href="javascript:;" onclick="clearCache('all');" class="btn btn-primary">{{ __('admin_clear_cache_all')|raw }}</a>
+        <form id="cache-id-all"
+              action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+              method="POST"
+              style="display: none;">
+            {{ csrf() }}
+            <input type="hidden" name="cache-id" value="all">
+        </form>
+    </div>
+</div>
+<div class="table-rounded">
     <table class="table">
         <thead>
             <tr>
-                <th class="w-3/12">{{ tr('admin_cache') }}</th>
+                <th>{{ tr('admin_cache') }}</th>
                 <th>{{ tr('admin_size') }}</th>
-                <th></th>
+                <th width="50"></th>
             </tr>
         </thead>
         <tbody>
@@ -15,22 +29,25 @@
                     {{ tr('admin_data') }}
                 </td>
                 <td>
-                    {% if data_size %}{{ data_size }}
-                    {% else %}0 KB{% endif %}
+                    {% if data_size %}{{ data_size }}{% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-data">
-                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
-                    </button>
-                    <div id="dropdown-data" class="dropdown">
-                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                  document.getElementById('clear-id-data').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
-                            {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-data" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                            {{ csrf() }}
-                            <input type="hidden" name="cache-id" value="data">
-                        </form>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ icon('three-dots', 'bootstrap') }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('data');">
+                                {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                            <form id="cache-id-data"
+                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                  method="POST"
+                                  style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="cache-id" value="data">
+                            </form>
+                        </ul>
                     </div>
                 </td>
             </tr>
@@ -43,18 +60,22 @@
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-template">
-                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
-                    </button>
-                    <div id="dropdown-template" class="dropdown">
-                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                  document.getElementById('clear-id-twig').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
-                            {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-twig" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                            {{ csrf() }}
-                            <input type="hidden" name="cache-id" value="twig">
-                        </form>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ icon('three-dots', 'bootstrap') }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('templates');">
+                                {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                            <form id="cache-id-templates"
+                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                  method="POST"
+                                  style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="cache-id" value="templates">
+                            </form>
+                        </ul>
                     </div>
                 </td>
             </tr>
@@ -67,18 +88,22 @@
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
-                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
-                    </button>
-                    <div id="dropdown-image" class="dropdown">
-                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                  document.getElementById('clear-id-preflight').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
-                            {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-preflight" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                            {{ csrf() }}
-                            <input type="hidden" name="cache-id" value="preflight">
-                        </form>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ icon('three-dots', 'bootstrap') }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('preflight');">
+                                {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                            <form id="cache-id-preflight"
+                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                  method="POST"
+                                  style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="cache-id" value="preflight">
+                            </form>
+                        </ul>
                     </div>
                 </td>
             </tr>
@@ -91,21 +116,46 @@
                     {% else %}0 KB{% endif %}
                 </td>
                 <td class="text-right">
-                    <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-image">
-                        <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
-                    </button>
-                    <div id="dropdown-image" class="dropdown">
-                        <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                  document.getElementById('clear-id-glide').submit();">
-                            <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
-                            {{ tr('admin_clear') }}</a>
-                        <form id="clear-id-glide" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
-                            {{ csrf() }}
-                            <input type="hidden" name="cache-id" value="glide">
-                        </form>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ icon('three-dots', 'bootstrap') }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('images');">
+                                {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                            <form id="cache-id-images"
+                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                  method="POST"
+                                  style="display: none;">
+                                {{ csrf() }}
+                                <input type="hidden" name="cache-id" value="images">
+                            </form>
+                        </ul>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
+</div>
+{% endblock %}
+
+
+{% block tail %}
+    <script>
+        function clearCache(id) {
+            Swal.fire(
+                {title: "{{ tr('admin_confirmation_required') }}",
+                 text: "{{ tr('admin_confirmation_tokens_delete') }}",
+                 showCancelButton: true,
+                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                 cancelButtonText: "{{ tr('admin_cancel') }}",
+                 reverseButtons: true}
+            ).then((result) => {
+                if (result.value) {
+                    document.getElementById('cache-id-' + id).submit();
+                }
+            });
+        }
+    </script>
 {% endblock %}

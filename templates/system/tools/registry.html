@@ -1,6 +1,10 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
+<div class="workspace-header row">
+    <div class="col p-0"><h2>Registry</h2></div>
+</div>
+<div class="table-rounded">
     <table class="table">
         <thead>
             <tr>
@@ -23,4 +27,5 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

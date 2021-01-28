@@ -1,29 +1,10 @@
 {% if links %}
     {% for link in links %}
-        {% if isCurrentUrl('admin.api.tokens') %}
-            {% if loop.first == false %}
-                <span class="slash-divider">/</span>
-            {% endif %}
+        {% if loop.first == false %}
+            <span class="slash-divider">/</span>
         {% endif %}
-
-        {% if isCurrentUrl('admin.api.add') %}
-            {% if loop.first == false %}
-                <span class="slash-divider">/</span>
-            {% endif %}
-        {% endif %}
-
-        {% if isCurrentUrl('admin.api.edit') %}
-            {% if loop.first == false %}
-                <span class="slash-divider">/</span>
-            {% endif %}
-        {% endif %}
-
         <a href="{{ link.link }}">{{ link.title }}</a>
     {% endfor %}
-
-    {% if isCurrentUrl('admin.api.edit') %}
-        <span class="slash-divider">/</span>{{ token }}
-    {% endif %}
 
     {% if isCurrentUrl('admin.entries.index') or
     isCurrentUrl('admin.entries.edit') or
@@ -42,11 +23,6 @@
                 <span class="slash-divider">/</span>{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
             {% endif %}
         {% endfor %}
-    {% endif %}
-
-
-    {% if isCurrentUrl('admin.tools.information') or isCurrentUrl('admin.tools.cache') or isCurrentUrl('admin.tools.registry') %}
-
     {% endif %}
 
     {% if isCurrentUrl('admin.plugins.index') %}

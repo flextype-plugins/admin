@@ -55,9 +55,9 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->get('/tools', ToolsController::class . ':index')->setName('admin.tools.index');
     flextype()->get('/tools/information', ToolsController::class . ':information')->setName('admin.tools.information');
     flextype()->get('/tools/registry', ToolsController::class . ':registry')->setName('admin.tools.registry');
+    flextype()->get('/tools/reports', ToolsController::class . ':reports')->setName('admin.tools.reports');
     flextype()->get('/tools/cache', ToolsController::class . ':cache')->setName('admin.tools.cache');
-    flextype()->post('/tools/cache', ToolsController::class . ':clearCacheProcess')->setName('admin.tools.clearCacheProcess');
-    flextype()->post('/tools/cache-all', ToolsController::class . ':clearCacheAllProcess')->setName('admin.tools.clearCacheAllProcess');
+    flextype()->post('/tools/cache-clear', ToolsController::class . ':clearCacheProcess')->setName('admin.tools.clearCacheProcess');
 
     // ApiController
     flextype()->get('/api', ApiController::class . ':index')->setName('admin.api.index');

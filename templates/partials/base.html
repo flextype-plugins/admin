@@ -25,13 +25,13 @@
     </head>
     <body>
         <div class="workspace">
-            <div class="navbar navbar-expand-lg navbar-light bg-light workspace-navigation">
+            <div class="navbar navbar-expand-lg navbar-light workspace-navigation">
                 <div class="container">
                     <div class="row">
                         <div class="col d-flex">
                             <div class="dropdown">
                                 <a class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ icon('menu-button-wide', 'bootstrap') }}
+                                {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
                                 </a>
                                 <ul class="dropdown-menu">
                                     {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
@@ -73,12 +73,20 @@
                                 </ul>
                             </div>
                             <div class="breadcrumbs">
-                                {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
                                 {% include "plugins/admin/templates/partials/breadcrumbs.html" %}
                             </div>
                         </div>
-                        <div class="col text-end">
-                            <a href="#">{{ icon('plus-circle', 'bootstrap') }}</a>
+                        <div class="col text-end actions-buttons">
+                            {#
+                            {% if buttons %}
+                                {% for button in buttons %}
+                                    <a href="{{ button.link }}"
+                                      {% if button.onclick %}onclick="{{ button.onclick }}"{% endif %}
+                                      {% if button.class %}class="{{ button.class }}"{% endif %}
+                                      {% if button.data %}{% for data in button.data %}data-{{ data.name }}="{{ data.value }}"{% endfor %}{% endif %}>{{ icon(button.icon.name, button.icon.set) }} {{ button.title|raw }}</a>
+                                {% endfor %}
+                            {% endif %}
+                            #}
                         </div>
                     </div>
                 </div>
@@ -101,7 +109,7 @@
         {% endfor %}
 
         {% include "plugins/admin/templates/partials/modules/codemirror.html" %}
-        {% include "plugins/admin/templates/partials/modules/entries-editor.html" %}
+        {% include "plugins/admin/templates/partials/modules/submit-form.html" %}
         {% include "plugins/admin/templates/partials/modules/slugify.html" %}
         {% include "plugins/admin/templates/partials/modules/swal2.html" %}
         {% include "plugins/admin/templates/partials/modules/clipboard.html" %}

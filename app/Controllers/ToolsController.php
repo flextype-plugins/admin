@@ -216,6 +216,29 @@ class ToolsController
     }
 
     /**
+     * Clear cache process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     */
+    public function clearCacheKeyProcess(Request $request, Response $response) : Response
+    {
+        $key = strings($request->getParsedBody()['key'])->hash()->toString();
+
+        if (flextype('cache')->has($key)) {
+            if (flextype('cache')->delete($key)) {
+                flextype('flash')->addMessage('success', __('admin_message_cache_cleared'));
+            } else {
+                flextype('flash')->addMessage('error', __('admin_message_cache_was_not_cleared'));
+            }
+        } else {
+            flextype('flash')->addMessage('error', __('admin_message_cache_was_not_cleared'));
+        }
+
+        return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
+    }
+
+    /**
      * _dotArray
      */
     private function dotArray($array, $prepend = '') : array

@@ -1,57 +1,26 @@
 html,
-body
-{
-    font-family: Roboto;
+body {
     font-size: var(--font-size);
-
-    @apply text-dark;
-}
-
-a
-{
-    @apply text-dark;
-}
-
-main
-{
-    @apply flex w-full h-screen min-w-full bg-white text-dark;
-}
-
-small
-{
-    @apply block mt-1 opacity-75 text-sm;
+    color: var(--font-color);
+    font-weight: var(--font-weight);
+    font-family: var(--font-family);
 }
 
 h1,
 h2,
 h3,
-h4
-{
-    @apply text-dark;
+h4,
+h5 {
+    color: var(--font-color);
+    font-weight: 200;
 }
 
-h1
-{
-    @apply text-5xl;
+a {
+    color: var(--font-color);
+    text-decoration: none;
 }
 
-h2
-{
-    @apply text-4xl;
-}
-
-h3
-{
-    @apply text-3xl;
-}
-
-h4
-{
-    @apply text-2xl;
-}
-
-input:focus,
-button:focus,
-button:active {
-    outline: none;
+a:hover {
+    color: black;
+    text-decoration: none;
 }

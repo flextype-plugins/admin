@@ -58,6 +58,7 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->get('/tools/reports', ToolsController::class . ':reports')->setName('admin.tools.reports');
     flextype()->get('/tools/cache', ToolsController::class . ':cache')->setName('admin.tools.cache');
     flextype()->post('/tools/cache-clear', ToolsController::class . ':clearCacheProcess')->setName('admin.tools.clearCacheProcess');
+    flextype()->post('/tools/cache-clear-key', ToolsController::class . ':clearCacheKeyProcess')->setName('admin.tools.clearCacheKeyProcess');
 
     // ApiController
     flextype()->get('/api', ApiController::class . ':index')->setName('admin.api.index');

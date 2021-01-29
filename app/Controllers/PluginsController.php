@@ -23,6 +23,7 @@ class PluginsController
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
 
         $plugins_list = flextype('registry')->get('plugins');
 
@@ -88,6 +89,8 @@ class PluginsController
      */
     public function information(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
+
         // Get Plugin ID
         $id = $request->getQueryParams()['id'];
 
@@ -97,23 +100,23 @@ class PluginsController
         // Get plugin custom manifest content
         $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
 
+        $plugins_manifest = flextype('serializers')->yaml()->decode($custom_plugin_manifest_file_content);
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/extends/plugins/information.html',
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => flextype('serializers')->yaml()->decode($custom_plugin_manifest_file_content),
+                'plugin_manifest' => $plugins_manifest,
                 'links' =>  [
                     'plugins' => [
                         'link' => flextype('router')->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
-
                     ],
-                    'plugins_information' => [
+                    'plugins_name' => [
                         'link' => flextype('router')->pathFor('admin.plugins.information') . '?id=' . $request->getQueryParams()['id'],
-                        'title' => __('admin_information'),
-                        'active' => true
+                        'title' => $plugins_manifest['name'],
                     ],
                 ],
             ]
@@ -128,14 +131,17 @@ class PluginsController
      */
     public function settings(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
+
         // Get Plugin ID
         $id = $request->getQueryParams()['id'];
 
-        // Set plugin custom setting file
         $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
-
-        // Get plugin custom setting file content
         $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
+        $custom_plugin_manifest_file = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
+        $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
+
+        $plugins_manifest = flextype('serializers')->yaml()->decode($custom_plugin_manifest_file_content);
 
         return flextype('twig')->render(
             $response,
@@ -151,17 +157,9 @@ class PluginsController
                     ],
                     'plugins_settings' => [
                         'link' => flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
-                        'title' => __('admin_settings'),
-                        'active' => true
+                        'title' => $plugins_manifest['name']
                     ],
-                ],
-                'buttons' => [
-                    'save_plugin_settings' => [
-                        'link' => 'javascript:;',
-                        'title' => __('admin_save'),
-                        'type' => 'action'
-                    ],
-                ],
+                ]
             ]
         );
     }

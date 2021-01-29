@@ -11,6 +11,7 @@
 @import 'components/buttons';
 
 @import 'modules/swal2';
+@import 'modules/codemirror';
 
 tbody,
 td,

@@ -1,60 +1,65 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    <table class="table">
-        <tbody>
-            <tr>
-                <td class="w-3/12">{{ tr('admin_name') }}</td>
-                <td>{{ plugin_manifest.name }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_version') }}</td>
-                <td>{{ plugin_manifest.version }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_description') }}</td>
-                <td>{{ plugin_manifest.description }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_icon_name') }}</td>
-                <td>{{ plugin_manifest.icon.name }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_icon_set') }}</td>
-                <td>{{ plugin_manifest.icon.set }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_author_name') }}</td>
-                <td>{{ plugin_manifest.author.name }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_author_email') }}</td>
-                <td>{{ plugin_manifest.author.email }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_author_url') }}</td>
-                <td>{{ plugin_manifest.author.url }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_homepage') }}</td>
-                <td>{{ plugin_manifest.homepage }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_documentation') }}</td>
-                <td>{{ plugin_manifest.documentation }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_changelog') }}</td>
-                <td>{{ plugin_manifest.changelog }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_bugs') }}</td>
-                <td>{{ plugin_manifest.bugs }}</td>
-            </tr>
-            <tr>
-                <td>{{ tr('admin_license') }}</td>
-                <td>{{ plugin_manifest.license }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="workspace-header row">
+        <div class="col p-0"><h2>Information</h2></div>
+    </div>
+    <div class="table-rounded">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td width="150">{{ tr('admin_name') }}</td>
+                    <td>{{ plugin_manifest.name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_version') }}</td>
+                    <td>{{ plugin_manifest.version }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_description') }}</td>
+                    <td>{{ plugin_manifest.description }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_icon_name') }}</td>
+                    <td>{{ plugin_manifest.icon.name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_icon_set') }}</td>
+                    <td>{{ plugin_manifest.icon.set }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_author_name') }}</td>
+                    <td>{{ plugin_manifest.author.name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_author_email') }}</td>
+                    <td>{{ plugin_manifest.author.email }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_author_url') }}</td>
+                    <td>{{ plugin_manifest.author.url }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_homepage') }}</td>
+                    <td>{{ plugin_manifest.homepage }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_documentation') }}</td>
+                    <td>{{ plugin_manifest.documentation }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_changelog') }}</td>
+                    <td>{{ plugin_manifest.changelog }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_bugs') }}</td>
+                    <td>{{ plugin_manifest.bugs }}</td>
+                </tr>
+                <tr>
+                    <td>{{ tr('admin_license') }}</td>
+                    <td>{{ plugin_manifest.license }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

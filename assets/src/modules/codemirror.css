@@ -1,0 +1,51 @@
+.CodeMirror
+{
+    font-size: var(--font-size);
+    color: var(--font-color);
+    font-weight: var(--font-weight);
+    font-family: var(--font-family);
+
+    height: auto!important;
+    margin: 0;
+    border-radius: 6px;
+}
+
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber,
+.CodeMirror-scroll,
+.CodeMirror-sizer
+{
+    background: white;
+}
+
+.CodeMirror-gutters
+{
+    padding-right: 10px;
+
+    border-right: none;
+
+    font-size: var(--font-size);
+    color: var(--font-color);
+    font-weight: var(--font-weight);
+    font-family: var(--font-family);
+}
+
+.CodeMirror-linenumber
+{
+    font-size: var(--font-size);
+    color: var(--font-color);
+    font-weight: var(--font-weight);
+    font-family: var(--font-family);
+}
+
+.CodeMirror pre
+{
+    padding: 0 14px;
+}
+
+.code-editor {
+    height: 0;
+    width: 0;
+    opacity: 0;
+}

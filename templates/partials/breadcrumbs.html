@@ -25,13 +25,5 @@
         {% endfor %}
     {% endif %}
 
-    {% if isCurrentUrl('admin.plugins.index') %}
-        {% if isCurrentUrl('admin.plugins.information') or
-              isCurrentUrl('admin.plugins.settings') %}
-            <span class="text-muted px-2">/</span>{{ id }}
-        {% endif %}
-    {% endif %}
-
     {% block admin_navigation_top_secondary %}{% endblock %}
-
 {% endif %}

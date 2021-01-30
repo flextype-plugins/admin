@@ -312,6 +312,8 @@ class EntriesController
      */
     public function type(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -353,26 +355,20 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/type.html',
             [
-                            'fieldset' => $fieldset,
-                            'fieldsets' => $fieldsets,
-                            'id' => $this->getEntryID($query),
-                            'menu_item' => 'entries',
-                            'parts' => $parts,
-                            'i' => count($parts),
-                            'last' => array_pop($parts),
-                            'links' => [
-                                'entries' => [
-                                    'link' => flextype('router')->pathFor('admin.entries.index'),
-                                    'title' => __('admin_entries'),
-
-                                ],
-                                'entries_type' => [
-                                    'link' => flextype('router')->pathFor('admin.entries.type') . '?id=' . $this->getEntryID($query),
-                                    'title' => __('admin_type'),
-                                    'active' => true
-                                    ]
-                                ]
-                        ]
+                'fieldset' => $fieldset,
+                'fieldsets' => $fieldsets,
+                'id' => $this->getEntryID($query),
+                'menu_item' => 'entries',
+                'parts' => $parts,
+                'i' => count($parts),
+                'last' => array_pop($parts),
+                'links' => [
+                    'entries' => [
+                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                        'title' => __('admin_entries'),
+                    ]
+                ]
+            ]
         );
     }
 
@@ -430,6 +426,8 @@ class EntriesController
      */
     public function move(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -464,27 +462,21 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/move.html',
             [
-                            'menu_item' => 'entries',
-                            'entries_list' => $entries_list,
-                            'entry_id_current' => $entry_id_current,
-                            'entry_id_path_current' => $entry_id,
-                            'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
-                            'parts' => $parts,
-                            'i' => count($parts),
-                            'last' => array_pop($parts),
-                            'links' => [
-                                'entries' => [
-                                    'link' => flextype('router')->pathFor('admin.entries.index'),
-                                    'title' => __('admin_entries'),
-
-                                ],
-                                'entries_move' => [
-                                    'link' => flextype('router')->pathFor('admin.entries.move'),
-                                    'title' => __('admin_move'),
-                                    'active' => true
-                                    ]
-                                ]
-                        ]
+                'menu_item' => 'entries',
+                'entries_list' => $entries_list,
+                'entry_id_current' => $entry_id_current,
+                'entry_id_path_current' => $entry_id,
+                'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
+                'parts' => $parts,
+                'i' => count($parts),
+                'last' => array_pop($parts),
+                'links' => [
+                    'entries' => [
+                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                        'title' => __('admin_entries')
+                    ]
+                ]
+            ]
         );
     }
 

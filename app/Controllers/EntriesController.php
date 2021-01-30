@@ -680,6 +680,8 @@ class EntriesController
      */
     public function edit(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -728,32 +730,8 @@ class EntriesController
                         'links' => [
                             'entries' => [
                                 'link' => flextype('router')->pathFor('admin.entries.index'),
-                                'title' => __('admin_entries'),
-
-                            ],
-                            'edit_entry' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query). '&type=editor',
-                                'title' => __('admin_editor'),
-
-                            ],
-                            'edit_entry_media' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
-                                'title' => __('admin_media'),
-
-                            ],
-                            'edit_entry_source' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
-                                'title' => __('admin_source'),
-                                'active' => true
-                            ],
-                        ],
-                        'buttons' => [
-                            'save_entry' => [
-                                            'id' => 'form',
-                                            'link'  => 'javascript:;',
-                                            'title' => __('admin_save'),
-                                            'type' => 'action'
-                                        ],
+                                'title' => __('admin_entries')
+                            ]
                         ]
                 ]
             );
@@ -773,21 +751,7 @@ class EntriesController
                                 'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries'),
 
-                            ],
-                            'edit_entry' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
-                                'title' => __('admin_editor'),
-
-                            ],
-                            'edit_entry_media' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
-                                'title' => __('admin_media'),
-                                'active' => true
-                            ],
-                            'edit_entry_source' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
-                                'title' => __('admin_source'),
-                            ],
+                            ]
                         ]
                 ]
             );
@@ -813,28 +777,7 @@ class EntriesController
                             'entries' => [
                                 'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                                 'title' => __('admin_entries')
-                            ],
-                            'edit_entry' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=editor',
-                                'title' => __('admin_editor'),
-                                'active' => true
-                            ],
-                            'edit_entry_media' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=media',
-                                'title' => __('admin_media')
-                            ],
-                            'edit_entry_source' => [
-                                'link' => flextype('router')->pathFor('admin.entries.edit') . '?id=' . $this->getEntryID($query) . '&type=source',
-                                'title' => __('admin_source')
-                            ],
-                        ],
-                        'buttons' => [
-                            'save_entry' => [
-                                            'id' => 'form',
-                                            'link'  => 'javascript:;',
-                                            'title' => __('admin_save'),
-                                            'type' => 'action'
-                                        ],
+                            ]
                         ]
                 ]
             );

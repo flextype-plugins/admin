@@ -19,10 +19,10 @@ use function Flextype\Component\I18n\__;
 I18n::$locale = flextype('registry')->get('flextype.settings.locale');
 
 // Add Admin Navigation
-flextype('registry')->set('plugins.admin.settings.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => ['name' => 'database', 'set' => 'fontawesome|solid'], 'link' => flextype('router')->pathFor('admin.entries.index')]);
-flextype('registry')->set('plugins.admin.settings.navigation.extends.plugins', ['title' => __('admin_plugins'),'icon' => ['name' => 'plug', 'set' => 'fontawesome|solid'], 'link' => flextype('router')->pathFor('admin.plugins.index')]);
-flextype('registry')->set('plugins.admin.settings.navigation.system.tools', ['title' => __('admin_tools'),'icon' => ['name' => 'toolbox', 'set' => 'fontawesome|solid'], 'link' => flextype('router')->pathFor('admin.tools.index')]);
-flextype('registry')->set('plugins.admin.settings.navigation.system.api', ['title' => __('admin_api'),'icon' => ['name' => 'network-wired', 'set' => 'fontawesome|solid'], 'link' => flextype('router')->pathFor('admin.api.index')]);
+flextype('registry')->set('plugins.admin.settings.navigation.content.entries', ['title' => __('admin_entries'), 'icon' => ['name' => 'newspaper', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.entries.index')]);
+flextype('registry')->set('plugins.admin.settings.navigation.extends.plugins', ['title' => __('admin_plugins'), 'icon' => ['name' => 'box', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.plugins.index')]);
+flextype('registry')->set('plugins.admin.settings.navigation.system.tools', ['title' => __('admin_tools'), 'icon' => ['name' => 'briefcase', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.tools.index')]);
+flextype('registry')->set('plugins.admin.settings.navigation.system.api', ['title' => __('admin_api'), 'icon' => ['name' => 'diagram-3', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.api.index')]);
 
 /**
  * Add Assets

@@ -1,3 +1,18 @@
+.btn {
+    position: relative;
+    display: inline-block;
+    padding: 5px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 6px;
+    appearance: none;
+}
+
 .btn-primary {
     background-color: rgb(250, 251, 252);
     border-radius: 6px;

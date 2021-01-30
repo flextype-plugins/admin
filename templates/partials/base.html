@@ -77,16 +77,20 @@
                             </div>
                         </div>
                         <div class="col text-end actions-buttons">
-                            {#
-                            {% if buttons %}
-                                {% for button in buttons %}
-                                    <a href="{{ button.link }}"
-                                      {% if button.onclick %}onclick="{{ button.onclick }}"{% endif %}
-                                      {% if button.class %}class="{{ button.class }}"{% endif %}
-                                      {% if button.data %}{% for data in button.data %}data-{{ data.name }}="{{ data.value }}"{% endfor %}{% endif %}>{{ icon(button.icon.name, button.icon.set) }} {{ button.title|raw }}</a>
+                            {% if(flextype.registry.has('plugins.admin.settings.flextype_menu')) %}
+                                {% for flextype_menu in flextype.registry.get('plugins.admin.settings.flextype_menu') %}
+                                    <a title="{{ tr(flextype_menu.link.title) }}"
+                                       target="{% if (flextype_menu.link.is_external) %}_blank{% else %}_self{% endif %}"
+                                       href="{% if (flextype_menu.link.is_external) %}{{ flextype_menu.link.url }}{% else %}{{ urlFor(flextype_menu.link.service) }}{% endif %}">{{ icon(flextype_menu.link.icon.name, flextype_menu.link.icon.set) }}</a>
                                 {% endfor %}
                             {% endif %}
-                            #}
+                            <a title="{{ tr('admin_system_settings') }}" href="{{ urlFor('admin.settings.index') }}">{{ icon('gear', 'bootstrap') }}</a>
+                            <a title="{{ tr('admin_logout') }}"
+                               href="javascript:;"
+                               onclick="event.preventDefault(); document.getElementById('logoutProcess').submit();">{{ icon('box-arrow-right', 'bootstrap') }}</a>
+                            <form id="logoutProcess" action="{{ urlFor('admin.accounts.logoutProcess') }}" method="POST" style="display: none;">
+                                {{ csrf() }}
+                            </form>
                         </div>
                     </div>
                 </div>

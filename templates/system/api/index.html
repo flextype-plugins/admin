@@ -24,8 +24,7 @@
                             <a class="dropdown-item" href="{{ urlFor('admin.api.tokens') }}/add?api={{ key }}">
                                 {{ icon('plus-circle', 'bootstrap') }} {{ tr('admin_add') }}</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li>
-                            <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); deleteApiTokens('{{ key }}');">
+                            <li><a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); deleteApiTokens('{{ key }}');">
                                 {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete_all') }}</a></li>
                             <form id="delete-api-tokens-id-{{ key }}" action="{{ urlFor('admin.api.deleteApiTokensProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}

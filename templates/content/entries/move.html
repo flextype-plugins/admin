@@ -1,15 +1,19 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    <div class="flex">
-        <div class="w-full lg:w-4/12">
-            <form method="post" id="form">
+<div class="workspace-header row">
+    <div class="col p-0"><h2>Move Entry</h2></div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="table-rounded px-4 py-4 mb-3">
+            <form method="post" id="form_entries_move">
                 {{ csrf() }}
                 <input type="hidden" name="entry_id_current" value="{{ entry_id_current }}">
                 <input type="hidden" name="entry_id_path_parent" value="{{ entry_id_path_parent }}">
                 <input type="hidden" name="entry_id_path_current" value="{{ entry_id_path_current }}">
-                <div class="form-group">
-                    <label for="title" class="form-control-title">{{ tr('admin_parent_entry') }}</label>
+                <div class="mb-3">
+                    <label for="title" class="form-label">{{ tr('admin_parent_entry') }}</label>
                     <select class="form-control js-select" name="parent_entry">
                         {% for key, value in entries_list %}
                             {% if key != entry_id_path_current %}
@@ -18,10 +22,15 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="button-group">
-                    <input type="submit" id="moveEntry" name="move_entry" value="{{ tr('admin_save') }}" class="button mr-3">
-                </div>
             </form>
         </div>
+        <div class="mb-3">
+            <a id="moveEntry"
+               name="move_entry"
+               href="javascript:void(0);"
+               data-form-id="form_entries_move"
+               class="btn btn-primary js-submit-form">{{ tr('admin_save') }}</a>
+        </div>
     </div>
+</div>
 {% endblock %}

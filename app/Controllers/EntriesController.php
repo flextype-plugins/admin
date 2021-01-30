@@ -40,6 +40,8 @@ class EntriesController
      */
     public function index(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -101,30 +103,22 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                            'entries_list' => $entries_list,
-                            'id_current' => $this->getEntryID($query),
-                            'entry_current' => $entry_current,
-                            'items_view' => $items_view,
-                            'menu_item' => 'entries',
-                            'fieldsets' => $fieldsets,
-                            'parts' => $parts,
-                            'i' => count($parts),
-                            'last' => array_pop($parts),
-                            'links' => [
-                                        'entries' => [
-                                                'link' => flextype('router')->pathFor('admin.entries.index'),
-                                                'title' => __('admin_entries'),
-                                                'active' => true
-                                            ]
-                                        ],
-                            'buttons'  => [
-                                        'create' => [
-                                                'link'    => 'javascript:;',
-                                                'title'   => __('admin_create_new_entry'),
-                                                'onclick' => 'event.preventDefault(); selectEntryType("'.$this->getEntryID($query).'", 0);'
-                                            ]
-                                        ]
-                            ]
+                'entries_list' => $entries_list,
+                'id_current' => $this->getEntryID($query),
+                'entry_current' => $entry_current,
+                'items_view' => $items_view,
+                'menu_item' => 'entries',
+                'fieldsets' => $fieldsets,
+                'parts' => $parts,
+                'i' => count($parts),
+                'last' => array_pop($parts),
+                'links' => [
+                    'entries' => [
+                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                        'title' => __('admin_entries')
+                    ]
+                ]
+            ]
         );
     }
 
@@ -542,6 +536,8 @@ class EntriesController
      */
     public function rename(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -559,26 +555,20 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
-                            'name_current' => $name_current,
-                            'entry_path_current' => $this->getEntryID($query),
-                            'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                            'menu_item' => 'entries',
-                            'parts' => $parts,
-                            'i' => count($parts),
-                            'last' => array_pop($parts),
-                            'links' => [
-                                'entries' => [
-                                    'link' => flextype('router')->pathFor('admin.entries.index'),
-                                    'title' => __('admin_entries'),
-
-                                ],
-                                'entries_type' => [
-                                    'link' => flextype('router')->pathFor('admin.entries.rename') . '?id=' . $this->getEntryID($query),
-                                    'title' => __('admin_rename'),
-                                    'active' => true
-                                    ]
-                                ]
-                        ]
+                'name_current' => $name_current,
+                'entry_path_current' => $this->getEntryID($query),
+                'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                'menu_item' => 'entries',
+                'parts' => $parts,
+                'i' => count($parts),
+                'last' => array_pop($parts),
+                'links' => [
+                    'entries' => [
+                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                        'title' => __('admin_entries')
+                    ]
+                ]
+            ]
         );
     }
 
@@ -768,8 +758,8 @@ class EntriesController
                         'buttons' => [
                             'save_entry' => [
                                             'id' => 'form',
-                                            'link'       => 'javascript:;',
-                                            'title'      => __('admin_save'),
+                                            'link'  => 'javascript:;',
+                                            'title' => __('admin_save'),
                                             'type' => 'action'
                                         ],
                         ]

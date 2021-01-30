@@ -11,6 +11,7 @@
 @import 'components/modals';
 @import 'components/buttons';
 
+@import 'modules/select2';
 @import 'modules/swal2';
 @import 'modules/codemirror';
 
@@ -27,7 +28,16 @@ tr,
 }
 
 .table>:not(caption)>*>* {
-    padding: .5rem .9rem;
+    padding: 8px 16px;
+}
+
+.table tr:hover td {
+    background-color: rgb(250, 251, 252);
+}
+
+.table tr:last-of-type td {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 thead > tr,
@@ -99,8 +109,8 @@ table td .dropdown > .dropdown-toggle {
 .dropdown-item:hover,
 .dropdown-item.active,
 .dropdown-item:active {
-    background: #fdfdfd;
-    color: black;
+    background: rgb(250, 251, 252);
+    color: rgb(36, 41, 46);
 }
 
 .dropdown-item {
@@ -226,6 +236,7 @@ input:focus {
 
 .form-control {
     padding: .44rem .5rem;
+    border-radius: 6px;
 }
 
 .form-control:active,

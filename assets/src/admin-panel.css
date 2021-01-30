@@ -4,6 +4,7 @@
 
 @import 'base/variables';
 @import 'base/common';
+@import 'base/workspace';
 
 @import 'components/forms';
 @import 'components/navigation';
@@ -225,47 +226,4 @@ input:focus {
     outline: none;
     border-color: #aaa;
     box-shadow: none;
-}
-
-.workspace-content {
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
-.workspace-message {
-    text-align: center;
-    margin-top: 60px;
-}
-
-.workspace-message__icon > svg {
-    width: 100px;
-    height: 100px;
-}
-
-.workspace-message__title {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.workspace-message__button {
-    display: inline-flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-}
-
-.workspace-message__button > svg {
-    margin-right: 8px;
-}
-
-.workspace-header {
-    margin: 5px 0;
-    vertical-align: middle;
-    align-content: center;
-    align-items: center;
-}
-
-.workspace-header h2 {
-    margin: 20px 0;
-    font-weight: 200;
 }

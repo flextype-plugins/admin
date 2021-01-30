@@ -1,25 +1,31 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    <div class="flex">
-        <div class="w-full lg:w-4/12">
-            <form method="post" id="form">
+<div class="workspace-header row">
+    <div class="col p-0"><h2>Rename Entry</h2></div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="table-rounded px-4 py-4 mb-3">
+            <form method="post" id="form_entries_rename" data-parsley-validate>
                 {{ csrf() }}
-
-                <input type="hidden" name="entry_path_current" value="{{entry_path_current}}">
-                <input type="hidden" name="entry_parent" value="{{entry_parent}}">
-                <input type="hidden" name="name_current" value="{{name_current}}">
-
-                <div class="form-group">
-                    <label for="entryName" class="form-control-title">{{ tr('admin_name') }}</label>
+                <input type="hidden" name="entry_path_current" value="{{ entry_path_current }}">
+                <input type="hidden" name="entry_parent" value="{{ entry_parent }}">
+                <input type="hidden" name="name_current" value="{{ name_current }}">
+                <div class="mb-3">
+                    <label for="entryName" class="form-label">{{ tr('admin_name') }}</label>
                     <input type="text" id="entryName" name="name" value="{{name_current}}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
                     <small>{{ tr('admin_help_text_for_entry_name') }}</small>
                 </div>
-
-                <div class="button-group">
-                    <input type="submit" id="renameEntry" name="rename_entry" value="{{ tr('admin_save') }}" class="button mr-3">
-                </div>
             </form>
         </div>
+        <div class="mb-3">
+            <a id="renameEntry"
+               name="rename_entry"
+               href="javascript:void(0);"
+               data-form-id="form_entries_rename"
+               class="btn btn-primary js-submit-form">{{ tr('admin_save') }}</a>
+        </div>
     </div>
+</div>
 {% endblock %}

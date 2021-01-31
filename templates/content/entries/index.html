@@ -1,54 +1,59 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    {% if fieldsets | length > 0 %}
-        {% if entries_list | length > 0 %}
-            <table class="table">
-                <thead>
+
+{% if fieldsets | length > 0 %}
+    {% if entries_list | length > 0 %}
+    <div class="workspace-header row">
+        <div class="col p-0"><h2>{{ __('admin_entries') }}</h2></div>
+        <div class="col p-0 text-end">
+            <a href="{{ urlFor('admin.entries.add') }}?id={{ id_current }}" class="btn btn-primary">{{ __('admin_create_new_entry')|raw }}</a>
+        </div>
+    </div>
+    <div class="table-rounded">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="50"></th>
+                    <th class="ps-0">
+                        {{ tr('admin_title') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_url') }}
+                    </th>
+                    <th>
+                        {{ tr('admin_published_at') }}
+                    </th>
+                    <th width="50"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries_list %}
                     <tr>
-                        <th></th>
-                        <th>
-                            {{ tr('admin_title') }}
-                        </th>
-                        <th>
-                            {{ tr('admin_url') }}
-                        </th>
-                        <th>
-                            {{ tr('admin_updated_at') }}
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entry in entries_list %}
-                        <tr>
-                            <td class="w-1 text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                {% if entry.fieldset %}
-                                    {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
-                                    {% if filesystem().file(fieldset_path).exists() %}
-                                        {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
-                                        {% if fieldset.icon %}
-                                            <i class="icon">{{ icon(fieldset.icon.name, fieldset.icon.set) }}</i>
-                                        {% else %}
-                                            <i class="icon">{{ icon('file-alt', 'fontawesome|solid') }}</i>
-                                        {% endif %}
+                        <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                            {% if entry.fieldset %}
+                                {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
+                                {% if filesystem().file(fieldset_path).exists() %}
+                                    {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
+                                    {% if fieldset.icon %}
+                                        {{ icon(fieldset.icon.name, fieldset.icon.set) }}
                                     {% else %}
-                                        <i class="icon">{{ icon('file-alt', 'fontawesome|solid') }}</i>
+                                        {{ icon('file-text', 'bootstrap') }}
                                     {% endif %}
                                 {% else %}
-                                    <i class="icon">{{ icon('file-alt', 'fontawesome|solid') }}</i>
+                                    {{ icon('file-text', 'bootstrap') }}
                                 {% endif %}
-                            </td>
-                            <td class="pl-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
-                                    {% if entry.fieldset %}
-                                        {% if filesystem().file(fieldset_path).exists() %}
-                                            {% if fieldset.default_field %}
-                                                {% if entry[fieldset.default_field] != '' %}
-                                                    {{ entry[fieldset.default_field] }}
-                                                {% else %}
-                                                    {{ entry.slug }}
-                                                {% endif %}
+                            {% else %}
+                                {{ icon('file-text', 'bootstrap') }}
+                            {% endif %}
+                        </td>
+                        <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                            <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
+                                {% if entry.fieldset %}
+                                    {% if filesystem().file(fieldset_path).exists() %}
+                                        {% if fieldset.default_field %}
+                                            {% if entry[fieldset.default_field] != '' %}
+                                                {{ entry[fieldset.default_field] }}
                                             {% else %}
                                                 {{ entry.slug }}
                                             {% endif %}
@@ -58,46 +63,49 @@
                                     {% else %}
                                         {{ entry.slug }}
                                     {% endif %}
+                                {% else %}
+                                    {{ entry.slug }}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                            <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
+                        </td>
+                        <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                            {{ entry.modified_at|date(registry.flextype.date_display_format) }}
+                        </td>
+                        <td class="text-right" width="18">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
                                 </a>
-                            </td>
-                            <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
-                            </td>
-                            <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                {{ entry.modified_at|date(registry.flextype.date_display_format) }}
-                            </td>
-                            <td class="text-right">
-                                <button type="button" class="js-dropdown-btn relative" data-dropdown="dropdown-{{ entry.id }}">
-                                    <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
-                                </button>
-                                <div id="dropdown-{{ entry.id }}" class="dropdown">
-                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
-                                        <i class="icon icon--white mr-3">{{ icon('edit', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_edit') }}</a>
-                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
-                                    selectEntryType('{{ entry.id }}', {{ loop.index0 }});">
-                                        <i class="icon icon--white mr-3">{{ icon('plus-circle', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_add') }}</a>
-                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault();
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
+                                        {{ icon('pencil', 'bootstrap') }} {{ tr('admin_edit') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
+                                        {{ icon('plus-circle', 'bootstrap') }} {{ tr('admin_add') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('duplicate-id-{{ entry.id }}').submit();">
-                                        <i class="icon icon--white mr-3">{{ icon('copy', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_duplicate') }}</a>
-                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
-                                        <i class="icon icon--white mr-3">{{ icon('font', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_rename') }}</a>
-                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
-                                        <i class="icon icon--white mr-3">{{ icon('angle-double-right', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_move') }}</a>
-                                    <a class="dropdown__item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
-                                        <i class="icon icon--white mr-3">{{ icon('eye', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_preview') }}</a>
-                                    <a class="dropdown__item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
-                                        <i class="icon icon--white mr-3">{{ icon('list-alt', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_type') }}</a>
-                                    <div class="dropdown__divider"></div>
-                                    <a class="dropdown__item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.id }}', {{ loop.index0 }});">
-                                        <i class="icon icon--white mr-3">{{ icon('trash-alt', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_delete') }}</a>
+                                        {{ icon('files', 'bootstrap') }} {{ tr('admin_duplicate') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
+                                        {{ icon('file-font', 'bootstrap') }} {{ tr('admin_rename') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
+                                        {{ icon('folder', 'bootstrap') }} {{ tr('admin_move') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
+                                        {{ icon('card-list', 'bootstrap') }} {{ tr('admin_type') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
+                                        {{ icon('eye', 'bootstrap') }} {{ tr('admin_preview') }}</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.id }}', {{ loop.index0 }});">
+                                        {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
                                     <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
                                         <input type="hidden" name="id" value="{{ entry.id }}">
@@ -107,32 +115,36 @@
                                         <input type="hidden" name="id" value="{{ entry.id }}">
                                         <input type="hidden" name="id-current" value="{{ id_current }}">
                                     </form>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <div class="text-center flex justify-center items-center h-full">
-                <div>
-                    <i class="icon icon--4xl">{{ icon('database', 'fontawesome|solid') }}</i>
-                    <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
-                    <a href="javascript:;" class="button" onclick="event.preventDefault();
-                    selectEntryType('{{ id_current }}', 0);">{{ tr('admin_create_new_entry') }}</a>
-                </div>
-            </div>
-        {% endif %}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
-                <i class="icon icon--4xl">{{ icon('list-alt', 'fontawesome|solid') }}</i>
-                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
-                <a href="{{ urlFor('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
+                <i class="icon icon--4xl">{{ icon('database', 'fontawesome|solid') }}</i>
+                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
+                <a href="javascript:;" class="button" onclick="event.preventDefault();
+                selectEntryType('{{ id_current }}', 0);">{{ tr('admin_create_new_entry') }}</a>
             </div>
         </div>
     {% endif %}
+{% else %}
+    <div class="text-center flex justify-center items-center h-full">
+        <div>
+            <i class="icon icon--4xl">{{ icon('list-alt', 'fontawesome|solid') }}</i>
+            <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
+            <a href="{{ urlFor('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
+        </div>
+    </div>
+{% endif %}
 
+
+{#
     <div class="_select-entry-type-template hidden">
         <div class="flex row">
             {% for key, fieldset in fieldsets %}
@@ -157,34 +169,22 @@
             {% endfor %}
         </div>
     </div>
+#}
 {% endblock %}
 
 {% block tail %}
     <script>
-        function deleteEntry(id, row_num) {
-            if (dropdown[row_num]) {
-                dropdown[row_num].hide();
-            }
+        function deleteEntry(id) {
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_entry_delete') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+                {title: "{{ tr('admin_confirmation_required') }}",
+                 text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
+                 showCancelButton: true,
+                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                 cancelButtonText: "{{ tr('admin_cancel') }}",
+                 reverseButtons: true}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('delete-id-' + id).submit();
-                }
-            });
-        }
-
-        function selectEntryType(id, row_num) {
-            if (dropdown[row_num]) {
-                dropdown[row_num].hide();
-            }
-            Swal.fire({
-                title: "{{ tr('admin_select_entry_type') }}",
-                showCloseButton: true,
-                showConfirmButton: false,
-                html: $('._select-entry-type-template').html(),
-                onBeforeOpen: () => {
-                    $('.js-add-entry input[name=id]').val(id);
                 }
             });
         }

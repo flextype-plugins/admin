@@ -1,12 +1,26 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-    <form method="post" id="form">
+<div class="workspace-header row">
+    <div class="col p-0"><h2>Edit Entry Source</h2></div>
+    <div class="col p-0 text-end">
+        <div class="btn-group me-3">
+            <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=media" class="btn btn-primary">Media</a>
+            <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=source" class="btn btn-primary active">Source</a>
+            <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=editor" class="btn btn-primary">Editor</a>
+        </div>
+        <a href="javascript:void(0);"
+           data-form-id="form_entries_source_save"
+           class="btn btn-primary js-submit-form" class="btn btn-primary">{{ __('admin_save')|raw }}</a>
+    </div>
+</div>
+<div class="table-rounded">
+    <form method="post" id="form_entries_source_save">
         {{ csrf() }}
         <input type="hidden" name="action" value="save-form">
         <input type="hidden" name="id" value="{{ id }}">
-        <div class="form-group">
-            <textarea name="data" rows="0" cols="0" class="form-control code-editor js-code">{{ data }}</textarea>
-        </div>
+        <textarea name="data" rows="0" cols="0" class="form-control code-editor js-code">{{ data }}</textarea>
     </form>
+</div>
+
 {% endblock %}

@@ -4,12 +4,11 @@
 <div class="workspace-header row">
     <div class="col p-0"><h2>Edit Entry</h2></div>
     <div class="col p-0 text-end">
-        <a href="javascript:void(0);"
-           data-form-id="form_entries_save"
-           class="btn btn-link js-submit-form">{{ __('admin_media')|raw }}</a>
-       <a href="javascript:void(0);"
-          data-form-id="form_entries_save"
-          class="btn btn-link js-submit-form">{{ __('admin_source')|raw }}</a>
+        <div class="btn-group me-3">
+            <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=media" class="btn btn-primary">Media</a>
+            <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=source" class="btn btn-primary">Source</a>
+            <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=editor" class="btn btn-primary active">Editor</a>
+        </div>
         <a href="javascript:void(0);"
            data-form-id="form_entries_save"
            class="btn btn-primary js-submit-form">{{ __('admin_save')|raw }}</a>

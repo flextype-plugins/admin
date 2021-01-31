@@ -34,8 +34,8 @@
                                 {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
                                 </a>
                                 <ul class="dropdown-menu">
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.content') %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.content') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.content') %}
                                         <li>
                                             <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
                                             {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
@@ -43,8 +43,8 @@
                                         </li>
                                         {% endfor %}
                                     {% endif %}
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.extends') %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.extends') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.extends') %}
                                         <li>
                                             <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
                                             {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
@@ -52,8 +52,8 @@
                                         </li>
                                         {% endfor %}
                                     {% endif %}
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.system') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.system') %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.system') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.system') %}
                                         <li>
                                             <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
                                             {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
@@ -61,8 +61,8 @@
                                         </li>
                                         {% endfor %}
                                     {% endif %}
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.information') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.information') %}
+                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.information') %}
+                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.information') %}
                                         <li>
                                             <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
                                             {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
@@ -77,14 +77,13 @@
                             </div>
                         </div>
                         <div class="col text-end actions-buttons">
-                            {% if(flextype.registry.has('plugins.admin.settings.flextype_menu')) %}
-                                {% for flextype_menu in flextype.registry.get('plugins.admin.settings.flextype_menu') %}
-                                    <a title="{{ tr(flextype_menu.link.title) }}"
-                                       target="{% if (flextype_menu.link.is_external) %}_blank{% else %}_self{% endif %}"
-                                       href="{% if (flextype_menu.link.is_external) %}{{ flextype_menu.link.url }}{% else %}{{ urlFor(flextype_menu.link.service) }}{% endif %}">{{ icon(flextype_menu.link.icon.name, flextype_menu.link.icon.set) }}</a>
+                            {% if(flextype.registry.has('plugins.admin.settings.navigation.secondary')) %}
+                                {% for navigation in flextype.registry.get('plugins.admin.settings.navigation.secondary') %}
+                                    <a title="{{ tr(navigation.link.title) }}"
+                                       target="{% if (navigation.link.is_external) %}_blank{% else %}_self{% endif %}"
+                                       href="{% if (navigation.link.is_external) %}{{ navigation.link.url }}{% else %}{{ urlFor(navigation.link.service) }}{% endif %}">{{ icon(navigation.link.icon.name, navigation.link.icon.set) }}</a>
                                 {% endfor %}
                             {% endif %}
-                            <a title="{{ tr('admin_system_settings') }}" href="{{ urlFor('admin.settings.index') }}">{{ icon('gear', 'bootstrap') }}</a>
                             <a title="{{ tr('admin_logout') }}"
                                href="javascript:;"
                                onclick="event.preventDefault(); document.getElementById('logoutProcess').submit();">{{ icon('box-arrow-right', 'bootstrap') }}</a>

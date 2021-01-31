@@ -94,12 +94,12 @@
                                     <a class="dropdown-item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
                                         {{ icon('file-font', 'bootstrap') }} {{ tr('admin_rename') }}</a></li>
                                     <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
-                                        {{ icon('folder', 'bootstrap') }} {{ tr('admin_move') }}</a></li>
-                                    <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
                                         {{ icon('card-list', 'bootstrap') }} {{ tr('admin_type') }}</a></li>
                                     <li>
+                                    <li>
+                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
+                                        {{ icon('arrow-right-square', 'bootstrap') }} {{ tr('admin_move') }}</a></li>
                                     <li><a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
                                         {{ icon('code-square', 'bootstrap') }} {{ tr('admin_source') }}</a></li>
                                     <li>

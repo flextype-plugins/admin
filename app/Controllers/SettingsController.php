@@ -23,6 +23,8 @@ class SettingsController
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/settings/index.html',
@@ -32,17 +34,9 @@ class SettingsController
                 'links' => [
                     'settings' => [
                         'link' => flextype('router')->pathFor('admin.settings.index'),
-                        'title' => __('admin_settings'),
-                        'active' => true
+                        'title' => __('admin_settings')
                     ],
-                ],
-                'buttons'  => [
-                    'save' => [
-                        'link'       => 'javascript:;',
-                        'title'      => __('admin_save'),
-                        'type' => 'action'
-                    ],
-                ],
+                ]
             ]
         );
     }

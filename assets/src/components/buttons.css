@@ -54,3 +54,13 @@
     box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
     background-color: rgb(237, 239, 242);
 }
+
+.btn-check:active+.btn-primary,
+.btn-check:checked+.btn-primary,
+.btn-primary.active, .btn-primary:active,
+.show>.btn-primary.dropdown-toggle {
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    color: rgb(36, 41, 46);
+    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
+    background-color: rgb(237, 239, 242);
+}

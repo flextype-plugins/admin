@@ -3,12 +3,14 @@
 {% block content %}
 <div class="workspace-header row">
     <div class="col p-0"><h2>Media</h2></div>
-    <div class="col p-0 text-end">
-        <div class="btn-group me-3">
+    <div class="col p-0 text-center">
+        <div class="btn-group">
             <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=media" class="btn btn-primary active">Media</a>
             <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=source" class="btn btn-primary">Source</a>
             <a href="{{ urlFor('admin.entries.edit') }}?id={{ id }}&type=editor" class="btn btn-primary">Editor</a>
         </div>
+    </div>
+    <div class="col p-0 text-end">
         <a href="javascript:void(0);"
            data-form-id="form_entries_save"
            class="btn btn-primary js-submit-form">{{ __('admin_save')|raw }}</a>
@@ -108,7 +110,7 @@
     </div>
 </div>
 {% endif %}
-
+{#
 <div class="_embeded-code-template hidden">
     <div class="form-group">
         <label for="shortcode" class="form-control-title text-left">{{ tr('admin_direct_link') }}</label>
@@ -119,6 +121,7 @@
         <textarea class="js-images-api-link form-control" style="height: 82px;"></textarea>
     </div>
 </div>
+#}
 {% endblock %}
 
 {% block tail %}

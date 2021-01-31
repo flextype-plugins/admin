@@ -194,22 +194,6 @@ class EntriesController
     }
 
     /**
-     * Select Entry Type - process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function selectEntryTypeProcess(Request $request, Response $response) : Response
-    {
-        // Get data from POST
-        $data = $request->getParsedBody();
-
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $data['id'] . '&type=' . $data['type']);
-    }
-
-    /**
      * Create new entry - process
      *
      * @param Request  $request  PSR7 request
@@ -793,6 +777,7 @@ class EntriesController
                         'parts' => $parts,
                         'i' => count($parts),
                         'last' => array_pop($parts),
+                        'id' => $this->getEntryID($query),
                         'form' => $form,
                         'menu_item' => 'entries',
                         'links' => [

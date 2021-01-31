@@ -29,6 +29,7 @@ tr,
 
 .table>:not(caption)>*>* {
     padding: 8px 16px;
+    text-align: left;
 }
 
 .table tr:hover td {
@@ -235,7 +236,7 @@ input:focus {
 }
 
 .form-control {
-    padding: .44rem .5rem;
+    padding: .44rem .7rem;
     border-radius: 6px;
 }
 

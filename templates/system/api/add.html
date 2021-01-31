@@ -10,56 +10,56 @@
     </div>
 </div>
 <div class="table-rounded px-4 py-4">
-<form method="post" id="form_api_entries_add" data-parsley-validate>
-    {{ csrf() }}
-    <input type="hidden" name="api" value="{{ api }}">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="mb-3">
-                <label for="title" class="form-label">{{ tr('admin_title') }}</label>
-                <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
-                <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
-            </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">{{ tr('admin_api_calls_limit') }}</label>
-                <input
-                    type="text"
-                    id="limit"
-                    name="limit_calls"
-                    value="0"
-                    class="form-control"
-                    required="required"
-                    data-parsley-required="true"
-                    data-parsley-minlength="1"
-                    data-parsley-type="integer"
-                    data-parsley-error-message="{{ tr('admin_error_api_calls_empty_input') }}">
-                <small>{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="mb-3">
+    <form method="post" id="form_api_entries_add" data-parsley-validate>
+        {{ csrf() }}
+        <input type="hidden" name="api" value="{{ api }}">
+        <div class="row">
+            <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="icon" class="form-label">{{ tr('admin_icon_name') }}</label>
-                    <input type="text" id="fieldsetIconName" name="icon_name" value="newspaper" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
+                    <label for="title" class="form-label">{{ tr('admin_title') }}</label>
+                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
                     <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
                 </div>
                 <div class="mb-3">
-                    <label for="icon" class="form-label">{{ tr('admin_icon_set') }}</label>
-                    <input type="text" id="fieldsetIconSet" name="icon_set" value="bootstrap" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
-                    <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
+                    <label for="title" class="form-label">{{ tr('admin_api_calls_limit') }}</label>
+                    <input
+                        type="text"
+                        id="limit"
+                        name="limit_calls"
+                        value="0"
+                        class="form-control"
+                        required="required"
+                        data-parsley-required="true"
+                        data-parsley-minlength="1"
+                        data-parsley-type="integer"
+                        data-parsley-error-message="{{ tr('admin_error_api_calls_empty_input') }}">
+                    <small>{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="icon" class="form-label">{{ tr('admin_icon_name') }}</label>
+                        <input type="text" id="fieldsetIconName" name="icon_name" value="newspaper" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
+                        <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="icon" class="form-label">{{ tr('admin_icon_set') }}</label>
+                        <input type="text" id="fieldsetIconSet" name="icon_set" value="bootstrap" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
+                        <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label for="type" class="form-label">{{ tr('admin_state') }}</label>
+                    <select class="js-select form-control" name="state">
+                        <option value="enabled" selected="selected">{{ tr('admin_enabled') }}</option>
+                        <option value="disabled">{{ tr('admin_disabled') }}</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="mb-3">
-                <label for="type" class="form-label">{{ tr('admin_state') }}</label>
-                <select class="js-select form-control" name="state">
-                    <option value="enabled" selected="selected">{{ tr('admin_enabled') }}</option>
-                    <option value="disabled">{{ tr('admin_disabled') }}</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
 </div>
 {% endblock %}

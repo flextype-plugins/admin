@@ -37,7 +37,7 @@ input[type="search"]::-webkit-search-decoration {
     border: 1px solid rgb(225, 228, 232);
     display: block;
     width: 100%;
-    padding: .44rem .5rem;
+    padding: .44rem .7rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;

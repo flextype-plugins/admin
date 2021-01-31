@@ -1,3 +1,7 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/flextype-plugins/admin) (2021-XX-XX)
+
+
 <a name="1.9.1"></a>
 # [1.9.1](https://github.com/flextype-plugins/admin) (2021-01-16)
 

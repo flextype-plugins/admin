@@ -132,6 +132,33 @@ class EntriesController
      */
     public function add(Request $request, Response $response) : Response
     {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+
+        $fieldsets = [];
+
+        // Get fieldsets files
+        $_fieldsets = Filesystem::listContents(PATH['project'] . '/fieldsets/');
+
+        // If there is any fieldsets file then go...
+        if (count($_fieldsets) > 0) {
+            foreach ($_fieldsets as $fieldset) {
+                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
+                    $fieldset_content = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldset_content['form']) &&
+                        isset($fieldset_content['form']['tabs']['main']) &&
+                        isset($fieldset_content['form']['tabs']['main']['fields']) &&
+                        isset($fieldset_content['form']['tabs']['main']['fields']['title'])) {
+                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                            continue;
+                        }
+                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                    }
+                }
+            }
+        }
+
+        $fieldset = $entry['fieldset'] ?? [];
+
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -148,26 +175,21 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                            'entries_list' => flextype('entries')->fetch($this->getEntryID($query), ['collection' => true])->sortBy('order_by', 'ASC')->toArray(),
-                            'menu_item' => 'entries',
-                            'current_id' => $this->getEntryID($query),
-                            'parts' => $parts,
-                            'i' => count($parts),
-                            'last' => array_pop($parts),
-                            'type' => $type,
-                            'links' => [
-                                        'entries' => [
-                                            'link' => flextype('router')->pathFor('admin.entries.index'),
-                                            'title' => __('admin_entries'),
-
-                                        ],
-                                        'entries_add' => [
-                                            'link' => flextype('router')->pathFor('admin.entries.add') . '?id=' . $this->getEntryID($query),
-                                            'title' => __('admin_create_new_entry'),
-                                            'active' => true
-                                            ]
-                                        ]
+                    'entries_list' => flextype('entries')->fetch($this->getEntryID($query), ['collection' => true])->sortBy('order_by', 'ASC')->toArray(),
+                    'menu_item' => 'entries',
+                    'current_id' => $this->getEntryID($query),
+                    'parts' => $parts,
+                    'i' => count($parts),
+                    'last' => array_pop($parts),
+                    'type' => $type,
+                    'fieldsets' => $fieldsets,
+                    'links' => [
+                        'entries' => [
+                            'link' => flextype('router')->pathFor('admin.entries.index'),
+                            'title' => __('admin_entries')
                         ]
+                    ]
+                ]
         );
     }
 

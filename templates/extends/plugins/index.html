@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th width="50"></th>
-                    <th>
+                    <th class="ps-0">
                         {{ tr('admin_name') }}
                     </th>
                     <th>
@@ -40,7 +40,7 @@
                                 {{ icon('plug', 'fontawesome|solid') }}
                             {% endif %}
                         </td>
-                        <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                        <td class="ps-0 {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
                             <a href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
                         </td>
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.description }}</td>

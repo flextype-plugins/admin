@@ -14,7 +14,7 @@
             <thead>
                 <tr>
                     <th width="50"></th>
-                    <th>
+                    <th class="ps-0">
                         {{ tr('admin_title') }}
                     </th>
                     <th>
@@ -36,7 +36,7 @@
                         <td class="text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             {{ icon(token_data.icon.name, token_data.icon.set) }}
                         </td>
-                        <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">
+                        <td class="ps-0 {% if token_data.state == 'disabled' %}opacity-50{% endif %}">
                             <a href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}&api={{ api }}">{{ token_data.title }}</a>
                         </td>
                         <td class="{% if token_data.state == 'disabled' %}opacity-50{% endif %}">{{ token.dirname }}</td>

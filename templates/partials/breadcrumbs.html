@@ -6,12 +6,28 @@
         <a href="{{ link.link }}">{{ link.title }}</a>
     {% endfor %}
 
+    {% if isCurrentUrl('admin.media.index') or
+          isCurrentUrl('admin.media.edit') %}
+        {% set parts = id|split('/') %}
+        {% for part in parts %}
+            {% set mediaID = mediaID ~ '/' ~ part %}
+            {% if (part != parts|last) %}
+                <span class="slash-divider">/</span>
+                <a href="{{ urlFor('admin.media.index') }}?id={{ strings(mediaID).trimLeft('/') }}">
+                    {{ part }}
+                </a>
+            {% elseif (part) %}
+                <span class="slash-divider">/</span>{{ part }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
     {% if isCurrentUrl('admin.entries.index') or
-    isCurrentUrl('admin.entries.edit') or
-    isCurrentUrl('admin.entries.add') or
-    isCurrentUrl('admin.entries.move') or
-    isCurrentUrl('admin.entries.rename') or
-    isCurrentUrl('admin.entries.type') %}
+          isCurrentUrl('admin.entries.edit') or
+          isCurrentUrl('admin.entries.add') or
+          isCurrentUrl('admin.entries.move') or
+          isCurrentUrl('admin.entries.rename') or
+          isCurrentUrl('admin.entries.type') %}
         {% for part in parts %}
             {% set entryID = entryID ~ '/' ~ part %}
             {% if (part != last) %}

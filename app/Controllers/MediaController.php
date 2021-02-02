@@ -70,6 +70,9 @@ class MediaController
         $mediaFoldersList = flextype('media')->folders()->fetch($id, ['collection' => true]);
         $mediaFilesList = flextype('media')->files()->fetch($id, ['collection' => true]);
 
+        //dump($mediaFoldersList);
+        //dd($mediaFilesList);
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/media/index.html',
@@ -78,6 +81,37 @@ class MediaController
                 'mediaFilesList' => $mediaFilesList,
                 'id' => $id,
                 'parent_id' => $parentID,
+                'links' => [
+                    'media' => [
+                        'link' => flextype('router')->pathFor('admin.media.index'),
+                        'title' => __('admin_media')
+                    ]
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Index page
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function edit(Request $request, Response $response) : Response
+    {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'images', 'set' => 'bootstrap']]);
+
+        $query = $request->getQueryParams();
+
+        $id = $this->getFolderID($query);
+
+        return flextype('twig')->render(
+            $response,
+            'plugins/admin/templates/content/media/edit.html',
+            [
+                'id' => $id,
                 'links' => [
                     'media' => [
                         'link' => flextype('router')->pathFor('admin.media.index'),

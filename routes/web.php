@@ -8,6 +8,7 @@ use Flextype\Plugin\Admin\Controllers\DashboardController;
 use Flextype\Plugin\Admin\Controllers\SettingsController;
 use Flextype\Plugin\Admin\Controllers\PluginsController;
 use Flextype\Plugin\Admin\Controllers\EntriesController;
+use Flextype\Plugin\Admin\Controllers\MediaController;
 use Flextype\Plugin\Admin\Controllers\ToolsController;
 use Flextype\Plugin\Admin\Controllers\ApiController;
 use Flextype\Plugin\Admin\Controllers\ApiImagesController;
@@ -39,6 +40,9 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/entries/delete-media-file', EntriesController::class . ':deleteMediaFileProcess')->setName('admin.entries.deleteMediaFileProcess');
     flextype()->post('/entries/upload-media-file', EntriesController::class . ':uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
     flextype()->post('/entries/display-view-process', EntriesController::class . ':displayViewProcess')->setName('admin.entries.displayViewProcess');
+
+    // MediaController
+    flextype()->get('/media', MediaController::class . ':index')->setName('admin.media.index');
 
     // Settings Controller
     flextype()->get('/settings', SettingsController::class . ':index')->setName('admin.settings.index');

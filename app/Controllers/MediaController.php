@@ -21,10 +21,10 @@ class MediaController
      */
     protected function getFolderID($query)
     {
+        $id = '';
+
         if (isset($query['id'])) {
             $id = $query['id'];
-        } else {
-            $id = '';
         }
 
         return $id;
@@ -64,18 +64,18 @@ class MediaController
         $id = $this->getFolderID($query);
         $parentID = $this->getFolderParentID($query);
 
-        $media_folders_list = [];
-        $media_files_list = [];
+        $mediaFoldersList = [];
+        $mediaFilesList = [];
 
-        $media_folders_list = flextype('media')->folders()->fetch($id, ['collection' => true]);
-        $media_files_list = flextype('media')->files()->fetch($id, ['collection' => true]);
+        $mediaFoldersList = flextype('media')->folders()->fetch($id, ['collection' => true]);
+        $mediaFilesList = flextype('media')->files()->fetch($id, ['collection' => true]);
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/media/index.html',
             [
-                'media_folders_list' => $media_folders_list,
-                'media_files_list' => $media_files_list,
+                'mediaFoldersList' => $mediaFoldersList,
+                'mediaFilesList' => $mediaFilesList,
                 'id' => $id,
                 'parent_id' => $parentID,
                 'links' => [
@@ -87,5 +87,4 @@ class MediaController
             ]
         );
     }
-
 }

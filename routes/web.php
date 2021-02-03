@@ -43,6 +43,7 @@ flextype()->group('/' . $admin_route, function () : void {
 
     // MediaController
     flextype()->get('/media', MediaController::class . ':index')->setName('admin.media.index');
+    flextype()->get('/media/edit', MediaController::class . ':edit')->setName('admin.media.edit');
 
     // Settings Controller
     flextype()->get('/settings', SettingsController::class . ':index')->setName('admin.settings.index');

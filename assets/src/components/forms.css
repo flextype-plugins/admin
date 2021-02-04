@@ -9,3 +9,9 @@
 .form-label {
     font-weight: 400;
 }
+
+.form-control:disabled,
+.form-control[readonly]
+{
+    background: #fff;
+}

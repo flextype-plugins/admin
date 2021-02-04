@@ -233,7 +233,7 @@ input:focus {
 .slash-divider {
     padding-left: 6px;
     padding-right: 6px;
-    opacity: .25;
+    color: #e1e4e8;
 }
 
 .form-control {

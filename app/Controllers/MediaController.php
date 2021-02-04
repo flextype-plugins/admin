@@ -70,9 +70,6 @@ class MediaController
         $mediaFoldersList = flextype('media')->folders()->fetch($id, ['collection' => true]);
         $mediaFilesList = flextype('media')->files()->fetch($id, ['collection' => true]);
 
-        //dump($mediaFoldersList);
-        //dd($mediaFilesList);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/media/index.html',
@@ -107,11 +104,16 @@ class MediaController
 
         $id = $this->getFolderID($query);
 
+        $meta_data = filesystem()
+                        ->file(flextype('media')->files()->meta()->getFileMetaLocation($id))
+                        ->get();
+
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/media/edit.html',
             [
                 'id' => $id,
+                'meta_data' => $meta_data,
                 'links' => [
                     'media' => [
                         'link' => flextype('router')->pathFor('admin.media.index'),

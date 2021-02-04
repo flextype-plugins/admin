@@ -10,6 +10,11 @@
     border-radius: 6px;
 }
 
+.CodeMirror-gutter {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
 .CodeMirror-gutter,
 .CodeMirror-gutters,
 .CodeMirror-linenumber,

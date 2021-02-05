@@ -71,8 +71,9 @@
 
 .image-upload-wrap {
   margin-top: 20px;
-  border: 2px dashed rgba(27, 31, 35, 0.15);
+  border: 1px dashed #e1e4e8;
   position: relative;
+  border-radius: 6px;
 }
 
 .file-upload-svg > svg {
@@ -84,7 +85,7 @@
 .image-dropping,
 .image-upload-wrap:hover {
   background-color: #fff;
-  border: 2px dashed rgba(27, 31, 35, 0.30);
+  border: 1px dashed #aaa;
 }
 
 .image-title-wrap {
@@ -98,9 +99,13 @@
 
 .drag-text h3 {
   text-transform: uppercase;
-  color: var(--font-color);
+  color: #bfbfbf;
   font-weight: 200;
-  padding: 60px 20px;
+  padding: 60px 30px;
+}
+
+.image-upload-wrap:hover h3 {
+  color: #aaa;
 }
 
 .file-upload-image {

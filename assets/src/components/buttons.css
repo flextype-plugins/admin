@@ -9,7 +9,7 @@
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     appearance: none;
 }
 
@@ -25,7 +25,7 @@
 
 .btn-default {
     background-color: rgb(255, 255, 255);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     border: 1px solid rgba(27, 31, 35, 0.15);
     box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
     color: rgb(36, 41, 46);
@@ -41,7 +41,7 @@
 
 .btn-primary {
     background-color: rgb(250, 251, 252);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     border: 1px solid rgba(27, 31, 35, 0.15);
     box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
     color: rgb(36, 41, 46);

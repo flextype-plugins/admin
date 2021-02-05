@@ -7,12 +7,12 @@
 
     height: auto!important;
     margin: 0;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
 }
 
 .CodeMirror-gutter {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
 }
 
 .CodeMirror-gutter,

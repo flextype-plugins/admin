@@ -1,4 +1,4 @@
 .modal-content {
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     border: none;
 }

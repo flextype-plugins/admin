@@ -4,9 +4,8 @@
 <div class="workspace-header row">
     <div class="col p-0"><h2>{{ __('admin_media') }}</h2></div>
     <div class="col p-0 text-end">
-        <a href="{{ urlFor('admin.entries.add') }}?id={{ id_current }}" class="btn btn-primary">Upload file</a>
-        <a href="{{ urlFor('admin.entries.add') }}?id={{ id_current }}" class="btn btn-primary">Create file</a>
-        <a href="{{ urlFor('admin.entries.add') }}?id={{ id_current }}" class="btn btn-primary">Create directory</a>
+        <a href="{{ urlFor('admin.media.upload') }}?id={{ id }}" class="btn btn-primary">Upload</a>
+        <a href="{{ urlFor('admin.entries.add') }}?id={{ id }}" class="btn btn-primary">Create directory</a>
     </div>
 </div>
 
@@ -30,7 +29,7 @@
                 <td colspan="2"></td>
             </tr>
             {% endif %}
-            {% for folder in media_folders_list %}
+            {% for folder in mediaFoldersList %}
                 <tr>
                     <td width="50" class="text-center">
                         {{ icon('folder', 'bootstrap') }}
@@ -50,16 +49,23 @@
                     </td>
                 </tr>
             {% endfor %}
-            {% for file in media_files_list %}
+            {% for file in mediaFilesList %}
                 <tr>
                     <td width="50" class="text-center">
                         {{ icon('file-earmark-image', 'bootstrap') }}
                     </td>
                     <td class="ps-0">
-                        <a href="?id={{ file.path }}">{{ file.filename }}</a>
+                        <a href="{{ urlFor('admin.media.edit') }}?id={{ file.path }}/{{ file.filename }}">{{ file.filename }}</a>
                     </td>
                     <td class="text-right" width="18">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ icon('three-dots', 'bootstrap') }}
+                            </a>
+                            <ul class="dropdown-menu">
 
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

@@ -14,7 +14,7 @@
 @import 'modules/select2';
 @import 'modules/swal2';
 @import 'modules/codemirror';
-@import 'modules/filepicker';
+@import 'modules/upload';
 
 tbody,
 td,
@@ -38,15 +38,15 @@ tr,
 }
 
 .table tr:last-of-type td {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
 thead > tr,
 thead > tr > th {
     background-color: rgb(250, 251, 252);
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
 }
 
 .text-muted {
@@ -90,7 +90,7 @@ table td .dropdown > .dropdown-toggle {
 .dropdown-menu {
     overflow: hidden;
     border: 1px solid rgb(225, 228, 232);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     padding: 1px 0;
 }
 
@@ -127,7 +127,7 @@ hr:not([size]) {
 
 .table-rounded {
     border: 1px solid rgb(225, 228, 232);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     background: white;
 }
 
@@ -170,7 +170,7 @@ input:focus {
 
 .card {
     border-color: rgb(225, 228, 232);
-    border-radius: 6px;
+    border-radius: var(--border-radius);
 }
 
 .card-title {
@@ -184,14 +184,14 @@ input:focus {
 
 .card-header:first-child {
     background-color: rgb(250, 251, 252);
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
 }
 
 .card-header.card-plate {
     background-color: rgb(250, 251, 252);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
 }
 
 .card-title .dropdown {
@@ -238,7 +238,7 @@ input:focus {
 
 .form-control {
     padding: .44rem .7rem;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
 }
 
 .form-control:active,

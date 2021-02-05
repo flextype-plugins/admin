@@ -1,0 +1,42 @@
+.card {
+    border-color: rgb(225, 228, 232);
+    border-radius: var(--border-radius);
+}
+
+.card-title {
+    font-weight: 400;
+    color: rgb(36, 41, 46);
+}
+
+.card-title svg {
+    margin-right: 8px;
+}
+
+.card-header:first-child {
+    background-color: rgb(250, 251, 252);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.card-header.card-plate {
+    background-color: rgb(250, 251, 252);
+    border: none;
+    border-radius: var(--border-radius);
+}
+
+.card-title .dropdown {
+    display: block;
+    position: absolute;
+    top: 6px;
+    right: 0;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom-color: rgb(225, 228, 232);
+}
+
+.card-footer {
+    background-color: #f8f9fa!important;
+    border-top-color: rgb(225, 228, 232);
+}

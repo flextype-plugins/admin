@@ -1,0 +1,23 @@
+.form-label {
+    font-weight: 400;
+    color: var(--font-color);
+}
+
+.form-control {
+    border: 1px solid rgb(225, 228, 232);
+    padding: .44rem .7rem;
+    border-radius: var(--border-radius);
+}
+
+.form-control:disabled,
+.form-control[readonly]
+{
+    background: #fff;
+}
+
+.form-control:active,
+.form-control:focus {
+    outline: none;
+    border-color: #aaa;
+    box-shadow: none;
+}

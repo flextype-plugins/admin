@@ -1,0 +1,98 @@
+html,
+body {
+    font-size: var(--font-size);
+    color: var(--font-color);
+    font-weight: var(--font-weight);
+    font-family: var(--font-family);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: var(--font-color);
+    font-weight: 200;
+}
+
+a {
+    color: var(--font-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr,
+.table> :not(:last-child)> :last-child>* {
+    border-bottom: 1px solid rgb(225, 228, 232);
+    color: rgb(36, 41, 46);
+    font-weight: 400;
+}
+
+.table>:not(caption)>*>* {
+    padding: 8px 16px;
+    text-align: left;
+}
+
+.table tr:hover td {
+    background-color: rgb(250, 251, 252);
+}
+
+.table tr:last-of-type td {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+
+.table-rounded {
+    border: 1px solid rgb(225, 228, 232);
+    border-radius: var(--border-radius);
+    background: white;
+}
+
+.table-rounded > .table {
+    margin: 0;
+}
+
+.table tr:last-child,
+.table tr:last-child td {
+    border-bottom: 1px solid transparent;
+}
+
+.table tr:last-child td {
+    padding-bottom: 6.5px;
+}
+
+thead > tr,
+thead > tr > th {
+    background-color: rgb(250, 251, 252);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+table td .dropdown > .dropdown-toggle {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 21px;
+}
+
+hr:not([size]) {
+    height: 1px;
+    border-top: 1px solid #d9d9d9;
+}
+
+button:active,
+button:focus,
+input:focus {
+    color: rgb(36, 41, 46);
+}

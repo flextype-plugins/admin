@@ -41,9 +41,14 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/entries/upload-media-file', EntriesController::class . ':uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
     flextype()->post('/entries/display-view-process', EntriesController::class . ':displayViewProcess')->setName('admin.entries.displayViewProcess');
 
-    // MediaController
+    // Media Controller
     flextype()->get('/media', MediaController::class . ':index')->setName('admin.media.index');
+    flextype()->get('/media/upload', MediaController::class . ':upload')->setName('admin.media.upload');
+    flextype()->post('/media/upload', MediaController::class . ':uploadProcess')->setName('admin.media.uploadProcess');
+    flextype()->get('/media/create-directory', MediaController::class . ':createDirectory')->setName('admin.media.createDirectory');
+    flextype()->post('/media/create-directory', MediaController::class . ':createDirectoryProcess')->setName('admin.media.createDirectoryProcess');
     flextype()->get('/media/edit', MediaController::class . ':edit')->setName('admin.media.edit');
+    flextype()->post('/media/edit', MediaController::class . ':editProcess')->setName('admin.media.editProcess');
 
     // Settings Controller
     flextype()->get('/settings', SettingsController::class . ':index')->setName('admin.settings.index');

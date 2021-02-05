@@ -82,3 +82,7 @@ nav svg {
 .navbar .actions-buttons a > svg {
     margin-right: 8px;
 }
+
+.navbar .dropdown-toggle::after {
+    vertical-align: .055em;
+}

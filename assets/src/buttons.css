@@ -47,6 +47,8 @@
     color: rgb(36, 41, 46);
 }
 
+.btn-check:focus+.btn-primary,
+.btn-primary:focus,
 .btn-primary:hover,
 .btn-primary:active {
     border: 1px solid rgba(27, 31, 35, 0.15);
@@ -63,4 +65,12 @@
     color: rgb(36, 41, 46);
     box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
     background-color: rgb(237, 239, 242);
+}
+
+.btn-check:active+.btn-primary:focus,
+.btn-check:checked+.btn-primary:focus,
+.btn-primary.active:focus,
+.btn-primary:active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: none;
 }

@@ -13,7 +13,8 @@
 }
 
 .dropdown-toggle::after {
-    vertical-align: .055em;
+    vertical-align: .15em;
+    color: #888;
 }
 
 .dropdown-toggle.dropdown-dots::after {

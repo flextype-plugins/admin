@@ -85,4 +85,5 @@ nav svg {
 
 .navbar .dropdown-toggle::after {
     vertical-align: .055em;
+    color: var(--font-color);
 }

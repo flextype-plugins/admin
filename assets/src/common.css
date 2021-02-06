@@ -96,3 +96,8 @@ button:focus,
 input:focus {
     color: rgb(36, 41, 46);
 }
+
+.small,
+small {
+    opacity: .8;
+}

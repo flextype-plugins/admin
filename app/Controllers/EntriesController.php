@@ -68,15 +68,15 @@ class EntriesController
         if (count($fieldsets_list) > 0) {
             foreach ($fieldsets_list as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
-                    if (isset($fieldset_content['form']) &&
-                        isset($fieldset_content['form']['tabs']) &&
-                        isset($fieldset_content['form']['tabs']['main']['fields']) &&
-                        isset($fieldset_content['form']['tabs']['main']['fields']['title'])) {
-                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                    $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldsetContent['form']) &&
+                        isset($fieldsetContent['form']['tabs']) &&
+                        isset($fieldsetContent['form']['tabs']['main']['fields']) &&
+                        isset($fieldsetContent['form']['tabs']['main']['fields']['title'])) {
+                        if (isset($fieldsetContent['hide']) && $fieldsetContent['hide'] == true) {
                             continue;
                         }
-                        $fieldsets[$fieldset['basename']] = $fieldset_content;
+                        $fieldsets[$fieldset['basename']] = $fieldsetContent;
                     }
                 }
             }
@@ -147,15 +147,15 @@ class EntriesController
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
-                    if (isset($fieldset_content['form']) &&
-                        isset($fieldset_content['form']['tabs']['main']) &&
-                        isset($fieldset_content['form']['tabs']['main']['fields']) &&
-                        isset($fieldset_content['form']['tabs']['main']['fields']['title'])) {
-                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                    $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldsetContent['form']) &&
+                        isset($fieldsetContent['form']['tabs']['main']) &&
+                        isset($fieldsetContent['form']['tabs']['main']['fields']) &&
+                        isset($fieldsetContent['form']['tabs']['main']['fields']['title'])) {
+                        if (isset($fieldsetContent['hide']) && $fieldsetContent['hide'] == true) {
                             continue;
                         }
-                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                        $fieldsets[$fieldset['basename']] = $fieldsetContent['title'];
                     }
                 }
             }
@@ -212,16 +212,16 @@ class EntriesController
 
         // Set parent Entry ID
         if ($data['_current_id']) {
-            $parent_entry_id = $data['_current_id'];
+            $parentEntryID = $data['_current_id'];
         } else {
-            $parent_entry_id = '';
+            $parentEntryID = '';
         }
 
         // Set new Entry ID using slugify or without it
         if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $id = ltrim($parent_entry_id . '/' . flextype('slugify')->slugify($data['id']), '/');
+            $id = ltrim($parentEntryID . '/' . flextype('slugify')->slugify($data['id']), '/');
         } else {
-            $id = ltrim($parent_entry_id . '/' . $data['id'], '/');
+            $id = ltrim($parentEntryID . '/' . $data['id'], '/');
         }
 
         // Check if entry exists then try to create it
@@ -234,18 +234,18 @@ class EntriesController
                 $fieldset = flextype('fieldsets')->fetchSingle($data['fieldset']);
 
                 // Init entry data
-                $data_from_post          = [];
-                $data_from_post_override = [];
-                $data_result             = [];
+                $dataFromPost           = [];
+                $dataFromPostOverride   = [];
+                $dataResult             = [];
 
                 // Define data values based on POST data
-                $data_from_post['created_by'] = flextype('acl')->getUserLoggedInUuid();
-                $data_from_post['published_by'] = flextype('acl')->getUserLoggedInUuid();
-                $data_from_post['title']      = $data['title'];
-                $data_from_post['fieldset']   = $data['fieldset'];
-                $data_from_post['visibility'] = $data['visibility'];
-                $data_from_post['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), time());
-                $data_from_post['routable']   = isset($data['routable']) ? (bool) $data['routable'] : false;
+                $dataFromPost['created_by']   = flextype('acl')->getUserLoggedInUuid();
+                $dataFromPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
+                $dataFromPost['title']        = $data['title'];
+                $dataFromPost['fieldset']     = $data['fieldset'];
+                $dataFromPost['visibility']   = $data['visibility'];
+                $dataFromPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), time());
+                $dataFromPost['routable']     = isset($data['routable']) ? (bool) $data['routable'] : false;
 
                 // Themes/Templates support for Site Plugin
                 // We need to check if template for current fieldset is exists
@@ -253,7 +253,7 @@ class EntriesController
                 if (flextype('registry')->has('plugins.site')) {
                     $template_path = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $data['fieldset'] . '.html';
                     $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
-                    $data_from_post['template']   = $template;
+                    $dataFromPost['template']   = $template;
                 }
 
                 //foreach ($fieldset['sections'] as $section_name => $section_body) {
@@ -268,9 +268,9 @@ class EntriesController
                             continue;
                         }
 
-                        // Get values from $data_from_post
-                        if (isset($data_from_post[$field])) {
-                            $value = $data_from_post[$field];
+                        // Get values from $dataFromPost
+                        if (isset($dataFromPost[$field])) {
+                            $value = $dataFromPost[$field];
 
                         // Get values from fieldsets predefined field values
                         } elseif (isset($properties['value'])) {
@@ -281,18 +281,18 @@ class EntriesController
                             $value = '';
                         }
 
-                        $data_from_post_override[$field] = $value;
+                        $dataFromPostOverride[$field] = $value;
                     }
                 }
 
                 // Merge data
-                if (count($data_from_post_override) > 0) {
-                    $data_result = array_replace_recursive($data_from_post_override, $data_from_post);
+                if (count($dataFromPostOverride) > 0) {
+                    $dataResult = array_replace_recursive($dataFromPostOverride, $dataFromPost);
                 } else {
-                    $data_result = $data_from_post;
+                    $dataResult = $dataFromPost;
                 }
 
-                if (flextype('entries')->create($id, $data_result)) {
+                if (flextype('entries')->create($id, $dataResult)) {
                     flextype('media')->folders()->create('entries/' . $id);
                     flextype('flash')->addMessage('success', __('admin_message_entry_created'));
                 } else {
@@ -350,15 +350,15 @@ class EntriesController
         if (count($_fieldsets) > 0) {
             foreach ($_fieldsets as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldset_content = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
-                    if (isset($fieldset_content['form']) &&
-                        isset($fieldset_content['form']['tabs']['main']) &&
-                        isset($fieldset_content['form']['tabs']['main']['fields']) &&
-                        isset($fieldset_content['form']['tabs']['main']['fields']['title'])) {
-                        if (isset($fieldset_content['hide']) && $fieldset_content['hide'] == true) {
+                    $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
+                    if (isset($fieldsetContent['form']) &&
+                        isset($fieldsetContent['form']['tabs']['main']) &&
+                        isset($fieldsetContent['form']['tabs']['main']['fields']) &&
+                        isset($fieldsetContent['form']['tabs']['main']['fields']['title'])) {
+                        if (isset($fieldsetContent['hide']) && $fieldsetContent['hide'] == true) {
                             continue;
                         }
-                        $fieldsets[$fieldset['basename']] = $fieldset_content['title'];
+                        $fieldsets[$fieldset['basename']] = $fieldsetContent['title'];
                     }
                 }
             }
@@ -565,6 +565,7 @@ class EntriesController
                 'parts' => $parts,
                 'i' => count($parts),
                 'last' => array_pop($parts),
+                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -595,21 +596,21 @@ class EntriesController
         }
 
         if (flextype('entries')->move(
-            $data['entry_path_current'],
-            $data['entry_parent'] . '/' . $name)
+            $data['_entry_path_current'],
+            $data['_entry_parent'] . '/' . $name)
         ) {
-            if (! flextype('media')->folders()->has('entries/' . $data['entry_path_current'])) {
-                flextype('media')->folders()->create('entries/' . $data['entry_path_current']);
+            if (! flextype('media')->folders()->has('entries/' . $data['_entry_path_current'])) {
+                flextype('media')->folders()->create('entries/' . $data['_entry_path_current']);
             }
 
-            flextype('media')->folders()->move('entries/' . $data['entry_path_current'],
-                                               'entries/' . $data['entry_parent'] . '/' . flextype('slugify')->slugify($data['name']));
+            flextype('media')->folders()->move('entries/' . $data['_entry_path_current'],
+                                               'entries/' . $data['_entry_parent'] . '/' . flextype('slugify')->slugify($data['name']));
             flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['_entry_parent']);
     }
 
     /**

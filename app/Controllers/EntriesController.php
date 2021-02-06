@@ -15,6 +15,14 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class EntriesController
 {
     /**
+     * __construct()
+     */
+    public function __construct()
+    {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
+    }
+
+    /**
      * Get Entry ID
      *
      * @param array Query
@@ -40,8 +48,6 @@ class EntriesController
      */
     public function index(Request $request, Response $response) : Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
-
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -132,8 +138,6 @@ class EntriesController
      */
     public function add(Request $request, Response $response) : Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
-
         $fieldsets = [];
 
         // Get fieldsets files
@@ -207,8 +211,8 @@ class EntriesController
         $data = $request->getParsedBody();
 
         // Set parent Entry ID
-        if ($data['current_id']) {
-            $parent_entry_id = $data['current_id'];
+        if ($data['_current_id']) {
+            $parent_entry_id = $data['_current_id'];
         } else {
             $parent_entry_id = '';
         }
@@ -301,10 +305,17 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        if (isset($data['create-and-edit'])) {
-            return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
-        } else {
-            return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $parent_entry_id);
+        switch ($data['_redirect']) {
+            case 'edit':
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
+                break;
+            case 'add':
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $data['_current_id']);
+                break;
+            case 'index':
+            default:
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['_current_id']);
+                break;
         }
     }
 
@@ -318,8 +329,6 @@ class EntriesController
      */
     public function type(Request $request, Response $response) : Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
-
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -400,8 +409,8 @@ class EntriesController
         Arrays::delete($entry, 'created_at');
         Arrays::delete($entry, 'published_at');
 
-        Arrays::delete($post_data, 'csrf_name');
-        Arrays::delete($post_data, 'csrf_value');
+        Arrays::delete($post_data, '_csrf_name');
+        Arrays::delete($post_data, '_csrf_value');
         Arrays::delete($post_data, 'save_entry');
         Arrays::delete($post_data, 'id');
 
@@ -432,8 +441,6 @@ class EntriesController
      */
     public function move(Request $request, Response $response) : Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
-
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -534,8 +541,6 @@ class EntriesController
      */
     public function rename(Request $request, Response $response) : Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
-
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -686,8 +691,6 @@ class EntriesController
      */
     public function edit(Request $request, Response $response) : Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
-
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -837,8 +840,8 @@ class EntriesController
             // Delete system fields
             isset($data['slug'])                  and Arrays::delete($data, 'slug');
             isset($data['id'])                    and Arrays::delete($data, 'id');
-            isset($data['csrf_value'])            and Arrays::delete($data, 'csrf_value');
-            isset($data['csrf_name'])             and Arrays::delete($data, 'csrf_name');
+            isset($data['_csrf_value'])           and Arrays::delete($data, '_csrf_value');
+            isset($data['_csrf_name'])            and Arrays::delete($data, '_csrf_name');
             isset($data['form-save-action'])      and Arrays::delete($data, 'form-save-action');
             isset($data['trumbowyg-icons-path'])  and Arrays::delete($data, 'trumbowyg-icons-path');
             isset($data['trumbowyg-locale'])      and Arrays::delete($data, 'trumbowyg-locale');

@@ -39,4 +39,5 @@ flextype('registry')->set('assets.admin.css',
 
 flextype('registry')->set('assets.admin.js',
                        array_merge($_admin_js,
-                       ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js']));
+                       ['project/plugins/admin/assets/dist/js/admin-vendor-build.min.js',
+                        'project/plugins/admin/assets/dist/js/ace/ace.js']));

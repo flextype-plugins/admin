@@ -13,7 +13,14 @@
             <title>Admin - Flextype</title>
 
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+            <style type="text/css" media="screen">
+                #editor {
+                    position: relative;
+                    width: 100%;
+                    min-height: 400px;
+                    font-size: 13px;
+                }
+            </style>
             {% for css in flextype.registry.get('assets.admin.css') %}
                 {% if css %}
                     <link href="{{ url() }}/{{ css }}" rel="stylesheet">
@@ -111,12 +118,12 @@
             {% endif %}
         {% endfor %}
 
-        {% include "plugins/admin/templates/partials/js/codemirror.html" %}
         {% include "plugins/admin/templates/partials/js/form-submit.html" %}
         {% include "plugins/admin/templates/partials/js/slugify.html" %}
         {% include "plugins/admin/templates/partials/js/toast.html" %}
         {% include "plugins/admin/templates/partials/js/clipboard.html" %}
         {% include "plugins/admin/templates/partials/js/upload.html" %}
+        {% include "plugins/admin/templates/partials/js/ace.html" %}
 
         {% do flextype.emitter.emit('onAdminThemeTail') %}
 

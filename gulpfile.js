@@ -14,11 +14,7 @@ const gulp = require('gulp');
           'node_modules/sweetalert2/dist/sweetalert2.min.css',
 
           // AnimateCSS
-          'node_modules/animate.css/animate.min.css',
-
-           // CodeMirror
-          'node_modules/codemirror/lib/codemirror.css',
-          'node_modules/codemirror/theme/elegant.css'])
+          'node_modules/animate.css/animate.min.css'])
      .pipe(autoprefixer({
          overrideBrowserslist: [
              "last 1 version"
@@ -43,7 +39,7 @@ gulp.task("admin-css", function() {
   const postcss = require("gulp-postcss");
 
   return gulp
-    .src(['assets/src/admin-panel.css'])
+    .src(['assets/src/css/admin-panel.css'])
     .pipe(postcss([atimport()]))
     .pipe(autoprefixer({
         overrideBrowserslist: [
@@ -57,9 +53,17 @@ gulp.task("admin-css", function() {
 });
 
 /**
+ * Task: gulp ace-js
+ */
+gulp.task('ace-js', function(){
+    return gulp.src(['assets/src/js/ace/*'])
+        .pipe(gulp.dest('assets/dist/js/ace/'));
+});
+
+/**
  * Task: gulp vendor-js
  */
- gulp.task('vendor-js', function(){
+gulp.task('vendor-js', function(){
    const sourcemaps = require('gulp-sourcemaps');
    const concat = require('gulp-concat');
 
@@ -74,28 +78,19 @@ gulp.task("admin-css", function() {
                     'node_modules/speakingurl/speakingurl.min.js',
 
                     // Clipboard
-                    'node_modules/clipboard/dist/clipboard.min.js',
-
-                    // CodeMirror
-                    'node_modules/codemirror/lib/codemirror.js',
-                    'node_modules/codemirror/mode/htmlmixed/htmlmixed.js',
-                    'node_modules/codemirror/mode/xml/xml.js',
-                    'node_modules/codemirror/mode/javascript/javascript.js',
-                    'node_modules/codemirror/mode/php/php.js',
-                    'node_modules/codemirror/mode/clike/clike.js',
-                    'node_modules/codemirror/mode/yaml/yaml.js'
+                    'node_modules/clipboard/dist/clipboard.min.js'
                  ])
      .pipe(sourcemaps.init())
      .pipe(concat('admin-vendor-build.min.js'))
      .pipe(sourcemaps.write())
      .pipe(gulp.dest('assets/dist/js/'));
- });
+});
 
 /**
  * Task: gulp default
  */
 gulp.task('default', gulp.series(
-    'vendor-css', 'admin-css', 'vendor-js'
+    'vendor-css', 'vendor-js', 'admin-css', 'ace-js'
 ));
 
 /**

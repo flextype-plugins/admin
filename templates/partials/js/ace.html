@@ -1,0 +1,8 @@
+<script>
+    var editor = ace.edit("editor");
+    ace.config.set('basePath', "{{ url() }}/project/plugins/admin/assets/dist/js/ace")
+    editor.setTheme("ace/theme/textmate");
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setShowInvisibles(true)
+    editor.setOption("maxLines", 100);
+</script>

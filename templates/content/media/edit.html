@@ -11,7 +11,7 @@
 </div>
 <div class="row">
     <div class="col-md-8">
-        <div class="table-rounded" style="height: 500px; display: flex;
+        <div class="workspace-rounded" style="height: 500px; display: flex;
         align-content: center;
         align-items: center;
         justify-content: center;
@@ -21,10 +21,10 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="table-rounded px-4 py-4 mb-3">
+        <div class="workspace-rounded px-4 py-4 mb-3">
             {{ flextype.form.render(flextype.serializers.yaml.decode(filesystem().file(PATH_PROJECT ~ '/fieldsets/media-file.yaml').get()), meta_data)|raw }}
         </div>
-        <div class="table-rounded px-4 py-4 mb-3">
+        <div class="workspace-rounded px-4 py-4 mb-3">
             <div class="mb-3">
                 <label for="" class="form-label">{{ __('admin_direct_link') }}</label>
                 <input type="text" class="form-control" id="" value="{{ url() }}/project/media/{{ id }}" readonly>

@@ -9,7 +9,7 @@
            class="btn btn-primary js-submit-form">{{ __('admin_create')|raw }}</a>
     </div>
 </div>
-<div class="table-rounded px-4 py-4">
+<div class="workspace-rounded px-4 py-4">
     <form method="post" id="form_api_entries_add" data-parsley-validate>
         {{ csrf() }}
         <input type="hidden" name="api" value="{{ api }}">
@@ -17,7 +17,7 @@
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="title" class="form-label">{{ tr('admin_title') }}</label>
-                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
+                    <input type="text" id="title" name="title" value="" class="form-control js-title" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
                     <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
                 </div>
                 <div class="mb-3">

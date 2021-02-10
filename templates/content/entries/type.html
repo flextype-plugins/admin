@@ -1,13 +1,13 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>Entry Type</h2></div>
-</div>
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-5">
+        <div class="workspace-header row">
+            <div class="col p-0"><h2>Entry Type</h2></div>
+        </div>
         <div class="table-rounded px-4 py-4 mb-3">
-            <form method="post" id="form_entries_type">
+            <form method="post" name="form_entries_type">
                 {{ csrf() }}
                 <input type="hidden" name="id" value="{{ id }}">
                 <div class="form-group">
@@ -21,13 +21,21 @@
                 </div>
             </form>
         </div>
-        <div class="mb-3">
+        <div class="d-flex justify-content-end">
+            <a href="{{ cancelUrl }}" class="btn btn-link">Cancel</a>
             <a id="saveEntry"
                name="save_entry"
                href="javascript:void(0);"
-               data-form-id="form_entries_type"
-               class="btn btn-primary js-submit-form">{{ tr('admin_save') }}</a>
+               class="btn btn-primary js-submit-entry-type-form">{{ tr('admin_save') }}</a>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block tail %}
+<script>
+    $('.js-submit-entry-type-form').click(function () {
+        $("form[name=form_entries_type]").submit();
+    });
+</script>
 {% endblock %}

@@ -25,7 +25,7 @@
     </head>
     <body>
         <div class="workspace">
-            <div class="navbar navbar-expand-lg navbar-light workspace-navigation">
+            <div class="navbar navbar-expand-lg navbar-light workspace__navigation">
                 <div class="container">
                     <div class="row">
                         <div class="col d-flex">
@@ -111,12 +111,12 @@
             {% endif %}
         {% endfor %}
 
-        {% include "plugins/admin/templates/partials/modules/codemirror.html" %}
-        {% include "plugins/admin/templates/partials/modules/submit-form.html" %}
-        {% include "plugins/admin/templates/partials/modules/slugify.html" %}
-        {% include "plugins/admin/templates/partials/modules/swal2.html" %}
-        {% include "plugins/admin/templates/partials/modules/clipboard.html" %}
-        {% include "plugins/admin/templates/partials/modules/filepicker.html" %}
+        {% include "plugins/admin/templates/partials/js/codemirror.html" %}
+        {% include "plugins/admin/templates/partials/js/form-submit.html" %}
+        {% include "plugins/admin/templates/partials/js/slugify.html" %}
+        {% include "plugins/admin/templates/partials/js/toast.html" %}
+        {% include "plugins/admin/templates/partials/js/clipboard.html" %}
+        {% include "plugins/admin/templates/partials/js/upload.html" %}
 
         {% do flextype.emitter.emit('onAdminThemeTail') %}
 

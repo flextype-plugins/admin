@@ -1,0 +1,47 @@
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('.file-upload__dropzone').hide();
+
+                if (input.files[0].type == 'image/png' ||
+                    input.files[0].type == 'image/jpg' ||
+                    input.files[0].type == 'image/jpeg' ||
+                    input.files[0].type == 'image/gif') {
+                    $('.file-upload__preview__image').attr('src', e.target.result);
+                    $('.file-upload__preview__image').show();
+                    $('.file-upload__preview__svg').hide();
+                } else {
+                    $('.file-upload__preview__image').hide();
+                    $('.file-upload__preview__svg').show();
+                }
+
+                $('.file-upload__preview').show();
+                $('.file-upload__btn-remove-wrap__remove-image-title').html(input.files[0].name);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+        } else {
+            removeUpload();
+        }
+    }
+
+    function removeUpload() {
+        $('.file-upload__dropzone__file-control').replaceWith($('.file-upload__dropzone__file-control').clone());
+        $('.file-upload__preview').hide();
+        $('.file-upload__dropzone').show();
+    }
+
+    $('.file-upload__dropzone').bind('dragover', function () {
+        $('.file-upload__dropzone').addClass('file-upload__dropzone-dropping');
+    });
+
+    $('.file-upload__dropzone').bind('dragleave', function () {
+        $('.file-upload__dropzone').removeClass('file-upload__dropzone-dropping');
+    });
+
+</script>

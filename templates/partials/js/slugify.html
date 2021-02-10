@@ -1,0 +1,15 @@
+<script>
+{% if (flextype.registry.get('plugins.admin.settings.entries.slugify') == false and
+       (isCurrentUrl('admin.entries.add') or
+        isCurrentUrl('admin.entries.rename'))) %}
+    $(".js-title").on("keyup change", function () {
+        $(".js-id").val($(".js-title").val());
+    });
+{% elseif (flextype.registry.get('plugins.admin.settings.entries.slugify') == true and
+           (isCurrentUrl('admin.entries.add') or
+            isCurrentUrl('admin.entries.rename'))) %}
+    $(".js-title").on("keyup change", function () {
+        $(".js-id").val(getSlug($(".js-title").val()));
+    });
+{% endif %}
+</script>

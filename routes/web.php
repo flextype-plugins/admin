@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Flextype\Middlewares\CsrfMiddleware;
 use Flextype\Plugin\Acl\Middlewares\AclIsUserLoggedInMiddleware;
 use Flextype\Plugin\Acl\Middlewares\AclIsUserLoggedInRolesInMiddleware;
 use Flextype\Plugin\Admin\Controllers\DashboardController;
@@ -22,7 +23,7 @@ flextype()->group('/' . $admin_route, function () : void {
     // Dashboard
     flextype()->get('', DashboardController::class . ':index')->setName('admin.dashboard.index');
 
-    // EntriesController
+    // Entries Controller
     flextype()->get('/entries', EntriesController::class . ':index')->setName('admin.entries.index');
     flextype()->get('/entries/edit', EntriesController::class . ':edit')->setName('admin.entries.edit');
     flextype()->post('/entries/edit', EntriesController::class . ':editProcess')->setName('admin.entries.editProcess');
@@ -61,7 +62,7 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/plugins/settings', PluginsController::class . ':settingsProcess')->setName('admin.plugins.settingsProcess');
     flextype()->post('/plugins/update-status', PluginsController::class . ':pluginStatusProcess')->setName('admin.plugins.update-status');
 
-    // ToolsController
+    // Tools Controller
     flextype()->get('/tools', ToolsController::class . ':index')->setName('admin.tools.index');
     flextype()->get('/tools/information', ToolsController::class . ':information')->setName('admin.tools.information');
     flextype()->get('/tools/registry', ToolsController::class . ':registry')->setName('admin.tools.registry');
@@ -70,7 +71,7 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/tools/cache-clear', ToolsController::class . ':clearCacheProcess')->setName('admin.tools.clearCacheProcess');
     flextype()->post('/tools/cache-clear-key', ToolsController::class . ':clearCacheKeyProcess')->setName('admin.tools.clearCacheKeyProcess');
 
-    // ApiController
+    // Api Controller
     flextype()->get('/api', ApiController::class . ':index')->setName('admin.api.index');
     flextype()->post('/api/delete-api-tokens', ApiController::class . ':deleteApiTokensProcess')->setName('admin.api.deleteApiTokensProcess');
 
@@ -84,4 +85,4 @@ flextype()->group('/' . $admin_route, function () : void {
 })->add(new AclIsUserLoggedInMiddleware(['redirect' => 'admin.accounts.login']))
   ->add(new AclIsUserLoggedInRolesInMiddleware(['redirect' => (flextype('acl')->isUserLoggedIn() ? 'admin.accounts.no-access' : 'admin.accounts.login'),
                                                 'roles' => 'admin']))
-  ->add('csrf');
+  ->add(new CsrfMiddleware());

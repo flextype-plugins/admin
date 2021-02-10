@@ -5,15 +5,22 @@
     <div class="col p-0"><h2>Edit Entry</h2></div>
     <div class="col p-0 text-end">
         <a href="javascript:void(0);"
-           data-form-id="form_entries_save"
-           class="btn btn-primary js-submit-form">{{ __('admin_save')|raw }}</a>
+           class="btn btn-primary js-submit-entry-edit-form">{{ __('admin_save')|raw }}</a>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <div class="table-rounded px-4 py-4 mb-3">
+        <div class="table-rounded px-4 py-4 mb-3 js-entry-editor">
             {{ form|raw }}
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block tail %}
+<script>
+    $('.js-submit-entry-edit-form').click(function () {
+        $(".js-entry-editor form").submit();
+    });
+</script>
 {% endblock %}

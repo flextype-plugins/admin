@@ -1,25 +1,26 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>Create New Entry</h2></div>
-</div>
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-5">
+        <div class="workspace-header row">
+            <div class="col p-0"><h2>Create New Entry</h2></div>
+        </div>
         <div class="table-rounded px-4 py-4 mb-3">
-            <form method="post" id="form_entries_create" data-parsley-validate>
+            <form method="post" name="form_entries_create" data-parsley-validate>
                 {{ csrf() }}
-                <input type="hidden" id="current_id" name="current_id" value="{{ current_id }}">
+                <input type="hidden" name="_current_id" value="{{ current_id }}">
+                <input type="hidden" name="_redirect" value="">
 
                 <div class="mb-3">
                     <label for="title" class="form-label">{{ tr('admin_title') }}</label>
-                    <input type="text" id="title" name="title" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
+                    <input type="text" id="title" name="title" value="" class="form-control js-title" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
                     <small>{{ tr('admin_help_text_for_entry_label') }}</small>
                 </div>
 
                 <div class="mb-3">
                     <label for="id" class="form-label">{{ tr('admin_name') }}</label>
-                    <input type="text" id="id" name="id" value="" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
+                    <input type="text" id="id" name="id" value="" class="form-control js-id" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_name_empty_input') }}" data-parsley-required="true">
                     <small>{{ tr('admin_help_text_for_entry_name') }}</small>
                 </div>
 
@@ -59,13 +60,40 @@
                 </div>
             </form>
         </div>
-        <div class="mb-3">
-            <a id="moveEntry"
-               name="move_entry"
-               href="javascript:void(0);"
-               data-form-id="form_entries_create"
-               class="btn btn-primary js-submit-form">{{ tr('admin_create') }}</a>
+        <div class="d-flex justify-content-end">
+            <a href="#" class="btn btn-link">Cancel</a>
+            <div class="btn-group">
+              <a id="createEntry"
+                 name="create_entry"
+                 href="javascript:void(0);"
+                 data-redirect="index"
+                 class="btn btn-primary js-submit-entry-create-form">{{ tr('admin_create') }}</a>
+              <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a id="createEntry"
+                   name="create_entry"
+                   href="javascript:void(0);"
+                   data-redirect="edit"
+                   class="dropdown-item js-submit-entry-create-form">{{ tr('admin_create_and_edit') }}</a></li>
+                <li><a id="createEntry"
+                   name="create_entry"
+                   href="javascript:void(0);"
+                   data-redirect="add"
+                   class="dropdown-item js-submit-entry-create-form">{{ tr('admin_create_and_add') }}</a></li>
+              </ul>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block tail %}
+<script>
+    $('.js-submit-entry-create-form').click(function () {
+        $("input[name=_redirect]").val($(this).data('redirect'));
+        $("form[name=form_entries_create]").submit();
+    });
+</script>
 {% endblock %}

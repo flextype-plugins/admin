@@ -377,6 +377,7 @@ class EntriesController
                 'parts' => $parts,
                 'i' => count($parts),
                 'last' => array_pop($parts),
+                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -409,8 +410,8 @@ class EntriesController
         Arrays::delete($entry, 'created_at');
         Arrays::delete($entry, 'published_at');
 
-        Arrays::delete($post_data, '_csrf_name');
-        Arrays::delete($post_data, '_csrf_value');
+        Arrays::delete($post_data, '__csrf_token');
+
         Arrays::delete($post_data, 'save_entry');
         Arrays::delete($post_data, 'id');
 
@@ -483,6 +484,7 @@ class EntriesController
                 'parts' => $parts,
                 'i' => count($parts),
                 'last' => array_pop($parts),
+                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),

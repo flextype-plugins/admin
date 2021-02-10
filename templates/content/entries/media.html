@@ -91,6 +91,23 @@
     </tbody>
 </table>
 {% else %}
+<div class="workspace-message">
+    <div class="workspace-message__icon">{{ icon('images', 'bootstrap') }}</div>
+    <h3 class="workspace-message__title">{{ tr('admin_you_have_not_upload_any_files_yet') }}</h3>
+    <form method="post" id="form-upload" class="form-inline form-upload" enctype="multipart/form-data" action="{{ urlFor('admin.entries.uploadMediaFileProcess') }}">
+        {{ csrf() }}
+        <input type="hidden" name="entry-id" value="{{ id }}">
+        <div class="button-group flex items-center justify-center">
+            <input type="submit" id="upload_file" name="upload_file" value="{{ tr('admin_upload') }}" class="button">
+            <div class="relative">
+                <input class="js-input-file input-file" id="file" name="file" type="file">
+                <label tabindex="0" for="file" class="js-input-file-trigger input-file-trigger button button--white">{{ tr('admin_select_file') }}</label>
+            </div>
+        </div>
+        <div class="js-file-return file-return text-center mt-4"></div>
+    </form>
+</div>
+{#
 <div class="text-center flex justify-center items-center h-full">
     <div>
         <i class="icon icon--4xl">{{ icon('photo-video', 'fontawesome|solid') }}</i>
@@ -109,6 +126,7 @@
         </form>
     </div>
 </div>
+#}
 {% endif %}
 {#
 <div class="_embeded-code-template hidden">

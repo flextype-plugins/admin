@@ -1,0 +1,15 @@
+#ace-editor {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.ace_hidpi .ace_text-layer,
+.ace_hidpi .ace_gutter-layer,
+.ace_hidpi .ace_content,
+.ace_hidpi .ace_gutter {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}

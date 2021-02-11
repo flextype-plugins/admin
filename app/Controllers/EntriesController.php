@@ -410,7 +410,7 @@ class EntriesController
         Arrays::delete($entry, 'created_at');
         Arrays::delete($entry, 'published_at');
 
-        Arrays::delete($post_data, '__csrf_token');
+        Arrays::delete($post_data, 'csrf-token');
 
         Arrays::delete($post_data, 'save_entry');
         Arrays::delete($post_data, 'id');
@@ -824,8 +824,7 @@ class EntriesController
             // Delete system fields
             isset($data['slug'])                  and Arrays::delete($data, 'slug');
             isset($data['id'])                    and Arrays::delete($data, 'id');
-            isset($data['_csrf_value'])           and Arrays::delete($data, '_csrf_value');
-            isset($data['_csrf_name'])            and Arrays::delete($data, '_csrf_name');
+            isset($data['csrf-token'])            and Arrays::delete($data, 'csrf-token');
             isset($data['form-save-action'])      and Arrays::delete($data, 'form-save-action');
             isset($data['trumbowyg-icons-path'])  and Arrays::delete($data, 'trumbowyg-icons-path');
             isset($data['trumbowyg-locale'])      and Arrays::delete($data, 'trumbowyg-locale');

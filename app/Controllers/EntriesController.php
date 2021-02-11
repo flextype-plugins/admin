@@ -707,6 +707,8 @@ class EntriesController
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1));
+
         flextype('registry')->set('entries.fields.parsers.settings.enabled', false);
 
         // Get Entry
@@ -725,9 +727,6 @@ class EntriesController
 
             $entrySource = filesystem()->file(flextype('entries')->getFileLocation($this->getEntryID($query)))->get();
 
-            //$entry['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entry['published_at']);
-            //$entry['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entry['created_at']);
-
             return flextype('twig')->render(
                 $response,
                 'plugins/admin/templates/content/entries/source.html',
@@ -739,6 +738,7 @@ class EntriesController
                         'data' => $entrySource,
                         'type' => $type,
                         'menu_item' => 'entries',
+                        'cancelUrl' => $cancelUrl,
                         'links' => [
                             'entries' => [
                                 'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -747,27 +747,7 @@ class EntriesController
                         ]
                 ]
             );
-        } elseif ($type == 'media') {
-            return flextype('twig')->render(
-                $response,
-                'plugins/admin/templates/content/entries/media.html',
-                [
-                        'parts' => $parts,
-                        'i' => count($parts),
-                        'last' => array_pop($parts),
-                        'id' => $this->getEntryID($query),
-                        'files' => $this->getMediaList($this->getEntryID($query), true),
-                        'menu_item' => 'entries',
-                        'links' => [
-                            'entries' => [
-                                'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                                'title' => __('admin_entries'),
-
-                            ]
-                        ]
-                ]
-            );
-        } else {
+        } elseif ($type == 'editor') {
 
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
@@ -786,6 +766,7 @@ class EntriesController
                         'id' => $this->getEntryID($query),
                         'form' => $form,
                         'menu_item' => 'entries',
+                        'cancelUrl' => $cancelUrl,
                         'links' => [
                             'entries' => [
                                 'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),

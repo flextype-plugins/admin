@@ -2,16 +2,16 @@
 
 {% block content %}
 <div class="workspace-header row">
-    <div class="col p-0"><h2>Edit Entry</h2></div>
+    <div class="col p-0"><h2>{{ __('admin_edit_entry') }}</h2></div>
     <div class="col p-0 text-end">
         <a href="{{ cancelUrl }}" class="btn btn-link">{{ __('admin_cancel') }}</a>
         <a href="javascript:void(0);"
-           class="btn btn-primary js-submit-entry-edit-form">{{ __('admin_save')|raw }}</a>
+           class="btn btn-primary js-submit-entries-form-editor">{{ __('admin_save')|raw }}</a>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <div class="workspace-rounded px-4 py-4 mb-3 js-entry-editor">
+        <div class="workspace-rounded px-4 py-4 mb-3 js-entries-form-editor">
             {{ form|raw }}
         </div>
     </div>
@@ -20,8 +20,8 @@
 
 {% block tail %}
 <script>
-    $('.js-submit-entry-edit-form').click(function () {
-        $(".js-entry-editor form").submit();
+    $('.js-submit-entries-form-editor').click(function () {
+        $(".js-entries-form-editor form").submit();
     });
 </script>
 {% endblock %}

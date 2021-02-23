@@ -25,17 +25,11 @@ class EntriesController
     /**
      * Get Entry ID
      *
-     * @param array Query
+     * @param array $query Query
      */
-    protected function getEntryID($query)
+    protected function getEntryID(array $query): string
     {
-        if (isset($query['id'])) {
-            $_id = $query['id'];
-        } else {
-            $_id = '';
-        }
-
-        return $_id;
+        return isset($query['id']) ? $query['id'] : '';
     }
 
     /**

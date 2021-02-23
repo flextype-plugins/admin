@@ -196,4 +196,25 @@ class MediaController
             ]
         );
     }
+
+    /**
+     * Upload media file - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function uploadProcess(Request $request, Response $response) : Response
+    {
+        $data = $request->getParsedBody();
+
+        if (flextype('media')->files()->upload($_FILES['file'], $data['id'] . '/')) {
+            flextype('flash')->addMessage('success', __('admin_message_entry_file_uploaded'));
+        } else {
+            flextype('flash')->addMessage('error', __('admin_message_entry_file_not_uploaded'));
+        }
+
+        return $response->withRedirect(flextype('router')->pathFor('admin.media.index') . '?id=' . $data['id']);
+    }
 }

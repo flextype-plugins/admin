@@ -205,8 +205,8 @@ class EntriesController
         $data = $request->getParsedBody();
 
         // Set parent Entry ID
-        if ($data['_current_id']) {
-            $parentEntryID = $data['_current_id'];
+        if ($data['current_id']) {
+            $parentEntryID = $data['current_id'];
         } else {
             $parentEntryID = '';
         }
@@ -298,16 +298,16 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        switch ($data['_redirect']) {
+        switch ($data['current_id']) {
             case 'edit':
                 return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
                 break;
             case 'add':
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $data['_current_id']);
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $data['current_id']);
                 break;
             case 'index':
             default:
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['_current_id']);
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['current_id']);
                 break;
         }
     }

@@ -9,8 +9,8 @@
         <div class="workspace-rounded px-4 py-4 mb-3">
             <form method="post" name="form_entries_create" data-parsley-validate>
                 {{ csrf() }}
-                <input type="hidden" name="_current_id" value="{{ current_id }}">
-                <input type="hidden" name="_redirect" value="">
+                <input type="hidden" name="current_id" value="{{ current_id }}">
+                <input type="hidden" name="redirect" value="">
 
                 <div class="mb-3">
                     <label for="title" class="form-label">{{ tr('admin_title') }}</label>
@@ -92,7 +92,7 @@
 {% block tail %}
 <script>
     $('.js-submit-entry-create-form').click(function () {
-        $("input[name=_redirect]").val($(this).data('redirect'));
+        $("input[name=current_id]").val($(this).data('redirect'));
         $("form[name=form_entries_create]").submit();
     });
 </script>

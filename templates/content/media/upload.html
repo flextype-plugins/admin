@@ -10,7 +10,11 @@
             <div class="file-upload text-center">
                 <button class="file-upload__btn" type="button" onclick="$('.file-upload__dropzone__file-control').trigger( 'click' )">Select File</button>
                 <div class="file-upload__dropzone">
-                    <input class="file-upload__dropzone__file-control" type='file' onchange="readURL(this);" />
+                    <form method="post" name="form_media_upload" enctype="multipart/form-data">
+                        {{ csrf() }}
+                        <input type="hidden" name="id" value="{{ id }}">
+                        <input class="file-upload__dropzone__file-control" name="file" type="file" onchange="readURL(this);" />
+                    </form>
                     <div class="file-upload__dropzone__file-control-text">
                         <h3>Drag and drop a file or click to Select File</h3>
                     </div>
@@ -25,9 +29,17 @@
             </div>
         </div>
         <div class="d-flex justify-content-end">
-            <a href="#" class="btn btn-link">Cancel</a>
-            <a href="#" class="btn btn-primary">Upload</a>
+            <a href="javascript:void(0);" class="btn btn-link">Cancel</a>
+            <a href="javascript:void(0);" class="btn btn-primary js-submit-upload-form">Upload</a>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block tail %}
+<script>
+$('.js-submit-upload-form').click(function () {
+    $("form[name=form_media_upload]").submit();
+});
+</script>
 {% endblock %}

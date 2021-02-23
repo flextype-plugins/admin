@@ -28,7 +28,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(Request $request, Response $response) : Response
+    public function index(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
 
@@ -53,7 +53,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function information(Request $request, Response $response) : Response
+    public function information(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
 
@@ -86,7 +86,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function cache(Request $request, Response $response) : Response
+    public function cache(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
 
@@ -121,7 +121,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function registry(Request $request, Response $response) : Response
+    public function registry(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
 
@@ -154,7 +154,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function reports(Request $request, Response $response) : Response
+    public function reports(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
 
@@ -186,7 +186,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function clearCacheProcess(Request $request, Response $response) : Response
+    public function clearCacheProcess(Request $request, Response $response): Response
     {
         $id = $request->getParsedBody()['cache-id'];
 
@@ -221,7 +221,7 @@ class ToolsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function clearCacheKeyProcess(Request $request, Response $response) : Response
+    public function clearCacheKeyProcess(Request $request, Response $response): Response
     {
         $key = strings($request->getParsedBody()['key'])->hash()->toString();
 
@@ -241,7 +241,7 @@ class ToolsController
     /**
      * _dotArray
      */
-    private function dotArray($array, $prepend = '') : array
+    private function dotArray($array, $prepend = ''): array
     {
         $results = [];
 

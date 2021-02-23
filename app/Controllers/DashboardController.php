@@ -23,7 +23,7 @@ class DashboardController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
     {
         return $response->withRedirect(flextype('router')->pathFor('admin.entries.index'));
     }

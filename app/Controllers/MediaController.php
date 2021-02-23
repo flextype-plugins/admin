@@ -63,7 +63,7 @@ class MediaController
      *
      * @return Response
      */
-    public function index(Request $request, Response $response) : Response
+    public function index(Request $request, Response $response): Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -103,7 +103,7 @@ class MediaController
      *
      * @return Response
      */
-    public function edit(Request $request, Response $response) : Response
+    public function edit(Request $request, Response $response): Response
     {
         $query = $request->getQueryParams();
 
@@ -139,7 +139,7 @@ class MediaController
      *
      * @return Response
      */
-    public function editProcess(Request $request, Response $response) : Response
+    public function editProcess(Request $request, Response $response): Response
     {
         $data  = $request->getParsedBody();
         $query = $request->getQueryParams();
@@ -178,7 +178,7 @@ class MediaController
      *
      * @return Response
      */
-    public function upload(Request $request, Response $response) : Response
+    public function upload(Request $request, Response $response): Response
     {
         $query = $request->getQueryParams();
 
@@ -205,7 +205,7 @@ class MediaController
      *
      * @return Response
      */
-    public function uploadProcess(Request $request, Response $response) : Response
+    public function uploadProcess(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
 

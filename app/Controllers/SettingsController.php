@@ -21,7 +21,7 @@ class SettingsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
 
@@ -47,7 +47,7 @@ class SettingsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function updateSettingsProcess(Request $request, Response $response) : Response
+    public function updateSettingsProcess(Request $request, Response $response): Response
     {
         $post_data = $request->getParsedBody();
 
@@ -65,7 +65,7 @@ class SettingsController
      *
      * @return array
      */
-    public function dateFormats() : array
+    public function dateFormats(): array
     {
         $now = new DateTime();
 
@@ -83,7 +83,7 @@ class SettingsController
      *
      * @return array
      */
-    public function displayDateFormats() : array
+    public function displayDateFormats(): array
     {
         $now = new DateTime();
 

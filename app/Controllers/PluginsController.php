@@ -21,7 +21,7 @@ class PluginsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response) : Response
+    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
 
@@ -59,7 +59,7 @@ class PluginsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function pluginStatusProcess(Request $request, Response $response) : Response
+    public function pluginStatusProcess(Request $request, Response $response): Response
     {
         // Get data from the request
         $post_data = $request->getParsedBody();
@@ -87,7 +87,7 @@ class PluginsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function information(Request $request, Response $response) : Response
+    public function information(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
 
@@ -129,7 +129,7 @@ class PluginsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function settings(Request $request, Response $response) : Response
+    public function settings(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
 
@@ -170,7 +170,7 @@ class PluginsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function settingsProcess(Request $request, Response $response) : Response
+    public function settingsProcess(Request $request, Response $response): Response
     {
         $post_data = $request->getParsedBody();
 

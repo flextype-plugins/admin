@@ -40,7 +40,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function index(Request $request, Response $response) : Response
+    public function index(Request $request, Response $response): Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -130,7 +130,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function add(Request $request, Response $response) : Response
+    public function add(Request $request, Response $response): Response
     {
         $fieldsets = [];
 
@@ -199,7 +199,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function addProcess(Request $request, Response $response) : Response
+    public function addProcess(Request $request, Response $response): Response
     {
         // Get data from POST
         $data = $request->getParsedBody();
@@ -320,7 +320,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function type(Request $request, Response $response) : Response
+    public function type(Request $request, Response $response): Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -389,7 +389,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function typeProcess(Request $request, Response $response) : Response
+    public function typeProcess(Request $request, Response $response): Response
     {
         $post_data = $request->getParsedBody();
 
@@ -433,7 +433,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function move(Request $request, Response $response) : Response
+    public function move(Request $request, Response $response): Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -528,7 +528,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function rename(Request $request, Response $response) : Response
+    public function rename(Request $request, Response $response): Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -573,7 +573,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function renameProcess(Request $request, Response $response) : Response
+    public function renameProcess(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
 
@@ -604,7 +604,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function deleteProcess(Request $request, Response $response) : Response
+    public function deleteProcess(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
 
@@ -628,7 +628,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function duplicateProcess(Request $request, Response $response) : Response
+    public function duplicateProcess(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
 
@@ -660,7 +660,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function edit(Request $request, Response $response) : Response
+    public function edit(Request $request, Response $response): Response
     {
         // Get Query Params
         $query = $request->getQueryParams();
@@ -754,7 +754,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function editProcess(Request $request, Response $response) : Response
+    public function editProcess(Request $request, Response $response): Response
     {
         $query = $request->getQueryParams();
 
@@ -851,7 +851,7 @@ class EntriesController
      *
      * @return Response
      */
-    public function deleteMediaFileProcess(Request $request, Response $response) : Response
+    public function deleteMediaFileProcess(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
 
@@ -871,7 +871,7 @@ class EntriesController
      *
      * @return array
      */
-    public function getMediaList(string $id, bool $path = false) : array
+    public function getMediaList(string $id, bool $path = false): array
     {
         $baseUrl = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
         $files = [];

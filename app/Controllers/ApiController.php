@@ -15,6 +15,7 @@ use function Flextype\Component\I18n\__;
 use function random_bytes;
 use function time;
 
+
 class ApiController
 {
     /**
@@ -23,7 +24,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(Request $request, Response $response) : Response
+    public function index(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
 
@@ -77,7 +78,7 @@ class ApiController
         );
     }
 
-    public function deleteApiTokensProcess(Request $request, Response $response) : Response
+    public function deleteApiTokensProcess(Request $request, Response $response): Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();
@@ -103,7 +104,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function tokens(Request $request, Response $response) : Response
+    public function tokens(Request $request, Response $response): Response
     {
         $query = $request->getQueryParams();
 
@@ -154,7 +155,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function add(Request $request, Response $response) : Response
+    public function add(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
 
@@ -186,7 +187,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function addProcess(Request $request, Response $response) : Response
+    public function addProcess(Request $request, Response $response): Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();
@@ -242,7 +243,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function edit(Request $request, Response $response) : Response
+    public function edit(Request $request, Response $response): Response
     {
         $query = $request->getQueryParams();
 
@@ -279,7 +280,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function editProcess(Request $request, Response $response) : Response
+    public function editProcess(Request $request, Response $response): Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();
@@ -320,7 +321,7 @@ class ApiController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function deleteProcess(Request $request, Response $response) : Response
+    public function deleteProcess(Request $request, Response $response): Response
     {
         // Get POST data
         $post_data = $request->getParsedBody();

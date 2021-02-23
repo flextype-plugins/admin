@@ -176,6 +176,7 @@ class EntriesController
                     'entries_list' => flextype('entries')->fetch($this->getEntryID($query), ['collection' => true])->sortBy('order_by', 'ASC')->toArray(),
                     'menu_item' => 'entries',
                     'current_id' => $this->getEntryID($query),
+                    'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                     'parts' => $parts,
                     'i' => count($parts),
                     'last' => array_pop($parts),
@@ -298,7 +299,7 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        switch ($data['current_id']) {
+        switch ($data['redirect']) {
             case 'edit':
                 return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
                 break;

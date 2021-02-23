@@ -293,7 +293,6 @@ class EntriesController
                 }
 
                 if (flextype('entries')->create($id, $dataResult)) {
-                    flextype('media')->folders()->create('entries/' . $id);
                     flextype('flash')->addMessage('success', __('admin_message_entry_created'));
                 } else {
                     flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -516,12 +515,6 @@ class EntriesController
                 $data['entry_id_path_current'],
                 $data['parent_entry'] . '/' . $entry_id_current
             )) {
-                if (! flextype('media')->folders()->has('entries/' . $data['entry_id_path_current'])) {
-                    flextype('media')->folders()->create('entries/' . $data['entry_id_path_current']);
-                }
-
-                flextype('media')->folders()->move('entries/' . $data['entry_id_path_current'], 'entries/' . $data['parent_entry'] . '/' . $entry_id_current);
-
                 flextype('flash')->addMessage('success', __('admin_message_entry_moved'));
             } else {
                 flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
@@ -601,12 +594,6 @@ class EntriesController
             $data['_entry_path_current'],
             $data['_entry_parent'] . '/' . $name)
         ) {
-            if (! flextype('media')->folders()->has('entries/' . $data['_entry_path_current'])) {
-                flextype('media')->folders()->create('entries/' . $data['_entry_path_current']);
-            }
-
-            flextype('media')->folders()->move('entries/' . $data['_entry_path_current'],
-                                               'entries/' . $data['_entry_parent'] . '/' . flextype('slugify')->slugify($data['name']));
             flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
@@ -631,13 +618,6 @@ class EntriesController
         $id_current = $data['id-current'];
 
         if (flextype('entries')->delete($id)) {
-
-            if (! flextype('media')->folders()->has('entries/' . $id)) {
-                flextype('media')->folders()->create('entries/' . $id);
-            }
-
-            flextype('media')->folders()->delete('entries/' . $id);
-
             flextype('flash')->addMessage('success', __('admin_message_entry_deleted'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_deleted'));
@@ -664,12 +644,6 @@ class EntriesController
         $random_date = date("Ymd_His");
 
         flextype('entries')->copy($id, $id . '-duplicate-' . $random_date, true);
-
-        if (! flextype('media')->folders()->has('entries/' . $id)) {
-            flextype('media')->folders()->create('entries/' . $id);
-        }
-
-        flextype('media')->folders()->copy('entries/' . $id, 'entries/' . $id . '-duplicate-' . $random_date, true);
 
         if (Filesystem::has(PATH['project'] . '/media' . '/entries/' . $id)) {
             filesystem()
@@ -889,8 +863,6 @@ class EntriesController
 
         $entry_id = $data['entry-id'];
         $media_id = $data['media-id'];
-
-        flextype('media')->files()->delete('entries/' . $entry_id . '/' . $media_id);
 
         flextype('flash')->addMessage('success', __('admin_message_entry_file_deleted'));
 

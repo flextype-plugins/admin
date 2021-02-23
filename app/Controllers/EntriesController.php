@@ -898,31 +898,6 @@ class EntriesController
     }
 
     /**
-     * Upload media file - process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function uploadMediaFileProcess(Request $request, Response $response) : Response
-    {
-        $data = $request->getParsedBody();
-
-        if (! flextype('media')->folders()->has('entries/' . $data['entry-id'])) {
-            flextype('media')->folders()->create('entries/' . $data['entry-id']);
-        }
-
-        if (flextype('media')->files()->upload($_FILES['file'], 'entries/' . $data['entry-id'] . '/')) {
-            flextype('flash')->addMessage('success', __('admin_message_entry_file_uploaded'));
-        } else {
-            flextype('flash')->addMessage('error', __('admin_message_entry_file_not_uploaded'));
-        }
-
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $data['entry-id'] . '&type=media');
-    }
-
-    /**
      * Get media list
      *
      * @param string $id Entry ID

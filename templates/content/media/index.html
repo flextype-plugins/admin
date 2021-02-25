@@ -1,11 +1,18 @@
-{% extends "plugins/admin/templates/partials/base.html" %}
+{% extends "plugins/admin/templates/content/media/base.html" %}
 
 {% block content %}
 <div class="workspace-header row">
     <div class="col p-0"><h2>{{ __('admin_media') }}</h2></div>
     <div class="col p-0 text-end">
-        <a href="{{ urlFor('admin.media.upload') }}?id={{ id }}" class="btn btn-primary">Upload</a>
-        <a href="{{ urlFor('admin.entries.add') }}?id={{ id }}" class="btn btn-primary">Create directory</a>
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            File
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <li><a class="dropdown-item" href="{{ urlFor('admin.media.upload') }}?id={{ id }}">Upload file</a></li>
+                <li><a class="dropdown-item" href="{{ urlFor('admin.media.createDirectory') }}?id={{ id }}">Create directory</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 

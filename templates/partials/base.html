@@ -73,7 +73,15 @@
                                 </ul>
                             </div>
                             <div class="breadcrumbs">
-                                {% include "plugins/admin/templates/partials/breadcrumbs.html" %}
+                                {% if links %}
+                                    {% for link in links %}
+                                        {% if loop.first == false %}
+                                            <span class="slash-divider">/</span>
+                                        {% endif %}
+                                        <a href="{{ link.link }}">{{ link.title }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                {% block breadcrumbs %}{% endblock %}
                             </div>
                         </div>
                         <div class="col text-end actions-buttons">

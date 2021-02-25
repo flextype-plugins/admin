@@ -45,13 +45,6 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set Entries ID in parts
-        if (isset($query['id'])) {
-            $parts = explode("/", $query['id']);
-        } else {
-            $parts = [0 => ''];
-        }
-
         // Init Fieldsets
         $fieldsets = [];
 
@@ -78,12 +71,6 @@ class EntriesController
 
         $entry_current = flextype('entries')->fetch($this->getEntryID($query))->toArray();
 
-        if (isset($entry_current['items_view'])) {
-            $items_view = $entry_current['items_view'];
-        } else {
-            $items_view = flextype('registry')->get('plugins.admin.settings.entries.items_view_default');
-        }
-
         $entries_list = [];
         $entries_collection = [];
         $entries_collection = arrays(flextype('entries')
@@ -104,14 +91,10 @@ class EntriesController
             'plugins/admin/templates/content/entries/index.html',
             [
                 'entries_list' => $entries_list,
-                'id_current' => $this->getEntryID($query),
+                'id' => $this->getEntryID($query),
                 'entry_current' => $entry_current,
-                'items_view' => $items_view,
                 'menu_item' => 'entries',
                 'fieldsets' => $fieldsets,
-                'parts' => $parts,
-                'i' => count($parts),
-                'last' => array_pop($parts),
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -160,13 +143,6 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set Entries ID in parts
-        if (isset($query['id'])) {
-            $parts = explode("/", $query['id']);
-        } else {
-            $parts = [0 => ''];
-        }
-
         $type = isset($query['type']) ? $query['type']: '';
 
         return flextype('twig')->render(
@@ -177,9 +153,6 @@ class EntriesController
                     'menu_item' => 'entries',
                     'current_id' => $this->getEntryID($query),
                     'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                    'parts' => $parts,
-                    'i' => count($parts),
-                    'last' => array_pop($parts),
                     'type' => $type,
                     'fieldsets' => $fieldsets,
                     'links' => [
@@ -326,13 +299,6 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set Entries ID in parts
-        if (isset($query['id'])) {
-            $parts = explode("/", $query['id']);
-        } else {
-            $parts = [0 => ''];
-        }
-
         $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
 
         $fieldsets = [];
@@ -368,9 +334,6 @@ class EntriesController
                 'fieldsets' => $fieldsets,
                 'id' => $this->getEntryID($query),
                 'menu_item' => 'entries',
-                'parts' => $parts,
-                'i' => count($parts),
-                'last' => array_pop($parts),
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
@@ -443,18 +406,10 @@ class EntriesController
         $entry_id = $this->getEntryID($query);
 
         // Get current Entry ID
-        $parts = explode("/", $entry_id);
-        $entry_id_current = array_pop($parts);
+        $entry_id_current = array_pop(explode("/", $entry_id));
 
         // Fetch entry
         $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
-
-        // Set Entries IDs in parts
-        if (isset($query['id'])) {
-            $parts = explode("/", $query['id']);
-        } else {
-            $parts = [0 => ''];
-        }
 
         // Get entries list
         $entries_list['/'] = '/';
@@ -475,9 +430,6 @@ class EntriesController
                 'entry_id_current' => $entry_id_current,
                 'entry_id_path_current' => $entry_id,
                 'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
-                'parts' => $parts,
-                'i' => count($parts),
-                'last' => array_pop($parts),
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
@@ -534,13 +486,6 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set Entries ID in parts
-        if (isset($query['id'])) {
-            $parts = explode("/", $query['id']);
-        } else {
-            $parts = [0 => ''];
-        }
-
         $entry_id     = explode("/", $this->getEntryID($query));
         $name_current = array_pop($entry_id);
 
@@ -552,9 +497,6 @@ class EntriesController
                 'entry_path_current' => $this->getEntryID($query),
                 'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'menu_item' => 'entries',
-                'parts' => $parts,
-                'i' => count($parts),
-                'last' => array_pop($parts),
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
@@ -666,13 +608,6 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set Entries ID in parts
-        if (isset($query['id'])) {
-            $parts = explode("/", $query['id']);
-        } else {
-            $parts = [0 => ''];
-        }
-
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
@@ -700,20 +635,17 @@ class EntriesController
                 $response,
                 'plugins/admin/templates/content/entries/source.html',
                 [
-                        'parts' => $parts,
-                        'i' => count($parts),
-                        'last' => array_pop($parts),
-                        'id' => $this->getEntryID($query),
-                        'data' => $entrySource,
-                        'type' => $type,
-                        'menu_item' => 'entries',
-                        'cancelUrl' => $cancelUrl,
-                        'links' => [
-                            'entries' => [
-                                'link' => flextype('router')->pathFor('admin.entries.index'),
-                                'title' => __('admin_entries')
-                            ]
+                    'id' => $this->getEntryID($query),
+                    'data' => $entrySource,
+                    'type' => $type,
+                    'menu_item' => 'entries',
+                    'cancelUrl' => $cancelUrl,
+                    'links' => [
+                        'entries' => [
+                            'link' => flextype('router')->pathFor('admin.entries.index'),
+                            'title' => __('admin_entries')
                         ]
+                    ]
                 ]
             );
         } elseif ($type == 'editor') {
@@ -729,19 +661,16 @@ class EntriesController
                 $response,
                 'plugins/admin/templates/content/entries/edit.html',
                 [
-                        'parts' => $parts,
-                        'i' => count($parts),
-                        'last' => array_pop($parts),
-                        'id' => $this->getEntryID($query),
-                        'form' => $form,
-                        'menu_item' => 'entries',
-                        'cancelUrl' => $cancelUrl,
-                        'links' => [
-                            'entries' => [
-                                'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                                'title' => __('admin_entries')
-                            ]
+                    'id' => $this->getEntryID($query),
+                    'form' => $form,
+                    'menu_item' => 'entries',
+                    'cancelUrl' => $cancelUrl,
+                    'links' => [
+                        'entries' => [
+                            'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                            'title' => __('admin_entries')
                         ]
+                    ]
                 ]
             );
         }

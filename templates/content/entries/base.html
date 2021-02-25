@@ -1,0 +1,23 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block breadcrumbs %}
+    {% if isCurrentUrl('admin.entries.index') or
+          isCurrentUrl('admin.entries.edit') or
+          isCurrentUrl('admin.entries.add') or
+          isCurrentUrl('admin.entries.move') or
+          isCurrentUrl('admin.entries.rename') or
+          isCurrentUrl('admin.entries.type') %}
+        {% set parts = id|split('/') %}
+        {% for part in parts %}
+            {% set entryID = entryID ~ '/' ~ part %}
+            {% if (part != parts|last) %}
+                <span class="slash-divider">/</span>
+                <a href="{{ urlFor('admin.entries.index') }}?id={{ strings(entryID).trimLeft('/') }}">
+                    {{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
+                </a>
+            {% elseif (part) %}
+                <span class="slash-divider">/</span>{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

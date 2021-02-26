@@ -119,11 +119,44 @@
             {% endif %}
         {% endfor %}
 
-        {% include "plugins/admin/templates/partials/js/form-submit.html" %}
-        {% include "plugins/admin/templates/partials/js/slugify.html" %}
-        {% include "plugins/admin/templates/partials/js/toast.html" %}
-        {% include "plugins/admin/templates/partials/js/clipboard.html" %}
-        {% include "plugins/admin/templates/partials/js/ace.html" %}
+        <script>
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: false,
+                showClass: {
+                    popup: 'animated fadeInRight faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOutRight faster'
+                }
+            });
+
+            {% for message in flextype.flash.getMessages()['success'] %}
+                Toast.fire({icon: '', title: '{{ message }}'});
+            {% endfor %}
+
+            {% for message in flextype.flash.getMessages()['warning'] %}
+                Toast.fire({icon: '', title: '{{ message }}'});
+            {% endfor %}
+
+            {% for message in flextype.flash.getMessages()['error'] %}
+                Toast.fire({icon: '', title: '{{ message }}'});
+            {% endfor %}
+
+            var clipboard = new ClipboardJS('.js-clipboard-btn');
+
+            if ($("#ace-editor").length ) {
+                var editor = ace.edit("ace-editor");
+                ace.config.set('basePath', "{{ url() }}/project/plugins/admin/assets/dist/js/ace")
+                editor.setTheme("ace/theme/textmate");
+                editor.setAutoScrollEditorIntoView(true);
+                editor.setShowInvisibles(true)
+                editor.setOption("maxLines", 100);
+            }
+        </script>
 
         {% do flextype.emitter.emit('onAdminThemeTail') %}
 

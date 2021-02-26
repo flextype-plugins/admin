@@ -18,3 +18,99 @@
         {% endfor %}
     {% endif %}
 {% endblock %}
+
+
+{% block tail %}
+<script>
+    class Media {
+
+        static processUploaderDragAndDrop()
+        {
+            $('.file-upload__dropzone').bind('dragover', function () {
+                $('.file-upload__dropzone').addClass('file-upload__dropzone-dropping');
+            });
+
+            $('.file-upload__dropzone').bind('dragleave', function () {
+                $('.file-upload__dropzone').removeClass('file-upload__dropzone-dropping');
+            });
+        }
+
+        static processUploaderForm()
+        {
+            $('.js-submit-upload-form').click(function () {
+                $("form[name=form_media_upload]").submit();
+            });
+        }
+
+        static readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.file-upload__dropzone').hide();
+
+                    if (input.files[0].type == 'image/png' ||
+                        input.files[0].type == 'image/jpg' ||
+                        input.files[0].type == 'image/jpeg' ||
+                        input.files[0].type == 'image/gif') {
+                        $('.file-upload__preview__image').attr('src', e.target.result);
+                        $('.file-upload__preview__image').show();
+                        $('.file-upload__preview__svg').hide();
+                    } else {
+                        $('.file-upload__preview__image').hide();
+                        $('.file-upload__preview__svg').show();
+                    }
+
+                    $('.file-upload__preview').show();
+                    $('.file-upload__btn-remove-wrap__remove-image-title').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                Media.removeUpload();
+            }
+        }
+
+        static removeUpload() {
+            $('.file-upload__dropzone__file-control').replaceWith($('.file-upload__dropzone__file-control').clone());
+            $('.file-upload__preview').hide();
+            $('.file-upload__dropzone').show();
+        }
+
+        static deleteFile(id) {
+            Swal.fire({
+                title: "{{ tr('admin_confirmation_required') }}",
+                text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
+                showCancelButton: true,
+                confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                cancelButtonText: "{{ tr('admin_cancel') }}",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-file-id-' + id).submit();
+                }
+            });
+        }
+
+        static deleteFolder(id) {
+            Swal.fire({
+                title: "{{ tr('admin_confirmation_required') }}",
+                text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
+                showCancelButton: true,
+                confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
+                cancelButtonText: "{{ tr('admin_cancel') }}",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById('delete-folder-id-' + id).submit();
+                }
+            });
+        }
+    }
+
+    Media.processUploaderDragAndDrop();
+    Media.processUploaderForm();
+</script>
+{% endblock %}

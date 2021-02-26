@@ -14,7 +14,7 @@
                     <form method="post" name="form_media_upload" enctype="multipart/form-data">
                         {{ csrf() }}
                         <input type="hidden" name="id" value="{{ id }}">
-                        <input class="file-upload__dropzone__file-control" name="file" type="file" onchange="readURL(this);" />
+                        <input class="file-upload__dropzone__file-control" name="file" type="file" onchange="Media.readURL(this);" />
                     </form>
                     <div class="file-upload__dropzone__file-control-text">
                         <h3>Drag and drop a file or click to Select File</h3>
@@ -24,7 +24,7 @@
                     <img class="file-upload__preview__image" src="#" alt="your image" />
                     <div class="file-upload__preview__svg">{{ icon('file-earmark-code', 'bootstrap') }}</div>
                     <div class="file-upload__btn-remove-wrap">
-                        <button type="button" onclick="removeUpload()" class="file-upload__btn-remove-wrap__remove-image">Remove <span class="file-upload__btn-remove-wrap__remove-image-title">Uploaded Image</span></button>
+                        <button type="button" onclick="Media.removeUpload()" class="file-upload__btn-remove-wrap__remove-image">Remove <span class="file-upload__btn-remove-wrap__remove-image-title">Uploaded Image</span></button>
                     </div>
                 </div>
             </div>
@@ -35,58 +35,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block tail %}
-<script>
-    $('.js-submit-upload-form').click(function () {
-        $("form[name=form_media_upload]").submit();
-    });
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('.file-upload__dropzone').hide();
-
-                if (input.files[0].type == 'image/png' ||
-                    input.files[0].type == 'image/jpg' ||
-                    input.files[0].type == 'image/jpeg' ||
-                    input.files[0].type == 'image/gif') {
-                    $('.file-upload__preview__image').attr('src', e.target.result);
-                    $('.file-upload__preview__image').show();
-                    $('.file-upload__preview__svg').hide();
-                } else {
-                    $('.file-upload__preview__image').hide();
-                    $('.file-upload__preview__svg').show();
-                }
-
-                $('.file-upload__preview').show();
-                $('.file-upload__btn-remove-wrap__remove-image-title').html(input.files[0].name);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-
-        } else {
-            removeUpload();
-        }
-    }
-
-    function removeUpload() {
-        $('.file-upload__dropzone__file-control').replaceWith($('.file-upload__dropzone__file-control').clone());
-        $('.file-upload__preview').hide();
-        $('.file-upload__dropzone').show();
-    }
-
-    $('.file-upload__dropzone').bind('dragover', function () {
-        $('.file-upload__dropzone').addClass('file-upload__dropzone-dropping');
-    });
-
-    $('.file-upload__dropzone').bind('dragleave', function () {
-        $('.file-upload__dropzone').removeClass('file-upload__dropzone-dropping');
-    });
-
-</script>
 {% endblock %}

@@ -16,6 +16,7 @@
     </div>
 </div>
 
+{% if mediaFoldersList.count() > 0 or mediaFilesList.count() > 0 %}
 <div class="workspace-rounded">
     <table class="table">
         <thead>
@@ -50,7 +51,16 @@
                             {{ icon('three-dots', 'bootstrap') }}
                             </a>
                             <ul class="dropdown-menu">
-
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Media.deleteFolder('{{ folder.basename }}');">
+                                    {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a>
+                                </li>
+                                <form id="delete-folder-id-{{ folder.basename }}" action="{{ urlFor('admin.media.deleteFolderProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ folder.path }}">
+                                    <input type="hidden" name="basename" value="{{ folder.basename }}">
+                                </form>
                             </ul>
                         </div>
                     </td>
@@ -70,7 +80,17 @@
                             {{ icon('three-dots', 'bootstrap') }}
                             </a>
                             <ul class="dropdown-menu">
-
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Media.deleteFile('{{ file.filename }}');">
+                                    {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a>
+                                </li>
+                                <form id="delete-file-id-{{ file.filename }}" action="{{ urlFor('admin.media.deleteFileProcess') }}" method="POST" style="display: none;">
+                                    {{ csrf() }}
+                                    <input type="hidden" name="id" value="{{ file.path }}">
+                                    <input type="hidden" name="filename" value="{{ file.filename }}">
+                                    <input type="hidden" name="path" value="{{ file.path }}">
+                                </form>
                             </ul>
                         </div>
                     </td>
@@ -79,24 +99,7 @@
         </tbody>
     </table>
 </div>
+{% else %}
 
-{% endblock %}
-
-{% block tail %}
-    <script>
-        function deleteEntry(id) {
-            Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}",
-                 text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
-                 showCancelButton: true,
-                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
-                 cancelButtonText: "{{ tr('admin_cancel') }}",
-                 reverseButtons: true}
-            ).then((result) => {
-                if (result.value) {
-                    document.getElementById('delete-id-' + id).submit();
-                }
-            });
-        }
-    </script>
+{% endif %}
 {% endblock %}

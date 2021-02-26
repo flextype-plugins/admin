@@ -88,12 +88,3 @@
     </div>
 </div>
 {% endblock %}
-
-{% block tail %}
-<script>
-    $('.js-submit-entry-create-form').click(function () {
-        $("input[name=current_id]").val($(this).data('redirect'));
-        $("form[name=form_entries_create]").submit();
-    });
-</script>
-{% endblock %}

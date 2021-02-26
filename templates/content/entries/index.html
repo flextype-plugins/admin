@@ -106,7 +106,7 @@
                                         {{ icon('eye', 'bootstrap') }} {{ tr('admin_preview') }}</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); deleteEntry('{{ entry.id }}', {{ loop.index0 }});">
+                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
                                         {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
                                     <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
@@ -126,69 +126,17 @@
         </table>
         </div>
     {% else %}
-        <div class="text-center flex justify-center items-center h-full">
-            <div>
-                <i class="icon icon--4xl">{{ icon('database', 'fontawesome|solid') }}</i>
-                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
-                <a href="javascript:;" class="button" onclick="event.preventDefault();
-                selectEntryType('{{ id_current }}', 0);">{{ tr('admin_create_new_entry') }}</a>
-            </div>
+        <div class="workspace-message">
+            <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
+            <h3 class="workspace-message__title">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
+            <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ tr('admin_create_new_entry') }}</a>
         </div>
     {% endif %}
 {% else %}
-    <div class="text-center flex justify-center items-center h-full">
-        <div>
-            <i class="icon icon--4xl">{{ icon('list-alt', 'fontawesome|solid') }}</i>
-            <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
-            <a href="{{ urlFor('admin.fieldsets.add') }}" class="button">{{ tr('admin_create_new_fieldset') }}</a>
-        </div>
+    <div class="workspace-message">
+        <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
+        <h3 class="workspace-message__title">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
+        <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.fieldsets.add') }}">{{ tr('admin_create_new_fieldset') }}</a>
     </div>
 {% endif %}
-
-
-{#
-    <div class="_select-entry-type-template hidden">
-        <div class="flex row">
-            {% for key, fieldset in fieldsets %}
-                <div class="block col w-4/12 px-3 py-3 mb-2">
-                    <a href="javascript:;" onclick="event.preventDefault();
-                document.getElementById('add-entry-{{ key }}').submit();" class="block bg-gray-000 border-gray-100 border px-4 py-8 relative rounded">
-                        <div>
-                            {% if fieldset.icon %}
-                                <i class="icon icon--large">{{ icon(fieldset.icon.name, fieldset.icon.set) }}</i>
-                            {% else %}
-                                <i class="icon icon--large">{{ icon('file-alt', 'fontawesome|solid') }}</i>
-                            {% endif %}
-                        </div>
-                        <div class="pt-3">{{ fieldset.title }}</div>
-                    </a>
-                    <form id="add-entry-{{ key }}" action="{{ urlFor('admin.entries.selectEntryTypeProcess') }}" method="POST" style="display: none;" class="js-add-entry">
-                        {{ csrf() }}
-                        <input type="hidden" name="type" value="{{ key }}">
-                        <input type="hidden" name="id" value="{{ id_current }}">
-                    </form>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-#}
-{% endblock %}
-
-{% block tail %}
-    <script>
-        function deleteEntry(id) {
-            Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}",
-                 text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
-                 showCancelButton: true,
-                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
-                 cancelButtonText: "{{ tr('admin_cancel') }}",
-                 reverseButtons: true}
-            ).then((result) => {
-                if (result.value) {
-                    document.getElementById('delete-id-' + id).submit();
-                }
-            });
-        }
-    </script>
 {% endblock %}

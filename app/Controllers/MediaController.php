@@ -191,6 +191,48 @@ class MediaController
     }
 
     /**
+     * Delete media file - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function deleteFileProcess(Request $request, Response $response): Response
+    {
+        $data = $request->getParsedBody();
+
+        if (flextype('media')->files()->delete($data['path'] . '/' . $data['filename'])) {
+            flextype('flash')->addMessage('success', __('admin_message_entry_file_deleted'));
+        } else {
+            flextype('flash')->addMessage('error', __('admin_message_entry_file_not_deleted'));
+        }
+
+        return $response->withRedirect(flextype('router')->pathFor('admin.media.index') . '?id=' . $this->getMediaID($data));
+    }
+
+    /**
+     * Delete media folder - process
+     *
+     * @param Request  $request  PSR7 request
+     * @param Response $response PSR7 response
+     *
+     * @return Response
+     */
+    public function deleteFolderProcess(Request $request, Response $response): Response
+    {
+        $data = $request->getParsedBody();
+
+        if (flextype('media')->folders()->delete($data['id'])) {
+            flextype('flash')->addMessage('success', __('admin_message_entry_folder_deleted'));
+        } else {
+            flextype('flash')->addMessage('error', __('admin_message_entry_folder_not_deleted'));
+        }
+
+        return $response->withRedirect(flextype('router')->pathFor('admin.media.index') . '?id=' . $this->getMediaID($data));
+    }
+
+    /**
      * Upload media file - process
      *
      * @param Request  $request  PSR7 request
@@ -208,6 +250,6 @@ class MediaController
             flextype('flash')->addMessage('error', __('admin_message_entry_file_not_uploaded'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.media.index') . '?id=' . $data['id']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.media.index') . '?id=' . $this->getMediaID($data));
     }
 }

@@ -38,14 +38,14 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/entries/type', EntriesController::class . ':typeProcess')->setName('admin.entries.typeProcess');
     flextype()->post('/entries/duplicate', EntriesController::class . ':duplicateProcess')->setName('admin.entries.duplicateProcess');
     flextype()->post('/entries/delete', EntriesController::class . ':deleteProcess')->setName('admin.entries.deleteProcess');
-    flextype()->post('/entries/delete-media-file', EntriesController::class . ':deleteMediaFileProcess')->setName('admin.entries.deleteMediaFileProcess');
-    flextype()->post('/entries/upload-media-file', EntriesController::class . ':uploadMediaFileProcess')->setName('admin.entries.uploadMediaFileProcess');
     flextype()->post('/entries/display-view-process', EntriesController::class . ':displayViewProcess')->setName('admin.entries.displayViewProcess');
 
     // Media Controller
     flextype()->get('/media', MediaController::class . ':index')->setName('admin.media.index');
     flextype()->get('/media/upload', MediaController::class . ':upload')->setName('admin.media.upload');
     flextype()->post('/media/upload', MediaController::class . ':uploadProcess')->setName('admin.media.uploadProcess');
+    flextype()->post('/media/delete-file', MediaController::class . ':deleteFileProcess')->setName('admin.media.deleteFileProcess');
+    flextype()->post('/media/delete-folder', MediaController::class . ':deleteFolderProcess')->setName('admin.media.deleteFolderProcess');
     flextype()->get('/media/create-directory', MediaController::class . ':createDirectory')->setName('admin.media.createDirectory');
     flextype()->post('/media/create-directory', MediaController::class . ':createDirectoryProcess')->setName('admin.media.createDirectoryProcess');
     flextype()->get('/media/edit', MediaController::class . ':edit')->setName('admin.media.edit');

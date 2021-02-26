@@ -14,7 +14,6 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class MediaController
 {
-
     /**
      * __construct()
      */
@@ -26,17 +25,11 @@ class MediaController
     /**
      * Get Media ID
      *
-     * @param array Query
+     * @param array $query Query
      */
-    protected function getMediaID($query)
+    protected function getMediaID(array $query): string
     {
-        $id = '';
-
-        if (isset($query['id'])) {
-            $id = $query['id'];
-        }
-
-        return $id;
+        return isset($query['id']) ? $query['id'] : '';
     }
 
     /**

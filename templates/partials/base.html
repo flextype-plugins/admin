@@ -87,7 +87,7 @@
                         <div class="col text-end actions-buttons">
                             {% if(flextype.registry.has('plugins.admin.settings.navigation.secondary')) %}
                                 {% for navigation in flextype.registry.get('plugins.admin.settings.navigation.secondary') %}
-                                    <a title="{{ tr(navigation.link.title) }}"
+                                    <a title="{{ __(navigation.link.title) }}"
                                        target="{% if (navigation.link.is_external) %}_blank{% else %}_self{% endif %}"
                                        href="{% if (navigation.link.is_external) %}{{ navigation.link.url }}{% else %}{{ urlFor(navigation.link.service) }}{% endif %}">{{ icon(navigation.link.icon.name, navigation.link.icon.set) }}</a>
                                 {% endfor %}

@@ -70,10 +70,7 @@ gulp.task('vendor-js', function(){
    return gulp.src([
                     // Swal2
                     'node_modules/sweetalert2/dist/sweetalert2.min.js',
-
-                    // ParsleyJS Form Validatator
-                    'node_modules/parsleyjs/dist/parsley.min.js',
-
+                    
                     // SpeakingURL
                     'node_modules/speakingurl/speakingurl.min.js',
 

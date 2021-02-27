@@ -14,7 +14,6 @@ namespace Flextype\Plugin\Admin;
 use Flextype\Component\I18n\I18n;
 use function Flextype\Component\I18n\__;
 
-
 // Set Default Admin locale
 I18n::$locale = flextype('registry')->get('flextype.settings.locale');
 

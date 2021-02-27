@@ -23,7 +23,7 @@
             <tr>
                 <th width="50"></th>
                 <th class="ps-0">
-                    {{ tr('admin_name') }}
+                    {{ __('admin_name') }}
                 </th>
                 <th width="50"></th>
             </tr>
@@ -54,7 +54,7 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Media.deleteFolder('{{ folder.basename }}');">
-                                    {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a>
+                                    {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a>
                                 </li>
                                 <form id="delete-folder-id-{{ folder.basename }}" action="{{ urlFor('admin.media.deleteFolderProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}
@@ -83,7 +83,7 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Media.deleteFile('{{ file.filename }}');">
-                                    {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a>
+                                    {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a>
                                 </li>
                                 <form id="delete-file-id-{{ file.filename }}" action="{{ urlFor('admin.media.deleteFileProcess') }}" method="POST" style="display: none;">
                                     {{ csrf() }}

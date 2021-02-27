@@ -81,11 +81,11 @@
 
         static deleteFile(id) {
             Swal.fire({
-                title: "{{ tr('admin_confirmation_required') }}",
-                text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
+                title: "{{ __('admin_confirmation_required') }}",
+                text: "{{ __('admin_confirmation_required_for_entry_delete') }}",
                 showCancelButton: true,
-                confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
-                cancelButtonText: "{{ tr('admin_cancel') }}",
+                confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}",
+                cancelButtonText: "{{ __('admin_cancel') }}",
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
@@ -96,11 +96,11 @@
 
         static deleteFolder(id) {
             Swal.fire({
-                title: "{{ tr('admin_confirmation_required') }}",
-                text: "{{ tr('admin_confirmation_required_for_entry_delete') }}",
+                title: "{{ __('admin_confirmation_required') }}",
+                text: "{{ __('admin_confirmation_required_for_entry_delete') }}",
                 showCancelButton: true,
-                confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
-                cancelButtonText: "{{ tr('admin_cancel') }}",
+                confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}",
+                cancelButtonText: "{{ __('admin_cancel') }}",
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {

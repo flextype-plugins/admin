@@ -92,7 +92,7 @@
                                        href="{% if (navigation.link.is_external) %}{{ navigation.link.url }}{% else %}{{ urlFor(navigation.link.service) }}{% endif %}">{{ icon(navigation.link.icon.name, navigation.link.icon.set) }}</a>
                                 {% endfor %}
                             {% endif %}
-                            <a title="{{ tr('admin_logout') }}"
+                            <a title="{{ __('admin_logout') }}"
                                href="javascript:;"
                                onclick="event.preventDefault(); document.getElementById('logoutProcess').submit();">{{ icon('box-arrow-right', 'bootstrap') }}</a>
                             <form id="logoutProcess" action="{{ urlFor('admin.accounts.logoutProcess') }}" method="POST" style="display: none;">

@@ -21,12 +21,12 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="title" class="form-label">{{ tr('admin_title') }}</label>
-                    <input type="text" id="title" name="title" value="{{ token_data.title }}" class="form-control js-title" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
-                    <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
+                    <label for="title" class="form-label">{{ __('admin_title') }}</label>
+                    <input type="text" id="title" name="title" value="{{ token_data.title }}" class="form-control js-title" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ __('admin_error_title_empty_input') }}" data-parsley-required="true">
+                    <small>{{ __('admin_help_text_for_tokens_label') }}</small>
                 </div>
                 <div class="mb-3">
-                    <label for="title" class="form-label">{{ tr('admin_api_calls_limit') }}</label>
+                    <label for="title" class="form-label">{{ __('admin_api_calls_limit') }}</label>
                     <input
                         type="text"
                         id="limit"
@@ -37,27 +37,27 @@
                         data-parsley-required="true"
                         data-parsley-minlength="1"
                         data-parsley-type="integer"
-                        data-parsley-error-message="{{ tr('admin_error_api_calls_empty_input') }}">
-                    <small>{{ tr('admin_help_text_for_api_calls_limit_label') }}</small>
+                        data-parsley-error-message="{{ __('admin_error_api_calls_empty_input') }}">
+                    <small>{{ __('admin_help_text_for_api_calls_limit_label') }}</small>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="icon" class="form-label">{{ tr('admin_icon_name') }}</label>
-                    <input type="text" id="fieldsetIconName" name="icon_name" value="{{ token_data.icon.name }}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
-                    <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
+                    <label for="icon" class="form-label">{{ __('admin_icon_name') }}</label>
+                    <input type="text" id="fieldsetIconName" name="icon_name" value="{{ token_data.icon.name }}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ __('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
+                    <small>{{ __('admin_help_text_for_tokens_label') }}</small>
                 </div>
                 <div class="mb-3">
-                    <label for="icon" class="form-label">{{ tr('admin_icon_set') }}</label>
-                    <input type="text" id="fieldsetIconSet" name="icon_set" value="{{ token_data.icon.set }}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
-                    <small>{{ tr('admin_help_text_for_tokens_label') }}</small>
+                    <label for="icon" class="form-label">{{ __('admin_icon_set') }}</label>
+                    <input type="text" id="fieldsetIconSet" name="icon_set" value="{{ token_data.icon.set }}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ __('form_admin_error_icon_empty_input') }}" data-parsley-required="true">
+                    <small>{{ __('admin_help_text_for_tokens_label') }}</small>
                 </div>
             </div>
             <div class="col-md-4">
-                <label for="type" class="form-label">{{ tr('admin_state') }}</label>
+                <label for="type" class="form-label">{{ __('admin_state') }}</label>
                 <select class="form-control js-select" name="state">
-                    <option value="enabled" {% if token_data.state == 'enabled' %} selected="selected" {% endif %}>{{ tr('admin_enabled') }}</option>
-                    <option value="disabled" {% if token_data.state == 'disabled' %} selected="selected" {% endif %} ">{{ tr('admin_disabled') }}</option>
+                    <option value="enabled" {% if token_data.state == 'enabled' %} selected="selected" {% endif %}>{{ __('admin_enabled') }}</option>
+                    <option value="disabled" {% if token_data.state == 'disabled' %} selected="selected" {% endif %} ">{{ __('admin_disabled') }}</option>
                 </select>
             </div>
         </div>

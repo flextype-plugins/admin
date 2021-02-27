@@ -12,8 +12,19 @@
 <div class="workspace-rounded">
     <form method="post" id="form_settings_save">
         {{ csrf() }}
-        <input type="hidden" name="action" value="save-form">
-        <textarea name="data" rows="0" cols="0" class="js-code code-editor">{{ data }}</textarea>
+        <textarea name="data" style="display:none;"></textarea>
+        <div id="editor" class="js-code-editor">{{ data }}</div>
     </form>
 </div>
+{% endblock %}
+
+{% block tail %}
+<script>
+    editor.session.setMode("ace/mode/yaml");
+
+    $('.js-submit-form').click(function () {
+        $("[name=data]").val(editor.getValue());
+        //$("form[name=form_entries_create]").submit();
+    });
+</script>
 {% endblock %}

@@ -13,9 +13,9 @@
                 <input type="hidden" name="_entry_parent" value="{{ entry_parent }}">
                 <input type="hidden" name="_name_current" value="{{ name_current }}">
                 <div class="mb-3">
-                    <label for="entryName" class="form-label">{{ tr('admin_name') }}</label>
-                    <input type="text" id="entryName" name="name" value="{{name_current}}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ tr('admin_error_title_empty_input') }}" data-parsley-required="true">
-                    <small>{{ tr('admin_help_text_for_entry_name') }}</small>
+                    <label for="entryName" class="form-label">{{ __('admin_name') }}</label>
+                    <input type="text" id="entryName" name="name" value="{{name_current}}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ __('admin_error_title_empty_input') }}" data-parsley-required="true">
+                    <small>{{ __('admin_help_text_for_entry_name') }}</small>
                 </div>
             </form>
         </div>
@@ -24,7 +24,7 @@
             <a id="renameEntry"
                name="rename_entry"
                href="javascript:void(0);"
-               class="btn btn-primary js-submit-entry-rename-form">{{ tr('admin_save') }}</a>
+               class="btn btn-primary js-submit-entry-rename-form">{{ __('admin_save') }}</a>
         </div>
     </div>
 </div>

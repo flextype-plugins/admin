@@ -16,16 +16,16 @@
                 <tr>
                     <th width="50"></th>
                     <th class="ps-0">
-                        {{ tr('admin_name') }}
+                        {{ __('admin_name') }}
                     </th>
                     <th>
-                        {{ tr('admin_description') }}
+                        {{ __('admin_description') }}
                     </th>
                     <th>
-                        {{ tr('admin_author') }}
+                        {{ __('admin_author') }}
                     </th>
                     <th>
-                        {{ tr('admin_version') }}
+                        {{ __('admin_version') }}
                     </th>
                     <th width="50"></th>
                 </tr>
@@ -56,20 +56,20 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
-                                        {{ icon('info-circle', 'bootstrap') }} {{ tr('admin_information') }}</a></li>
+                                        {{ icon('info-circle', 'bootstrap') }} {{ __('admin_information') }}</a></li>
                                     <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
-                                        {{ icon('gear', 'bootstrap') }} {{ tr('admin_settings') }}</a></li>
+                                        {{ icon('gear', 'bootstrap') }} {{ __('admin_settings') }}</a></li>
                                     {% if plugin.settings.enabled %}
                                     <li>
                                         <a class="dropdown-item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}');" href="javascript:;">
-                                            {{ icon('toggle-on', 'bootstrap') }} {{ tr('admin_deactivate') }}
+                                            {{ icon('toggle-on', 'bootstrap') }} {{ __('admin_deactivate') }}
                                         </a>
                                     </li>
                                     {% else %}
                                     <li>
                                         <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                            {{ icon('toggle-off', 'bootstrap') }} {{ tr('admin_activate') }}
+                                            {{ icon('toggle-off', 'bootstrap') }} {{ __('admin_activate') }}
                                         </a>
                                     </li>
                                     {% endif %}
@@ -88,20 +88,20 @@
                             <div id="dropdown-{{ key }}" class="dropdown">
                                 <a class="dropdown__item" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
                                     <i class="icon icon--white mr-3">{{ icon('info-circle', 'fontawesome|solid') }}</i>
-                                    {{ tr('admin_information') }}</a>
+                                    {{ __('admin_information') }}</a>
                                 <a class="dropdown__item" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
                                     <i class="icon icon--white mr-3">{{ icon('cog', 'fontawesome|solid') }}</i>
-                                    {{ tr('admin_settings') }}</a>
+                                    {{ __('admin_settings') }}</a>
 
                                 {% if plugin.settings.enabled %}
                                     <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
                                         <i class="icon icon--white mr-3">{{ icon('toggle-on', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_deactivate') }}
+                                        {{ __('admin_deactivate') }}
                                     </a>
                                 {% else %}
                                     <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
                                         <i class="icon icon--white mr-3">{{ icon('toggle-off', 'fontawesome|solid') }}</i>
-                                        {{ tr('admin_activate') }}
+                                        {{ __('admin_activate') }}
                                     </a>
                                 {% endif %}
                                 <form id="update-plugin-status-{{ key }}" action="{{ urlFor('admin.plugins.update-status') }}" method="POST" style="display: none;">
@@ -122,7 +122,7 @@
         <div class="text-center flex justify-center items-center h-full">
             <div>
                 <i class="icon icon--4xl">{{ icon('plug', 'fontawesome|solid') }}</i>
-                <h3 class="text-2xl pt-4 pb-8">{{ tr('admin_you_have_no_plugins') }}</h3>
+                <h3 class="text-2xl pt-4 pb-8">{{ __('admin_you_have_no_plugins') }}</h3>
             </div>
         </div>
     {% endif %}
@@ -132,7 +132,7 @@
     <script>
         function deactivatePlugin(id) {
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}", text: "{{ tr('admin_confirmation_required_for_deactivate_plugin') }}", showCancelButton: true, confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ tr('admin_cancel') }}", reverseButtons: true}
+                {title: "{{ __('admin_confirmation_required') }}", text: "{{ __('admin_confirmation_required_for_deactivate_plugin') }}", showCancelButton: true, confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ __('admin_cancel') }}", reverseButtons: true}
             ).then((result) => {
                 if (result.value) {
                     document.getElementById('update-plugin-status-' + id).submit();

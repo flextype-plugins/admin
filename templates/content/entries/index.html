@@ -15,13 +15,13 @@
                 <tr>
                     <th width="50"></th>
                     <th class="ps-0">
-                        {{ tr('admin_title') }}
+                        {{ __('admin_title') }}
                     </th>
                     <th>
-                        {{ tr('admin_url') }}
+                        {{ __('admin_url') }}
                     </th>
                     <th>
-                        {{ tr('admin_published_at') }}
+                        {{ __('admin_published_at') }}
                     </th>
                     <th width="50"></th>
                 </tr>
@@ -81,33 +81,33 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
-                                        {{ icon('pencil', 'bootstrap') }} {{ tr('admin_edit') }}</a></li>
+                                        {{ icon('pencil', 'bootstrap') }} {{ __('admin_edit') }}</a></li>
                                     <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
-                                        {{ icon('plus-circle', 'bootstrap') }} {{ tr('admin_add') }}</a></li>
+                                        {{ icon('plus-circle', 'bootstrap') }} {{ __('admin_add') }}</a></li>
                                     <li>
                                     <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault();
                                            document.getElementById('duplicate-id-{{ entry.id }}').submit();">
-                                        {{ icon('files', 'bootstrap') }} {{ tr('admin_duplicate') }}</a></li>
+                                        {{ icon('files', 'bootstrap') }} {{ __('admin_duplicate') }}</a></li>
                                     <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
-                                        {{ icon('file-font', 'bootstrap') }} {{ tr('admin_rename') }}</a></li>
+                                        {{ icon('file-font', 'bootstrap') }} {{ __('admin_rename') }}</a></li>
                                     <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
-                                        {{ icon('card-list', 'bootstrap') }} {{ tr('admin_type') }}</a></li>
+                                        {{ icon('card-list', 'bootstrap') }} {{ __('admin_type') }}</a></li>
                                     <li>
                                     <li>
                                     <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
-                                        {{ icon('arrow-right-square', 'bootstrap') }} {{ tr('admin_move') }}</a></li>
+                                        {{ icon('arrow-right-square', 'bootstrap') }} {{ __('admin_move') }}</a></li>
                                     <li><a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
-                                        {{ icon('code-square', 'bootstrap') }} {{ tr('admin_source') }}</a></li>
+                                        {{ icon('code-square', 'bootstrap') }} {{ __('admin_source') }}</a></li>
                                     <li>
                                     <a class="dropdown-item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
-                                        {{ icon('eye', 'bootstrap') }} {{ tr('admin_preview') }}</a></li>
+                                        {{ icon('eye', 'bootstrap') }} {{ __('admin_preview') }}</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                     <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
-                                        {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                                        {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a></li>
                                     <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                         {{ csrf() }}
                                         <input type="hidden" name="id" value="{{ entry.id }}">
@@ -128,15 +128,15 @@
     {% else %}
         <div class="workspace-message">
             <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
-            <h3 class="workspace-message__title">{{ tr('admin_you_have_not_created_any_entries_yet') }}</h3>
-            <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ tr('admin_create_new_entry') }}</a>
+            <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_entries_yet') }}</h3>
+            <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ __('admin_create_new_entry') }}</a>
         </div>
     {% endif %}
 {% else %}
     <div class="workspace-message">
         <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
-        <h3 class="workspace-message__title">{{ tr('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
-        <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.fieldsets.add') }}">{{ tr('admin_create_new_fieldset') }}</a>
+        <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_fieldsets_yet') }}</h3>
+        <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.fieldsets.add') }}">{{ __('admin_create_new_fieldset') }}</a>
     </div>
 {% endif %}
 {% endblock %}

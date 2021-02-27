@@ -19,13 +19,13 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="{{ urlFor('admin.api.tokens') }}?api={{ key }}">
-                                {{ icon('pencil-square', 'bootstrap') }} {{ tr('admin_manage') }}</a></li>
+                                {{ icon('pencil-square', 'bootstrap') }} {{ __('admin_manage') }}</a></li>
                             <li>
                             <a class="dropdown-item" href="{{ urlFor('admin.api.tokens') }}/add?api={{ key }}">
-                                {{ icon('plus-circle', 'bootstrap') }} {{ tr('admin_add') }}</a></li>
+                                {{ icon('plus-circle', 'bootstrap') }} {{ __('admin_add') }}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); deleteApiTokens('{{ key }}');">
-                                {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete_all') }}</a></li>
+                                {{ icon('trash', 'bootstrap') }} {{ __('admin_delete_all') }}</a></li>
                             <form id="delete-api-tokens-id-{{ key }}" action="{{ urlFor('admin.api.deleteApiTokensProcess') }}" method="POST" style="display: none;">
                                 {{ csrf() }}
                                 <input type="hidden" name="token" value="{{ key }}">
@@ -38,11 +38,11 @@
                 <table class="table m-0">
                   <tbody>
                     <tr>
-                      <td class="px-3">{{ tr('admin_tokens') }}</td>
+                      <td class="px-3">{{ __('admin_tokens') }}</td>
                       <td class="px-3 text-end">{{ api_stats[key].tokens ?? 0 }}</td>
                     </tr>
                     <tr>
-                      <td class="px-3">{{ tr('admin_calls') }}</td>
+                      <td class="px-3">{{ __('admin_calls') }}</td>
                       <td class="px-3 text-end">{{ api_stats[key].calls ?? 0 }}</td>
                     </tr>
                   </tbody>
@@ -59,11 +59,11 @@
     <script>
         function deleteApiTokens(id) {
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}",
-                 text: "{{ tr('admin_confirmation_tokens_delete') }}",
+                {title: "{{ __('admin_confirmation_required') }}",
+                 text: "{{ __('admin_confirmation_tokens_delete') }}",
                  showCancelButton: true,
-                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
-                 cancelButtonText: "{{ tr('admin_cancel') }}",
+                 confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}",
+                 cancelButtonText: "{{ __('admin_cancel') }}",
                  reverseButtons: true}
             ).then((result) => {
                 if (result.value) {

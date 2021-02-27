@@ -15,13 +15,13 @@
                 <tr>
                     <th width="50"></th>
                     <th class="ps-0">
-                        {{ tr('admin_title') }}
+                        {{ __('admin_title') }}
                     </th>
                     <th>
-                        {{ tr('admin_token') }}
+                        {{ __('admin_token') }}
                     </th>
                     <th>
-                        {{ tr('admin_calls') }}
+                        {{ __('admin_calls') }}
                     </th>
                     <th width="50"></th>
                 </tr>
@@ -53,10 +53,10 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item" href="{{ urlFor('admin.api.edit') }}?token={{ token.dirname }}&api={{ api }}">
-                                        {{ icon('pencil', 'bootstrap') }} {{ tr('admin_edit') }}</a></li>
+                                        {{ icon('pencil', 'bootstrap') }} {{ __('admin_edit') }}</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="javascript:;" onclick="deleteToken('{{ token.dirname }}');">
-                                        {{ icon('trash', 'bootstrap') }} {{ tr('admin_delete') }}</a></li>
+                                        {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a></li>
                                     <form id="delete-api-token-id-{{ token.dirname }}"
                                           action="{{ urlFor('admin.api.deleteProcess') }}"
                                           method="POST"
@@ -76,8 +76,8 @@
     {% else %}
         <div class="workspace-message">
             <div class="workspace-message__icon">{{ icon(icons[api].name, icons[api].set) }}</div>
-            <h3 class="workspace-message__title">{{ tr('admin_you_have_not_created_any_'~api~'_api_tokens_yet') }}</h3>
-            <a class="workspace-message__button btn btn-primary " href="{{ urlFor('admin.api.add') }}?api={{ api }}">{{ tr('admin_create_new_token') }}</a>
+            <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_'~api~'_api_tokens_yet') }}</h3>
+            <a class="workspace-message__button btn btn-primary " href="{{ urlFor('admin.api.add') }}?api={{ api }}">{{ __('admin_create_new_token') }}</a>
         </div>
     {% endif %}
 {% endblock %}
@@ -86,11 +86,11 @@
     <script>
         function deleteToken(id) {
             Swal.fire(
-                {title: "{{ tr('admin_confirmation_required') }}",
-                 text: "{{ tr('admin_confirmation_required_for_'~api~'_token_delete') }}",
+                {title: "{{ __('admin_confirmation_required') }}",
+                 text: "{{ __('admin_confirmation_required_for_'~api~'_token_delete') }}",
                  showCancelButton: true,
-                 confirmButtonText: "{{ tr('admin_yes_iam_sure')|raw }}",
-                 cancelButtonText: "{{ tr('admin_cancel') }}",
+                 confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}",
+                 cancelButtonText: "{{ __('admin_cancel') }}",
                  reverseButtons: true}
             ).then((result) => {
                 if (result.value) {

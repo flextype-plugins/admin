@@ -4,9 +4,9 @@
 @import 'card';
 @import 'forms';
 @import 'navigation';
-@import 'modals';
+@import 'modal';
 @import 'dropdown';
-@import 'buttons';
+@import 'btn';
 @import 'select2';
 @import 'swal2';
 @import 'codemirror';

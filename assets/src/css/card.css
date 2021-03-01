@@ -1,3 +1,5 @@
+/* extends bootstrap card */
+
 .card {
     border-color: rgb(225, 228, 232);
     border-radius: var(--border-radius);

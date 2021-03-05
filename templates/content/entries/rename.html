@@ -7,11 +7,21 @@
             <div class="col p-0"><h2>Rename Entry</h2></div>
         </div>
         <div class="workspace-rounded px-4 py-4 mb-3">
+            {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-rename.yaml').get() %}
+
+            {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent))
+                                .set('form.fields.entry_path_current.value', entry_path_current)
+                                .set('form.fields.entry_parent.value', entry_parent)
+                                .set('form.fields.name_current.value', name_current)
+                                .toArray() %}
+
+            {{ flextype.form.render(fieldset)|raw }}
+
             <form method="post" name="form_entries_rename" data-parsley-validate>
                 {{ csrf() }}
-                <input type="hidden" name="_entry_path_current" value="{{ entry_path_current }}">
-                <input type="hidden" name="_entry_parent" value="{{ entry_parent }}">
-                <input type="hidden" name="_name_current" value="{{ name_current }}">
+                <input type="hidden" name="entry_path_current" value="{{ entry_path_current }}">
+                <input type="hidden" name="entry_parent" value="{{ entry_parent }}">
+                <input type="hidden" name="name_current" value="{{ name_current }}">
                 <div class="mb-3">
                     <label for="entryName" class="form-label">{{ __('admin_name') }}</label>
                     <input type="text" id="entryName" name="name" value="{{name_current}}" class="form-control" required="required" data-parsley-minlength="1" data-parsley-error-message="{{ __('admin_error_title_empty_input') }}" data-parsley-required="true">
@@ -21,8 +31,7 @@
         </div>
         <div class="d-flex justify-content-end">
             <a href="{{ cancelUrl }}" class="btn btn-link">Cancel</a>
-            <a id="renameEntry"
-               name="rename_entry"
+            <a
                href="javascript:void(0);"
                class="btn btn-primary js-submit-entry-rename-form">{{ __('admin_save') }}</a>
         </div>

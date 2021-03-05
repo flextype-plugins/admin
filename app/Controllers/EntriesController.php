@@ -528,15 +528,15 @@ class EntriesController
         }
 
         if (flextype('entries')->move(
-            $data['_entry_path_current'],
-            $data['_entry_parent'] . '/' . $name)
+            $data['entry_path_current'],
+            $data['entry_parent'] . '/' . $name)
         ) {
             flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['_entry_parent']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
     }
 
     /**

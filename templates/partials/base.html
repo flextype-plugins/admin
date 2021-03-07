@@ -12,8 +12,6 @@
 
             <title>{{ flextype.registry.get('plugins.admin.manifest.name') }} | Flextype</title>
 
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
             {% for css in flextype.registry.get('assets.admin.css') %}
                 {% if css %}
                     <link href="{{ url() }}/{{ css }}" rel="stylesheet">
@@ -24,94 +22,89 @@
         {% endblock %}
     </head>
     <body>
-        <div class="workspace">
-            <div class="navbar navbar-expand-lg navbar-light workspace__navigation">
-                <div class="container">
-                    <div class="row">
-                        <div class="col d-flex">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
+        <nav class="workspace-navigation navbar navbar-expand-lg">
+            <div class="container">
+                <div class="dropdown">
+                    <a class="btn btn-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% if flextype.registry.has('plugins.admin.settings.navigation.primary.content') %}
+                            {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.content') %}
+                            <li>
+                                <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
+                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
                                 </a>
-                                <ul class="dropdown-menu">
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.content') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.content') %}
-                                        <li>
-                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
-                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.extends') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.extends') %}
-                                        <li>
-                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
-                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.system') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.system') %}
-                                        <li>
-                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
-                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if flextype.registry.has('plugins.admin.settings.navigation.primary.information') %}
-                                        {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.information') %}
-                                        <li>
-                                            <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item {% if key == menu_item %}active{% endif %}">
-                                            {{ icon(item.icon.name, item.icon.set) }} {{ item.title|raw }}
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    {% endif %}
-                                </ul>
-                            </div>
-                            <div class="breadcrumbs">
-                                {% if links %}
-                                    {% for link in links %}
-                                        {% if loop.first == false %}
-                                            <span class="slash-divider">/</span>
-                                        {% endif %}
-                                        <a href="{{ link.link }}">{{ link.title }}</a>
-                                    {% endfor %}
-                                {% endif %}
-                                {% block breadcrumbs %}{% endblock %}
-                            </div>
-                        </div>
-                        <div class="col text-end actions-buttons">
-                            {% if(flextype.registry.has('plugins.admin.settings.navigation.secondary')) %}
-                                {% for navigation in flextype.registry.get('plugins.admin.settings.navigation.secondary') %}
-                                    <a title="{{ __(navigation.link.title) }}"
-                                       target="{% if (navigation.link.is_external) %}_blank{% else %}_self{% endif %}"
-                                       href="{% if (navigation.link.is_external) %}{{ navigation.link.url }}{% else %}{{ urlFor(navigation.link.service) }}{% endif %}">{{ icon(navigation.link.icon.name, navigation.link.icon.set) }}</a>
-                                {% endfor %}
-                            {% endif %}
-                            <a title="{{ __('admin_logout') }}"
-                               href="javascript:;"
-                               onclick="event.preventDefault(); document.getElementById('logoutProcess').submit();">{{ icon('box-arrow-right', 'bootstrap') }}</a>
-                            <form id="logoutProcess" action="{{ urlFor('admin.accounts.logoutProcess') }}" method="POST" style="display: none;">
-                                {{ csrf() }}
-                            </form>
-                        </div>
-                    </div>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                        {% if flextype.registry.has('plugins.admin.settings.navigation.primary.extends') %}
+                            {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.extends') %}
+                            <li>
+                                <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
+                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                        {% if flextype.registry.has('plugins.admin.settings.navigation.primary.system') %}
+                            {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.system') %}
+                            <li>
+                                <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
+                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                        {% if flextype.registry.has('plugins.admin.settings.navigation.primary.information') %}
+                            {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.information') %}
+                            <li>
+                                <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
+                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
-            </div>
-            <div class="container workspace-content">
-                <div class="row">
-                    <div class="col-12">
-                        {% block content %}{% endblock %}
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        {% if links %}
+                            {% for link in links %}
+                                {% if loop.first == false %}
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+                                {% endif %}
+                                <li class="nav-item"><a href="{{ link.link }}" class="nav-link">{{ link.title }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                        {% block breadcrumbs %}{% endblock %}
+                    </ul>
+                </div>
+                <div class="d-flex">
+                    {% if(flextype.registry.has('plugins.admin.settings.navigation.secondary')) %}
+                        {% for navigation in flextype.registry.get('plugins.admin.settings.navigation.secondary') %}
+                            <a class="me-3"
+                               title="{{ __(navigation.link.title) }}"
+                               target="{% if (navigation.link.is_external) %}_blank{% else %}_self{% endif %}"
+                               href="{% if (navigation.link.is_external) %}{{ navigation.link.url }}{% else %}{{ urlFor(navigation.link.service) }}{% endif %}">{{ icon(navigation.link.icon.name, navigation.link.icon.set) }}</a>
+                        {% endfor %}
+                    {% endif %}
+                    <a title="{{ __('admin_logout') }}"
+                       href="javascript:;"
+                       onclick="event.preventDefault(); document.getElementById('logoutProcess').submit();">{{ icon('box-arrow-right', 'bootstrap') }}</a>
+                    <form id="logoutProcess" action="{{ urlFor('admin.accounts.logoutProcess') }}" method="POST" style="display: none;">
+                        {{ csrf() }}
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <main class="container pt-3 workspace">
+            <div class="row">
+                <div class="col-12">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
 
         {% for js in flextype.registry.get('assets.admin.js') %}
             {% if js %}

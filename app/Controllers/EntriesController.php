@@ -49,11 +49,11 @@ class EntriesController
         $fieldsets = [];
 
         // Get fieldsets files
-        $fieldsets_list = Filesystem::listContents(PATH['project'] . '/fieldsets/');
+        $fieldsetsList = Filesystem::listContents(PATH['project'] . '/fieldsets/');
 
         // If there is any fieldset file then go...
-        if (count($fieldsets_list) > 0) {
-            foreach ($fieldsets_list as $fieldset) {
+        if (count($fieldsetsList) > 0) {
+            foreach ($fieldsetsList as $fieldset) {
                 if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
                     $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
                     if (isset($fieldsetContent['form']) &&
@@ -69,9 +69,7 @@ class EntriesController
             }
         }
 
-        $entry_current = flextype('entries')->fetch($this->getEntryID($query))->toArray();
-
-        $entries_list = [];
+        $entriesList = [];
         $entries_collection = [];
         $entries_collection = arrays(flextype('entries')
                                         ->fetch($this->getEntryID($query),
@@ -80,9 +78,9 @@ class EntriesController
                                                             ->toArray();
 
         foreach ($entries_collection as $slug => $body) {
-            $entries_list[$slug] = $body;
+            $entriesList[$slug] = $body;
             if (filesystem()->find()->in(PATH['project'] . '/entries/' . $slug)->depth('>=1')->depth('<=2')->hasResults()) {
-                $entries_list[$slug]['has_children'] = true;
+                $entriesList[$slug]['has_children'] = true;
             }
         }
 
@@ -90,10 +88,9 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                'entries_list' => $entries_list,
                 'id' => $this->getEntryID($query),
-                'entry_current' => $entry_current,
                 'menu_item' => 'entries',
+                'entriesList' => $entriesList,
                 'fieldsets' => $fieldsets,
                 'links' => [
                     'entries' => [
@@ -655,7 +652,7 @@ class EntriesController
                             ->set('header.buttons.submit.href', 'javascript:void(0);')
                             ->set('header.buttons.submit.class', 'js-submit-entries-form-editor')
                             ->toArray();
-                            
+
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
                 $form = flextype('form')->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry);

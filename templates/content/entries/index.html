@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if fieldsets | length > 0 %}
-    {% if entries_list | length > 0 %}
+    {% if entriesList | length > 0 %}
     <div class="workspace-header row">
         <div class="col p-0"><h2>{{ __('admin_entries') }}</h2></div>
         <div class="col p-0 text-end">
@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for entry in entries_list %}
+                {% for entry in entriesList %}
                     <tr>
                         <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                             {% if entry.fieldset %}

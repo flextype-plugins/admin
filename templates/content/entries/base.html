@@ -11,12 +11,13 @@
         {% for part in parts %}
             {% set entryID = entryID ~ '/' ~ part %}
             {% if (part != parts|last) %}
-                <span class="slash-divider">/</span>
-                <a href="{{ urlFor('admin.entries.index') }}?id={{ strings(entryID).trimLeft('/') }}">
-                    {{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
-                </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ strings(entryID).trimLeft('/') }}">{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}</a>
+                </li>
             {% elseif (part) %}
-                <span class="slash-divider">/</span>{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}
+            <li class="nav-item">
+                <a class="nav-link">{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}</a>
+            </li>
             {% endif %}
         {% endfor %}
     {% endif %}

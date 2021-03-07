@@ -650,6 +650,12 @@ class EntriesController
             );
         } elseif ($type == 'editor') {
 
+            $fieldsets = arrays($fieldsets)
+                            ->set('header.buttons.cancelUrl.href', $cancelUrl)
+                            ->set('header.buttons.submit.href', 'javascript:void(0);')
+                            ->set('header.buttons.submit.class', 'js-submit-entries-form-editor')
+                            ->toArray();
+                            
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_fieldset'])) {
                 $form = flextype('form')->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry);

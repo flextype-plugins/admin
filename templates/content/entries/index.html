@@ -3,56 +3,60 @@
 {% block content %}
 {% if fieldsets | length > 0 %}
     {% if entriesList | length > 0 %}
-    <div class="workspace-header row">
-        <div class="col p-0"><h2>{{ __('admin_entries') }}</h2></div>
-        <div class="col p-0 text-end">
-            <a href="{{ urlFor('admin.entries.add') }}?id={{ id_current }}" class="btn btn-primary">{{ __('admin_create_new_entry')|raw }}</a>
-        </div>
-    </div>
-    <div class="workspace-rounded">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="50"></th>
-                    <th class="ps-0">
-                        {{ __('admin_title') }}
-                    </th>
-                    <th>
-                        {{ __('admin_url') }}
-                    </th>
-                    <th>
-                        {{ __('admin_published_at') }}
-                    </th>
-                    <th width="50"></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entry in entriesList %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="header">
+                <div class="header-title"><h1>{{ __('admin_entries') }}</h1></div>
+                <div class="header-buttons">
+                    <a href="{{ urlFor('admin.entries.add') }}?id={{ id }}" class="btn btn-primary">{{ __('admin_create_new_entry')|raw }}</a>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                            {% if entry.fieldset %}
-                                {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
-                                {% if filesystem().file(fieldset_path).exists() %}
-                                    {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
-                                    {% if fieldset.icon %}
-                                        {{ icon(fieldset.icon.name, fieldset.icon.set) }}
+                        <th width="50"></th>
+                        <th class="ps-0">
+                            {{ __('admin_title') }}
+                        </th>
+                        <th>
+                            {{ __('admin_url') }}
+                        </th>
+                        <th>
+                            {{ __('admin_modifed_at') }}
+                        </th>
+                        <th width="50"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in entriesList %}
+                        <tr>
+                            <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                {% if entry.fieldset %}
+                                    {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
+                                    {% if filesystem().file(fieldset_path).exists() %}
+                                        {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
+                                        {% if fieldset.icon %}
+                                            {{ icon(fieldset.icon.name, fieldset.icon.set) }}
+                                        {% else %}
+                                            {{ icon('file-text', 'bootstrap') }}
+                                        {% endif %}
                                     {% else %}
                                         {{ icon('file-text', 'bootstrap') }}
                                     {% endif %}
                                 {% else %}
                                     {{ icon('file-text', 'bootstrap') }}
                                 {% endif %}
-                            {% else %}
-                                {{ icon('file-text', 'bootstrap') }}
-                            {% endif %}
-                        </td>
-                        <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                            <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
-                                {% if entry.fieldset %}
-                                    {% if filesystem().file(fieldset_path).exists() %}
-                                        {% if fieldset.default_field %}
-                                            {% if entry[fieldset.default_field] != '' %}
-                                                {{ entry[fieldset.default_field] }}
+                            </td>
+                            <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
+                                    {% if entry.fieldset %}
+                                        {% if filesystem().file(fieldset_path).exists() %}
+                                            {% if fieldset.default_field %}
+                                                {% if entry[fieldset.default_field] != '' %}
+                                                    {{ entry[fieldset.default_field] }}
+                                                {% else %}
+                                                    {{ entry.slug }}
+                                                {% endif %}
                                             {% else %}
                                                 {{ entry.slug }}
                                             {% endif %}
@@ -62,69 +66,67 @@
                                     {% else %}
                                         {{ entry.slug }}
                                     {% endif %}
-                                {% else %}
-                                    {{ entry.slug }}
-                                {% endif %}
-                            </a>
-                        </td>
-                        <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                            <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
-                        </td>
-                        <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                            {{ entry.modified_at|date(registry.flextype.date_display_format) }}
-                        </td>
-                        <td class="text-right" width="18">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ icon('three-dots', 'bootstrap') }}
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
-                                        {{ icon('pencil', 'bootstrap') }} {{ __('admin_edit') }}</a></li>
-                                    <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
-                                        {{ icon('plus-circle', 'bootstrap') }} {{ __('admin_add') }}</a></li>
-                                    <li>
-                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault();
-                                           document.getElementById('duplicate-id-{{ entry.id }}').submit();">
-                                        {{ icon('files', 'bootstrap') }} {{ __('admin_duplicate') }}</a></li>
-                                    <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
-                                        {{ icon('file-font', 'bootstrap') }} {{ __('admin_rename') }}</a></li>
-                                    <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
-                                        {{ icon('card-list', 'bootstrap') }} {{ __('admin_type') }}</a></li>
-                                    <li>
-                                    <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
-                                        {{ icon('arrow-right-square', 'bootstrap') }} {{ __('admin_move') }}</a></li>
-                                    <li><a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
-                                        {{ icon('code-square', 'bootstrap') }} {{ __('admin_source') }}</a></li>
-                                    <li>
-                                    <a class="dropdown-item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
-                                        {{ icon('eye', 'bootstrap') }} {{ __('admin_preview') }}</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                    <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
-                                        {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a></li>
-                                    <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
-                                        {{ csrf() }}
-                                        <input type="hidden" name="id" value="{{ entry.id }}">
-                                    </form>
-                                    <form id="delete-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
-                                        {{ csrf() }}
-                                        <input type="hidden" name="id" value="{{ entry.id }}">
-                                        <input type="hidden" name="id-current" value="{{ id_current }}">
-                                    </form>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            </td>
+                            <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
+                            </td>
+                            <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                {{ entry.modified_at|date(registry.flextype.date_display_format) }}
+                            </td>
+                            <td class="text-right" width="18">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ icon('three-dots', 'bootstrap') }}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
+                                            {{ icon('pencil', 'bootstrap') }} {{ __('admin_edit') }}</a></li>
+                                        <li>
+                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
+                                            {{ icon('plus-circle', 'bootstrap') }} {{ __('admin_add') }}</a></li>
+                                        <li>
+                                        <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault();
+                                               document.getElementById('duplicate-id-{{ entry.id }}').submit();">
+                                            {{ icon('files', 'bootstrap') }} {{ __('admin_duplicate') }}</a></li>
+                                        <li>
+                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
+                                            {{ icon('file-font', 'bootstrap') }} {{ __('admin_rename') }}</a></li>
+                                        <li>
+                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
+                                            {{ icon('card-list', 'bootstrap') }} {{ __('admin_type') }}</a></li>
+                                        <li>
+                                        <li>
+                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
+                                            {{ icon('arrow-right-square', 'bootstrap') }} {{ __('admin_move') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
+                                            {{ icon('code-square', 'bootstrap') }} {{ __('admin_source') }}</a></li>
+                                        <li>
+                                        <a class="dropdown-item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
+                                            {{ icon('eye', 'bootstrap') }} {{ __('admin_preview') }}</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                        <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
+                                            {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a></li>
+                                        <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                            {{ csrf() }}
+                                            <input type="hidden" name="id" value="{{ entry.id }}">
+                                        </form>
+                                        <form id="delete-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                            {{ csrf() }}
+                                            <input type="hidden" name="id" value="{{ entry.id }}">
+                                            <input type="hidden" name="id-current" value="{{ id_current }}">
+                                        </form>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+    </div>
     {% else %}
         <div class="workspace-message">
             <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>

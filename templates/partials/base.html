@@ -33,7 +33,7 @@
                             {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.content') %}
                             <li>
                                 <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
-                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                    <span class="pe-3 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
                                 </a>
                             </li>
                             {% endfor %}
@@ -42,7 +42,7 @@
                             {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.extends') %}
                             <li>
                                 <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
-                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                    <span class="pe-3 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
                                 </a>
                             </li>
                             {% endfor %}
@@ -51,7 +51,7 @@
                             {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.system') %}
                             <li>
                                 <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
-                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                    <span class="pe-3 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
                                 </a>
                             </li>
                             {% endfor %}
@@ -60,7 +60,7 @@
                             {% for key, item in flextype.registry.get('plugins.admin.settings.navigation.primary.information') %}
                             <li>
                                 <a title="{{ item.title|raw }}" href="{{ url() }}{{ item.link|raw }}" class="dropdown-item d-flex align-items-center {% if key == menu_item %}active{% endif %}">
-                                    <span class="pe-2 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
+                                    <span class="pe-3 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {{ item.title|raw }}
                                 </a>
                             </li>
                             {% endfor %}
@@ -113,31 +113,6 @@
         {% endfor %}
 
         <script>
-            var Toast = Swal.mixin({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: false,
-                showClass: {
-                    popup: 'animated fadeInRight faster'
-                },
-                hideClass: {
-                    popup: 'animated fadeOutRight faster'
-                }
-            });
-
-            {% for message in flextype.flash.getMessages()['success'] %}
-                Toast.fire({icon: '', title: '{{ message }}'});
-            {% endfor %}
-
-            {% for message in flextype.flash.getMessages()['warning'] %}
-                Toast.fire({icon: '', title: '{{ message }}'});
-            {% endfor %}
-
-            {% for message in flextype.flash.getMessages()['error'] %}
-                Toast.fire({icon: '', title: '{{ message }}'});
-            {% endfor %}
 
             var clipboard = new ClipboardJS('.js-clipboard-btn');
 

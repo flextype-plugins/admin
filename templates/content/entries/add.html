@@ -2,34 +2,20 @@
 
 {% block content %}
 <div class="row justify-content-center pt-3">
-
     {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-add.yaml').get() %}
 
     {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent))
-                        .set('form.fields.current_id.value', current_id)
-                        .set('form.fields.type.options', fieldsets).toArray() %}
+                        .set('form.fields.id.class', 'js-id')
+                        .set('form.fields.title.class', 'js-title')
+                        .set('form.buttons.cancelUrl.href', cancelUrl)
+                        .set('form.buttons.submit.class', 'js-submit-entry-create-form')
+                        .set('form.buttons.submit.links.0.class', 'js-submit-entry-create-form')
+                        .set('form.buttons.submit.links.0.href', 'javascript:void(0);')
+                        .set('form.buttons.submit.links.1.class', 'js-submit-entry-create-form')
+                        .set('form.buttons.submit.links.1.href', 'javascript:void(0);')
+                        .set('form.fields.current_id.default', id)
+                        .set('form.fields.fieldset.options', fieldsets).toArray() %}
 
     {{ flextype.form.render(fieldset)|raw }}
-{#
-    <div class="d-flex justify-content-end">
-        <a href="{{ cancelUrl }}" class="btn btn-link">Cancel</a>
-        <div class="btn-group">
-          <a href="javascript:void(0);"
-             data-redirect="index"
-             class="btn btn-primary js-submit-entry-create-form">{{ __('admin_create') }}</a>
-          <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="javascript:void(0);"
-                   data-redirect="edit"
-                   class="dropdown-item js-submit-entry-create-form">{{ __('admin_create_and_edit') }}</a></li>
-            <li><a href="javascript:void(0);"
-                   data-redirect="add"
-                   class="dropdown-item js-submit-entry-create-form">{{ __('admin_create_and_add') }}</a></li>
-          </ul>
-        </div>
-    </div>
-#}
 </div>
 {% endblock %}

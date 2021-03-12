@@ -1,19 +1,9 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>{{ __('admin_edit_entry') }}</h2></div>
-    <div class="col p-0 text-end">
-        <a href="{{ cancelUrl }}" class="btn btn-link">{{ __('admin_cancel') }}</a>
-        <a href="javascript:void(0);"
-           class="btn btn-primary js-submit-entries-form-editor">{{ __('admin_save')|raw }}</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="workspace-rounded px-4 py-4 mb-3 js-entries-form-editor">
-            {{ form|raw }}
-        </div>
+<div class="row justify-content-center">
+    <div class="js-entries-form-editor">
+        {{ form|raw }}
     </div>
 </div>
 {% endblock %}

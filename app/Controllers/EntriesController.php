@@ -146,19 +146,19 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                    'entries_list' => flextype('entries')->fetch($this->getEntryID($query), ['collection' => true])->sortBy('order_by', 'ASC')->toArray(),
-                    'menu_item' => 'entries',
-                    'current_id' => $this->getEntryID($query),
-                    'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                    'type' => $type,
-                    'fieldsets' => $fieldsets,
-                    'links' => [
-                        'entries' => [
-                            'link' => flextype('router')->pathFor('admin.entries.index'),
-                            'title' => __('admin_entries')
-                        ]
+                'id' => $this->getEntryID($query),
+                'entries_list' => flextype('entries')->fetch($this->getEntryID($query), ['collection' => true])->sortBy('order_by', 'ASC')->toArray(),
+                'menu_item' => 'entries',
+                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                'type' => $type,
+                'fieldsets' => $fieldsets,
+                'links' => [
+                    'entries' => [
+                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                        'title' => __('admin_entries')
                     ]
                 ]
+            ]
         );
     }
 
@@ -173,30 +173,30 @@ class EntriesController
     public function addProcess(Request $request, Response $response): Response
     {
         // Get data from POST
-        $data = $request->getParsedBody();
+        $dataPost = $request->getParsedBody();
 
         // Set parent Entry ID
-        if ($data['current_id']) {
-            $parentEntryID = $data['current_id'];
+        if ($dataPost['current_id']) {
+            $parentEntryID = $dataPost['current_id'];
         } else {
             $parentEntryID = '';
         }
 
         // Set new Entry ID using slugify or without it
         if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $id = ltrim($parentEntryID . '/' . flextype('slugify')->slugify($data['id']), '/');
+            $id = ltrim($parentEntryID . '/' . flextype('slugify')->slugify($dataPost['id']), '/');
         } else {
-            $id = ltrim($parentEntryID . '/' . $data['id'], '/');
+            $id = ltrim($parentEntryID . '/' . $dataPost['id'], '/');
         }
 
         // Check if entry exists then try to create it
         if (!flextype('entries')->has($id)) {
 
             // Check if we have fieldset for this entry
-            if (flextype('fieldsets')->has($data['fieldset'])) {
+            if (flextype('fieldsets')->has($dataPost['fieldset'])) {
 
                 // Get fieldset
-                $fieldset = flextype('fieldsets')->fetchSingle($data['fieldset']);
+                $fieldset = flextype('fieldsets')->fetchSingle($dataPost['fieldset']);
 
                 // Init entry data
                 $dataFromPost           = [];
@@ -206,18 +206,18 @@ class EntriesController
                 // Define data values based on POST data
                 $dataFromPost['created_by']   = flextype('acl')->getUserLoggedInUuid();
                 $dataFromPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
-                $dataFromPost['title']        = $data['title'];
-                $dataFromPost['fieldset']     = $data['fieldset'];
-                $dataFromPost['visibility']   = $data['visibility'];
+                $dataFromPost['title']        = $dataPost['title'];
+                $dataFromPost['fieldset']     = $dataPost['fieldset'];
+                $dataFromPost['visibility']   = $dataPost['visibility'];
                 $dataFromPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), time());
-                $dataFromPost['routable']     = isset($data['routable']) ? (bool) $data['routable'] : false;
+                $dataFromPost['routable']     = isset($dataPost['routable']) ? (bool) $dataPost['routable'] : false;
 
                 // Themes/Templates support for Site Plugin
                 // We need to check if template for current fieldset is exists
                 // if template is not exist then `default` template will be used!
                 if (flextype('registry')->has('plugins.site')) {
-                    $template_path = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $data['fieldset'] . '.html';
-                    $template = (Filesystem::has($template_path)) ? $data['fieldset'] : 'default';
+                    $template_path = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $dataPost['fieldset'] . '.html';
+                    $template = (Filesystem::has($template_path)) ? $dataPost['fieldset'] : 'default';
                     $dataFromPost['template']   = $template;
                 }
 
@@ -269,16 +269,16 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
         }
 
-        switch ($data['redirect']) {
+        switch ($dataPost['redirect']) {
             case 'edit':
                 return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
                 break;
             case 'add':
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $data['current_id']);
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $dataPost['current_id']);
                 break;
             case 'index':
             default:
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['current_id']);
+                return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $dataPost['current_id']);
                 break;
         }
     }

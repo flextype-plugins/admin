@@ -81,34 +81,34 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
-                                            {{ icon('pencil', 'bootstrap') }} {{ __('admin_edit') }}</a></li>
+                                            <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
+                                            <span class="pe-3 d-flex">{{ icon('pencil', 'bootstrap') }}</span> {{ __('admin_edit') }}</a></li>
                                         <li>
-                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
-                                            {{ icon('plus-circle', 'bootstrap') }} {{ __('admin_add') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
+                                            <span class="pe-3 d-flex">{{ icon('plus-circle', 'bootstrap') }}</span> {{ __('admin_add') }}</a></li>
                                         <li>
-                                        <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault();
+                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="event.preventDefault();
                                                document.getElementById('duplicate-id-{{ entry.id }}').submit();">
-                                            {{ icon('files', 'bootstrap') }} {{ __('admin_duplicate') }}</a></li>
+                                            <span class="pe-3 d-flex">{{ icon('files', 'bootstrap') }}</span> {{ __('admin_duplicate') }}</a></li>
                                         <li>
-                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
-                                            {{ icon('file-font', 'bootstrap') }} {{ __('admin_rename') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
+                                            <span class="pe-3 d-flex">{{ icon('file-font', 'bootstrap') }}</span> {{ __('admin_rename') }}</a></li>
                                         <li>
-                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
-                                            {{ icon('card-list', 'bootstrap') }} {{ __('admin_type') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
+                                            <span class="pe-3 d-flex">{{ icon('card-list', 'bootstrap') }}</span> {{ __('admin_type') }}</a></li>
                                         <li>
                                         <li>
-                                        <a class="dropdown-item" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
-                                            {{ icon('arrow-right-square', 'bootstrap') }} {{ __('admin_move') }}</a></li>
-                                        <li><a class="dropdown-item" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
-                                            {{ icon('code-square', 'bootstrap') }} {{ __('admin_source') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
+                                            <span class="pe-3 d-flex">{{ icon('arrow-right-square', 'bootstrap') }}</span> {{ __('admin_move') }}</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
+                                            <span class="pe-3 d-flex">{{ icon('code-square', 'bootstrap') }}</span> {{ __('admin_source') }}</a></li>
                                         <li>
-                                        <a class="dropdown-item" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
-                                            {{ icon('eye', 'bootstrap') }} {{ __('admin_preview') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
+                                            <span class="pe-3 d-flex">{{ icon('eye', 'bootstrap') }}</span> {{ __('admin_preview') }}</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                        <a class="dropdown-item" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
-                                            {{ icon('trash', 'bootstrap') }} {{ __('admin_delete') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
+                                            <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_delete') }}</a></li>
                                         <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                             {{ csrf() }}
                                             <input type="hidden" name="id" value="{{ entry.id }}">

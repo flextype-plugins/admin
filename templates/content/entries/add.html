@@ -4,18 +4,11 @@
 <div class="row justify-content-center pt-3">
     {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-add.yaml').get() %}
 
-    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent))
-                        .set('form.fields.id.class', 'js-id')
-                        .set('form.fields.title.class', 'js-title')
-                        .set('form.buttons.cancelUrl.href', cancelUrl)
-                        .set('form.buttons.submit.class', 'js-submit-entry-create-form')
-                        .set('form.buttons.submit.links.0.class', 'js-submit-entry-create-form')
-                        .set('form.buttons.submit.links.0.href', 'javascript:void(0);')
-                        .set('form.buttons.submit.links.1.class', 'js-submit-entry-create-form')
-                        .set('form.buttons.submit.links.1.href', 'javascript:void(0);')
-                        .set('form.fields.current_id.default', id)
-                        .set('form.fields.fieldset.options', fieldsets).toArray() %}
+    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent)).toArray() %}
 
-    {{ flextype.form.render(fieldset)|raw }}
+    {{ flextype.form.render(fieldset,
+                            {},
+                            {'fieldsets': fieldsets,
+                             'cancelUrl': cancelUrl})|raw }}
 </div>
 {% endblock %}

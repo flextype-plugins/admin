@@ -1,33 +1,14 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <div class="workspace-header row">
-            <div class="col p-0"><h2>Entry Type</h2></div>
-        </div>
-        <div class="workspace-rounded px-4 py-4 mb-3">
-            <form method="post" name="form_entries_type">
-                {{ csrf() }}
-                <input type="hidden" name="id" value="{{ id }}">
-                <div class="form-group">
-                    <label for="title" class="form-label">{{ __('admin_type') }}</label>
-                    <select class="form-control js-select" name="fieldset">
-                        {% for key, value in fieldsets %}
-                            <option value="{{ key }}" {% if key == fieldset %} selected="selected" {% endif %}>{{ value }}</option>
-                        {% endfor %}
-                    </select>
-                    <small>{{ __('admin_help_text_for_entry_type') }}</small>
-                </div>
-            </form>
-        </div>
-        <div class="d-flex justify-content-end">
-            <a href="{{ cancelUrl }}" class="btn btn-link">Cancel</a>
-            <a id="saveEntry"
-               name="save_entry"
-               href="javascript:void(0);"
-               class="btn btn-primary js-submit-entry-type-form">{{ __('admin_save') }}</a>
-        </div>
-    </div>
+<div class="row justify-content-center pt-3">
+    {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-type.yaml').get() %}
+
+    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent)).toArray() %}
+
+    {{ flextype.form.render(fieldset,
+                            {},
+                            {'fieldsets': fieldsets,
+                             'cancelUrl': cancelUrl})|raw }}
 </div>
 {% endblock %}

@@ -4,12 +4,13 @@
 <div class="row justify-content-center pt-3">
     {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-rename.yaml').get() %}
 
-    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent))
-                        .set('form.fields.entry_path_current.value', entry_path_current)
-                        .set('form.fields.entry_parent.value', entry_parent)
-                        .set('form.fields.name_current.value', name_current)
-                        .toArray() %}
+    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent)).toArray() %}
 
-    {{ flextype.form.render(fieldset)|raw }}
+    {{ flextype.form.render(fieldset,
+                            {'name': nameCurrent},
+                            {'cancelUrl': cancelUrl,
+                             'entryPathCurrent': entryPathCurrent,
+                             'entryParent': entryParent,
+                             'nameCurrent': nameCurrent})|raw }}
 </div>
 {% endblock %}

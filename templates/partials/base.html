@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="dropdown">
                     <a class="btn btn-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ icon(flextype.registry.get('workspace.icon.name'), flextype.registry.get('workspace.icon.set')) }}
+                        {{ icon('list', 'bootstrap') }}
                     </a>
                     <ul class="dropdown-menu">
                         {% if flextype.registry.has('plugins.admin.settings.navigation.primary.content') %}
@@ -69,11 +69,15 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                {% if flextype.registry.get('plugins.site.settings.title') %}
+                                    {{ flextype.registry.get('plugins.site.settings.title') }}
+                                {% endif %}
+                            </a>
+                        </li>
                         {% if links %}
                             {% for link in links %}
-                                {% if loop.first == false %}
-
-                                {% endif %}
                                 <li class="nav-item"><a href="{{ link.link }}" class="nav-link">{{ link.title }}</a></li>
                             {% endfor %}
                         {% endif %}
@@ -115,7 +119,6 @@
         {% include 'plugins/form/fieldsets/messages.html' %}
 
         <script>
-
             var clipboard = new ClipboardJS('.js-clipboard-btn');
 
             if ($("#ace-editor").length ) {

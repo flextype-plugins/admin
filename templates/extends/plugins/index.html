@@ -1,16 +1,15 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
+<div class="row">
+    <div class="col-md-12">
     {% if (plugins_list | length > 0) %}
-    <div class="workspace-header row">
-        <div class="col p-0"><h2>Plugins</h2></div>
-        <div class="col p-0 text-end">
-            <a href="https://flextype.org/en/downloads/extend/plugins"
-               target="_blank"
-               class="btn btn-primary">{{ __('admin_get_more_plugins')|raw }}</a>
+        <div class="header">
+            <div class="header-title"><h1>{{ __('admin_plugins') }}</h1></div>
+            <div class="header-buttons">
+                <a href="https://flextype.org/downloads/extend/plugins" target="_blank" class="btn btn-primary">{{ __('admin_get_more_plugins')|raw }}</a>
+            </div>
         </div>
-    </div>
-    <div class="workspace-rounded">
         <table class="table">
             <thead>
                 <tr>
@@ -48,28 +47,32 @@
                             <a href="{{ plugin.manifest.author.url }}" target="_blank">{{ plugin.manifest.author.name }}</a>
                         </td>
                         <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.version }}</td>
-                        <td class="text-right">
+                        <td class="text-right" width="18">
                             <div class="dropdown">
                                 <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ icon('three-dots', 'bootstrap') }}
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
-                                        {{ icon('info-circle', 'bootstrap') }} {{ __('admin_information') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
+                                            <span class="pe-3 d-flex">{{ icon('info-circle', 'bootstrap') }}</span> {{ __('admin_information') }}
+                                        </a>
+                                    </li>
                                     <li>
-                                    <a class="dropdown-item" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
-                                        {{ icon('gear', 'bootstrap') }} {{ __('admin_settings') }}</a></li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
+                                            <span class="pe-3 d-flex">{{ icon('gear', 'bootstrap') }}</span> {{ __('admin_settings') }}
+                                        </a>
+                                    </li>
                                     {% if plugin.settings.enabled %}
                                     <li>
-                                        <a class="dropdown-item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}');" href="javascript:;">
-                                            {{ icon('toggle-on', 'bootstrap') }} {{ __('admin_deactivate') }}
+                                        <a class="dropdown-item d-flex align-items-center" onclick="event.preventDefault(); deactivatePlugin('{{ key }}');" href="javascript:;">
+                                            <span class="pe-3 d-flex">{{ icon('toggle-on', 'bootstrap') }}</span> {{ __('admin_deactivate') }}
                                         </a>
                                     </li>
                                     {% else %}
                                     <li>
-                                        <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                            {{ icon('toggle-off', 'bootstrap') }} {{ __('admin_activate') }}
+                                        <a class="dropdown-item d-flex align-items-center" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                            <span class="pe-3 d-flex">{{ icon('toggle-off', 'bootstrap') }}</span> {{ __('admin_activate') }}
                                         </a>
                                     </li>
                                     {% endif %}
@@ -81,43 +84,11 @@
                                     </form>
                                 </ul>
                             </div>
-                            {#
-                            <button type="button" class="js-dropdown-btn" data-dropdown="dropdown-{{ key }}">
-                                <i class="icon">{{ icon('ellipsis-h', 'fontawesome|solid') }}</i>
-                            </button>
-                            <div id="dropdown-{{ key }}" class="dropdown">
-                                <a class="dropdown__item" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
-                                    <i class="icon icon--white mr-3">{{ icon('info-circle', 'fontawesome|solid') }}</i>
-                                    {{ __('admin_information') }}</a>
-                                <a class="dropdown__item" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
-                                    <i class="icon icon--white mr-3">{{ icon('cog', 'fontawesome|solid') }}</i>
-                                    {{ __('admin_settings') }}</a>
-
-                                {% if plugin.settings.enabled %}
-                                    <a class="dropdown__item" onclick="event.preventDefault(); deactivatePlugin('{{ key }}', {{ loop.index0 }});" href="javascript:;">
-                                        <i class="icon icon--white mr-3">{{ icon('toggle-on', 'fontawesome|solid') }}</i>
-                                        {{ __('admin_deactivate') }}
-                                    </a>
-                                {% else %}
-                                    <a class="dropdown__item" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                        <i class="icon icon--white mr-3">{{ icon('toggle-off', 'fontawesome|solid') }}</i>
-                                        {{ __('admin_activate') }}
-                                    </a>
-                                {% endif %}
-                                <form id="update-plugin-status-{{ key }}" action="{{ urlFor('admin.plugins.update-status') }}" method="POST" style="display: none;">
-                                    {{ csrf() }}
-                                    <input type="hidden" name="plugin-key" value="{{ key }}">
-                                    <input type="hidden" name="plugin-status" value="{% if plugin.settings.enabled %}true{% else %}false{% endif %}">
-                                    <input type="hidden" name="plugin-set-status" value="{% if plugin.settings.enabled %}false{% else %}true{% endif %}">
-                                </form>
-                            </div>
-                            #}
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
     {% else %}
         <div class="text-center flex justify-center items-center h-full">
             <div>
@@ -126,6 +97,8 @@
             </div>
         </div>
     {% endif %}
+    </div>
+</div>
 {% endblock %}
 
 {% block tail %}

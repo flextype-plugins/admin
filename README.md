@@ -16,8 +16,8 @@ The following dependencies need to be installed for Form Admin Plugin.
 |---|---|---|
 | [flextype](https://github.com/flextype/flextype) | 0.9.16 | [download](https://github.com/flextype/flextype/releases) |
 | [twig](https://github.com/flextype-plugins/twig) | >=2.0.0 | [download](https://github.com/flextype-plugins/twig/releases) |
-| [form](https://github.com/flextype-plugins/form) | >=1.0.0 | [download](https://github.com/flextype-plugins/form/releases) |
-| [form-admin](https://github.com/flextype-plugins/form-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/form-admin/releases) |
+| [form](https://github.com/flextype-plugins/blueprints) | >=1.0.0 | [download](https://github.com/flextype-plugins/blueprints/releases) |
+| [form-admin](https://github.com/flextype-plugins/blueprints-admin) | >=1.0.0 | [download](https://github.com/flextype-plugins/blueprints-admin/releases) |
 | [jquery](https://github.com/flextype-plugins/jquery) | >=1.0.0 | [download](https://github.com/flextype-plugins/jquery/releases) |
 | [icon](https://github.com/flextype-plugins/icon) | >=2.0.0 | [download](https://github.com/flextype-plugins/icon/releases) |
 | [acl](https://github.com/flextype-plugins/acl) | >=1.0.0 | [download](https://github.com/flextype-plugins/acl/releases) |
@@ -37,7 +37,7 @@ The following dependencies need to be installed for Form Admin Plugin.
 |---|---|---|
 | enabled | true | true or false to disable the plugin |
 | priority | 80 | admin plugin priority |
-| flextype_menu | [] | admin flextype menu |
+| navigation.secondary | [] | admin flextype menu |
 | route | admin | custom admin panel route |
 
 

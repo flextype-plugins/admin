@@ -15,10 +15,33 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class EntriesController
 {
     /**
+     * Entry visibility
+     *
+     * @var array
+     * @access private
+     */
+    private array $visibility = [];
+
+    /**
+     * Entry routable
+     *
+     * @var array
+     * @access private
+     */
+    private array $routable = [];
+
+    /**
      * __construct()
      */
     public function __construct()
     {
+        $this->visibility = ['draft'   => __('admin_entries_draft'),
+                             'visible' => __('admin_entries_visible'), 
+                             'hidden'  => __('admin_entries_hidden')];
+
+        $this->routable = [true  => __('admin_yes'),
+                           false => __('admin_no')];
+
         flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
     }
 
@@ -135,8 +158,8 @@ class EntriesController
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'type' => $type,
                 'blueprints' => $blueprints,
-                'routable' => [1 => __('admin_yes'), 0 => __('admin_no')],
-                'visibility' => ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')],
+                'routable' => $this->routable,
+                'visibility' => $this->visibility,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),

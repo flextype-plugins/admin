@@ -138,25 +138,27 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $blueprints = [];
+        // Get entry ID
+        $id = $this->getEntryID($query);
 
+        // Get blueprints
+        $blueprints = [];
         foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
             if (!empty($blueprint)) {
                 $blueprints[$name] = $blueprint['title'];
             }
         }
 
-        $type = isset($query['type']) ? $query['type']: '';
+        // Get cancel url
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1));
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                'id' => $this->getEntryID($query),
-                'entries_list' => flextype('entries')->fetch($this->getEntryID($query), ['collection' => true])->sortBy('order_by', 'ASC')->toArray(),
+                'id' => $id,
                 'menu_item' => 'entries',
-                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
-                'type' => $type,
+                'cancelUrl' => $cancelUrl,
                 'blueprints' => $blueprints,
                 'routable' => $this->routable,
                 'visibility' => $this->visibility,

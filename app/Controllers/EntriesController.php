@@ -112,33 +112,16 @@ class EntriesController
      */
     public function add(Request $request, Response $response): Response
     {
-        $fieldsets = [];
-
-        // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['project'] . '/fieldsets/');
-
-        // If there is any fieldsets file then go...
-        if (count($_fieldsets) > 0) {
-            foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
-                    if (isset($fieldsetContent['form']) &&
-                        isset($fieldsetContent['form']['tabs']['main']) &&
-                        isset($fieldsetContent['form']['tabs']['main']['fields']) &&
-                        isset($fieldsetContent['form']['tabs']['main']['fields']['title'])) {
-                        if (isset($fieldsetContent['hide']) && $fieldsetContent['hide'] == true) {
-                            continue;
-                        }
-                        $fieldsets[$fieldset['basename']] = $fieldsetContent['title'];
-                    }
-                }
-            }
-        }
-
-        $fieldset = $entry['fieldset'] ?? [];
-
         // Get Query Params
         $query = $request->getQueryParams();
+
+        $blueprints = [];
+
+        foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
+            if (!empty($blueprint)) {
+                $blueprints[$name] = $blueprint['title'];
+            }
+        }
 
         $type = isset($query['type']) ? $query['type']: '';
 
@@ -151,7 +134,9 @@ class EntriesController
                 'menu_item' => 'entries',
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'type' => $type,
-                'fieldsets' => $fieldsets,
+                'blueprints' => $blueprints,
+                'routable' => [1 => __('admin_yes'), 0 => __('admin_no')],
+                'visibility' => ['draft' => __('admin_entries_draft'), 'visible' => __('admin_entries_visible'), 'hidden' => __('admin_entries_hidden')],
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -399,22 +384,31 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get Entry from Query Params
-        $entry_id = $this->getEntryID($query);
+        $entryID = $this->getEntryID($query);
 
-        // Get current Entry ID
-        $entry_id_current = array_pop(explode("/", $entry_id));
+        $entryIDParts = explode("/", $entryID);
+
+        $entryCurrentID = array_pop($entryIDParts);
+
+        $entryPathParentID = implode('/', array_slice(explode("/", $entryID), 0, -1));
+
+        if (empty($entryPathParentID)) {
+            $entryPathParentID = '/';
+        } else {
+            $entriesList['/'] = '/';
+        }
 
         // Fetch entry
         $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
 
         // Get entries list
-        $entries_list['/'] = '/';
         foreach (flextype('entries')->fetch('', ['collection' => true, 'find' => ['depth' => '>0'], 'filter' => ['order_by' => ['field' => ['id']]]])->toArray() as $_entry) {
-            if ($_entry['id'] != '') {
-                $entries_list[$_entry['id']] = $_entry['id'];
-            } else {
-                $entries_list[flextype('registry')->get('flextype.entries.main')] = flextype('registry')->get('flextype.entries.main');
+            if ($_entry['id'] != $entryID) {
+                if ($_entry['id'] != '') {
+                    $entriesList[$_entry['id']] = $_entry['id'];
+                } else {
+                    $entriesList[flextype('registry')->get('flextype.entries.main')] = flextype('registry')->get('flextype.entries.main');
+                }
             }
         }
 
@@ -423,10 +417,11 @@ class EntriesController
             'plugins/admin/templates/content/entries/move.html',
             [
                 'menu_item' => 'entries',
-                'entries_list' => $entries_list,
-                'entry_id_current' => $entry_id_current,
-                'entry_id_path_current' => $entry_id,
-                'entry_id_path_parent' => implode('/', array_slice(explode("/", $entry_id), 0, -1)),
+                'id' => $entryID,
+                'entriesList' => $entriesList,
+                'entryCurrentID' => $entryCurrentID,
+                'entryPathCurrentID' => $entryID,
+                'entryPathParentID' => $entryPathParentID,
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [
                     'entries' => [
@@ -483,16 +478,17 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $entry_id     = explode("/", $this->getEntryID($query));
-        $name_current = array_pop($entry_id);
+        $entryID    = explode("/", $this->getEntryID($query));
+        $nameCurrent = array_pop($entryID);
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
-                'name_current' => $name_current,
-                'entry_path_current' => $this->getEntryID($query),
-                'entry_parent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                'id' => $this->getEntryID($query),
+                'nameCurrent' => $nameCurrent,
+                'entryPathCurrent' => $this->getEntryID($query),
+                'entryParent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'menu_item' => 'entries',
                 'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'links' => [

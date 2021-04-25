@@ -199,14 +199,14 @@ class EntriesController
             $id = ltrim($parentEntryID . '/' . $dataPost['id'], '/');
         }
 
-        // Check if entry exists then try to create it
+        // Check if entry exists then try to create entry
         if (!flextype('entries')->has($id)) {
 
-            // Check if we have fieldset for this entry
-            if (flextype('fieldsets')->has($dataPost['fieldset'])) {
+            // Check if we have blueprint for this entry
+            if (flextype('blueprints')->has($dataPost['blueprint'])) {
 
-                // Get fieldset
-                $fieldset = flextype('fieldsets')->fetchSingle($dataPost['fieldset']);
+                // Get blueprint
+                $blueprint = flextype('blueprints')->fetch($dataPost['blueprint']);
 
                 // Init entry data
                 $dataFromPost           = [];
@@ -217,55 +217,22 @@ class EntriesController
                 $dataFromPost['created_by']   = flextype('acl')->getUserLoggedInUuid();
                 $dataFromPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
                 $dataFromPost['title']        = $dataPost['title'];
-                $dataFromPost['fieldset']     = $dataPost['fieldset'];
+                $dataFromPost['blueprint']    = $dataPost['blueprint'];
                 $dataFromPost['visibility']   = $dataPost['visibility'];
                 $dataFromPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), time());
                 $dataFromPost['routable']     = isset($dataPost['routable']) ? (bool) $dataPost['routable'] : false;
 
-                // Themes/Templates support for Site Plugin
+                // Themes/Templates support for Site Plugin if it is enabled
                 // We need to check if template for current fieldset is exists
-                // if template is not exist then `default` template will be used!
+                // if template is not exist then site `default` template will be used!
                 if (flextype('registry')->has('plugins.site')) {
-                    $template_path = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $dataPost['fieldset'] . '.html';
-                    $template = (Filesystem::has($template_path)) ? $dataPost['fieldset'] : 'default';
-                    $dataFromPost['template']   = $template;
+                    $templatePath = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $dataPost['blueprint'] . '.html';
+                    $template = (filesystem()->file($templatePath)->exists()) ? $dataPost['blueprint'] : 'default';
+                    $dataFromPost['template'] = $template;
                 }
 
-                //foreach ($fieldset['sections'] as $section_name => $section_body) {
-                //    foreach ($section_body['form']['fields'] as $field => $properties) {
-
-                // Predefine data values based on fieldset default values
-                foreach ($fieldset['form']['tabs'] as $form_tab => $form_tab_body) {
-                    foreach ($form_tab_body['fields'] as $field => $properties) {
-
-                        // Ingnore fields where property: heading
-                        if ($properties['type'] == 'heading') {
-                            continue;
-                        }
-
-                        // Get values from $dataFromPost
-                        if (isset($dataFromPost[$field])) {
-                            $value = $dataFromPost[$field];
-
-                        // Get values from fieldsets predefined field values
-                        } elseif (isset($properties['value'])) {
-                            $value = $properties['value'];
-
-                        // or set empty value
-                        } else {
-                            $value = '';
-                        }
-
-                        $dataFromPostOverride[$field] = $value;
-                    }
-                }
-
-                // Merge data
-                if (count($dataFromPostOverride) > 0) {
-                    $dataResult = array_replace_recursive($dataFromPostOverride, $dataFromPost);
-                } else {
-                    $dataResult = $dataFromPost;
-                }
+                // Set result data
+                $dataResult = $dataFromPost;
 
                 if (flextype('entries')->create($id, $dataResult)) {
                     flextype('flash')->addMessage('success', __('admin_message_entry_created'));

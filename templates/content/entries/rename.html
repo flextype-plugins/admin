@@ -1,16 +1,10 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-<div class="row justify-content-center pt-3">
-    {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-rename.yaml').get() %}
-
-    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent)).toArray() %}
-
-    {{ flextype.form.render(fieldset,
-                            {'name': nameCurrent},
-                            {'cancelUrl': cancelUrl,
-                             'entryPathCurrent': entryPathCurrent,
-                             'entryParent': entryParent,
-                             'nameCurrent': nameCurrent})|raw }}
-</div>
+    {{ flextype.blueprints.render('admin/entries/rename', 
+                                    {'id': entryCurrentID}, 
+                                    {'id': id,
+                                     'entryParentID': entryParentID,
+                                     'entryCurrentID': entryCurrentID,
+                                     'cancelUrl': cancelUrl}) }}
 {% endblock %}

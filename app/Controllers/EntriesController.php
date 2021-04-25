@@ -68,42 +68,28 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Init Fieldsets
-        $fieldsets = [];
-
-        // Get fieldsets files
-        $fieldsetsList = Filesystem::listContents(PATH['project'] . '/fieldsets/');
-
-        // If there is any fieldset file then go...
-        if (count($fieldsetsList) > 0) {
-            foreach ($fieldsetsList as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
-                    if (isset($fieldsetContent['form']) &&
-                        isset($fieldsetContent['form']['tabs']) &&
-                        isset($fieldsetContent['form']['tabs']['main']['fields']) &&
-                        isset($fieldsetContent['form']['tabs']['main']['fields']['title'])) {
-                        if (isset($fieldsetContent['hide']) && $fieldsetContent['hide'] == true) {
-                            continue;
-                        }
-                        $fieldsets[$fieldset['basename']] = $fieldsetContent;
-                    }
-                }
+        // Get entry ID
+        $id = $this->getEntryID($query);
+        
+        // Get blueprints
+        $blueprints = [];
+        foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
+            if (!empty($blueprint)) {
+                $blueprints[$name] = $blueprint['title'];
             }
         }
 
-        $entriesList = [];
-        $entries_collection = [];
-        $entries_collection = arrays(flextype('entries')
-                                        ->fetch($this->getEntryID($query),
-                                                            ['collection' => true, 'depth' => ['1']]))
-                                                            ->sortBy('published_at', 'DESC')
-                                                            ->toArray();
+        // Get entries
+        $entries = [];
+        $entriesCollection = [];
+        $entriesCollection = arrays(flextype('entries')->fetch($id, ['collection' => true, 'depth' => ['1']]))
+                                ->sortBy('published_at', 'DESC')
+                                ->toArray();
 
-        foreach ($entries_collection as $slug => $body) {
-            $entriesList[$slug] = $body;
-            if (filesystem()->find()->in(PATH['project'] . '/entries/' . $slug)->depth('>=1')->depth('<=2')->hasResults()) {
-                $entriesList[$slug]['has_children'] = true;
+        foreach ($entriesCollection as $entryID => $entryBody) {
+            $entries[$entryID] = $entryBody;
+            if (filesystem()->find()->in(PATH['project'] . '/entries/' . $entryID)->depth('>=1')->depth('<=2')->hasResults()) {
+                $entries[$entryID]['has_children'] = true;
             }
         }
 
@@ -111,10 +97,10 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                'id' => $this->getEntryID($query),
+                'id' => $id,
                 'menu_item' => 'entries',
-                'entriesList' => $entriesList,
-                'fieldsets' => $fieldsets,
+                'entries' => $entries,
+                'blueprints' => $blueprints,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),

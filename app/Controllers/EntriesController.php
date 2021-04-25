@@ -529,10 +529,11 @@ class EntriesController
      */
     public function deleteProcess(Request $request, Response $response): Response
     {
+        // Get data from POST
         $data = $request->getParsedBody();
 
-        $id = $data['id'];
-        $id_current = $data['id-current'];
+        $id             = $data['id'];
+        $entryCurrentID = $data['id-current'];
 
         if (flextype('entries')->delete($id)) {
             flextype('flash')->addMessage('success', __('admin_message_entry_deleted'));
@@ -540,7 +541,7 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_deleted'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $id_current);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $entryCurrentID);
     }
 
     /**

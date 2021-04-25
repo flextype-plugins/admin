@@ -3,8 +3,8 @@
 {% block content %}
     {{ flextype.blueprints.render('admin/entries', {}, {'id': id}) }}
 
-    {% if fieldsets | length > 0 %}
-        {% if entriesList | length > 0 %}
+    {% if blueprints|length > 0 %}
+        {% if entries|length > 0 %}
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -24,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in entriesList %}
+                        {% for entry in entries %}
                             <tr>
                                 <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                                     {% if entry.fieldset %}

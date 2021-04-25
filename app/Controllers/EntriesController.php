@@ -500,7 +500,7 @@ class EntriesController
         // Get data from POST
         $data = $request->getParsedBody();
 
-        // Set name
+        // Set entry ID
         if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
             $id = flextype('slugify')->slugify($data['id']);
         } else {

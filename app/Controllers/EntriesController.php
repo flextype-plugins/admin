@@ -497,6 +497,7 @@ class EntriesController
      */
     public function renameProcess(Request $request, Response $response): Response
     {
+        // Get data from POST
         $data = $request->getParsedBody();
 
         // Set name

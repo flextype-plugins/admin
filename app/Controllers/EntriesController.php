@@ -456,19 +456,27 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $entryID    = explode("/", $this->getEntryID($query));
-        $nameCurrent = array_pop($entryID);
+        // Get entry ID
+        $id = $this->getEntryID($query);
+
+        // Get current entry ID
+        $entryCurrentID = arraysFromString($id, '/')->last();
+
+        // Get parrent entry ID
+        $entryParentID = arraysFromString($id, '/')->slice(0, -1)->toString('/');
+
+        // Get cancel url
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1));
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
-                'id' => $this->getEntryID($query),
-                'nameCurrent' => $nameCurrent,
-                'entryPathCurrent' => $this->getEntryID($query),
-                'entryParent' => implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
                 'menu_item' => 'entries',
-                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                'id' => $id,
+                'entryCurrentID' => $entryCurrentID,
+                'entryParentID' => $entryParentID,
+                'cancelUrl' => $cancelUrl,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -493,21 +501,21 @@ class EntriesController
 
         // Set name
         if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $name = flextype('slugify')->slugify($data['name']);
+            $id = flextype('slugify')->slugify($data['id']);
         } else {
-            $name = $data['name'];
+            $id = $data['id'];
         }
 
         if (flextype('entries')->move(
-            $data['entry_path_current'],
-            $data['entry_parent'] . '/' . $name)
+            $data['current_id'],
+            $data['parent_id'] . '/' . $id)
         ) {
             flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['entry_parent']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_id']);
     }
 
     /**

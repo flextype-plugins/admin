@@ -758,26 +758,6 @@ class EntriesController
     }
 
     /**
-     * Delete media file - process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function deleteMediaFileProcess(Request $request, Response $response): Response
-    {
-        $data = $request->getParsedBody();
-
-        $entry_id = $data['entry-id'];
-        $media_id = $data['media-id'];
-
-        flextype('flash')->addMessage('success', __('admin_message_entry_file_deleted'));
-
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $entry_id . '&type=media');
-    }
-
-    /**
      * Get media list
      *
      * @param string $id Entry ID

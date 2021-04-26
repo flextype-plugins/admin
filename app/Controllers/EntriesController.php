@@ -136,7 +136,7 @@ class EntriesController
         }
 
         // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1));
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
 
         return flextype('twig')->render(
             $response,
@@ -226,7 +226,7 @@ class EntriesController
                     flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
                 }
             } else {
-                flextype('flash')->addMessage('error', __('admin_message_fieldset_not_found'));
+                flextype('flash')->addMessage('error', __('admin_message_blueprint_not_found'));
             }
         } else {
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
@@ -259,42 +259,35 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
+        // Get entry ID
+        $id = $this->getEntryID($query);
 
-        $fieldsets = [];
-
-        // Get fieldsets files
-        $_fieldsets = Filesystem::listContents(PATH['project'] . '/fieldsets/');
-
-        // If there is any fieldsets file then go...
-        if (count($_fieldsets) > 0) {
-            foreach ($_fieldsets as $fieldset) {
-                if ($fieldset['type'] == 'file' && $fieldset['extension'] == 'yaml') {
-                    $fieldsetContent = flextype('serializers')->yaml()->decode(Filesystem::read($fieldset['path']));
-                    if (isset($fieldsetContent['form']) &&
-                        isset($fieldsetContent['form']['tabs']['main']) &&
-                        isset($fieldsetContent['form']['tabs']['main']['fields']) &&
-                        isset($fieldsetContent['form']['tabs']['main']['fields']['title'])) {
-                        if (isset($fieldsetContent['hide']) && $fieldsetContent['hide'] == true) {
-                            continue;
-                        }
-                        $fieldsets[$fieldset['basename']] = $fieldsetContent['title'];
-                    }
-                }
+        // Get blueprints
+        $blueprints = [];
+        foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
+            if (!empty($blueprint)) {
+                $blueprints[$name] = $blueprint['title'];
             }
         }
 
-        $fieldset = $entry['fieldset'] ?? [];
+        // Get cancel url
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
+
+        // Get entry
+        $entry = flextype('entries')->fetch($id)->toArray();
+
+        // Get blueprint
+        $blueprint = $entry['blueprint'] ?? [];
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/type.html',
             [
-                'fieldset' => $fieldset,
-                'fieldsets' => $fieldsets,
-                'id' => $this->getEntryID($query),
                 'menu_item' => 'entries',
-                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                'id' => $id,
+                'blueprint' => $blueprint,
+                'blueprints' => $blueprints,
+                'cancelUrl' => $cancelUrl,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -315,27 +308,22 @@ class EntriesController
      */
     public function typeProcess(Request $request, Response $response): Response
     {
-        $post_data = $request->getParsedBody();
+        // Get data from POST
+        $dataPost = $request->getParsedBody();
 
-        $id = $post_data['id'];
+        // Get entry ID
+        $id = $dataPost['id'];
 
-        $entry = flextype('entries')->fetch($id)->toArray();
-
-        Arrays::delete($entry, 'slug');
-        Arrays::delete($entry, 'id');
-        Arrays::delete($entry, 'modified_at');
-        Arrays::delete($entry, 'created_at');
-        Arrays::delete($entry, 'published_at');
-
-        Arrays::delete($post_data, 'csrf-token');
-
-        Arrays::delete($post_data, 'save_entry');
-        Arrays::delete($post_data, 'id');
-
-        $post_data['created_by'] = flextype('acl')->getUserLoggedInUuid();
-        $post_data['published_by'] = flextype('acl')->getUserLoggedInUuid();
-
-        $data = array_merge($entry, $post_data);
+        // Get data to update
+        $data = arrays(flextype('entries')
+                        ->fetch($id)
+                        ->except(['slug', 'id', 'modified_at', 'created_at', 'published_at']))
+                    ->merge($dataPost)
+                    ->delete('__csrf_token')
+                    ->delete('id')
+                    ->set('created_by', flextype('acl')->getUserLoggedInUuid())
+                    ->set('published_by', flextype('acl')->getUserLoggedInUuid())
+                    ->toArray();
 
         if (flextype('entries')->update(
             $id,
@@ -346,7 +334,7 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1)));
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/'));
     }
 
     /**
@@ -466,7 +454,7 @@ class EntriesController
         $entryParentID = arraysFromString($id, '/')->slice(0, -1)->toString('/');
 
         // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $id), 0, -1));
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
 
         return flextype('twig')->render(
             $response,
@@ -638,8 +626,8 @@ class EntriesController
                             ->toArray();
 
             // Merge current entry fieldset with global fildset
-            if (isset($entry['entry_fieldset'])) {
-                $form = flextype('form')->render(array_replace_recursive($fieldsets, $entry['entry_fieldset']), $entry);
+            if (isset($entry['entry_blueprint'])) {
+                $form = flextype('form')->render(array_replace_recursive($fieldsets, $entry['entry_blueprint']), $entry);
             } else {
                 $form = flextype('form')->render($fieldsets, $entry);
             }
@@ -709,7 +697,7 @@ class EntriesController
             // Delete system fields
             isset($dataPost['slug'])                  and arrays($dataPost)->delete('slug')->toArray();
             isset($dataPost['id'])                    and arrays($dataPost)->delete('id')->toArray();
-            isset($dataPost['csrf-token'])            and arrays($dataPost)->delete('csrf-token')->toArray();
+            isset($dataPost['__csrf_token'])          and arrays($dataPost)->delete('__csrf_token')->toArray();
             isset($dataPost['form-save-action'])      and arrays($dataPost)->delete('form-save-action')->toArray();
             isset($dataPost['trumbowyg-icons-path'])  and arrays($dataPost)->delete('trumbowyg-icons-path')->toArray();
             isset($dataPost['trumbowyg-locale'])      and arrays($dataPost)->delete('trumbowyg-locale')->toArray();

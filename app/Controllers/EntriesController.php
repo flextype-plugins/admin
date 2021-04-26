@@ -542,26 +542,22 @@ class EntriesController
      */
     public function duplicateProcess(Request $request, Response $response): Response
     {
+        // Get data from POST
         $data = $request->getParsedBody();
 
-        $id = $data['id'];
-        $parent_id = implode('/', array_slice(explode("/", $id), 0, -1));
+        // Get ID, parentID and newID
+        $id        = $data['id'];
+        $parentID  = arraysFromString($id, '/')->slice(0, -1)->toString('/');
+        $newID     = $id . '-copy-' . date("Ymd-His");
 
-        $random_date = date("Ymd_His");
-
-        flextype('entries')->copy($id, $id . '-duplicate-' . $random_date, true);
-
-        if (Filesystem::has(PATH['project'] . '/media' . '/entries/' . $id)) {
-            filesystem()
-                ->directory(PATH['project'] . '/media' . '/entries/' . $id)
-                ->copy(PATH['project'] . '/media' . '/entries/' . $id . '-duplicate-' . $random_date);
-        } else {
-            Filesystem::createDir(PATH['project'] . '/media' . '/entries/' . $id . '-duplicate-' . $random_date);
-        }
+        // Get current entry title, copy current entry and update title for new entry
+        $title = flextype('entries')->fetch($id)['title'];
+        flextype('entries')->copy($id, $newID, true);
+        flextype('entries')->update($newID, ['title' => $title . ' copy']);
 
         flextype('flash')->addMessage('success', __('admin_message_entry_duplicated'));
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $parent_id);
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $parentID);
     }
 
     /**

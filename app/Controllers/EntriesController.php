@@ -577,37 +577,40 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
+        // Get entry ID
+        $id = $this->getEntryID($query);
+
         // Get Entry type
         $type = $request->getQueryParams()['type'];
 
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1));
+        // Get cancel url
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
 
+        // Disable entry parsers
         flextype('registry')->set('entries.fields.parsers.settings.enabled', false);
 
         // Get Entry
-        $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
+        $entry = arrays(flextype('entries')->fetch($id))
+                    ->delete('id')
+                    ->delete('slug')
+                    ->delete('modified_at')
+                    ->toArray();
 
-        Arrays::delete($entry, 'slug');
-        Arrays::delete($entry, 'id');
-        Arrays::delete($entry, 'modified_at');
-
-        // Fieldsets for current entry template
-        $fieldsets_path = PATH['project'] . '/fieldsets/' . (isset($entry['fieldset']) ? $entry['fieldset'] : 'default') . '.yaml';
-        $fieldsets = flextype('serializers')->yaml()->decode(Filesystem::read($fieldsets_path));
-        is_null($fieldsets) and $fieldsets = [];
+        // Get blueprint
+        $blueprint = flextype('blueprints')->fetch(isset($entry['fieldset']) ? $entry['fieldset'] : 'default');
 
         if ($type == 'source') {
 
-            $entrySource = filesystem()->file(flextype('entries')->getFileLocation($this->getEntryID($query)))->get();
+            $entrySource = filesystem()->file(flextype('entries')->getFileLocation($id))->get();
 
             return flextype('twig')->render(
                 $response,
                 'plugins/admin/templates/content/entries/source.html',
                 [
-                    'id' => $this->getEntryID($query),
-                    'data' => $entrySource,
-                    'type' => $type,
                     'menu_item' => 'entries',
+                    'id' => $id,
+                    'type' => $type,
+                    'data' => $entrySource,
                     'cancelUrl' => $cancelUrl,
                     'links' => [
                         'entries' => [
@@ -627,9 +630,9 @@ class EntriesController
 
             // Merge current entry fieldset with global fildset
             if (isset($entry['entry_blueprint'])) {
-                $form = flextype('form')->render(array_replace_recursive($fieldsets, $entry['entry_blueprint']), $entry);
+                $blueprint = flextype('blueprints')->fetch(array_replace_recursive($fieldsets, $entry['entry_blueprint']), $entry);
             } else {
-                $form = flextype('form')->render($fieldsets, $entry);
+                $blueprint = flextype('blueprints')->fetch($fieldsets, $entry);
             }
 
             return flextype('twig')->render(

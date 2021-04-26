@@ -639,13 +639,13 @@ class EntriesController
                 $response,
                 'plugins/admin/templates/content/entries/edit.html',
                 [
-                    'id' => $this->getEntryID($query),
-                    'form' => $form,
                     'menu_item' => 'entries',
+                    'id' => $id,
+                    'form' => $blueprint,
                     'cancelUrl' => $cancelUrl,
                     'links' => [
                         'entries' => [
-                            'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                            'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/'),
                             'title' => __('admin_entries')
                         ]
                     ]

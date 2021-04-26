@@ -756,38 +756,4 @@ class EntriesController
 
         return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
     }
-
-    /**
-     * Get media list
-     *
-     * @param string $id Entry ID
-     * @param bool   $path if true returns with url paths
-     *
-     * @return array
-     */
-    public function getMediaList(string $id, bool $path = false): array
-    {
-        $baseUrl = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))->getBaseUrl();
-        $files = [];
-
-        if (!Filesystem::has(PATH['project'] . '/media/entries/' . $id)) {
-            Filesystem::createDir(PATH['project'] . '/media/entries/' . $id);
-        }
-
-        foreach (array_diff(scandir(PATH['project'] . '/media/entries/' . $id), ['..', '.']) as $file) {
-            if (strpos(flextype('registry')->get('plugins.admin.settings.entries.media.accept_file_types'), $file_ext = substr(strrchr($file, '.'), 1)) !== false) {
-                if (strpos($file, strtolower($file_ext), 1)) {
-                    if ($file !== 'entry.md') {
-                        if ($path) {
-                            $files[$baseUrl . '/' . $id . '/' . $file] = $baseUrl . '/' . $id . '/' . $file;
-                        } else {
-                            $files[$file] = $file;
-                        }
-                    }
-                }
-            }
-        }
-        return $files;
-    }
-
 }

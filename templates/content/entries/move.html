@@ -1,36 +1,9 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <div class="workspace-header row">
-            <div class="col p-0"><h2>Move Entry</h2></div>
-        </div>
-        <div class="workspace-rounded px-4 py-4 mb-3">
-            <form method="post" name="form_entries_move">
-                {{ csrf() }}
-                <input type="hidden" name="entry_id_current" value="{{ entry_id_current }}">
-                <input type="hidden" name="entry_id_path_parent" value="{{ entry_id_path_parent }}">
-                <input type="hidden" name="entry_id_path_current" value="{{ entry_id_path_current }}">
-                <div class="mb-3">
-                    <label for="title" class="form-label">{{ __('admin_parent_entry') }}</label>
-                    <select class="form-control js-select" name="parent_entry">
-                        {% for key, value in entries_list %}
-                            {% if key != entry_id_path_current %}
-                                <option value="{{ key }}" {% if key == entry_id_path_parent %} selected="selected" {% endif %}>{{ value }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-        </div>
-        <div class="d-flex justify-content-end">
-            <a href="{{ cancelUrl }}" class="btn btn-link">Cancel</a>
-            <a id="moveEntry"
-               name="move_entry"
-               href="javascript:void(0);"
-               class="btn btn-primary js-submit-entry-move-form">{{ __('admin_save') }}</a>
-        </div>
-    </div>
-</div>
+    {{ flextype.blueprints.render('admin/entries/move', {}, {'id': id,
+                                                             'entryCurrentID': entryCurrentID,
+                                                             'entryParentID': entryParentID,
+                                                             'entries': entries,
+                                                             'cancelUrl': cancelUrl}) }}
 {% endblock %}

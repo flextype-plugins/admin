@@ -1,14 +1,9 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-<div class="row justify-content-center pt-3">
-    {% set fieldsetContent = filesystem().file(PATH_PROJECT ~ '/fieldsets/admin-entries-type.yaml').get() %}
-
-    {% set fieldset = arrays(flextype.serializers.yaml.decode(fieldsetContent)).toArray() %}
-
-    {{ flextype.form.render(fieldset,
-                            {},
-                            {'fieldsets': fieldsets,
-                             'cancelUrl': cancelUrl})|raw }}
-</div>
+    {{ flextype.blueprints.render('admin/entries/type', 
+                                    {}, 
+                                    {'id': id,
+                                     'blueprints': blueprints,
+                                     'cancelUrl': cancelUrl}) }}
 {% endblock %}

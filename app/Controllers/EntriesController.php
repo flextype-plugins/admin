@@ -415,13 +415,10 @@ class EntriesController
         // Get data from POST
         $data = $request->getParsedBody();
 
-        // Set entry id current
-        $entry_id_current = $data['entry_id_current'];
-
-        if (!flextype('entries')->has($data['parent_entry'] . '/' . $entry_id_current)) {
+        if (!flextype('entries')->has(strings($data['to'] . '/' . $data['entry_current_id'])->trim('/')->toString())) {
             if (flextype('entries')->move(
-                $data['entry_id_path_current'],
-                $data['parent_entry'] . '/' . $entry_id_current
+                $data['id'],
+                strings($data['to'] . '/' . $data['entry_current_id'])->trim('/')->toString()
             )) {
                 flextype('flash')->addMessage('success', __('admin_message_entry_moved'));
             } else {
@@ -431,7 +428,7 @@ class EntriesController
             flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . (($data['parent_entry'] == '/') ? '' : $data['parent_entry']));
+        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['to']);
     }
 
     /**

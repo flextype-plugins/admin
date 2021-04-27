@@ -350,30 +350,34 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        $entryID = $this->getEntryID($query);
+        // Get entry ID
+        $id = $this->getEntryID($query);
 
-        $entryIDParts = explode("/", $entryID);
+        // Get current entry ID
+        $entryCurrentID = arraysFromString($id, '/')->last();
 
-        $entryCurrentID = array_pop($entryIDParts);
+        // Get parrent entry ID
+        $entryParentID = arraysFromString($id, '/')->slice(0, -1)->toString('/');
 
-        $entryPathParentID = implode('/', array_slice(explode("/", $entryID), 0, -1));
+        // Get cancel url
+        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
 
-        if (empty($entryPathParentID)) {
-            $entryPathParentID = '/';
+        if (empty($entryParentID)) {
+            $entryParentID = '/';
         } else {
-            $entriesList['/'] = '/';
+            $entries['/'] = '/';
         }
 
         // Fetch entry
         $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
 
-        // Get entries list
+        // Get entries
         foreach (flextype('entries')->fetch('', ['collection' => true, 'find' => ['depth' => '>0'], 'filter' => ['order_by' => ['field' => ['id']]]])->toArray() as $_entry) {
-            if ($_entry['id'] != $entryID) {
+            if ($_entry['id'] != $id) {
                 if ($_entry['id'] != '') {
-                    $entriesList[$_entry['id']] = $_entry['id'];
+                    $entries[$_entry['id']] = $_entry['id'];
                 } else {
-                    $entriesList[flextype('registry')->get('flextype.entries.main')] = flextype('registry')->get('flextype.entries.main');
+                    $entries[flextype('registry')->get('flextype.entries.main')] = flextype('registry')->get('flextype.entries.main');
                 }
             }
         }
@@ -383,12 +387,11 @@ class EntriesController
             'plugins/admin/templates/content/entries/move.html',
             [
                 'menu_item' => 'entries',
-                'id' => $entryID,
-                'entriesList' => $entriesList,
+                'id' => $id,
+                'entries' => $entries,
                 'entryCurrentID' => $entryCurrentID,
-                'entryPathCurrentID' => $entryID,
-                'entryPathParentID' => $entryPathParentID,
-                'cancelUrl' => flextype('router')->pathFor('admin.entries.index') . '?id=' . implode('/', array_slice(explode("/", $this->getEntryID($query)), 0, -1)),
+                'entryParentID' => $entryParentID,
+                'cancelUrl' => $cancelUrl,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),

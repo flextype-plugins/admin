@@ -28,11 +28,9 @@
                             <tr>
                                 <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                                     {% if entry.fieldset %}
-                                        {% set fieldset_path = PATH_PROJECT ~ '/fieldsets' ~ '/' ~ entry.fieldset ~ '.yaml' %}
-                                        {% if filesystem().file(fieldset_path).exists() %}
-                                            {% set fieldset = flextype.serializers.yaml.decode(filesystem().file(fieldset_path).get()) %}
-                                            {% if fieldset.icon %}
-                                                {{ icon(fieldset.icon.name, fieldset.icon.set) }}
+                                        {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
+                                            {% if blueprint.icon %}
+                                                {{ icon(blueprint.icon.name, blueprint.icon.set) }}
                                             {% else %}
                                                 {{ icon('file-text', 'bootstrap') }}
                                             {% endif %}

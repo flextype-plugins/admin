@@ -650,99 +650,104 @@ class EntriesController
      */
     public function editProcess(Request $request, Response $response): Response
     {
+        // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get Entry ID and TYPE from GET param
-        $id   = $query['id'];
-        $type = $query['type'];
+        // Get entry ID
+        $id = $this->getEntryID($query);
 
-        dd($request->getParsedBody());
+        // Get Entry type
+        $type = $request->getQueryParams()['type'];
 
-        if ($type == 'source') {
+        switch ($type) {
+            case 'source':       
 
-            // Data from POST
-            $data = $request->getParsedBody();
+                // Data from POST
+                $data = $request->getParsedBody();
+    
+                $entry = flextype('serializers')->frontmatter()->decode($data['data']);
+    
+                $entry['created_by'] = flextype('acl')->getUserLoggedInUuid();
+                $entry['published_by'] = flextype('acl')->getUserLoggedInUuid();
+    
+                Arrays::delete($entry, 'slug');
+                Arrays::delete($entry, 'id');
+                Arrays::delete($entry, 'modified_at');
+    
+                // Update entry
+                if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', flextype('serializers')->frontmatter()->encode($entry))) {
+                    flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
+                } else {
+                    flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
+                }
+                break;
+            default:
+            case 'editor':
+                // Result data to save
+                $dataResult = [];
 
-            $entry = flextype('serializers')->frontmatter()->decode($data['data']);
+                // Data from POST
+                $dataPost = $request->getParsedBody();
 
-            $entry['created_by'] = flextype('acl')->getUserLoggedInUuid();
-            $entry['published_by'] = flextype('acl')->getUserLoggedInUuid();
+                // Delete system fields
+                isset($dataPost['slug'])                  and arrays($dataPost)->delete('slug')->toArray();
+                isset($dataPost['id'])                    and arrays($dataPost)->delete('id')->toArray();
+                isset($dataPost['__csrf_token'])          and arrays($dataPost)->delete('__csrf_token')->toArray();
+                isset($dataPost['form-save-action'])      and arrays($dataPost)->delete('form-save-action')->toArray();
+                isset($dataPost['trumbowyg-icons-path'])  and arrays($dataPost)->delete('trumbowyg-icons-path')->toArray();
+                isset($dataPost['trumbowyg-locale'])      and arrays($dataPost)->delete('trumbowyg-locale')->toArray();
+                isset($dataPost['flatpickr-date-format']) and arrays($dataPost)->delete('flatpickr-date-format')->toArray();
+                isset($dataPost['flatpickr-locale'])      and arrays($dataPost)->delete('flatpickr-locale')->toArray();
 
-            Arrays::delete($entry, 'slug');
-            Arrays::delete($entry, 'id');
-            Arrays::delete($entry, 'modified_at');
+                $dataPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
 
-            // Update entry
-            if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', flextype('serializers')->frontmatter()->encode($entry))) {
-                flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
-            } else {
-                flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
-            }
-        } else {
-            // Result data to save
-            $dataResult = [];
+                $entryFile = flextype('entries')->getFileLocation($id);
 
-            // Data from POST
-            $dataPost = $request->getParsedBody();
+                $entry = flextype('serializers')
+                            ->frontmatter()
+                            ->decode(filesystem()->file($entryFile)->get($entryFile));
 
-            // Delete system fields
-            isset($dataPost['slug'])                  and arrays($dataPost)->delete('slug')->toArray();
-            isset($dataPost['id'])                    and arrays($dataPost)->delete('id')->toArray();
-            isset($dataPost['__csrf_token'])          and arrays($dataPost)->delete('__csrf_token')->toArray();
-            isset($dataPost['form-save-action'])      and arrays($dataPost)->delete('form-save-action')->toArray();
-            isset($dataPost['trumbowyg-icons-path'])  and arrays($dataPost)->delete('trumbowyg-icons-path')->toArray();
-            isset($dataPost['trumbowyg-locale'])      and arrays($dataPost)->delete('trumbowyg-locale')->toArray();
-            isset($dataPost['flatpickr-date-format']) and arrays($dataPost)->delete('flatpickr-date-format')->toArray();
-            isset($dataPost['flatpickr-locale'])      and arrays($dataPost)->delete('flatpickr-locale')->toArray();
+                $entryLastModified = filesystem()->file($entryFile)->lastModified();
 
-            $dataPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
+                arrays($entry)->delete('slug')->toArray();
+                arrays($entry)->delete('id')->toArray();
 
-            $entryFile = flextype('entries')->getFileLocation($id);
+                if (isset($dataPost['created_at'])) {
+                    $dataPost['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($dataPost['created_at']));
+                } elseif(isset($entry['created_at'])) {
+                    $dataPost['created_at'] = $entry['created_at'];
+                } else {
+                    $dataPost['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entryLastModified);
+                }
 
-            $entry = flextype('serializers')
-                        ->frontmatter()
-                        ->decode(filesystem()->file($entryFile)->get($entryFile));
+                if (isset($dataPost['published_at'])) {
+                    $dataPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($dataPost['published_at']));
+                } elseif(isset($entry['published_at'])) {
+                    $dataPost['published_at'] = $entry['published_at'];
+                } else {
+                    $dataPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entryLastModified);
+                }
 
-            $entryLastModified = filesystem()->file($entryFile)->lastModified();
+                if (isset($dataPost['routable'])) {
+                    $dataPost['routable'] = (bool) $dataPost['routable'];
+                } elseif(isset($entry['routable'])) {
+                    $dataPost['routable'] = (bool) $entry['routable'];
+                } else {
+                    $dataPost['routable'] = true;
+                }
 
-            arrays($entry)->delete('slug')->toArray();
-            arrays($entry)->delete('id')->toArray();
+                arrays($entry)->delete('modified_at')->toArray();
 
-            if (isset($dataPost['created_at'])) {
-                $dataPost['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($dataPost['created_at']));
-            } elseif(isset($entry['created_at'])) {
-                $dataPost['created_at'] = $entry['created_at'];
-            } else {
-                $dataPost['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entryLastModified);
-            }
+                // Merge entry data with $dataPost
+                $dataResult = array_merge($entry, $dataPost);
 
-            if (isset($dataPost['published_at'])) {
-                $dataPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($dataPost['published_at']));
-            } elseif(isset($entry['published_at'])) {
-                $dataPost['published_at'] = $entry['published_at'];
-            } else {
-                $dataPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entryLastModified);
-            }
-
-            if (isset($dataPost['routable'])) {
-                $dataPost['routable'] = (bool) $dataPost['routable'];
-            } elseif(isset($entry['routable'])) {
-                $dataPost['routable'] = (bool) $entry['routable'];
-            } else {
-                $dataPost['routable'] = true;
-            }
-
-            arrays($entry)->delete('modified_at')->toArray();
-
-            // Merge entry data with $dataPost
-            $dataResult = array_merge($entry, $dataPost);
-
-            // Update entry
-            if (flextype('entries')->update($id, $dataResult)) {
-                flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
-            } else {
-                flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
-            }
+                // Update entry
+                if (flextype('entries')->update($id, $dataResult)) {
+                    flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
+                } else {
+                    flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
+                }
+                break;
         }
 
         return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);

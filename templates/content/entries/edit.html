@@ -1,9 +1,29 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="js-entries-form-editor">
-        {{ form|raw }}
-    </div>
-</div>
+    {% set templates = [] %}
+    {% for template in filesystem().find().depth(0).in(PATH_PROJECT ~ '/themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/').files() %}
+        {% if template.getExtension() == 'html' %}
+            {% set templateName = template.getBasename('.html') %}
+            {% set templates = templates|merge({templateName: templateName}) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if entry['blueprint'] %} 
+        {% set blueprint = flextype.blueprints.fetch(entry['blueprint']) %}
+    {% else %}
+        {% set blueprint = flextype.blueprints.fetch('default') %}
+    {% endif %}
+
+    {% if entry['workspace'] %}
+        {% set blueprint = arrays(blueprint).replace(entry['workspace'], true) %}
+    {% endif %}
+
+    {% set blueprint = blueprint.toArray() %}
+   
+    {{ flextype.blueprints.renderFromArray(blueprint, entry, {'id': id,
+                                                              'cancelUrl': cancelUrl, 
+                                                              'templates': templates,
+                                                              'routable': routable,
+                                                              'visibility': visibility}) }}
 {% endblock %}

@@ -587,66 +587,56 @@ class EntriesController
 
         // Get Entry
         $entry = arrays(flextype('entries')->fetch($id))
-                    ->delete('id')
-                    ->delete('slug')
-                    ->delete('modified_at')
-                    ->toArray();
+                ->delete('id')
+                ->delete('slug')
+                ->delete('modified_at')
+                ->toArray();
 
-        // Get blueprint
-        $blueprint = flextype('blueprints')->fetch(isset($entry['fieldset']) ? $entry['fieldset'] : 'default');
+        switch ($type) {
+            case 'source':
 
-        if ($type == 'source') {
+                $source = filesystem()->file(flextype('entries')->getFileLocation($id))->get();
 
-            $entrySource = filesystem()->file(flextype('entries')->getFileLocation($id))->get();
-
-            return flextype('twig')->render(
-                $response,
-                'plugins/admin/templates/content/entries/source.html',
-                [
-                    'menu_item' => 'entries',
-                    'id' => $id,
-                    'type' => $type,
-                    'data' => $entrySource,
-                    'cancelUrl' => $cancelUrl,
-                    'links' => [
-                        'entries' => [
-                            'link' => flextype('router')->pathFor('admin.entries.index'),
-                            'title' => __('admin_entries')
+                return flextype('twig')->render(
+                    $response,
+                    'plugins/admin/templates/content/entries/source.html',
+                    [
+                        'menu_item' => 'entries',
+                        'id' => $id,
+                        'type' => $type,
+                        'source' => $source,
+                        'cancelUrl' => $cancelUrl,
+                        'links' => [
+                            'entries' => [
+                                'link' => flextype('router')->pathFor('admin.entries.index'),
+                                'title' => __('admin_entries')
+                            ]
                         ]
                     ]
-                ]
-            );
-        } elseif ($type == 'editor') {
-
-            $fieldsets = arrays($fieldsets)
-                            ->set('header.buttons.cancelUrl.href', $cancelUrl)
-                            ->set('header.buttons.submit.href', 'javascript:void(0);')
-                            ->set('header.buttons.submit.class', 'js-submit-entries-form-editor')
-                            ->toArray();
-
-            // Merge current entry fieldset with global fildset
-            if (isset($entry['entry_blueprint'])) {
-                $blueprint = flextype('blueprints')->fetch(array_replace_recursive($fieldsets, $entry['entry_blueprint']), $entry);
-            } else {
-                $blueprint = flextype('blueprints')->fetch($fieldsets, $entry);
-            }
-
-            return flextype('twig')->render(
-                $response,
-                'plugins/admin/templates/content/entries/edit.html',
-                [
-                    'menu_item' => 'entries',
-                    'id' => $id,
-                    'form' => $blueprint,
-                    'cancelUrl' => $cancelUrl,
-                    'links' => [
-                        'entries' => [
-                            'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/'),
-                            'title' => __('admin_entries')
+                );
+                break;
+            default:
+            case 'editor':
+                return flextype('twig')->render(
+                    $response,
+                    'plugins/admin/templates/content/entries/edit.html',
+                    [
+                        'menu_item' => 'entries',
+                        'id' => $id,
+                        'entry' => $entry,
+                        'type' => $type,
+                        'routable' => $this->routable,
+                        'visibility' => $this->visibility,
+                        'cancelUrl' => $cancelUrl,
+                        'links' => [
+                            'entries' => [
+                                'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/'),
+                                'title' => __('admin_entries')
+                            ]
                         ]
                     ]
-                ]
-            );
+                );
+                break;
         }
     }
 
@@ -665,6 +655,8 @@ class EntriesController
         // Get Entry ID and TYPE from GET param
         $id   = $query['id'];
         $type = $query['type'];
+
+        dd($request->getParsedBody());
 
         if ($type == 'source') {
 

@@ -43,14 +43,11 @@
                                 </td>
                                 <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
                                     <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
-                                        {% if entry.fieldset %}
-                                            {% if filesystem().file(fieldset_path).exists() %}
-                                                {% if fieldset.default_field %}
-                                                    {% if entry[fieldset.default_field] != '' %}
-                                                        {{ entry[fieldset.default_field] }}
-                                                    {% else %}
-                                                        {{ entry.slug }}
-                                                    {% endif %}
+                                        {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
+                                            {% set defaultBlock = flextype.blueprints.fetch(entry.blueprint)['defaultBlock'] %}
+                                            {% if defaultBlock %}
+                                                {% if entry[defaultBlock] != '' %}
+                                                    {{ entry[defaultBlock] }}
                                                 {% else %}
                                                     {{ entry.slug }}
                                                 {% endif %}

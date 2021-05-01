@@ -119,19 +119,10 @@
             {% endif %}
         {% endfor %}
 
-        {% include 'plugins/blueprints/blocks/messages.html' %}
+        {% include 'plugins/admin/templates/partials/messages.html' %}
 
         <script>
-            var clipboard = new ClipboardJS('.js-clipboard-btn');
-
-            if ($("#ace-editor").length ) {
-                var editor = ace.edit("ace-editor");
-                ace.config.set('basePath', "{{ url() }}/project/plugins/admin/assets/dist/js/ace")
-                editor.setTheme("ace/theme/textmate");
-                editor.setAutoScrollEditorIntoView(true);
-                editor.setShowInvisibles(true)
-                editor.setOption("maxLines", 100);
-            }
+            //var clipboard = new ClipboardJS('.js-clipboard-btn');
         </script>
 
         {% do flextype.emitter.emit('onAdminThemeTail') %}

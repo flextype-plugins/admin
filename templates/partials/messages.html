@@ -1,0 +1,42 @@
+{% for message in flextype.flash.getMessages()['success'] %}
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+      <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+      </div>
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", function(event) { toastShow(); });</script>
+{% endfor %}
+
+{% for message in flextype.flash.getMessages()['warning'] %}
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+      <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+      </div>
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", function(event) { toastShow(); });</script>
+{% endfor %}
+
+{% for message in flextype.flash.getMessages()['error'] %}
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+      <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+      </div>
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", function(event) { toastShow(); });</script>
+{% endfor %}
+
+<script>
+function toastShow() {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    var toastList = toastElList.map(function(toastEl) {
+        return new bootstrap.Toast(toastEl)
+    });
+    toastList.forEach(toast => toast.show());
+}
+</script>

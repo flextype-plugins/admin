@@ -1,0 +1,56 @@
+.workspace-navigation {
+    background-color: $primary;
+    border: 0;
+
+    a {
+        color: $white;
+
+        &:hover {
+            color: $white;
+            opacity: .9;
+        }
+    }
+
+    .navbar-nav {
+        margin-left: 8px;
+    }
+
+    .nav-item > .nav-link {
+        position: relative;
+        color: $white;
+        padding-right: .6rem;
+        padding-left: .6rem;
+    }
+
+    .nav-item:not(:first-of-type) > .nav-link::before {
+        content: "/";
+        position: absolute;
+        left: -3px;
+        color: $white;
+        opacity: .5;
+    }
+
+    .dropdown-toggle {
+        display: flex;
+        padding-left: 0;
+
+        &:after {
+            position: absolute;
+            top: 14px;
+            right: -5px;
+        }
+
+        > svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+
+    .dropdown-menu {
+        border: 0;
+        top: 37px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}

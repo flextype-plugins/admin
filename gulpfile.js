@@ -1,98 +1,98 @@
-const gulp = require('gulp');
+const gulp         = require('gulp');
+const concat       = require('gulp-concat');
+const csso         = require('gulp-csso');
+const autoprefixer = require('gulp-autoprefixer');
+const sass         = require('gulp-sass');
+const size         = require("gulp-size");
+const gzip         = require("gulp-gzip");
+const rename       = require("gulp-rename")
+sass.compiler      = require('node-sass');
 
 /**
- * Task: gulp vendor-css
+ * Task: gulp css
  */
- gulp.task("vendor-css", function() {
-   const concat = require('gulp-concat');
-   const csso = require('gulp-csso');
-   const autoprefixer = require('gulp-autoprefixer');
+ gulp.task("css", function () {
+    return gulp
+        .src([
+            // Trumbowyg
+            'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
+            'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
 
-   return gulp
-     .src([
-          // Swal2
-          'node_modules/sweetalert2/dist/sweetalert2.min.css',
-
-          // AnimateCSS
-          'node_modules/animate.css/animate.min.css'])
-     .pipe(autoprefixer({
-         overrideBrowserslist: [
-             "last 1 version"
-         ],
-         cascade: false
-     }))
-     .pipe(csso())
-     .pipe(concat('admin-vendor-build.min.css'))
-     .pipe(gulp.dest("assets/dist/css/"));
- });
+            // Admin
+            'assets/src/scss/admin.scss'
+        ])
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({
+            overrideBrowserslist: [
+                "last 1 version"
+            ],
+            cascade: false
+        }))
+        .pipe(csso())
+        .pipe(concat('admin.min.css'))
+        .pipe(gulp.dest("assets/dist/css/"))
+        .pipe(size({ showFiles: true }))
+        .pipe(gzip())
+        .pipe(rename("admin.min.css.gz"))
+        .pipe(gulp.dest("assets/dist/css/"))
+        .pipe(size({ showFiles: true, gzip: true }));
+});
 
 
 /**
- * Task: gulp admin-css
+ * Task: gulp js
  */
-gulp.task("admin-css", function() {
-  const concat = require('gulp-concat');
-  const csso = require('gulp-csso');
-  const sourcemaps = require('gulp-sourcemaps');
-  const autoprefixer = require('gulp-autoprefixer');
-  const atimport = require("postcss-import");
-  const postcss = require("gulp-postcss");
+ gulp.task('js', function () {
+    return gulp
+        .src([
+            // SpeakingURL
+            'node_modules/speakingurl/speakingurl.min.js',
 
-  return gulp
-    .src(['assets/src/css/admin-panel.css'])
-    .pipe(postcss([atimport()]))
-    .pipe(autoprefixer({
-        overrideBrowserslist: [
-            "last 1 version"
-        ],
-        cascade: false
-    }))
-    .pipe(csso())
-    .pipe(concat('admin-build.min.css'))
-    .pipe(gulp.dest("assets/dist/css/"));
+            // Trumbowyg
+            'node_modules/trumbowyg/dist/trumbowyg.min.js',
+            'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
+            'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js'
+        ])
+        .pipe(concat('admin.min.js'))
+        .pipe(size({ showFiles: true }))
+        .pipe(gulp.dest('assets/dist/js/'))
+        .pipe(gzip())
+        .pipe(rename("admin.min.js.gz"))
+        .pipe(gulp.dest("assets/dist/js/"))
+        .pipe(size({ showFiles: true, gzip: true }));
+});
+
+
+/**
+ * Task: gulp trumbowyg-fonts
+ */
+ gulp.task('trumbowyg-fonts', function () {
+    return gulp
+        .src(['node_modules/trumbowyg/dist/ui/icons.svg'])
+        .pipe(size({ showFiles: true }))
+        .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
 });
 
 /**
- * Task: gulp ace-js
+ * Task: gulp trumbowyg-langs
  */
-gulp.task('ace-js', function(){
-    return gulp.src(['assets/src/js/ace/*'])
-        .pipe(gulp.dest('assets/dist/js/ace/'));
-});
-
-/**
- * Task: gulp vendor-js
- */
-gulp.task('vendor-js', function(){
-   const sourcemaps = require('gulp-sourcemaps');
-   const concat = require('gulp-concat');
-
-   return gulp.src([
-                    // Swal2
-                    'node_modules/sweetalert2/dist/sweetalert2.min.js',
-                    
-                    // SpeakingURL
-                    'node_modules/speakingurl/speakingurl.min.js',
-
-                    // Clipboard
-                    'node_modules/clipboard/dist/clipboard.min.js'
-                 ])
-     .pipe(sourcemaps.init())
-     .pipe(concat('admin-vendor-build.min.js'))
-     .pipe(sourcemaps.write())
-     .pipe(gulp.dest('assets/dist/js/'));
+gulp.task('trumbowyg-langs', function () {
+    return gulp
+        .src(['node_modules/trumbowyg/dist/*langs/**/*.min.js'])
+        .pipe(size({ showFiles: true }))
+        .pipe(gulp.dest('assets/dist/lang/trumbowyg'));
 });
 
 /**
  * Task: gulp default
  */
 gulp.task('default', gulp.series(
-    'vendor-css', 'vendor-js', 'admin-css', 'ace-js'
+    'trumbowyg-fonts', 'trumbowyg-langs', 'css', 'js'
 ));
 
 /**
  * Task: gulp watch
  */
 gulp.task('watch', function () {
-    gulp.watch(["templates/**/*.html", "assets/src/"], gulp.series('vendor-css', 'admin-css'));
+    gulp.watch(["templates/**/*.html", "assets/src/"], gulp.series('default'));
 });

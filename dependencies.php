@@ -25,10 +25,10 @@ flextype('registry')->set('plugins.admin.settings.navigation.primary.system.tool
 flextype('registry')->set('plugins.admin.settings.navigation.primary.system.settings', ['title' => __('admin_settings'), 'icon' => ['name' => 'gear', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.settings.index')]);
 flextype('registry')->set('plugins.admin.settings.navigation.primary.system.api', ['title' => __('admin_api'), 'icon' => ['name' => 'diagram-3', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.api.index')]);
 
-// Add Blueprint block `InputEditor`
-flextype('registry')->set('plugins.blueprints.settings.blocks.InputEditor', 
-                         ['name' => 'InputEditor',
-                           'src' => 'plugins/admin/blocks/InputEditor/block.html']);
+// Add Blueprint block `InputEditorTrumbowyg`
+flextype('registry')->set('plugins.blueprints.settings.blocks.InputEditorTrumbowyg', 
+                         ['name' => 'InputEditorTrumbowyg',
+                           'src' => 'plugins/admin/blocks/InputEditorTrumbowyg/block.html']);
 
 /**
  * Add Assets

@@ -17,6 +17,9 @@ sass.compiler      = require('node-sass');
             // Trumbowyg
             'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
             'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
+            
+            // Blocks
+            'blocks/InputEditorTrumbowyg/block.scss',
 
             // Admin
             'assets/src/scss/admin.scss'
@@ -51,7 +54,10 @@ sass.compiler      = require('node-sass');
             // Trumbowyg
             'node_modules/trumbowyg/dist/trumbowyg.min.js',
             'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
-            'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js'
+            'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
+
+            // Blocks
+            'blocks/InputEditorTrumbowyg/block.js'
         ])
         .pipe(concat('admin.min.js'))
         .pipe(size({ showFiles: true }))

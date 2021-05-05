@@ -12,9 +12,11 @@
 
             <title>{{ flextype.registry.get('plugins.admin.manifest.name') }} | Flextype</title>
 
-            {% for css in flextype.registry.get('assets.admin.css') %}
-                {% if css %}
-                    <link href="{{ url() }}/{{ css }}" rel="stylesheet">
+            {% for categories in flextype.registry.get('assets.admin.css') %}
+                {% if categories %}
+                    {% for category in categories %}
+                        <link href="{{ url() }}/{{ category }}" rel="stylesheet">
+                    {% endfor %}
                 {% endif %}
             {% endfor %}
 
@@ -113,9 +115,11 @@
             </div>
         </main>
 
-        {% for js in flextype.registry.get('assets.admin.js') %}
-            {% if js %}
-                <script type="text/javascript" src="{{ url() }}/{{ js }}"></script>
+        {% for categories in flextype.registry.get('assets.admin.js') %}
+            {% if categories %}
+                {% for category in categories %}
+                    <script type="text/javascript" src="{{ url() }}/{{ category }}"></script>
+                {% endfor %}
             {% endif %}
         {% endfor %}
 

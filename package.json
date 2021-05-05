@@ -30,7 +30,6 @@
     "postcss-import": "^12.0.0",
     "animate.css": "^3.7.2",
     "clipboard": "^2.0.8",
-    "speakingurl": "^14.0.1",
-    "trumbowyg": "^2.23.0"
+    "speakingurl": "^14.0.1"
   }
 }

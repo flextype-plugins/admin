@@ -25,23 +25,5 @@ flextype('registry')->set('plugins.admin.settings.navigation.primary.system.tool
 flextype('registry')->set('plugins.admin.settings.navigation.primary.system.settings', ['title' => __('admin_settings'), 'icon' => ['name' => 'gear', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.settings.index')]);
 flextype('registry')->set('plugins.admin.settings.navigation.primary.system.api', ['title' => __('admin_api'), 'icon' => ['name' => 'diagram-3', 'set' => 'bootstrap'], 'link' => flextype('router')->pathFor('admin.api.index')]);
 
-// Add Blueprint block `InputEditorTrumbowyg`
-flextype('registry')->set('plugins.blueprints.settings.blocks.InputEditorTrumbowyg', 
-                         ['name' => 'InputEditorTrumbowyg',
-                           'src' => 'plugins/admin/blocks/InputEditorTrumbowyg/block.html']);
-
-/**
- * Add Assets
- */
-$_admin_css = (flextype('registry')->has('assets.admin.css')) ? flextype('registry')->get('assets.admin.css') : [];
-$_admin_js  = (flextype('registry')->has('assets.admin.js')) ? flextype('registry')->get('assets.admin.js') : [];
-
-
-flextype('registry')->set('assets.admin.css',
-                           array_merge($_admin_css,
-                           ['project/plugins/admin/assets/dist/css/admin.min.css']));
-
-flextype('registry')->set('assets.admin.js',
-                       array_merge($_admin_js,
-                       ['project/plugins/admin/assets/dist/js/admin.min.js']));
-
+flextype('registry')->set('assets.admin.css.admin', ['project/plugins/admin/assets/dist/css/admin.min.css']);
+flextype('registry')->set('assets.admin.js.admin', ['project/plugins/admin/assets/dist/js/admin.min.js']);

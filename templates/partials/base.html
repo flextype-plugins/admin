@@ -107,12 +107,18 @@
         </nav>
         {% endif %}
 
-        <main class="container pt-3 workspace">
+        {#
+        <main class="container pt-3 workspace" style="background-color: pink;">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                     {% block content %}{% endblock %}
                 </div>
             </div>
+        </main>
+        #}
+        
+        <main>
+            {% block content %}{% endblock %}
         </main>
 
         {% for categories in flextype.registry.get('assets.admin.js') %}

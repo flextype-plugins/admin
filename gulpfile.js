@@ -14,12 +14,6 @@ sass.compiler      = require('node-sass');
  gulp.task("css", function () {
     return gulp
         .src([
-            // Trumbowyg
-            'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
-            'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
-            
-            // Blocks
-            'blocks/InputEditorTrumbowyg/block.scss',
 
             // Admin
             'assets/src/scss/admin.scss'
@@ -49,15 +43,7 @@ sass.compiler      = require('node-sass');
     return gulp
         .src([
             // SpeakingURL
-            'node_modules/speakingurl/speakingurl.min.js',
-
-            // Trumbowyg
-            'node_modules/trumbowyg/dist/trumbowyg.min.js',
-            'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
-            'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
-
-            // Blocks
-            'blocks/InputEditorTrumbowyg/block.js'
+            'node_modules/speakingurl/speakingurl.min.js'
         ])
         .pipe(concat('admin.min.js'))
         .pipe(size({ showFiles: true }))
@@ -68,32 +54,11 @@ sass.compiler      = require('node-sass');
         .pipe(size({ showFiles: true, gzip: true }));
 });
 
-
-/**
- * Task: gulp trumbowyg-fonts
- */
- gulp.task('trumbowyg-fonts', function () {
-    return gulp
-        .src(['node_modules/trumbowyg/dist/ui/icons.svg'])
-        .pipe(size({ showFiles: true }))
-        .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
-});
-
-/**
- * Task: gulp trumbowyg-langs
- */
-gulp.task('trumbowyg-langs', function () {
-    return gulp
-        .src(['node_modules/trumbowyg/dist/*langs/**/*.min.js'])
-        .pipe(size({ showFiles: true }))
-        .pipe(gulp.dest('assets/dist/lang/trumbowyg'));
-});
-
 /**
  * Task: gulp default
  */
 gulp.task('default', gulp.series(
-    'trumbowyg-fonts', 'trumbowyg-langs', 'css', 'js'
+    'css', 'js'
 ));
 
 /**

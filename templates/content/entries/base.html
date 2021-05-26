@@ -9,14 +9,14 @@
           isCurrentUrl('admin.entries.type') %}
         {% set parts = id|split('/') %}
         {% for part in parts %}
-            {% set entryID = entryID ~ '/' ~ part %}
+            {% set entryID = strings(entryID ~ '/' ~ part).trimLeft('/') %}
             {% if (part != parts|last) %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ strings(entryID).trimLeft('/') }}">{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}</a>
+                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ entryID }}">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title }}{% else %}{{ part }}{% endif %}</a>
                 </li>
             {% elseif (part) %}
             <li class="nav-item">
-                <a class="nav-link">{{ flextype.entries.fetch(strings(entryID).trimLeft('/')).title }}</a>
+                <a class="nav-link">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title }}{% else %}{{ part }}{% endif %}</a>
             </li>
             {% endif %}
         {% endfor %}
@@ -33,7 +33,7 @@
             });
 
             $('.js-submit-entries-form-editor').click(function () {
-                $("form[name=form_entries_edit]").submit();
+                $("form[name=form_entries_edit] #submit").click();
             });
 
             $('.js-submit-entry-move-form').click(function () {

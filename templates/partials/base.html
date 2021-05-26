@@ -19,7 +19,7 @@
                     {% endfor %}
                 {% endif %}
             {% endfor %}
-
+            
             {% do flextype.emitter.emit('onAdminThemeHeader') %}
         {% endblock %}
     </head>
@@ -106,18 +106,8 @@
             </div>
         </nav>
         {% endif %}
-
-        {#
-        <main class="container pt-3 workspace" style="background-color: pink;">
-            <div class="row">
-                <div class="col-md-12">
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
-        </main>
-        #}
         
-        <main>
+        <main class="pb-4">
             {% block content %}{% endblock %}
         </main>
 
@@ -130,10 +120,6 @@
         {% endfor %}
 
         {% include 'plugins/admin/templates/partials/messages.html' %}
-
-        <script>
-            //var clipboard = new ClipboardJS('.js-clipboard-btn');
-        </script>
 
         {% do flextype.emitter.emit('onAdminThemeTail') %}
 

@@ -1,8 +1,6 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-    {{ flextype.blueprints.render('admin/entries/edit', {}, {'cancelUrl': cancelUrl}) }}
-
     {% set templates = [] %}
     {% for template in filesystem().find().depth(0).in(PATH_PROJECT ~ '/themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/').files() %}
         {% if template.getExtension() == 'html' %}
@@ -17,14 +15,16 @@
         {% set blueprint = flextype.blueprints.fetch('default') %}
     {% endif %}
 
-    {% if entry['workspace'] %}
-        {% set blueprint = arrays(blueprint).replace(entry['workspace'], true) %}
+    {% if entry['blocks'] %}
+        {% set blueprint = arrays(blueprint).replace(entry['blocks'], true) %}
     {% endif %}
 
     {% set blueprint = blueprint.toArray() %}
    
     {{ flextype.blueprints.renderFromArray(blueprint, entry, {'id': id,
+                                                              'cancelUrl': cancelUrl,
                                                               'templates': templates,
                                                               'routable': routable,
+                                                              'entry': entry,
                                                               'visibility': visibility}) }}
 {% endblock %}

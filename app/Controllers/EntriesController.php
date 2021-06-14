@@ -46,16 +46,6 @@ class EntriesController
     }
 
     /**
-     * Get Entry ID
-     *
-     * @param array $query Query
-     */
-    protected function getEntryID(array $query): string
-    {
-        return isset($query['id']) ? $query['id'] : '';
-    }
-
-    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
@@ -68,8 +58,8 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get entry ID
-        $id = $this->getEntryID($query);
+        // Set entry ID
+        $query['id'] ??= '';
         
         // Get blueprints
         $blueprints = [];
@@ -82,7 +72,7 @@ class EntriesController
         // Get entries
         $entries = [];
         $entriesCollection = [];
-        $entriesCollection = arrays(flextype('entries')->fetch($id, ['collection' => true, 'depth' => ['1']]))
+        $entriesCollection = arrays(flextype('entries')->fetch($query['id'], ['collection' => true, 'depth' => ['1']]))
                                 ->sortBy('published_at', 'DESC')
                                 ->toArray();
 
@@ -97,7 +87,7 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                'id' => $id,
+                'id' => $query['id'],
                 'menu_item' => 'entries',
                 'entries' => $entries,
                 'blueprints' => $blueprints,
@@ -124,8 +114,8 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get entry ID
-        $id = $this->getEntryID($query);
+        // Set entry ID
+        $query['id'] ??= '';
 
         // Get blueprints
         $blueprints = [];
@@ -135,16 +125,12 @@ class EntriesController
             }
         }
 
-        // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                'id' => $id,
+                'id' => $query['id'],
                 'menu_item' => 'entries',
-                'cancelUrl' => $cancelUrl,
                 'blueprints' => $blueprints,
                 'routable' => $this->routable,
                 'visibility' => $this->visibility,
@@ -169,172 +155,23 @@ class EntriesController
     public function addProcess(Request $request, Response $response): Response
     {
         // Get data from POST
-        $dataPost = $request->getParsedBody();
-
-        // Set parent Entry ID
-        if ($dataPost['current_id']) {
-            $parentEntryID = $dataPost['current_id'];
-        } else {
-            $parentEntryID = '';
-        }
-
-        // Set new Entry ID using slugify or without it
-        if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $id = ltrim($parentEntryID . '/' . flextype('slugify')->slugify($dataPost['id']), '/');
-        } else {
-            $id = ltrim($parentEntryID . '/' . $dataPost['id'], '/');
-        }
+        $data = $request->getParsedBody();
+        
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
 
         // Check if entry exists then try to create entry
-        if (!flextype('entries')->has($id)) {
-
-            // Check if we have blueprint for this entry
-            if (flextype('blueprints')->has($dataPost['blueprint'])) {
-
-                // Get blueprint
-                $blueprint = flextype('blueprints')->fetch($dataPost['blueprint']);
-
-                // Init entry data
-                $dataFromPost           = [];
-                $dataFromPostOverride   = [];
-                $dataResult             = [];
-
-                // Define data values based on POST data
-                $dataFromPost['created_by']   = flextype('acl')->getUserLoggedInUuid();
-                $dataFromPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
-                $dataFromPost['title']        = $dataPost['title'];
-                $dataFromPost['blueprint']    = $dataPost['blueprint'];
-                $dataFromPost['visibility']   = $dataPost['visibility'];
-                $dataFromPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), time());
-                $dataFromPost['routable']     = isset($dataPost['routable']) ? (bool) $dataPost['routable'] : false;
-
-                // Themes/Templates support for Site Plugin if it is enabled
-                // We need to check if template for current fieldset is exists
-                // if template is not exist then site `default` template will be used!
-                if (flextype('registry')->has('plugins.site')) {
-                    $templatePath = PATH['project'] . '/themes/' . flextype('registry')->get('plugins.site.settings.theme') . '/templates/' . $dataPost['blueprint'] . '.html';
-                    $template = (filesystem()->file($templatePath)->exists()) ? $dataPost['blueprint'] : 'default';
-                    $dataFromPost['template'] = $template;
-                }
-
-                // Set result data
-                $dataResult = $dataFromPost;
-
-                if (flextype('entries')->create($id, $dataResult)) {
-                    flextype('flash')->addMessage('success', __('admin_message_entry_created'));
-                } else {
-                    flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
-                }
+        if (!flextype('entries')->has($form['fields']['id'])) {
+            if (flextype('entries')->create($form['fields']['id'], $form->copy()->delete('fields.id')->toArray())) {
+                flextype('flash')->addMessage('success', $form['messages']['success']);
             } else {
-                flextype('flash')->addMessage('error', __('admin_message_blueprint_not_found'));
+                flextype('flash')->addMessage('error', $form['messages']['error']);
             }
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_created'));
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        switch ($dataPost['redirect']) {
-            case 'edit':
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=editor');
-                break;
-            case 'add':
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.add') . '?id=' . $dataPost['current_id']);
-                break;
-            case 'index':
-            default:
-                return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $dataPost['current_id']);
-                break;
-        }
-    }
-
-    /**
-     * Change entry type
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function type(Request $request, Response $response): Response
-    {
-        // Get Query Params
-        $query = $request->getQueryParams();
-
-        // Get entry ID
-        $id = $this->getEntryID($query);
-
-        // Get blueprints
-        $blueprints = [];
-        foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
-            if (!empty($blueprint)) {
-                $blueprints[$name] = $blueprint['title'];
-            }
-        }
-
-        // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
-
-        // Get entry
-        $entry = flextype('entries')->fetch($id)->toArray();
-
-        // Get blueprint
-        $blueprint = $entry['blueprint'] ?? [];
-
-        return flextype('twig')->render(
-            $response,
-            'plugins/admin/templates/content/entries/type.html',
-            [
-                'menu_item' => 'entries',
-                'id' => $id,
-                'blueprint' => $blueprint,
-                'blueprints' => $blueprints,
-                'cancelUrl' => $cancelUrl,
-                'links' => [
-                    'entries' => [
-                        'link' => flextype('router')->pathFor('admin.entries.index'),
-                        'title' => __('admin_entries'),
-                    ]
-                ]
-            ]
-        );
-    }
-
-    /**
-     * Change entry type - process
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     *
-     * @return Response
-     */
-    public function typeProcess(Request $request, Response $response): Response
-    {
-        // Get data from POST
-        $dataPost = $request->getParsedBody();
-
-        // Get entry ID
-        $id = $dataPost['id'];
-
-        // Get data to update
-        $data = arrays(flextype('entries')
-                        ->fetch($id)
-                        ->except(['slug', 'id', 'modified_at', 'created_at', 'published_at']))
-                    ->merge($dataPost)
-                    ->delete('__csrf_token')
-                    ->delete('id')
-                    ->set('created_by', flextype('acl')->getUserLoggedInUuid())
-                    ->set('published_by', flextype('acl')->getUserLoggedInUuid())
-                    ->toArray();
-
-        if (flextype('entries')->update(
-            $id,
-            $data
-        )) {
-            flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
-        } else {
-            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
-        }
-
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/'));
+        return $response->withRedirect($form['redirect']);
     }
 
     /**
@@ -351,16 +188,13 @@ class EntriesController
         $query = $request->getQueryParams();
 
         // Get entry ID
-        $id = $this->getEntryID($query);
+        $query['id'] ??= '';
 
         // Get current entry ID
-        $entryCurrentID = arraysFromString($id, '/')->last();
+        $entryCurrentID = arraysFromString($query['id'], '/')->last();
 
         // Get parrent entry ID
-        $entryParentID = arraysFromString($id, '/')->slice(0, -1)->toString('/');
-
-        // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
+        $entryParentID = arraysFromString($query['id'], '/')->slice(0, -1)->toString('/');
 
         if (empty($entryParentID)) {
             $entryParentID = '/';
@@ -369,11 +203,11 @@ class EntriesController
         }
 
         // Fetch entry
-        $entry = flextype('entries')->fetch($this->getEntryID($query))->toArray();
+        $entry = flextype('entries')->fetch($query['id'])->toArray();
 
         // Get entries
         foreach (flextype('entries')->fetch('', ['collection' => true, 'find' => ['depth' => '>0'], 'filter' => ['order_by' => ['field' => ['id']]]])->toArray() as $_entry) {
-            if ($_entry['id'] != $id) {
+            if ($_entry['id'] != $query['id']) {
                 if ($_entry['id'] != '') {
                     $entries[$_entry['id']] = $_entry['id'];
                 } else {
@@ -387,11 +221,10 @@ class EntriesController
             'plugins/admin/templates/content/entries/move.html',
             [
                 'menu_item' => 'entries',
-                'id' => $id,
+                'id' => $query['id'],
                 'entries' => $entries,
                 'entryCurrentID' => $entryCurrentID,
                 'entryParentID' => $entryParentID,
-                'cancelUrl' => $cancelUrl,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -415,20 +248,23 @@ class EntriesController
         // Get data from POST
         $data = $request->getParsedBody();
 
-        if (!flextype('entries')->has(strings($data['to'] . '/' . $data['entry_current_id'])->trim('/')->toString())) {
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
+
+        if (!flextype('entries')->has(strings($form['fields']['to'] . '/' . $form['fields']['entry_current_id'])->trim('/')->toString())) {
             if (flextype('entries')->move(
-                $data['id'],
-                strings($data['to'] . '/' . $data['entry_current_id'])->trim('/')->toString()
+                $form['fields']['id'],
+                strings($form['fields']['to'] . '/' . $form['fields']['entry_current_id'])->trim('/')->toString()
             )) {
-                flextype('flash')->addMessage('success', __('admin_message_entry_moved'));
+                flextype('flash')->addMessage('success', $form['messages']['success']);
             } else {
-                flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
+                flextype('flash')->addMessage('error', $form['messages']['error']);
             }
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_moved'));
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['to']);
+        return $response->withRedirect($form['redirect']);
     }
 
     /**
@@ -444,27 +280,15 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get entry ID
-        $id = $this->getEntryID($query);
-
-        // Get current entry ID
-        $entryCurrentID = arraysFromString($id, '/')->last();
-
-        // Get parrent entry ID
-        $entryParentID = arraysFromString($id, '/')->slice(0, -1)->toString('/');
-
-        // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
+        // Set entry ID
+        $query['id'] ??= '';
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/content/entries/rename.html',
             [
                 'menu_item' => 'entries',
-                'id' => $id,
-                'entryCurrentID' => $entryCurrentID,
-                'entryParentID' => $entryParentID,
-                'cancelUrl' => $cancelUrl,
+                'id' => $query['id'],
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -488,23 +312,19 @@ class EntriesController
         // Get data from POST
         $data = $request->getParsedBody();
 
-        // Set entry ID
-        if (flextype('registry')->get('plugins.admin.settings.entries.slugify') == true) {
-            $id = flextype('slugify')->slugify($data['id']);
-        } else {
-            $id = $data['id'];
-        }
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
 
         if (flextype('entries')->move(
-            $data['current_id'],
-            $data['parent_id'] . '/' . $id)
+            $form['fields']['id'],
+            $form['fields']['new_id'])
         ) {
-            flextype('flash')->addMessage('success', __('admin_message_entry_renamed'));
+            flextype('flash')->addMessage('success', $form['messages']['success']);
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_renamed'));
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $data['parent_id']);
+        return $response->withRedirect($form['redirect']);
     }
 
     /**
@@ -573,71 +393,33 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get entry ID
-        $id = $this->getEntryID($query);
-
-        // Get Entry type
-        $type = $request->getQueryParams()['type'];
-
-        // Get cancel url
-        $cancelUrl = flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/');
+        // Set entry ID
+        $query['id'] ??= '';
 
         // Disable entry parsers
         flextype('registry')->set('entries.fields.parsers.settings.enabled', false);
 
-        // Get Entry
-        $entry = arrays(flextype('entries')->fetch($id))
-                ->delete('id')
-                ->delete('slug')
-                ->delete('modified_at')
-                ->toArray();
+        // Fetch entry
+        $entry = flextype('entries')->fetch($query['id'])->toArray();
 
-        switch ($type) {
-            case 'source':
-
-                $source = filesystem()->file(flextype('entries')->getFileLocation($id))->get();
-
-                return flextype('twig')->render(
-                    $response,
-                    'plugins/admin/templates/content/entries/source.html',
-                    [
-                        'menu_item' => 'entries',
-                        'id' => $id,
-                        'type' => $type,
-                        'source' => $source,
-                        'cancelUrl' => $cancelUrl,
-                        'links' => [
-                            'entries' => [
-                                'link' => flextype('router')->pathFor('admin.entries.index'),
-                                'title' => __('admin_entries')
-                            ]
-                        ]
+        return flextype('twig')->render(
+            $response,
+            'plugins/admin/templates/content/entries/edit.html',
+            [
+                'menu_item' => 'entries',
+                'id' => $query['id'],
+                'entry' => $entry,
+                'routable' => $this->routable,
+                'visibility' => $this->visibility,
+                'query' => $query,
+                'links' => [
+                    'entries' => [
+                        'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($query['id'], '/')->slice(0, -1)->toString('/'),
+                        'title' => __('admin_entries')
                     ]
-                );
-                break;
-            default:
-            case 'editor':
-                return flextype('twig')->render(
-                    $response,
-                    'plugins/admin/templates/content/entries/edit.html',
-                    [
-                        'menu_item' => 'entries',
-                        'id' => $id,
-                        'entry' => $entry,
-                        'type' => $type,
-                        'routable' => $this->routable,
-                        'visibility' => $this->visibility,
-                        'cancelUrl' => $cancelUrl,
-                        'links' => [
-                            'entries' => [
-                                'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($id, '/')->slice(0, -1)->toString('/'),
-                                'title' => __('admin_entries')
-                            ]
-                        ]
-                    ]
-                );
-                break;
-        }
+                ]
+            ]
+        );
     }
 
     /**
@@ -650,106 +432,18 @@ class EntriesController
      */
     public function editProcess(Request $request, Response $response): Response
     {
-        // Get Query Params
-        $query = $request->getQueryParams();
+        // Get data from POST
+        $data = $request->getParsedBody();
 
-        // Get entry ID
-        $id = $this->getEntryID($query);
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
 
-        // Get Entry type
-        $type = $request->getQueryParams()['type'];
-
-        switch ($type) {
-            case 'source':       
-
-                // Data from POST
-                $data = $request->getParsedBody();
-    
-                $entry = flextype('serializers')->frontmatter()->decode($data['data']);
-    
-                $entry['created_by'] = flextype('acl')->getUserLoggedInUuid();
-                $entry['published_by'] = flextype('acl')->getUserLoggedInUuid();
-    
-                Arrays::delete($entry, 'slug');
-                Arrays::delete($entry, 'id');
-                Arrays::delete($entry, 'modified_at');
-    
-                // Update entry
-                if (Filesystem::write(PATH['project'] . '/entries' . '/' . $id . '/entry.md', flextype('serializers')->frontmatter()->encode($entry))) {
-                    flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
-                } else {
-                    flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
-                }
-                break;
-            default:
-            case 'editor':
-                // Result data to save
-                $dataResult = [];
-
-                // Data from POST
-                $dataPost = $request->getParsedBody();
-
-                // Delete system fields
-                isset($dataPost['slug'])                  and arrays($dataPost)->delete('slug')->toArray();
-                isset($dataPost['id'])                    and arrays($dataPost)->delete('id')->toArray();
-                isset($dataPost['__csrf_token'])          and arrays($dataPost)->delete('__csrf_token')->toArray();
-                isset($dataPost['form-save-action'])      and arrays($dataPost)->delete('form-save-action')->toArray();
-                isset($dataPost['trumbowyg-icons-path'])  and arrays($dataPost)->delete('trumbowyg-icons-path')->toArray();
-                isset($dataPost['trumbowyg-locale'])      and arrays($dataPost)->delete('trumbowyg-locale')->toArray();
-                isset($dataPost['flatpickr-date-format']) and arrays($dataPost)->delete('flatpickr-date-format')->toArray();
-                isset($dataPost['flatpickr-locale'])      and arrays($dataPost)->delete('flatpickr-locale')->toArray();
-
-                $dataPost['published_by'] = flextype('acl')->getUserLoggedInUuid();
-
-                $entryFile = flextype('entries')->getFileLocation($id);
-
-                $entry = flextype('serializers')
-                            ->frontmatter()
-                            ->decode(filesystem()->file($entryFile)->get($entryFile));
-
-                $entryLastModified = filesystem()->file($entryFile)->lastModified();
-
-                arrays($entry)->delete('slug')->toArray();
-                arrays($entry)->delete('id')->toArray();
-
-                if (isset($dataPost['created_at'])) {
-                    $dataPost['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($dataPost['created_at']));
-                } elseif(isset($entry['created_at'])) {
-                    $dataPost['created_at'] = $entry['created_at'];
-                } else {
-                    $dataPost['created_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entryLastModified);
-                }
-
-                if (isset($dataPost['published_at'])) {
-                    $dataPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), strtotime($dataPost['published_at']));
-                } elseif(isset($entry['published_at'])) {
-                    $dataPost['published_at'] = $entry['published_at'];
-                } else {
-                    $dataPost['published_at'] = date(flextype('registry')->get('flextype.settings.date_format'), $entryLastModified);
-                }
-
-                if (isset($dataPost['routable'])) {
-                    $dataPost['routable'] = (bool) $dataPost['routable'];
-                } elseif(isset($entry['routable'])) {
-                    $dataPost['routable'] = (bool) $entry['routable'];
-                } else {
-                    $dataPost['routable'] = true;
-                }
-
-                arrays($entry)->delete('modified_at')->toArray();
-
-                // Merge entry data with $dataPost
-                $dataResult = array_merge($entry, $dataPost);
-
-                // Update entry
-                if (flextype('entries')->update($id, $dataResult)) {
-                    flextype('flash')->addMessage('success', __('admin_message_entry_changes_saved'));
-                } else {
-                    flextype('flash')->addMessage('error', __('admin_message_entry_changes_not_saved'));
-                }
-                break;
+        if (flextype('entries')->update($form['fields']['id'], $form->copy()->delete('fields.id')->toArray())) {
+            flextype('flash')->addMessage('success', $form['messages']['success']);
+        } else {
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.edit') . '?id=' . $id . '&type=' . $type);
+        return $response->withRedirect($form['redirect']);  
     }
 }

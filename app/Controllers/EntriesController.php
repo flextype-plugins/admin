@@ -87,10 +87,10 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/index.html',
             [
-                'id' => $query['id'],
                 'menu_item' => 'entries',
                 'entries' => $entries,
                 'blueprints' => $blueprints,
+                'query' => $query,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -111,12 +111,6 @@ class EntriesController
      */
     public function add(Request $request, Response $response): Response
     {
-        // Get Query Params
-        $query = $request->getQueryParams();
-
-        // Set entry ID
-        $query['id'] ??= '';
-
         // Get blueprints
         $blueprints = [];
         foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
@@ -129,11 +123,11 @@ class EntriesController
             $response,
             'plugins/admin/templates/content/entries/add.html',
             [
-                'id' => $query['id'],
                 'menu_item' => 'entries',
                 'blueprints' => $blueprints,
                 'routable' => $this->routable,
                 'visibility' => $this->visibility,
+                'query' => $request->getQueryParams(),
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),
@@ -207,7 +201,7 @@ class EntriesController
 
         // Get entries
         foreach (flextype('entries')->fetch('', ['collection' => true, 'find' => ['depth' => '>0'], 'filter' => ['order_by' => ['field' => ['id']]]])->toArray() as $_entry) {
-            if ($_entry['id'] != $query['id']) {
+            if ($_entry['id'] != $query['id'] && $_entry['id'] != $entryParentID) {
                 if ($_entry['id'] != '') {
                     $entries[$_entry['id']] = $_entry['id'];
                 } else {
@@ -221,7 +215,7 @@ class EntriesController
             'plugins/admin/templates/content/entries/move.html',
             [
                 'menu_item' => 'entries',
-                'id' => $query['id'],
+                'query' => $query,
                 'entries' => $entries,
                 'entryCurrentID' => $entryCurrentID,
                 'entryParentID' => $entryParentID,
@@ -288,7 +282,7 @@ class EntriesController
             'plugins/admin/templates/content/entries/rename.html',
             [
                 'menu_item' => 'entries',
-                'id' => $query['id'],
+                'query' => $query,
                 'links' => [
                     'entries' => [
                         'link' => flextype('router')->pathFor('admin.entries.index'),

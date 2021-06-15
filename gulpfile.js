@@ -14,8 +14,6 @@ sass.compiler      = require('node-sass');
  gulp.task("css", function () {
     return gulp
         .src([
-
-            // Admin
             'assets/src/scss/admin.scss'
         ])
         .pipe(sass().on('error', sass.logError))
@@ -42,7 +40,6 @@ sass.compiler      = require('node-sass');
  gulp.task('js', function () {
     return gulp
         .src([
-            // SpeakingURL
             'node_modules/speakingurl/speakingurl.min.js'
         ])
         .pipe(concat('admin.min.js'))

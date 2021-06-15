@@ -1,0 +1,25 @@
+.workspace-message {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.workspace-message__icon > svg {
+    width: 100px;
+    height: 100px;
+}
+
+.workspace-message__title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.workspace-message__button {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.workspace-message__button > svg {
+    margin-right: 8px;
+}

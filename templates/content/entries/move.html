@@ -1,9 +1,8 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-    {{ flextype.blueprints.render('admin/entries/move', {}, {'id': id,
-                                                             'entryCurrentID': entryCurrentID,
+    {{ flextype.blueprints.render('admin/entries/move', {}, {'entryCurrentID': entryCurrentID,
                                                              'entryParentID': entryParentID,
                                                              'entries': entries,
-                                                             'cancelUrl': cancelUrl}) }}
+                                                             'query': query}) }}
 {% endblock %}

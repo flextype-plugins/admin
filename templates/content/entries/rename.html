@@ -1,10 +1,5 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-    {{ flextype.blueprints.render('admin/entries/rename', 
-                                    {'id': entryCurrentID}, 
-                                    {'id': id,
-                                     'entryParentID': entryParentID,
-                                     'entryCurrentID': entryCurrentID,
-                                     'cancelUrl': cancelUrl}) }}
+    {{ flextype.blueprints.render('admin/entries/rename', {}, {'query': query}) }}
 {% endblock %}

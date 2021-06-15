@@ -27,7 +27,7 @@
         {% if flextype.acl.isUserLoggedInRolesIn('admin') %}
         <nav class="admin-navigation navbar navbar-expand-lg">
             <div class="container">
-                <div class="dropdown">
+                <div class="admin-navigation-dropdown dropdown">
                     <a class="btn btn-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ icon('list', 'bootstrap') }}
                     </a>
@@ -70,7 +70,7 @@
                         {% endif %}
                     </ul>
                 </div>
-                <div class="collapse navbar-collapse">
+                <div class="admin-navigation-breadcrumbs collapse navbar-collapse">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -87,7 +87,7 @@
                         {% block breadcrumbs %}{% endblock %}
                     </ul>
                 </div>
-                <div class="d-flex">
+                <div class="admin-navigation-actions d-flex">
                     {% if(flextype.registry.has('plugins.admin.settings.navigation.secondary')) %}
                         {% for navigation in flextype.registry.get('plugins.admin.settings.navigation.secondary') %}
                             <a class="me-3"
@@ -122,36 +122,6 @@
         {% include 'plugins/admin/templates/partials/messages.html' %}
 
         {% do flextype.emitter.emit('onAdminThemeTail') %}
-
-        <script>
-            function confirmationDelete(event, id, title, message) {
-                event.preventDefault(); 
-                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmation-delete-modal')).show();
-                $("#confirmation-delete-modal .modal-title").html(title);
-                $("#confirmation-delete-modal .modal-body > p").html(message);
-                $("#confirmation-delete-modal .js-submit").on("click", function() {
-                    document.getElementById('delete-id-' + id).submit();
-                });
-            }
-        </script>
-        
-        <div id="confirmation-delete-modal" class="modal" tabindex="-1">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title"></h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p></p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>
-                  <button type="button" class="btn btn-primary js-submit" data-bs-dismiss="modal">{{ __('admin_yes_iam_sure')|raw }}</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
         {% block tail %}{% endblock %}
     </body>

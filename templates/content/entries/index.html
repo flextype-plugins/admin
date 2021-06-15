@@ -1,142 +1,132 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-    {{ flextype.blueprints.render('admin/entries', {}, {'id': id}) }}
-
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-
-                {% if blueprints|length > 0 %}
-                    {% if entries|length > 0 %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th width="50"></th>
-                                        <th class="ps-0">
-                                            {{ __('admin_title') }}
-                                        </th>
-                                        <th>
-                                            {{ __('admin_url') }}
-                                        </th>
-                                        <th>
-                                            {{ __('admin_modifed_at') }}
-                                        </th>
-                                        <th width="50"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for entry in entries %}
-                                        <tr>
-                                            <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                                {% if entry.fieldset %}
-                                                    {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
-                                                        {% if blueprint.icon %}
-                                                            {{ icon(blueprint.icon.name, blueprint.icon.set) }}
-                                                        {% else %}
-                                                            {{ icon('file-text', 'bootstrap') }}
-                                                        {% endif %}
-                                                    {% else %}
-                                                        {{ icon('file-text', 'bootstrap') }}
-                                                    {% endif %}
+    {% if blueprints|length > 0 %}
+        {% if entries|length > 0 %}
+        {{ flextype.blueprints.render('admin/entries', {}, {'query': query}) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="50"></th>
+                                <th class="ps-0">
+                                    {{ __('admin_title') }}
+                                </th>
+                                <th>
+                                    {{ __('admin_id') }}
+                                </th>
+                                <th>
+                                    {{ __('admin_modifed_at') }}
+                                </th>
+                                <th width="50"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in entries %}
+                                <tr>
+                                    <td width="50" class="text-center {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                        {% if entry.fieldset %}
+                                            {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
+                                                {% if blueprint.icon %}
+                                                    {{ icon(blueprint.icon.name, blueprint.icon.set) }}
                                                 {% else %}
                                                     {{ icon('file-text', 'bootstrap') }}
                                                 {% endif %}
-                                            </td>
-                                            <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                                <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor{% endif %}">
-                                                    {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
-                                                        {% set defaultBlock = flextype.blueprints.fetch(entry.blueprint)['defaultBlock'] %}
-                                                        {% if defaultBlock %}
-                                                            {% if entry[defaultBlock] != '' %}
-                                                                {{ entry[defaultBlock] }}
-                                                            {% else %}
-                                                                {{ entry.slug }}
-                                                            {% endif %}
-                                                        {% else %}
-                                                            {{ entry.slug }}
-                                                        {% endif %}
+                                            {% else %}
+                                                {{ icon('file-text', 'bootstrap') }}
+                                            {% endif %}
+                                        {% else %}
+                                            {{ icon('file-text', 'bootstrap') }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                        <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&editor=default&action=edit&blueprint={{ entry.blueprint }}{% endif %}">
+                                            {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
+                                                {% set defaultBlock = flextype.blueprints.fetch(entry.blueprint)['defaultBlock'] %}
+                                                {% if defaultBlock %}
+                                                    {% if entry[defaultBlock] != '' %}
+                                                        {{ entry[defaultBlock] }}
                                                     {% else %}
                                                         {{ entry.slug }}
                                                     {% endif %}
-                                                </a>
-                                            </td>
-                                            <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                                <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
-                                            </td>
-                                            <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                                {{ entry.modified_at|date(registry.flextype.date_display_format) }}
-                                            </td>
-                                            <td class="text-right" width="18">
-                                                <div class="dropdown">
-                                                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{ icon('three-dots', 'bootstrap') }}
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
-                                                            <span class="pe-3 d-flex">{{ icon('pencil', 'bootstrap') }}</span> {{ __('admin_edit') }}</a></li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
-                                                            <span class="pe-3 d-flex">{{ icon('plus-circle', 'bootstrap') }}</span> {{ __('admin_add') }}</a></li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="event.preventDefault();
-                                                            document.getElementById('duplicate-id-{{ entry.id }}').submit();">
-                                                            <span class="pe-3 d-flex">{{ icon('files', 'bootstrap') }}</span> {{ __('admin_duplicate') }}</a></li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
-                                                            <span class="pe-3 d-flex">{{ icon('file-font', 'bootstrap') }}</span> {{ __('admin_rename') }}</a></li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.type') }}?id={{ entry.id }}">
-                                                            <span class="pe-3 d-flex">{{ icon('card-list', 'bootstrap') }}</span> {{ __('admin_type') }}</a></li>
-                                                        <li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
-                                                            <span class="pe-3 d-flex">{{ icon('arrow-right-square', 'bootstrap') }}</span> {{ __('admin_move') }}</a></li>
-                                                        <li><a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
-                                                            <span class="pe-3 d-flex">{{ icon('code-square', 'bootstrap') }}</span> {{ __('admin_source') }}</a></li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
-                                                            <span class="pe-3 d-flex">{{ icon('eye', 'bootstrap') }}</span> {{ __('admin_preview') }}</a></li>
-                                                        <li><hr class="dropdown-divider"></li>
-                                                        <li>
-                                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="event.preventDefault(); Entries.deleteEntry('{{ entry.id }}');">
-                                                            <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_delete') }}</a></li>
-                                                        <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
-                                                            {{ csrf() }}
-                                                            <input type="hidden" name="id" value="{{ entry.id }}">
-                                                        </form>
-                                                        <form id="delete-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
-                                                            {{ csrf() }}
-                                                            <input type="hidden" name="id" value="{{ entry.id }}">
-                                                            <input type="hidden" name="id-current" value="{{ id_current }}">
-                                                        </form>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    {% else %}
-                        <div class="workspace-message">
-                            <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
-                            <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_entries_yet') }}</h3>
-                            <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ __('admin_create_new_entry') }}</a>
-                        </div>
-                    {% endif %}
-                {% else %}
-                    <div class="workspace-message">
-                        <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
-                        <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_blueprints_yet') }}</h3>
-                        <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.fieldsets.add') }}">{{ __('admin_create_new_blueprint') }}</a>
-                    </div>
-                {% endif %}
+                                                {% else %}
+                                                    {{ entry.slug }}
+                                                {% endif %}
+                                            {% else %}
+                                                {{ entry.slug }}
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                    <td class="truncate {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                        <a target="_blank" href="{{ url() }}/{{ entry.id }}">/{{ entry.id }}</a>
+                                    </td>
+                                    <td class="{% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
+                                        {{ entry.modified_at|date(registry.flextype.date_display_format) }}
+                                    </td>
+                                    <td class="text-right" width="18">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ icon('three-dots', 'bootstrap') }}
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=editor">
+                                                    <span class="pe-3 d-flex">{{ icon('pencil', 'bootstrap') }}</span> {{ __('admin_edit') }}</a></li>
+                                                <li>
+                                                <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.add') }}?id={{ entry.id }}">
+                                                    <span class="pe-3 d-flex">{{ icon('plus-circle', 'bootstrap') }}</span> {{ __('admin_add') }}</a></li>
+                                                <li>
+                                                <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="event.preventDefault();
+                                                    document.getElementById('duplicate-id-{{ entry.id }}').submit();">
+                                                    <span class="pe-3 d-flex">{{ icon('files', 'bootstrap') }}</span> {{ __('admin_duplicate') }}</a></li>
+                                                <li>
+                                                <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
+                                                    <span class="pe-3 d-flex">{{ icon('file-font', 'bootstrap') }}</span> {{ __('admin_rename') }}</a></li>
+                                                <li>
+                                                <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
+                                                    <span class="pe-3 d-flex">{{ icon('arrow-right-square', 'bootstrap') }}</span> {{ __('admin_move') }}</a></li>
+                                                <li><a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
+                                                    <span class="pe-3 d-flex">{{ icon('code-square', 'bootstrap') }}</span> {{ __('admin_source') }}</a></li>
+                                                <li>
+                                                <a class="dropdown-item d-flex align-items-center" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
+                                                    <span class="pe-3 d-flex">{{ icon('eye', 'bootstrap') }}</span> {{ __('admin_preview') }}</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="confirmationEntryDelete(event, '{{ entry.id }}');">
+                                                    <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_delete') }}</a></li>
+                                                <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                                    {{ csrf() }}
+                                                    <input type="hidden" name="id" value="{{ entry.id }}">
+                                                </form>
+                                                <form id="delete-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                                    {{ csrf() }}
+                                                    <input type="hidden" name="id" value="{{ entry.id }}">
+                                                    <input type="hidden" name="id-current" value="{{ id_current }}">
+                                                </form>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    {% else %}
+        <div class="workspace-message">
+            <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
+            <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_entries_yet') }}</h3>
+            <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ __('admin_create_new_entry') }}</a>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="workspace-message">
+        <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
+        <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_blueprints_yet') }}</h3>
+        <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ __('admin_create_new_blueprint') }}</a>
     </div>
+{% endif %}
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-    {{ flextype.blueprints.render('admin/entries/add', {}, {'id': id,
+    {{ flextype.blueprints.render('admin/entries/add', {}, {'query': query,
                                                             'blueprints': blueprints,
                                                             'routable': routable,
                                                             'visibility': visibility}) }}

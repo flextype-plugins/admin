@@ -5,81 +5,19 @@
           isCurrentUrl('admin.entries.edit') or
           isCurrentUrl('admin.entries.add') or
           isCurrentUrl('admin.entries.move') or
-          isCurrentUrl('admin.entries.rename') or
-          isCurrentUrl('admin.entries.type') %}
-        {% set parts = id|split('/') %}
+          isCurrentUrl('admin.entries.rename') %}
+        {% set parts = query.id|split('/') %}
         {% for part in parts %}
             {% set entryID = strings(entryID ~ '/' ~ part).trimLeft('/') %}
             {% if (part != parts|last) %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ entryID }}">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title }}{% else %}{{ part }}{% endif %}</a>
+                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ entryID }}">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title ?: flextype.entries.fetch(entryID).slug }}{% else %}{{ part }}{% endif %}</a>
                 </li>
             {% elseif (part) %}
             <li class="nav-item">
-                <a class="nav-link">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title }}{% else %}{{ part }}{% endif %}</a>
+                <a class="nav-link">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title ?: flextype.entries.fetch(entryID).slug }}{% else %}{{ part }}{% endif %}</a>
             </li>
             {% endif %}
         {% endfor %}
     {% endif %}
-{% endblock %}
-
-{% block tail %}
-<script>
-    class Entries {
-        static processForms() {
-            $('.js-submit-entry-create-form').click(function () {
-                $("input[name=redirect]").val($(this).data('redirect'));
-                $("form[name=form_entries_create] #submit").click();
-            });
-
-            $('.js-submit-entries-form-editor').click(function () {
-                $("form[name=form_entries_edit] #submit").click();
-            });
-
-            $('.js-submit-entry-move-form').click(function () {
-                $("form[name=form_entries_move]").submit();
-            });
-
-            $('.js-submit-entry-rename-form').click(function () {
-                $("form[name=form_entries_rename]").submit();
-            });
-
-            $('.js-submit-entry-type-form').click(function () {
-                $("form[name=form_entries_type]").submit();
-            });
-        }
-
-        static deleteEntry(id) {
-            Swal.fire({
-                title: "{{ __('admin_confirmation_required') }}",
-                text: "{{ __('admin_confirmation_required_for_entry_delete') }}",
-                showCancelButton: true,
-                confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}",
-                cancelButtonText: "{{ __('admin_cancel') }}",
-                reverseButtons: true
-             }).then((result) => {
-                if (result.value) {
-                    document.getElementById('delete-id-' + id).submit();
-                }
-            });
-        }
-    }
-
-    {% if (flextype.registry.get('plugins.admin.settings.entries.slugify') == false and
-           (isCurrentUrl('admin.entries.add') or
-            isCurrentUrl('admin.entries.rename'))) %}
-        $("#title").on("keyup change", function () {
-            $("#id").val($("#title").val());
-        });
-    {% elseif (flextype.registry.get('plugins.admin.settings.entries.slugify') == true and
-               (isCurrentUrl('admin.entries.add') or
-                isCurrentUrl('admin.entries.rename'))) %}
-        $("#title").on("keyup change", function () {
-            $("#id").val(getSlug($("#title").val()));
-        });
-    {% endif %}
-        
-    Entries.processForms();
-
-</script>
 {% endblock %}

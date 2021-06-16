@@ -1,9 +1,0 @@
-{% extends "plugins/admin/templates/content/entries/base.html" %}
-
-{% block content %}
-    {{ flextype.blueprints.render('admin/entries/type', 
-                                    {}, 
-                                    {'id': id,
-                                     'blueprints': blueprints,
-                                     'cancelUrl': cancelUrl}) }}
-{% endblock %}

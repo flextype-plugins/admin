@@ -21,19 +21,20 @@ class PluginsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
+    public function index(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
 
-        $plugins_list = flextype('registry')->get('plugins');
+        $pluginsList = flextype('registry')->get('plugins');
 
-        ksort($plugins_list);
+        ksort($pluginsList);
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/extends/plugins/index.html',
             [
-                'plugins_list' => $plugins_list,
+                'pluginsList' => $pluginsList,
+                'query' => $request->getQueryParams(),
                 'menu_item' => 'plugins',
                 'links' =>  [
                     'plugins' => [
@@ -64,15 +65,15 @@ class PluginsController
         // Get data from the request
         $post_data = $request->getParsedBody();
 
-        $custom_plugin_settings_file = PATH['project'] . '/config/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
-        $custom_plugin_settings_file_data = empty($custom_plugin_settings_file_content) ? [] : flextype('serializers')->yaml()->decode($custom_plugin_settings_file_content);
+        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
+        $customPluginSettingsFileContent = Filesystem::read($customPluginSettingsFile);
+        $customPluginSettingsFileData = empty($customPluginSettingsFileContent) ? [] : flextype('serializers')->yaml()->decode($customPluginSettingsFileContent);
 
         $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
 
-        Arrays::set($custom_plugin_settings_file_data, 'enabled', $status);
+        Arrays::set($customPluginSettingsFileData, 'enabled', $status);
 
-        Filesystem::write($custom_plugin_settings_file, flextype('serializers')->yaml()->encode($custom_plugin_settings_file_data));
+        Filesystem::write($customPluginSettingsFile, flextype('serializers')->yaml()->encode($customPluginSettingsFileData));
 
         // clear cache
         Filesystem::deleteDir(PATH['tmp'] . '/data');
@@ -95,12 +96,12 @@ class PluginsController
         $id = $request->getQueryParams()['id'];
 
         // Set plugin custom manifest content
-        $custom_plugin_manifest_file = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
+        $customPluginManifestFile = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
 
         // Get plugin custom manifest content
-        $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
+        $customPluginManifestFileContent = Filesystem::read($customPluginManifestFile);
 
-        $plugins_manifest = flextype('serializers')->yaml()->decode($custom_plugin_manifest_file_content);
+        $pluginsManifest = flextype('serializers')->yaml()->decode($customPluginManifestFileContent);
 
         return flextype('twig')->render(
             $response,
@@ -108,7 +109,7 @@ class PluginsController
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_manifest' => $plugins_manifest,
+                'plugin_manifest' => $pluginsManifest,
                 'links' =>  [
                     'plugins' => [
                         'link' => flextype('router')->pathFor('admin.plugins.index'),
@@ -116,7 +117,7 @@ class PluginsController
                     ],
                     'plugins_name' => [
                         'link' => flextype('router')->pathFor('admin.plugins.information') . '?id=' . $request->getQueryParams()['id'],
-                        'title' => $plugins_manifest['name'],
+                        'title' => $pluginsManifest['name'],
                     ],
                 ],
             ]
@@ -136,12 +137,12 @@ class PluginsController
         // Get Plugin ID
         $id = $request->getQueryParams()['id'];
 
-        $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
-        $custom_plugin_settings_file_content = Filesystem::read($custom_plugin_settings_file);
-        $custom_plugin_manifest_file = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
-        $custom_plugin_manifest_file_content = Filesystem::read($custom_plugin_manifest_file);
+        $customPluginSettingsFile = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
+        $customPluginSettingsFileContent = Filesystem::read($customPluginSettingsFile);
+        $customPluginManifestFile = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
+        $customPluginManifestFileContent = Filesystem::read($customPluginManifestFile);
 
-        $plugins_manifest = flextype('serializers')->yaml()->decode($custom_plugin_manifest_file_content);
+        $pluginsManifest = flextype('serializers')->yaml()->decode($customPluginManifestFileContent);
 
         return flextype('twig')->render(
             $response,
@@ -149,7 +150,7 @@ class PluginsController
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_settings' => $custom_plugin_settings_file_content,
+                'plugin_settings' => $customPluginSettingsFileContent,
                 'links' =>  [
                     'plugins' => [
                         'link' => flextype('router')->pathFor('admin.plugins.index'),
@@ -157,7 +158,7 @@ class PluginsController
                     ],
                     'plugins_settings' => [
                         'link' => flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
-                        'title' => $plugins_manifest['name']
+                        'title' => $pluginsManifest['name']
                     ],
                 ]
             ]
@@ -178,9 +179,9 @@ class PluginsController
         $data = $post_data['data'];
 
         $custom_plugin_settings_dir  = PATH['project'] . '/config/' . '/plugins/' . $id;
-        $custom_plugin_settings_file = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
+        $customPluginSettingsFile = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
 
-        if (Filesystem::write($custom_plugin_settings_file, $data)) {
+        if (Filesystem::write($customPluginSettingsFile, $data)) {
             flextype('flash')->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));

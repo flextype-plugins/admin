@@ -1,118 +1,129 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-        {% if (plugins_list | length > 0) %}
-            <div class="header">
-                <div class="header-title"><h1>{{ __('admin_plugins') }}</h1></div>
-                <div class="header-buttons">
-                    <a href="https://flextype.org/downloads/extend/plugins" target="_blank" class="btn btn-primary">{{ __('admin_get_more_plugins')|raw }}</a>
-                </div>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th width="50"></th>
-                        <th class="ps-0">
-                            {{ __('admin_name') }}
-                        </th>
-                        <th>
-                            {{ __('admin_description') }}
-                        </th>
-                        <th>
-                            {{ __('admin_author') }}
-                        </th>
-                        <th>
-                            {{ __('admin_version') }}
-                        </th>
-                        <th width="50"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for key, plugin in plugins_list %}
-                        <tr>
-                            <td width="50" class="text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
-                                {% if plugin.manifest.icon %}
-                                    {{ icon(plugin.manifest.icon.name, plugin.manifest.icon.set) }}
-                                {% else %}
-                                    {{ icon('plug', 'fontawesome|solid') }}
-                                {% endif %}
-                            </td>
-                            <td class="ps-0 {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
-                                <a href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
-                            </td>
-                            <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.description }}</td>
-                            <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">
-                                <a href="{{ plugin.manifest.author.url }}" target="_blank">{{ plugin.manifest.author.name }}</a>
-                            </td>
-                            <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.version }}</td>
-                            <td class="text-right" width="18">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ icon('three-dots', 'bootstrap') }}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
-                                                <span class="pe-3 d-flex">{{ icon('info-circle', 'bootstrap') }}</span> {{ __('admin_information') }}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
-                                                <span class="pe-3 d-flex">{{ icon('gear', 'bootstrap') }}</span> {{ __('admin_settings') }}
-                                            </a>
-                                        </li>
-                                        {% if plugin.settings.enabled %}
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center" onclick="event.preventDefault(); deactivatePlugin('{{ key }}');" href="javascript:;">
-                                                <span class="pe-3 d-flex">{{ icon('toggle-on', 'bootstrap') }}</span> {{ __('admin_deactivate') }}
-                                            </a>
-                                        </li>
+    {% if (pluginsList | length > 0) %}
+        {{ flextype.blueprints.render('admin/plugins', {}, {'query': query}) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="50"></th>
+                                <th class="ps-0">
+                                    {{ __('admin_name') }}
+                                </th>
+                                <th>
+                                    {{ __('admin_description') }}
+                                </th>
+                                <th>
+                                    {{ __('admin_author') }}
+                                </th>
+                                <th>
+                                    {{ __('admin_version') }}
+                                </th>
+                                <th width="50"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, plugin in pluginsList %}
+                                <tr>
+                                    <td width="50" class="text-center {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                                        {% if plugin.manifest.icon %}
+                                            {{ icon(plugin.manifest.icon.name, plugin.manifest.icon.set) }}
                                         {% else %}
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
-                                                <span class="pe-3 d-flex">{{ icon('toggle-off', 'bootstrap') }}</span> {{ __('admin_activate') }}
-                                            </a>
-                                        </li>
+                                            {{ icon('plug', 'fontawesome|solid') }}
                                         {% endif %}
-                                        <form id="update-plugin-status-{{ key }}" action="{{ urlFor('admin.plugins.update-status') }}" method="POST" style="display: none;">
-                                            {{ csrf() }}
-                                            <input type="hidden" name="plugin-key" value="{{ key }}">
-                                            <input type="hidden" name="plugin-status" value="{% if plugin.settings.enabled %}true{% else %}false{% endif %}">
-                                            <input type="hidden" name="plugin-set-status" value="{% if plugin.settings.enabled %}false{% else %}true{% endif %}">
-                                        </form>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <div class="text-center flex justify-center items-center h-full">
-                <div>
-                    <i class="icon icon--4xl">{{ icon('plug', 'fontawesome|solid') }}</i>
-                    <h3 class="text-2xl pt-4 pb-8">{{ __('admin_you_have_no_plugins') }}</h3>
+                                    </td>
+                                    <td class="ps-0 {% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                                        <a href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">{{ plugin.manifest.name }}</a>
+                                    </td>
+                                    <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.description }}</td>
+                                    <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">
+                                        <a href="{{ plugin.manifest.author.url }}" target="_blank">{{ plugin.manifest.author.name }}</a>
+                                    </td>
+                                    <td class="{% if plugin.settings.enabled == false %}opacity-50{% endif %}">{{ plugin.manifest.version }}</td>
+                                    <td class="text-right" width="18">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ icon('three-dots', 'bootstrap') }}
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.plugins.information') }}?id={{ key }}">
+                                                        <span class="pe-3 d-flex">{{ icon('info-circle', 'bootstrap') }}</span> {{ __('admin_information') }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.plugins.settings') }}?id={{ key }}">
+                                                        <span class="pe-3 d-flex">{{ icon('gear', 'bootstrap') }}</span> {{ __('admin_settings') }}
+                                                    </a>
+                                                </li>
+                                                {% if plugin.settings.enabled %}
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center" onclick="confirmationDeactivatePlugin(event, '{{ key }}');" href="javascript:;">
+                                                        <span class="pe-3 d-flex">{{ icon('toggle-on', 'bootstrap') }}</span> {{ __('admin_deactivate') }}
+                                                    </a>
+                                                </li>
+                                                {% else %}
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center" onclick="event.preventDefault(); document.getElementById('update-plugin-status-{{ key }}').submit();" href="javascript:;">
+                                                        <span class="pe-3 d-flex">{{ icon('toggle-off', 'bootstrap') }}</span> {{ __('admin_activate') }}
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                <form id="update-plugin-status-{{ key }}" action="{{ urlFor('admin.plugins.update-status') }}" method="POST" style="display: none;">
+                                                    {{ csrf() }}
+                                                    <input type="hidden" name="plugin-key" value="{{ key }}">
+                                                    <input type="hidden" name="plugin-status" value="{% if plugin.settings.enabled %}true{% else %}false{% endif %}">
+                                                    <input type="hidden" name="plugin-set-status" value="{% if plugin.settings.enabled %}false{% else %}true{% endif %}">
+                                                </form>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        {% endif %}
         </div>
-    </div>
-</div>
+    {% else %}
+        <div class="workspace-message">
+            <div class="workspace-message__icon">{{ icon('box', 'bootstrap') }}</div>
+            <h3 class="workspace-message__title">{{ __('admin_you_have_no_plugins') }}</h3>
+            <a class="workspace-message__button btn btn-primary" href="https://flextype.org/downloads/extend/plugins">{{ __('admin_get_more_plugins') }}</a>
+        </div>
+    {% endif %}
 {% endblock %}
 
+
 {% block tail %}
-    <script>
-        function deactivatePlugin(id) {
-            Swal.fire(
-                {title: "{{ __('admin_confirmation_required') }}", text: "{{ __('admin_confirmation_required_for_deactivate_plugin') }}", showCancelButton: true, confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}", cancelButtonText: "{{ __('admin_cancel') }}", reverseButtons: true}
-            ).then((result) => {
-                if (result.value) {
-                    document.getElementById('update-plugin-status-' + id).submit();
-                }
-            });
-        }
-    </script>
+<script>
+    function confirmationDeactivatePlugin(event, id) {
+        event.preventDefault(); 
+        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmation-plugin-deactivate-modal')).show();
+        $("#confirmation-plugin-deactivate-modal .js-submit").on("click", function() {
+            document.getElementById('update-plugin-status-' + id).submit();
+        });
+    }
+</script>
+
+<div id="confirmation-plugin-deactivate-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ __('admin_confirmation_required') }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>{{ __('admin_confirmation_required_for_deactivate_plugin') }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>
+          <button type="button" class="btn btn-primary js-submit" data-bs-dismiss="modal">{{ __('admin_yes_iam_sure')|raw }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

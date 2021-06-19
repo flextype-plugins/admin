@@ -1,6 +1,11 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
+    {{ flextype.blueprints.render('admin/entries/edit/source', {}, {'blueprints': blueprints,
+                                                                    'routable': routable,
+                                                                    'visibility': visibility,
+                                                                    'cancelUrl': cancelUrl}) }}
+{#
 <div class="workspace-header row">
     <div class="col p-0"><h2>{{ __('admin_edit_source')}}</h2></div>
     <div class="col p-0 text-end">
@@ -17,6 +22,7 @@
         <div id="ace-editor">{{ data }}</div>
     </form>
 </div>
+#}
 {% endblock %}
 
 {% block tail %}

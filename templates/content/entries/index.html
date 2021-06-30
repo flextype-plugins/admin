@@ -42,7 +42,7 @@
                                         {% endif %}
                                     </td>
                                     <td class="ps-0 {% if entry.visibility == 'hidden' or entry.visibility == 'draft' or entry.routable == false %}opacity-50{% endif %}">
-                                        <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&editor=default&action=edit&blueprint={{ entry.blueprint }}{% endif %}">
+                                        <a href="{% if entry.has_children %}{{ urlFor('admin.entries.index') }}?id={{ entry.id }}{% else %}{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}{% endif %}">
                                             {% if entry.blueprint and flextype.blueprints.has(entry.blueprint) %}
                                                 {% set defaultBlock = flextype.blueprints.fetch(entry.blueprint)['defaultBlock'] %}
                                                 {% if defaultBlock %}
@@ -87,8 +87,6 @@
                                                 <li>
                                                 <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.move') }}?id={{ entry.id }}">
                                                     <span class="pe-3 d-flex">{{ icon('arrow-right-square', 'bootstrap') }}</span> {{ __('admin_move') }}</a></li>
-                                                <li><a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.edit') }}?id={{ entry.id }}&type=source">
-                                                    <span class="pe-3 d-flex">{{ icon('code-square', 'bootstrap') }}</span> {{ __('admin_source') }}</a></li>
                                                 <li>
                                                 <a class="dropdown-item d-flex align-items-center" href="{{ baseUrl() }}/{{ entry.id }}" target="_blank">
                                                     <span class="pe-3 d-flex">{{ icon('eye', 'bootstrap') }}</span> {{ __('admin_preview') }}</a></li>

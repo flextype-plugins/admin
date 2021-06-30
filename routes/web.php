@@ -29,16 +29,12 @@ flextype()->group('/' . $admin_route, function () : void {
     flextype()->post('/entries/edit', EntriesController::class . ':editProcess')->setName('admin.entries.editProcess');
     flextype()->get('/entries/add', EntriesController::class . ':add')->setName('admin.entries.add');
     flextype()->post('/entries/add', EntriesController::class . ':addProcess')->setName('admin.entries.addProcess');
-    flextype()->post('/entries/select-entry-type', EntriesController::class . ':selectEntryTypeProcess')->setName('admin.entries.selectEntryTypeProcess');
     flextype()->get('/entries/move', EntriesController::class . ':move')->setName('admin.entries.move');
     flextype()->post('/entries/move', EntriesController::class . ':moveProcess')->setName('admin.entries.moveProcess');
     flextype()->get('/entries/rename', EntriesController::class . ':rename')->setName('admin.entries.rename');
     flextype()->post('/entries/rename', EntriesController::class . ':renameProcess')->setName('admin.entries.renameProcess');
-    flextype()->get('/entries/type', EntriesController::class . ':type')->setName('admin.entries.type');
-    flextype()->post('/entries/type', EntriesController::class . ':typeProcess')->setName('admin.entries.typeProcess');
     flextype()->post('/entries/duplicate', EntriesController::class . ':duplicateProcess')->setName('admin.entries.duplicateProcess');
     flextype()->post('/entries/delete', EntriesController::class . ':deleteProcess')->setName('admin.entries.deleteProcess');
-    flextype()->post('/entries/display-view-process', EntriesController::class . ':displayViewProcess')->setName('admin.entries.displayViewProcess');
 
     // Media Controller
     flextype()->get('/media', MediaController::class . ':index')->setName('admin.media.index');

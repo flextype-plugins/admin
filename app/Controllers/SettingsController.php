@@ -21,7 +21,7 @@ class SettingsController
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
      */
-    public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
+    public function index(Request $request, Response $response): Response
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
 
@@ -29,7 +29,7 @@ class SettingsController
             $response,
             'plugins/admin/templates/system/settings/index.html',
             [
-                'data' => Filesystem::read(PATH['project'] . '/config/flextype/settings.yaml'),
+                'settings' => filesystem()->file(PATH['project'] . '/config/flextype/settings.yaml')->get(),
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [
@@ -49,15 +49,19 @@ class SettingsController
      */
     public function updateSettingsProcess(Request $request, Response $response): Response
     {
-        $post_data = $request->getParsedBody();
+        // Get data from POST
+        $data = $request->getParsedBody();
 
-        if (Filesystem::write(PATH['project'] . '/config/flextype/' . '/settings.yaml', $post_data['data'])) {
-            flextype('flash')->addMessage('success', __('admin_message_settings_saved'));
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
+
+        if (filesystem()->file(PATH['project'] . '/config/flextype/settings.yaml')->put($form['fields']['settings'])) {
+            flextype('flash')->addMessage('success', $form['messages']['success']);
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_settings_was_not_saved'));
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.settings.index'));
+        return $response->withRedirect($form['redirect']); 
     }
 
     /**

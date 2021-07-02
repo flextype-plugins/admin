@@ -42,14 +42,7 @@ class PluginsController
                         'title' => __('admin_plugins'),
                         'active' => true
                     ],
-                ],
-                'buttons' =>  [
-                    'plugins_get_more' => [
-                        'link' => 'https://flextype.org/en/downloads/extend/plugins',
-                        'title' => __('admin_get_more_plugins'),
-                        'target' => '_blank'
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -92,32 +85,30 @@ class PluginsController
     {
         flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
 
-        // Get Plugin ID
-        $id = $request->getQueryParams()['id'];
+        // Get Query Params
+        $query = $request->getQueryParams();
 
-        // Set plugin custom manifest content
-        $customPluginManifestFile = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
-
-        // Get plugin custom manifest content
-        $customPluginManifestFileContent = Filesystem::read($customPluginManifestFile);
-
-        $pluginsManifest = flextype('serializers')->yaml()->decode($customPluginManifestFileContent);
+        // Set entry ID
+        $query['id'] ??= '';
+        
+        // Get manifest
+        $manifest = flextype('serializers')->yaml()->decode(filesystem()->file(PATH['project'] . '/plugins/' . $query['id'] . '/plugin.yaml')->get());
 
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/extends/plugins/information.html',
             [
                 'menu_item' => 'plugins',
-                'id' => $id,
-                'plugin_manifest' => $pluginsManifest,
+                'id' => $query['id'],
+                'manifest' => $manifest,
                 'links' =>  [
                     'plugins' => [
                         'link' => flextype('router')->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                     ],
                     'plugins_name' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.information') . '?id=' . $request->getQueryParams()['id'],
-                        'title' => $pluginsManifest['name'],
+                        'link' => flextype('router')->pathFor('admin.plugins.information') . '?id=' . $query['id'],
+                        'title' => $manifest['name'],
                     ],
                 ],
             ]
@@ -150,7 +141,7 @@ class PluginsController
             [
                 'menu_item' => 'plugins',
                 'id' => $id,
-                'plugin_settings' => $customPluginSettingsFileContent,
+                'settings' => $customPluginSettingsFileContent,
                 'links' =>  [
                     'plugins' => [
                         'link' => flextype('router')->pathFor('admin.plugins.index'),

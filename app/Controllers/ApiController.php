@@ -117,8 +117,6 @@ class ApiController
         $tokens = [];
         $tokens_list = Filesystem::listContents(PATH['project'] . '/tokens/' . $query['api']);
 
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
-
         if (count($tokens_list) > 0) {
             foreach ($tokens_list as $token) {
                 if ($token['type'] == 'dir' && Filesystem::has(PATH['project'] . '/tokens/' . $query['api'] . '/' . $token['dirname'] . '/token.yaml')) {
@@ -132,7 +130,7 @@ class ApiController
             'plugins/admin/templates/system/api/tokens.html',
             [
                 'menu_item' => 'api',
-                'api' => $query['api'],
+                'query' => $query,
                 'icons' => ['entries' => ['name' => 'newspaper', 'set' => 'bootstrap'],
                             'registry' => ['name' => 'archive', 'set' => 'bootstrap'],
                             'images' => ['name' => 'images', 'set' => 'bootstrap'],
@@ -163,8 +161,6 @@ class ApiController
      */
     public function add(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
-
         $query = $request->getQueryParams();
 
         return flextype('twig')->render(
@@ -172,7 +168,9 @@ class ApiController
             'plugins/admin/templates/system/api/add.html',
             [
                 'menu_item' => 'api',
-                'api' => $query['api'],
+                'query' => $query,
+                'uuid' => Uuid::uuid4()->toString(),
+                'time' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
                 'links' =>  [
                     'api' => [
                         'link' => flextype('router')->pathFor('admin.api.index'),
@@ -195,52 +193,32 @@ class ApiController
      */
     public function addProcess(Request $request, Response $response): Response
     {
-        // Get POST data
-        $post_data = $request->getParsedBody();
+        // Get data from POST
+        $data = $request->getParsedBody();
+
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
 
         // Generate API token
-        $api_token = bin2hex(random_bytes(16));
+        $APIToken = bin2hex(random_bytes(16));
 
-        $apiTokenDirPath  = PATH['project'] . '/tokens/' . $post_data['api'] . '/' . $api_token;
+        $apiTokenDirPath  = PATH['project'] . '/tokens/' . $form['fields']['api'] . '/' . $APIToken;
         $apiTokenFilePath = $apiTokenDirPath . '/token.yaml';
 
-        if (! Filesystem::has($apiTokenFilePath)) {
+        if (!filesystem()->file($apiTokenFilePath)->exists()) {
+            $result = filesystem()->directory($apiTokenDirPath)->create(0755, true);
+            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode($form->copy()->delete('fields.api')->toArray()));
 
-            Filesystem::createDir($apiTokenDirPath);
-
-            // Generate UUID
-            $uuid = Uuid::uuid4()->toString();
-
-            // Get time
-            $time = date(flextype('registry')->get('flextype.settings.date_format'), time());
-
-            // Create API Token account
-            if (Filesystem::write(
-                $apiTokenFilePath,
-                flextype('serializers')->yaml()->encode([
-                    'title' => $post_data['title'],
-                    'icon' => ['name' => $post_data['icon_name'],
-                               'set' => $post_data['icon_set']],
-                    'limit_calls' => (int) $post_data['limit_calls'],
-                    'calls' => (int) 0,
-                    'state' => $post_data['state'],
-                    'uuid' => $uuid,
-                    'created_by' => flextype('session')->get('uuid'),
-                    'created_at' => $time,
-                    'updated_by' => flextype('session')->get('uuid'),
-                    'updated_at' => $time,
-                ])
-            )) {
-                flextype('flash')->addMessage('success', __('admin_message_' . $post_data['api'] . '_api_token_created'));
+            if ($result) {
+                flextype('flash')->addMessage('success', $form['messages']['success']);
             } else {
-                flextype('flash')->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_created'));
+                flextype('flash')->addMessage('error', $form['messages']['error']);
             }
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_' . $post_data['api'] . '_api_token_was_not_created'));
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $post_data['api']);
-
+        return $response->withRedirect($form['redirect']);
     }
 
     /**
@@ -350,8 +328,9 @@ class ApiController
         $data = [];
 
         foreach ($files as $file) {
+            $calls = flextype('serializers')->yaml()->decode(filesystem()->file($file)->get())['calls'] ?? 0;
             $data['tokens'] = ++$i;
-            $data['calls'] = flextype('serializers')->yaml()->decode(filesystem()->file($file)->get())['calls']++;
+            $data['calls'] = $calls++;
         }
 
         return $data;

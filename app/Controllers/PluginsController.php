@@ -16,6 +16,14 @@ use function trim;
 class PluginsController
 {
     /**
+     * __construct()
+     */
+    public function __construct()
+    {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
+    }
+
+    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
@@ -23,8 +31,6 @@ class PluginsController
      */
     public function index(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
-
         $pluginsList = flextype('registry')->get('plugins');
 
         ksort($pluginsList);
@@ -56,20 +62,20 @@ class PluginsController
     public function pluginStatusProcess(Request $request, Response $response): Response
     {
         // Get data from the request
-        $post_data = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
-        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $post_data['plugin-key'] . '/settings.yaml';
-        $customPluginSettingsFileContent = Filesystem::read($customPluginSettingsFile);
+        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $data['plugin-key'] . '/settings.yaml';
+        $customPluginSettingsFileContent = filesystem()->file($customPluginSettingsFile)->get();
         $customPluginSettingsFileData = empty($customPluginSettingsFileContent) ? [] : flextype('serializers')->yaml()->decode($customPluginSettingsFileContent);
 
-        $status = ($post_data['plugin-set-status'] == 'true') ? true : false;
+        $status = ($data['plugin-set-status'] == 'true') ? true : false;
 
-        Arrays::set($customPluginSettingsFileData, 'enabled', $status);
+        $customPluginSettingsFileData = arrays($customPluginSettingsFileData)->set('enabled', $status)->toArray();
 
-        Filesystem::write($customPluginSettingsFile, flextype('serializers')->yaml()->encode($customPluginSettingsFileData));
+        filesystem()->file($customPluginSettingsFile)->put(flextype('serializers')->yaml()->encode($customPluginSettingsFileData));
 
         // clear cache
-        Filesystem::deleteDir(PATH['tmp'] . '/data');
+        filesystem()->directory(PATH['tmp'] . '/data')->delete(true);
 
         // Redirect to plugins index page
         return $response->withRedirect(flextype('router')->pathFor('admin.plugins.index'));
@@ -83,8 +89,6 @@ class PluginsController
      */
     public function information(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
-
         // Get Query Params
         $query = $request->getQueryParams();
 
@@ -123,14 +127,11 @@ class PluginsController
      */
     public function settings(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
+        $query = $request->getQueryParams();
 
-        // Get Plugin ID
-        $id = $request->getQueryParams()['id'];
-
-        $customPluginSettingsFile = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
+        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $query['id'] . '/settings.yaml';
         $customPluginSettingsFileContent = Filesystem::read($customPluginSettingsFile);
-        $customPluginManifestFile = PATH['project'] . '/plugins/' . '/' . $id . '/plugin.yaml';
+        $customPluginManifestFile = PATH['project'] . '/plugins/' . $query['id'] . '/plugin.yaml';
         $customPluginManifestFileContent = Filesystem::read($customPluginManifestFile);
 
         $pluginsManifest = flextype('serializers')->yaml()->decode($customPluginManifestFileContent);
@@ -140,7 +141,7 @@ class PluginsController
             'plugins/admin/templates/extends/plugins/settings.html',
             [
                 'menu_item' => 'plugins',
-                'id' => $id,
+                'id' => $query['id'],
                 'settings' => $customPluginSettingsFileContent,
                 'links' =>  [
                     'plugins' => [
@@ -148,7 +149,7 @@ class PluginsController
                         'title' => __('admin_plugins'),
                     ],
                     'plugins_settings' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $request->getQueryParams()['id'],
+                        'link' => flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $query['id'],
                         'title' => $pluginsManifest['name']
                     ],
                 ]
@@ -164,20 +165,16 @@ class PluginsController
      */
     public function settingsProcess(Request $request, Response $response): Response
     {
-        $post_data = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
-        $id   = $post_data['id'];
-        $data = $post_data['data'];
+        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $data['id'] . '/settings.yaml';
 
-        $custom_plugin_settings_dir  = PATH['project'] . '/config/' . '/plugins/' . $id;
-        $customPluginSettingsFile = PATH['project'] . '/config/' . '/plugins/' . $id . '/settings.yaml';
-
-        if (Filesystem::write($customPluginSettingsFile, $data)) {
+        if (filesystem()->file($customPluginSettingsFile)->put($data['data'])) {
             flextype('flash')->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $id);
+        return $response->withRedirect(flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $data['id']);
     }
 }

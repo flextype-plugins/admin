@@ -16,6 +16,14 @@ use function Flextype\Component\I18n\__;
 class SettingsController
 {
     /**
+     * __construct()
+     */
+    public function __construct()
+    {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
+    }
+
+    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
@@ -23,8 +31,6 @@ class SettingsController
      */
     public function index(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/settings/index.html',
@@ -49,11 +55,8 @@ class SettingsController
      */
     public function updateSettingsProcess(Request $request, Response $response): Response
     {
-        // Get data from POST
-        $data = $request->getParsedBody();
-
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = flextype('blueprints')->form($request->getParsedBody())->process();
 
         if (filesystem()->file(PATH['project'] . '/config/flextype/settings.yaml')->put($form['fields']['settings'])) {
             flextype('flash')->addMessage('success', $form['messages']['success']);

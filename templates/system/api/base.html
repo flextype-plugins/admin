@@ -9,23 +9,51 @@
             document.getElementById('delete-api-tokens-api-' + api).submit();
         });
     }
+
+    function confirmationApiTokenDelete(event, api) {
+        event.preventDefault(); 
+        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmation-api-token-delete-modal')).show();
+        $("#confirmation-api-token-delete-modal .js-submit").on("click", function() {
+            document.getElementById('delete-api-token-api-' + api).submit();
+        });
+    }
 </script>
 
 <div id="confirmation-api-tokens-delete-modal" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ __('admin_confirmation_required') }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>{{ __('admin_confirmation_tokens_delete') }}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>
-          <button type="button" class="btn btn-primary js-submit" data-bs-dismiss="modal">{{ __('admin_yes_iam_sure')|raw }}</button>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ __('admin_confirmation_required') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p>{{ __('admin_confirmation_tokens_delete') }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>
+        <button type="button" class="btn btn-primary js-submit" data-bs-dismiss="modal">{{ __('admin_yes_iam_sure')|raw }}</button>
       </div>
     </div>
   </div>
+</div>
+
+<div id="confirmation-api-token-delete-modal" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ __('admin_confirmation_required') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          {{ __('admin_confirmation_token_delete') }}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>
+        <button type="button" class="btn btn-primary js-submit" data-bs-dismiss="modal">{{ __('admin_yes_iam_sure')|raw }}</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

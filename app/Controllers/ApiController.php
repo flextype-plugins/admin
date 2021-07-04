@@ -19,6 +19,14 @@ use function time;
 class ApiController
 {
     /**
+     * __construct()
+     */
+    public function __construct()
+    {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
+    }
+
+    /**
      * Index page for API's
      *
      * @param Request  $request  PSR7 request
@@ -26,8 +34,6 @@ class ApiController
      */
     public function index(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
-
         $api_stats = ['entries' => $this->getStats('entries'),
                       'registry' => $this->getStats('registry'),
                       'images' => $this->getStats('images'),
@@ -83,10 +89,10 @@ class ApiController
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens/' . $post_data['token'];
+        $apiTokenDirPath = PATH['project'] . '/tokens/' . $post_data['token'];
 
-        if (filesystem()->directory($api_token_dir_path)->delete()) {
-            if (filesystem()->directory($api_token_dir_path)->create()) {
+        if (filesystem()->directory($apiTokenDirPath)->delete()) {
+            if (filesystem()->directory($apiTokenDirPath)->create()) {
                 flextype('flash')->addMessage('success', __('admin_message_api_tokens_deleted'));
             } else {
                 flextype('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
@@ -195,12 +201,12 @@ class ApiController
         // Generate API token
         $api_token = bin2hex(random_bytes(16));
 
-        $api_token_dir_path  = PATH['project'] . '/tokens/' . $post_data['api'] . '/' . $api_token;
-        $api_token_file_path = $api_token_dir_path . '/token.yaml';
+        $apiTokenDirPath  = PATH['project'] . '/tokens/' . $post_data['api'] . '/' . $api_token;
+        $apiTokenFilePath = $apiTokenDirPath . '/token.yaml';
 
-        if (! Filesystem::has($api_token_file_path)) {
+        if (! Filesystem::has($apiTokenFilePath)) {
 
-            Filesystem::createDir($api_token_dir_path);
+            Filesystem::createDir($apiTokenDirPath);
 
             // Generate UUID
             $uuid = Uuid::uuid4()->toString();
@@ -210,7 +216,7 @@ class ApiController
 
             // Create API Token account
             if (Filesystem::write(
-                $api_token_file_path,
+                $apiTokenFilePath,
                 flextype('serializers')->yaml()->encode([
                     'title' => $post_data['title'],
                     'icon' => ['name' => $post_data['icon_name'],
@@ -248,7 +254,7 @@ class ApiController
         $query = $request->getQueryParams();
 
         $token      = $request->getQueryParams()['token'];
-        $token_data = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $query['api'] . '/' . $token . '/token.yaml'));
+        $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $query['api'] . '/' . $token . '/token.yaml'));
 
         flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
 
@@ -259,7 +265,7 @@ class ApiController
                 'menu_item' => 'api',
                 'token' => $token,
                 'api' => $query['api'],
-                'token_data' => $token_data,
+                'tokenData' => $tokenData,
                 'links' =>  [
                     'api' => [
                         'link' => flextype('router')->pathFor('admin.api.index'),
@@ -285,13 +291,13 @@ class ApiController
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path  = PATH['project'] . '/tokens/'. $post_data['api'] .'/' . $post_data['token'];
-        $api_token_file_path = $api_token_dir_path . '/' . 'token.yaml';
+        $apiTokenDirPath  = PATH['project'] . '/tokens/'. $post_data['api'] .'/' . $post_data['token'];
+        $apiTokenFilePath = $apiTokenDirPath . '/' . 'token.yaml';
 
         // Update API Token File
-        if (Filesystem::has($api_token_file_path)) {
+        if (Filesystem::has($apiTokenFilePath)) {
             if (Filesystem::write(
-                $api_token_file_path,
+                $apiTokenFilePath,
                 flextype('serializers')->yaml()->encode([
                     'title' => $post_data['title'],
                     'icon' => ['name' => $post_data['icon_name'],
@@ -326,9 +332,9 @@ class ApiController
         // Get POST data
         $post_data = $request->getParsedBody();
 
-        $api_token_dir_path = PATH['project'] . '/tokens/' . $post_data['api'] . '/' . $post_data['token'];
+        $apiTokenDirPath = PATH['project'] . '/tokens/' . $post_data['api'] . '/' . $post_data['token'];
 
-        if (Filesystem::deleteDir($api_token_dir_path)) {
+        if (Filesystem::deleteDir($apiTokenDirPath)) {
             flextype('flash')->addMessage('success', __('admin_message_'. $post_data['api'] .'_api_token_deleted'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_'. $post_data['api'] .'_api_token_was_not_deleted'));

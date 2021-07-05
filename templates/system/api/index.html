@@ -4,52 +4,64 @@
     {% if (api_list|length > 0) %}
     {{ flextype.blueprints.render('admin/api', {}, {'query': query}) }}
     <div class="container">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for key, api in api_list %}
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title d-flex align-middle align-items-center m-0">
-                                <span class="me-2">{{ icon(api.icon.name, api.icon.set) }}</span> {{ api.title }}
-                                <div class="dropdown" style="margin-left: auto;">
-                                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ icon('three-dots', 'bootstrap') }}
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="50"></th>
+                            <th class="ps-0">
+                                {{ __('admin_name') }}
+                            </th>
+                            <th>
+                                {{ __('admin_tokens') }}
+                            </th>
+                            <th>
+                                {{ __('admin_calls') }}
+                            </th>
+                            <th width="50"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, api in api_list %}
+                            <tr>
+                                <td width="50" class="text-center">
+                                    {{ icon(api.icon.name, api.icon.set) }}
+                                </td>
+                                <td class="ps-0">
+                                    <a href="{{ urlFor('admin.api.tokens') }}?api={{ key }}">
+                                        {{ api.title }}
                                     </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.api.tokens') }}?api={{ key }}">
-                                                <span class="pe-3 d-flex">{{ icon('pencil-square', 'bootstrap') }}</span> {{ __('admin_manage') }}</a></li>
-                                        <li>
-                                        <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.api.tokens') }}/add?api={{ key }}">
-                                            <span class="pe-3 d-flex">{{ icon('plus-circle', 'bootstrap') }}</span> {{ __('admin_add') }}</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="confirmationApiTokensDelete(event, '{{ key }}');">
-                                            <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_delete_all') }}</a></li>
-                                        <form id="delete-api-tokens-api-{{ key }}" action="{{ urlFor('admin.api.deleteApiTokensProcess') }}" method="POST" style="display: none;">
-                                            {{ csrf() }}
-                                            <input type="hidden" name="token" value="{{ key }}">
-                                        </form>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <table class="table m-0">
-                                <tbody>
-                                    <tr>
-                                        <td class="px-3">{{ __('admin_tokens') }}</td>
-                                        <td class="px-3 text-end">{{ api_stats[key].tokens ?? 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3">{{ __('admin_calls') }}</td>
-                                        <td class="px-3 text-end">{{ api_stats[key].calls ?? 0 }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+                                </td>
+                                <td>
+                                    {{ api_stats[key].tokens ?? 0 }}
+                                </td>
+                                <td>
+                                    {{ api_stats[key].calls ?? 0 }}
+                                </td>
+                                <td class="text-right" width="18">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ icon('three-dots', 'bootstrap') }}
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.api.tokens') }}/add?api={{ key }}">
+                                                <span class="pe-3 d-flex">{{ icon('plus-circle', 'bootstrap') }}</span> {{ __('admin_create_new_token') }}</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="confirmationApiTokensDelete(event, '{{ key }}');">
+                                                <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_delete_all') }}</a></li>
+                                            <form id="delete-api-tokens-api-{{ key }}" action="{{ urlFor('admin.api.deleteApiTokensProcess') }}" method="POST" style="display: none;">
+                                                {{ csrf() }}
+                                                <input type="hidden" name="token" value="{{ key }}">
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     {% endif %}

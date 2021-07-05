@@ -87,9 +87,9 @@ class ApiController
     public function deleteApiTokensProcess(Request $request, Response $response): Response
     {
         // Get POST data
-        $post_data = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
-        $apiTokenDirPath = PATH['project'] . '/tokens/' . $post_data['token'];
+        $apiTokenDirPath = PATH['project'] . '/tokens/' . $data['token'];
 
         if (filesystem()->directory($apiTokenDirPath)->delete()) {
             if (filesystem()->directory($apiTokenDirPath)->create()) {
@@ -242,8 +242,9 @@ class ApiController
             [
                 'menu_item' => 'api',
                 'token' => $token,
-                'api' => $query['api'],
                 'tokenData' => $tokenData,
+                'query' => $query,
+                'time' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
                 'links' =>  [
                     'api' => [
                         'link' => flextype('router')->pathFor('admin.api.index'),
@@ -267,9 +268,9 @@ class ApiController
     public function editProcess(Request $request, Response $response): Response
     {
         // Get POST data
-        $post_data = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
-        $apiTokenDirPath  = PATH['project'] . '/tokens/'. $post_data['api'] .'/' . $post_data['token'];
+        $apiTokenDirPath  = PATH['project'] . '/tokens/'. $data['api'] .'/' . $data['token'];
         $apiTokenFilePath = $apiTokenDirPath . '/' . 'token.yaml';
 
         // Update API Token File
@@ -277,26 +278,26 @@ class ApiController
             if (Filesystem::write(
                 $apiTokenFilePath,
                 flextype('serializers')->yaml()->encode([
-                    'title' => $post_data['title'],
-                    'icon' => ['name' => $post_data['icon_name'],
-                               'set' => $post_data['icon_set']],
-                    'limit_calls' => (int) $post_data['limit_calls'],
-                    'calls' => (int) $post_data['calls'],
-                    'state' => $post_data['state'],
-                    'uuid' => $post_data['uuid'],
-                    'created_by' => $post_data['created_by'],
-                    'created_at' => $post_data['created_at'],
+                    'title' => $data['title'],
+                    'icon' => ['name' => $data['icon_name'],
+                               'set' => $data['icon_set']],
+                    'limit_calls' => (int) $data['limit_calls'],
+                    'calls' => (int) $data['calls'],
+                    'state' => $data['state'],
+                    'uuid' => $data['uuid'],
+                    'created_by' => $data['created_by'],
+                    'created_at' => $data['created_at'],
                     'updated_by' => flextype('session')->get('uuid'),
                     'updated_at' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
                 ])
             )) {
-                flextype('flash')->addMessage('success', __('admin_message_'. $post_data['api'] .'_api_token_updated'));
+                flextype('flash')->addMessage('success', __('admin_message_'. $data['api'] .'_api_token_updated'));
             }
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_'. $post_data['api'] .'_api_token_was_not_updated'));
+            flextype('flash')->addMessage('error', __('admin_message_'. $data['api'] .'_api_token_was_not_updated'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $post_data['api']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $data['api']);
     }
 
     /**
@@ -308,17 +309,17 @@ class ApiController
     public function deleteProcess(Request $request, Response $response): Response
     {
         // Get POST data
-        $post_data = $request->getParsedBody();
+        $data = $request->getParsedBody();
 
-        $apiTokenDirPath = PATH['project'] . '/tokens/' . $post_data['api'] . '/' . $post_data['token'];
+        $apiTokenDirPath = PATH['project'] . '/tokens/' . $data['api'] . '/' . $data['token'];
 
         if (Filesystem::deleteDir($apiTokenDirPath)) {
-            flextype('flash')->addMessage('success', __('admin_message_'. $post_data['api'] .'_api_token_deleted'));
+            flextype('flash')->addMessage('success', __('admin_message_'. $data['api'] .'_api_token_deleted'));
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_'. $post_data['api'] .'_api_token_was_not_deleted'));
+            flextype('flash')->addMessage('error', __('admin_message_'. $data['api'] .'_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $post_data['api']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $data['api']);
     }
 
     private function getStats(string $api) {

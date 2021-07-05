@@ -1,5 +1,5 @@
 {% extends "plugins/admin/templates/system/api/base.html" %}
 
 {% block content %}
-{{ flextype.blueprints.render('admin/api/entries/add', {}, {'query': query, 'time': time, 'uuid': uuid}) }}
+{{ flextype.blueprints.render('admin/api/' ~ query.api ~ '/add', {}, {'query': query, 'time': time, 'uuid': uuid}) }}
 {% endblock %}

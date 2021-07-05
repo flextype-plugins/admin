@@ -60,17 +60,13 @@ class ApiController
                                   'title' => __('admin_images'),
                                   'icon' => ['name' => 'images', 'set' => 'bootstrap'],
                                 ],
-                                'files' => [
-                                  'title' => __('admin_files'),
-                                  'icon' => ['name' => 'file-text', 'set' => 'bootstrap'],
-                                ],
-                                'folders' => [
-                                  'title' => __('admin_folders'),
-                                  'icon' => ['name' => 'folder', 'set' => 'bootstrap'],
+                                'media' => [
+                                  'title' => __('admin_media'),
+                                  'icon' => ['name' => 'collection', 'set' => 'bootstrap'],
                                 ],
                                 'access' => [
                                   'title' => __('admin_access'),
-                                  'icon' => ['name' => 'people', 'set' => 'bootstrap'],
+                                  'icon' => ['name' => 'key', 'set' => 'bootstrap'],
                                 ],
                              ],
                 'links' =>  [

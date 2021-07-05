@@ -231,10 +231,8 @@ class ApiController
     {
         $query = $request->getQueryParams();
 
-        $token      = $request->getQueryParams()['token'];
+        $token      = $query['token'];
         $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $query['api'] . '/' . $token . '/token.yaml'));
-
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
 
         return flextype('twig')->render(
             $response,
@@ -267,37 +265,30 @@ class ApiController
      */
     public function editProcess(Request $request, Response $response): Response
     {
-        // Get POST data
+        // Get data from POST
         $data = $request->getParsedBody();
 
-        $apiTokenDirPath  = PATH['project'] . '/tokens/'. $data['api'] .'/' . $data['token'];
-        $apiTokenFilePath = $apiTokenDirPath . '/' . 'token.yaml';
+        // Process form
+        $form = flextype('blueprints')->form($data)->process();
 
-        // Update API Token File
-        if (Filesystem::has($apiTokenFilePath)) {
-            if (Filesystem::write(
-                $apiTokenFilePath,
-                flextype('serializers')->yaml()->encode([
-                    'title' => $data['title'],
-                    'icon' => ['name' => $data['icon_name'],
-                               'set' => $data['icon_set']],
-                    'limit_calls' => (int) $data['limit_calls'],
-                    'calls' => (int) $data['calls'],
-                    'state' => $data['state'],
-                    'uuid' => $data['uuid'],
-                    'created_by' => $data['created_by'],
-                    'created_at' => $data['created_at'],
-                    'updated_by' => flextype('session')->get('uuid'),
-                    'updated_at' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
-                ])
-            )) {
-                flextype('flash')->addMessage('success', __('admin_message_'. $data['api'] .'_api_token_updated'));
+        $apiTokenFilePath = PATH['project'] . '/tokens/'. $form['fields']['api'] .'/' . $form['fields']['token'] . '/' . 'token.yaml';
+
+        if (filesystem()->file($apiTokenFilePath)->exists()) {
+          
+            $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $form['fields']['api'] . '/' . $form['fields']['token'] . '/token.yaml'));
+
+            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode(array_merge($tokenData, $form->copy()->delete('fields.api')->delete('fields.token')->toArray())));
+
+            if ($result) {
+                flextype('flash')->addMessage('success', $form['messages']['success']);
+            } else {
+                flextype('flash')->addMessage('error', $form['messages']['error']);
             }
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_'. $data['api'] .'_api_token_was_not_updated'));
+            flextype('flash')->addMessage('error', $form['messages']['error']);
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $data['api']);
+        return $response->withRedirect($form['redirect']);
     }
 
     /**

@@ -1,219 +1,149 @@
-{% extends "plugins/admin/templates/partials/base.html" %}
+{% extends "plugins/admin/templates/system/tools/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>Cache</h2></div>
-    <div class="col p-0 text-end">
-        <a href="javascript:;" onclick="clearCache('all');" class="btn btn-primary">{{ __('admin_clear_cache_all')|raw }}</a>
-        <form id="cache-id-all"
-              action="{{ urlFor('admin.tools.clearCacheProcess') }}"
-              method="POST"
-              style="display: none;">
-            {{ csrf() }}
-            <input type="hidden" name="cache-id" value="all">
-        </form>
+{{ flextype.blueprints.render('admin/system/tools/cache', {}, {'query': query}) }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ __('admin_cache') }}</th>
+                        <th>{{ __('admin_description') }}</th>
+                        <th>{{ __('admin_size') }}</th>
+                        <th width="50"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{ __('admin_data') }}
+                        </td>
+                        <td>
+                            Cached data with built in PHPFastCache.
+                        </td>
+                        <td>
+                            {% if data_size %}{{ data_size }}{% else %}0 KB{% endif %}
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                    <a class="dropdown-item d-flex align-items-center"  href="javascript:;" data-bs-toggle="modal" data-bs-target="#clear-cache-key-modal">
+                                        <span class="pe-3 d-flex">{{ icon('card-text', 'bootstrap') }}</span> {{ __('admin_clear_key') }}</a></li>
+                                    <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="clearCache('data');">
+                                        <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_clear') }}</a></li>
+                                    <form id="clear-cache-id-data"
+                                        action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                        method="POST"
+                                        style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="cache-id" value="data">
+                                    </form>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ __('admin_templates') }}
+                        </td>
+                        <td>
+                            Compiled and cached TWIG templates.
+                        </td>
+                        <td>
+                            {% if twig_size %}{{ twig_size }}
+                            {% else %}0 KB{% endif %}
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                    <a class="dropdown-item d-flex align-items-center"  href="javascript:;" onclick="clearCache('templates');">
+                                        <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_clear') }}</a></li>
+                                    <form id="clear-cache-id-templates"
+                                        action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                        method="POST"
+                                        style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="cache-id" value="templates">
+                                    </form>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ __('admin_preflight') }}
+                        </td>
+                        <td>
+                            Compiled and cached Flextype preflight data and configuration.
+                        </td>
+                        <td>
+                            {% if preflight_size %}{{ preflight_size }}
+                            {% else %}0 KB{% endif %}
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                    <a class="dropdown-item d-flex align-items-center"  href="javascript:;" onclick="clearCache('preflight');">
+                                        <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_clear') }}</a></li>
+                                    <form id="clear-cache-id-preflight"
+                                        action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                        method="POST"
+                                        style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="cache-id" value="preflight">
+                                    </form>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ __('admin_images') }}
+                        </td>
+                        <td>
+                            Cached Images generated by built it GLIDE.
+                        </td>
+                        <td>
+                            {% if glide_size %}{{ glide_size }}
+                            {% else %}0 KB{% endif %}
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ icon('three-dots', 'bootstrap') }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                    <a class="dropdown-item d-flex align-items-center"  href="javascript:;" onclick="clearCache('images');">
+                                        <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_clear') }}</a></li>
+                                    <form id="clear-cache-id-images"
+                                        action="{{ urlFor('admin.tools.clearCacheProcess') }}"
+                                        method="POST"
+                                        style="display: none;">
+                                        {{ csrf() }}
+                                        <input type="hidden" name="cache-id" value="images">
+                                    </form>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-<div class="workspace-rounded">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>{{ __('admin_cache') }}</th>
-                <th>{{ __('admin_description') }}</th>
-                <th>{{ __('admin_size') }}</th>
-                <th width="50"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    {{ __('admin_data') }}
-                </td>
-                <td>
-                    Cached data with built in PHPFastCache.
-                </td>
-                <td>
-                    {% if data_size %}{{ data_size }}{% else %}0 KB{% endif %}
-                </td>
-                <td class="text-right">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ icon('three-dots', 'bootstrap') }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                            <a class="dropdown-item" href="javascript:;" data-bs-toggle="modal" data-bs-target="#clearCacheKeyModal">
-                                {{ icon('card-text', 'bootstrap') }} {{ __('admin_clear_key') }}</a></li>
-                            <li>
-                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('data');">
-                                {{ icon('trash', 'bootstrap') }} {{ __('admin_clear') }}</a></li>
-                            <form id="cache-id-data"
-                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
-                                  method="POST"
-                                  style="display: none;">
-                                {{ csrf() }}
-                                <input type="hidden" name="cache-id" value="data">
-                            </form>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ __('admin_templates') }}
-                </td>
-                <td>
-                    Compiled and cached TWIG templates.
-                </td>
-                <td>
-                    {% if twig_size %}{{ twig_size }}
-                    {% else %}0 KB{% endif %}
-                </td>
-                <td class="text-right">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ icon('three-dots', 'bootstrap') }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('templates');">
-                                {{ icon('trash', 'bootstrap') }} {{ __('admin_clear') }}</a></li>
-                            <form id="cache-id-templates"
-                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
-                                  method="POST"
-                                  style="display: none;">
-                                {{ csrf() }}
-                                <input type="hidden" name="cache-id" value="templates">
-                            </form>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ __('admin_preflight') }}
-                </td>
-                <td>
-                    Compiled and cached Flextype preflight data and configuration.
-                </td>
-                <td>
-                    {% if preflight_size %}{{ preflight_size }}
-                    {% else %}0 KB{% endif %}
-                </td>
-                <td class="text-right">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ icon('three-dots', 'bootstrap') }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('preflight');">
-                                {{ icon('trash', 'bootstrap') }} {{ __('admin_clear') }}</a></li>
-                            <form id="cache-id-preflight"
-                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
-                                  method="POST"
-                                  style="display: none;">
-                                {{ csrf() }}
-                                <input type="hidden" name="cache-id" value="preflight">
-                            </form>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ __('admin_images') }}
-                </td>
-                <td>
-                    Cached Images generated by built it GLIDE.
-                </td>
-                <td>
-                    {% if glide_size %}{{ glide_size }}
-                    {% else %}0 KB{% endif %}
-                </td>
-                <td class="text-right">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ icon('three-dots', 'bootstrap') }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                            <a class="dropdown-item" href="javascript:;" onclick="clearCache('images');">
-                                {{ icon('trash', 'bootstrap') }} {{ __('admin_clear') }}</a></li>
-                            <form id="cache-id-images"
-                                  action="{{ urlFor('admin.tools.clearCacheProcess') }}"
-                                  method="POST"
-                                  style="display: none;">
-                                {{ csrf() }}
-                                <input type="hidden" name="cache-id" value="images">
-                            </form>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="modal" id="clearCacheKeyModal" tabindex="-1" aria-labelledby="clearCacheKeyModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="clearCacheKeyModalLabel">{{ __('admin_clear_key') }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          <form method="post" id="form_cache_clear_key"
-                action="{{ urlFor('admin.tools.clearCacheKeyProcess') }}"
-                method="POST">
-              {{ csrf() }}
-              <div class="row">
-                  <div class="col-md-12">
-                      <div class="mb-3">
-                          <label for="title" class="form-label">{{ __('admin_key') }}</label>
-                          <input type="text" id="key" name="key" value="" class="form-control">
-                      </div>
-                   </div>
-              </div>
-          </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="clearCacheKey();">{{ __('admin_clear') }}</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
-
-{% block tail %}
-    <script>
-        function clearCache(id) {
-            Swal.fire(
-                {
-                title: "{{ __('admin_confirmation_required') }}",
-                 text: "{{ __('admin_confirmation_cache_clear') }}",
-                 showCancelButton: true,
-                 confirmButtonText: "{{ __('admin_yes_iam_sure')|raw }}",
-                 cancelButtonText: "{{ __('admin_cancel') }}",
-                 reverseButtons: true,
-                 position: 'center',
-                 showClass: {
-                    popup: ''
-                 },
-                 hideClass: {
-                    popup: ''
-                 },
-                }
-            ).then((result) => {
-                if (result.value) {
-                    document.getElementById('cache-id-' + id).submit();
-                }
-            });
-        }
-
-        function clearCacheKey() {
-            document.getElementById('form_cache_clear_key').submit();
-        }
-    </script>
 {% endblock %}

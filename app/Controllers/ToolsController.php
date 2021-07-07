@@ -164,37 +164,6 @@ class ToolsController
         );
     }
 
-
-    /**
-     * Reports page
-     *
-     * @param Request  $request  PSR7 request
-     * @param Response $response PSR7 response
-     */
-    public function reports(Request $request, Response $response): Response
-    {
-        return flextype('twig')->render(
-            $response,
-            'plugins/admin/templates/system/tools/reports.html',
-            [
-                'menu_item' => 'tools',
-                'php_info' => 'PHP ' . phpversion() . '<br> Copyright (c) The PHP Group <br> Zend Engine v' . zend_version() . ', Copyright (c) Zend Technologies',
-                'apache_modules' => apache_get_modules(),
-                'links' =>  [
-                    'tools' => [
-                        'link' => flextype('router')->pathFor('admin.tools.index'),
-                        'title' => __('admin_tools'),
-
-                    ],
-                    'reports' => [
-                        'link' => flextype('router')->pathFor('admin.tools.reports'),
-                        'title' => __('admin_reports')
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Clear cache process
      *

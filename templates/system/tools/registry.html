@@ -1,31 +1,31 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>Registry</h2></div>
-</div>
-<div class="workspace-rounded">
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="w-3/12">{{ __('admin_key') }}</th>
-                <th>{{ __('admin_value') }}</th>
-            </tr>
-        </thead>
-        <tbody>
+{{ flextype.blueprints.render('admin/system/tools/registry', {}, {'query': query}) }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
             {% for key, value in registry_dump %}
-                <tr>
-                    <td>
-                        {{ key }}
-                    </td>
-                    <td>
-                        {% if value is not iterable %}
-                            {{ value }}
-                        {% endif %}
-                    </td>
-                </tr>
+                <table class="table table-hover border">
+                    <tbody>
+                        <tr>
+                            <td width="100"><strong>{{ __('admin_key') }}</strong></td>
+                            <td>
+                                {{ key }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100"><strong>{{ __('admin_value') }}</strong></td>
+                            <td>
+                                {% if value is not iterable %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

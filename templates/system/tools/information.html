@@ -1,57 +1,59 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>Information</h2></div>
-</div>
-<div class="workspace-rounded">
-    <table class="table">
-        <tbody>
-            <tr>
-                <td class="col-2">{{ __('admin_name') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.name') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_version') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.version') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_description') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.description') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_author_name') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.author.name') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_author_email') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.author.email') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_author_url') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.url') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_homepage') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.homepage') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_documentation') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.documentation') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_changelog') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.changelog') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_bugs') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.bugs') }}</td>
-            </tr>
-            <tr>
-                <td>{{ __('admin_license') }}</td>
-                <td>{{ flextype.registry.get('flextype.manifest.license') }}</td>
-            </tr>
-        </tbody>
-    </table>
+{{ flextype.blueprints.render('admin/system/tools/information', {}, {'query': query}) }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td class="col-2"><strong>{{ __('admin_name') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.name') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_version') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.version') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_description') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.description') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_author_name') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.author.name') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_author_email') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.author.email') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_author_url') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.url') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_homepage') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.homepage') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_documentation') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.documentation') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_changelog') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.changelog') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_bugs') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.bugs') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ __('admin_license') }}</strong></td>
+                        <td>{{ flextype.registry.get('flextype.manifest.license') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,1 +1,45 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block tail %}
+<script>
+    function clearCache(id) {
+        event.preventDefault(); 
+        document.getElementById('clear-cache-id-' + id).submit();
+    }
+</script>
+
+<form id="clear-cache-id-all" action="{{ urlFor('admin.tools.clearCacheProcess') }}" method="POST" style="display: none;">
+    {{ csrf() }}
+    <input type="hidden" name="cache-id" value="all">
+</form>
+
+<div id="clear-cache-key-modal" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ __('admin_clear_key') }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="form_cache_clear_key"
+        action="{{ urlFor('admin.tools.clearCacheKeyProcess') }}"
+        method="POST">
+            {{ csrf() }}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">{{ __('admin_key') }}</label>
+                        <input type="text" id="key" name="key" value="" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="document.getElementById('form_cache_clear_key').submit();">{{ __('admin_clear') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

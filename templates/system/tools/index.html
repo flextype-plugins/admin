@@ -1,81 +1,37 @@
-{% extends "plugins/admin/templates/partials/base.html" %}
+{% extends "plugins/admin/templates/system/tools/base.html" %}
 
 {% block content %}
-<div class="workspace-header row">
-    <div class="col p-0"><h2>Tools</h2></div>
-</div>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card">
-         <div class="card-header card-plate">
-            <div class="card-title d-flex align-middle align-items-center m-0">
-                {{ icon('info-circle', 'bootstrap') }} Information
-                <div class="dropdown">
-                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ icon('three-dots', 'bootstrap') }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ urlFor('admin.tools.information') }}">
-                            {{ icon('eye', 'bootstrap') }} {{ __('admin_view') }}</a></li>
-                    </ul>
+    {% if (tools|length > 0) %}
+        {{ flextype.blueprints.render('admin/system/tools', {}, {'query': query}) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th width="50"></th>
+                                <th class="ps-0">
+                                    {{ __('admin_name') }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, tool in tools %}
+                                <tr>
+                                    <td width="50" class="text-center">
+                                        {{ icon(tool.icon.name, tool.icon.set) }}
+                                    </td>
+                                    <td class="ps-0">
+                                        <a href="{{ urlFor(tool.route) }}">
+                                            {{ tool.title }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-         <div class="card-header card-plate">
-            <div class="card-title d-flex align-middle align-items-center m-0">
-                {{ icon('journal-richtext', 'bootstrap') }} Cache
-                <div class="dropdown">
-                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ icon('three-dots', 'bootstrap') }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ urlFor('admin.tools.cache') }}">
-                            {{ icon('eye', 'bootstrap') }} {{ __('admin_view') }}</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-         <div class="card-header card-plate">
-            <div class="card-title d-flex align-middle align-items-center m-0">
-                {{ icon('archive', 'bootstrap') }} Registry
-                <div class="dropdown">
-                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ icon('three-dots', 'bootstrap') }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ urlFor('admin.tools.registry') }}">
-                            {{ icon('eye', 'bootstrap') }} {{ __('admin_view') }}</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-         <div class="card-header card-plate">
-            <div class="card-title d-flex align-middle align-items-center m-0">
-                {{ icon('journals', 'bootstrap') }} Reports
-                <div class="dropdown">
-                    <a class="dropdown-toggle dropdown-dots" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ icon('three-dots', 'bootstrap') }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ urlFor('admin.tools.reports') }}">
-                            {{ icon('eye', 'bootstrap') }} {{ __('admin_view') }}</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-</div>
+    {% endif %}
 {% endblock %}

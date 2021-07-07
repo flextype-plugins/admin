@@ -23,6 +23,14 @@ use function realpath;
 class ToolsController
 {
     /**
+     * __construct()
+     */
+    public function __construct()
+    {
+        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
+    }
+
+    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
@@ -30,13 +38,28 @@ class ToolsController
      */
     public function index(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/index.html',
             [
                 'menu_item' => 'tools',
+                'tools' => [
+                    'information' => [
+                        'title' => __('admin_information'),
+                        'icon' => ['name' => 'info-circle', 'set' => 'bootstrap'],
+                        'route' => 'admin.tools.information'
+                      ],
+                    'сache' => [
+                        'title' => __('admin_сache'),
+                        'icon' => ['name' => 'journal-richtext', 'set' => 'bootstrap'],
+                        'route' => 'admin.tools.cache'
+                    ],
+                    'registry' => [
+                        'title' => __('admin_registry'),
+                        'icon' => ['name' => 'archive', 'set' => 'bootstrap'],
+                        'route' => 'admin.tools.registry'
+                    ],           
+                ],
                 'links' =>  [
                     'tools' => [
                         'link' => flextype('router')->pathFor('admin.tools.index'),
@@ -55,8 +78,6 @@ class ToolsController
      */
     public function information(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/information.html',
@@ -88,8 +109,6 @@ class ToolsController
      */
     public function cache(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/cache.html',
@@ -123,8 +142,6 @@ class ToolsController
      */
     public function registry(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/registry.html',
@@ -156,8 +173,6 @@ class ToolsController
      */
     public function reports(Request $request, Response $response): Response
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
-
         return flextype('twig')->render(
             $response,
             'plugins/admin/templates/system/tools/reports.html',

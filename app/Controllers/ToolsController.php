@@ -147,7 +147,7 @@ class ToolsController
             'plugins/admin/templates/system/tools/registry.html',
             [
                 'menu_item' => 'tools',
-                'registry_dump' => $this->dotArray(flextype('registry')->all()),
+                'registryDump' => flextype('registry')->copy()->dot()->all(),
                 'links' =>  [
                     'tools' => [
                         'link' => flextype('router')->pathFor('admin.tools.index'),
@@ -220,39 +220,5 @@ class ToolsController
         }
 
         return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
-    }
-
-    /**
-     * _dotArray
-     */
-    private function dotArray($array, $prepend = ''): array
-    {
-        $results = [];
-
-        foreach ($array as $key => $value) {
-            if (is_array($value) && ! empty($value)) {
-                $results = array_merge($results, $this->dotArray($value, $prepend . $key . '.'));
-            } else {
-                $results[$prepend . $key] = $value;
-            }
-        }
-
-        return $results;
-    }
-
-    /**
-     * _getDirectorySize
-     */
-    private function getDirectorySize($path)
-    {
-        $bytestotal = 0;
-        $path       = realpath($path);
-        if ($path!==false && $path!=='' && file_exists($path)) {
-            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object) {
-                $bytestotal += $object->getSize();
-            }
-        }
-
-        return $bytestotal;
     }
 }

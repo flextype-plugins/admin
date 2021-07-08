@@ -1,4 +1,4 @@
-{% extends "plugins/admin/templates/system/api/base.html" %}
+{% extends "plugins/admin/templates/system/api/partials/base.html" %}
 
 {% block content %}
 {{ flextype.blueprints.render('admin/system/api/' ~ query.api ~ '/add', {}, {'query': query, 'time': time, 'uuid': uuid}) }}

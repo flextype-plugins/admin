@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if (api_list|length > 0) %}
-    {{ flextype.blueprints.render('admin/api', {}, {'query': query}) }}
+    {{ flextype.blueprints.render('admin/system/api', {}, {'query': query}) }}
     <div class="container">
         <div class="row">
             <div class="col-md-12">

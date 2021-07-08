@@ -79,7 +79,7 @@
                                                     <span class="pe-3 d-flex">{{ icon('plus-circle', 'bootstrap') }}</span> {{ __('admin_add') }}</a></li>
                                                 <li>
                                                 <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="event.preventDefault();
-                                                    document.getElementById('duplicate-id-{{ entry.id }}').submit();">
+                                                    document.getElementById('duplicate-entry-id-{{ entry.id }}').submit();">
                                                     <span class="pe-3 d-flex">{{ icon('files', 'bootstrap') }}</span> {{ __('admin_duplicate') }}</a></li>
                                                 <li>
                                                 <a class="dropdown-item d-flex align-items-center" href="{{ urlFor('admin.entries.rename') }}?id={{ entry.id }}">
@@ -94,11 +94,11 @@
                                                 <li>
                                                 <a class="dropdown-item d-flex align-items-center" href="javascript:;" onclick="confirmationEntryDelete(event, '{{ entry.id }}');">
                                                     <span class="pe-3 d-flex">{{ icon('trash', 'bootstrap') }}</span> {{ __('admin_delete') }}</a></li>
-                                                <form id="duplicate-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
+                                                <form id="duplicate-entry-id-{{ entry.id }}" action="{{ urlFor('admin.entries.duplicateProcess') }}" method="POST" style="display: none;">
                                                     {{ csrf() }}
                                                     <input type="hidden" name="id" value="{{ entry.id }}">
                                                 </form>
-                                                <form id="delete-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
+                                                <form id="delete-entry-id-{{ entry.id }}" action="{{ urlFor('admin.entries.deleteProcess') }}" method="POST" style="display: none;">
                                                     {{ csrf() }}
                                                     <input type="hidden" name="id" value="{{ entry.id }}">
                                                     <input type="hidden" name="id-current" value="{{ id_current }}">

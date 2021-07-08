@@ -221,4 +221,20 @@ class ToolsController
 
         return $response->withRedirect(flextype('router')->pathFor('admin.tools.cache'));
     }
+
+    /**
+     * _getDirectorySize
+     */
+    private function getDirectorySize($path)
+    {
+        $bytestotal = 0;
+        $path       = realpath($path);
+        if ($path!==false && $path!=='' && file_exists($path)) {
+            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object) {
+                $bytestotal += $object->getSize();
+            }
+        }
+
+        return $bytestotal;
+    }
 }

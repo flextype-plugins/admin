@@ -267,24 +267,24 @@ class ApiController
         // Process form
         $form = flextype('blueprints')->form($data)->process();
 
-        $apiTokenFilePath = PATH['project'] . '/tokens/'. $form['fields']['api'] .'/' . $form['fields']['token'] . '/' . 'token.yaml';
+        $apiTokenFilePath = PATH['project'] . '/tokens/'. $form->get('fields.api') .'/' . $form->get('fields.token') . '/' . 'token.yaml';
 
         if (filesystem()->file($apiTokenFilePath)->exists()) {
           
-            $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $form['fields']['api'] . '/' . $form['fields']['token'] . '/token.yaml'));
+            $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $form->get('fields.api') . '/' . $form->get('fields.token') . '/token.yaml'));
 
-            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode(array_merge($tokenData, $form->copy()->delete('fields.api')->delete('fields.token')->toArray())));
+            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode(array_merge($tokenData, $form->copy()->delete('fields.api')->delete('fields.token')->get('fields'))));
 
             if ($result) {
-                flextype('flash')->addMessage('success', $form['messages']['success']);
+                flextype('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form['messages']['error']);
+                flextype('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form['messages']['error']);
+            flextype('flash')->addMessage('error', $form->get('messages.error'));
         }
 
-        return $response->withRedirect($form['redirect']);
+        return $response->withRedirect($form->get('redirect'));
     }
 
     /**

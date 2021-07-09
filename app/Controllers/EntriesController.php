@@ -310,15 +310,15 @@ class EntriesController
         $form = flextype('blueprints')->form($data)->process();
 
         if (flextype('entries')->move(
-            $form['fields']['id'],
-            $form['fields']['new_id'])
+            $form->get('fields.id'),
+            $form->get('fields.new_id'))
         ) {
-            flextype('flash')->addMessage('success', $form['messages']['success']);
+            flextype('flash')->addMessage('success', $form->get('messages.success'));
         } else {
-            flextype('flash')->addMessage('error', $form['messages']['error']);
+            flextype('flash')->addMessage('error', $form->get('messages.error'));
         }
 
-        return $response->withRedirect($form['redirect']);
+        return $response->withRedirect($form->get('redirect'));
     }
 
     /**

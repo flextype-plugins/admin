@@ -198,23 +198,23 @@ class ApiController
         // Generate API token
         $APIToken = bin2hex(random_bytes(16));
 
-        $apiTokenDirPath  = PATH['project'] . '/tokens/' . $form['fields']['api'] . '/' . $APIToken;
+        $apiTokenDirPath  = PATH['project'] . '/tokens/' . $form->get('fields.api') . '/' . $APIToken;
         $apiTokenFilePath = $apiTokenDirPath . '/token.yaml';
 
         if (!filesystem()->file($apiTokenFilePath)->exists()) {
             $result = filesystem()->directory($apiTokenDirPath)->create(0755, true);
-            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode($form->copy()->delete('fields.api')->toArray()));
+            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode($form->copy()->delete('fields.api')->get('fields')));
 
             if ($result) {
-                flextype('flash')->addMessage('success', $form['messages']['success']);
+                flextype('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form['messages']['error']);
+                flextype('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form['messages']['error']);
+            flextype('flash')->addMessage('error', $form->get('messages.error'));
         }
 
-        return $response->withRedirect($form['redirect']);
+        return $response->withRedirect($form->get('redirect'));
     }
 
     /**

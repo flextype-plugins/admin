@@ -155,17 +155,17 @@ class EntriesController
         $form = flextype('blueprints')->form($data)->process();
 
         // Check if entry exists then try to create entry
-        if (!flextype('entries')->has($form['fields']['id'])) {
-            if (flextype('entries')->create($form['fields']['id'], $form->copy()->delete('fields.id')->toArray())) {
-                flextype('flash')->addMessage('success', $form['messages']['success']);
+        if (!flextype('entries')->has($form->get('fields.id'))) {
+            if (flextype('entries')->create($form->get('fields.id'), $form->copy()->delete('fields.id')->get('fields'))) {
+                flextype('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form['messages']['error']);
+                flextype('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form['messages']['error']);
+            flextype('flash')->addMessage('error', $form->get('messages.error'));
         }
 
-        return $response->withRedirect($form['redirect']);
+        return $response->withRedirect($form->get('redirect'));
     }
 
     /**

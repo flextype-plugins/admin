@@ -245,20 +245,20 @@ class EntriesController
         // Process form
         $form = flextype('blueprints')->form($data)->process();
 
-        if (!flextype('entries')->has(strings($form['fields']['to'] . '/' . $form['fields']['entry_current_id'])->trim('/')->toString())) {
+        if (!flextype('entries')->has(strings($form->get('fields.to') . '/' . $form->get('fields.entry_current_id'))->trim('/')->toString())) {
             if (flextype('entries')->move(
-                $form['fields']['id'],
-                strings($form['fields']['to'] . '/' . $form['fields']['entry_current_id'])->trim('/')->toString()
+                $form->get('fields.id'),
+                strings($form->get('fields.to') . '/' . $form->get('fields.entry_current_id'))->trim('/')->toString()
             )) {
-                flextype('flash')->addMessage('success', $form['messages']['success']);
+                flextype('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form['messages']['error']);
+                flextype('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form['messages']['error']);
+            flextype('flash')->addMessage('error', $form->get('messages.error'));
         }
 
-        return $response->withRedirect($form['redirect']);
+        return $response->withRedirect($form->get('redirect'));
     }
 
     /**

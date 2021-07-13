@@ -141,7 +141,7 @@ class PluginsController
             'plugins/admin/templates/extends/plugins/settings.html',
             [
                 'menu_item' => 'plugins',
-                'id' => $query['id'],
+                'query' => $query,
                 'settings' => $customPluginSettingsFileContent,
                 'links' =>  [
                     'plugins' => [
@@ -165,16 +165,17 @@ class PluginsController
      */
     public function settingsProcess(Request $request, Response $response): Response
     {
-        $data = $request->getParsedBody();
+        // Process form
+        $form = flextype('blueprints')->form($request->getParsedBody())->process();
 
-        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $data['id'] . '/settings.yaml';
+        $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $form->get('fields.id') . '/settings.yaml';
 
-        if (filesystem()->file($customPluginSettingsFile)->put($data['data'])) {
+        if (filesystem()->file($customPluginSettingsFile)->put($form->get('fields.settings'))) {
             flextype('flash')->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
             flextype('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $data['id']);
+        return $response->withRedirect(flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $form->get('fields.id'));
     }
 }

@@ -12,7 +12,6 @@
     }
 
     .navbar-nav {
-        margin-left: 8px;
 
         a {
             color: $white;
@@ -67,11 +66,16 @@
     .admin-navigation-actions {
         a {
             color: $white;
+            padding: 9.5px 12px;
     
             &:hover {
                 color: $white;
                 opacity: .9;
             }
         }
+    }
+
+    .admin-navigation-breadcrumbs {
+        overflow-x: hidden;
     }
 }

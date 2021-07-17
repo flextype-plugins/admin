@@ -1,6 +1,0 @@
-/* extends bootstrap modal */
-
-.modal-content {
-    border-radius: var(--border-radius);
-    border: none;
-}

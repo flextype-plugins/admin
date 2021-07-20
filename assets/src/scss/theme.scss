@@ -1,8 +1,15 @@
-html, body {
+// 
+// Common
+// 
+html,
+body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     background: #efefef;
 }
 
+// 
+// Headings
+// 
 h1,
 h2,
 h3,
@@ -11,20 +18,30 @@ h5 {
     font-weight: normal;
 }
 
-
-.row-hover {
-    cursor: pointer;
-
-    &:hover {
-        background: rgba(0,0,0,.01);
-    }
-}
-
-
 // 
 // Links
 // 
 a {
     text-decoration: none;
     color: $black;
+}
+
+// 
+// Grid
+// 
+.row-hover {
+    &:hover {
+        background: rgba(0,0,0,.01);
+    }
+}
+
+//
+// Disable focus shadow
+// 
+.btn-check:focus+.btn-primary,
+.btn-primary:focus,
+.btn-check:focus+.btn, 
+.btn:focus,
+.form-control:focus {
+    box-shadow: none;
 }

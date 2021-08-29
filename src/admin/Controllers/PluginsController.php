@@ -20,7 +20,7 @@ class PluginsController
      */
     public function __construct()
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
+        registry()->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
     }
 
     /**
@@ -31,20 +31,20 @@ class PluginsController
      */
     public function index(Request $request, Response $response): Response
     {
-        $pluginsList = flextype('registry')->get('plugins');
+        $pluginsList = registry()->get('plugins');
 
         ksort($pluginsList);
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/extends/plugins/index.html',
+            'plugins/admin/templates/plugins/index.html',
             [
                 'pluginsList' => $pluginsList,
                 'query' => $request->getQueryParams(),
                 'menu_item' => 'plugins',
                 'links' =>  [
                     'plugins' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.index'),
+                        'link' => router()->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                         'active' => true
                     ],
@@ -66,19 +66,19 @@ class PluginsController
 
         $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $data['plugin-key'] . '/settings.yaml';
         $customPluginSettingsFileContent = filesystem()->file($customPluginSettingsFile)->get();
-        $customPluginSettingsFileData = empty($customPluginSettingsFileContent) ? [] : flextype('serializers')->yaml()->decode($customPluginSettingsFileContent);
+        $customPluginSettingsFileData = empty($customPluginSettingsFileContent) ? [] : serializers()->yaml()->decode($customPluginSettingsFileContent);
 
         $status = ($data['plugin-set-status'] == 'true') ? true : false;
 
         $customPluginSettingsFileData = arrays($customPluginSettingsFileData)->set('enabled', $status)->toArray();
 
-        filesystem()->file($customPluginSettingsFile)->put(flextype('serializers')->yaml()->encode($customPluginSettingsFileData));
+        filesystem()->file($customPluginSettingsFile)->put(serializers()->yaml()->encode($customPluginSettingsFileData));
 
         // clear cache
         filesystem()->directory(PATH['tmp'] . '/data')->delete(true);
 
         // Redirect to plugins index page
-        return $response->withRedirect(flextype('router')->pathFor('admin.plugins.index'));
+        return $response->withRedirect(router()->pathFor('admin.plugins.index'));
     }
 
     /**
@@ -96,22 +96,22 @@ class PluginsController
         $query['id'] ??= '';
         
         // Get manifest
-        $manifest = flextype('serializers')->yaml()->decode(filesystem()->file(PATH['project'] . '/plugins/' . $query['id'] . '/plugin.yaml')->get());
+        $manifest = serializers()->yaml()->decode(filesystem()->file(PATH['project'] . '/plugins/' . $query['id'] . '/plugin.yaml')->get());
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/extends/plugins/information.html',
+            'plugins/admin/templates/plugins/information.html',
             [
                 'menu_item' => 'plugins',
                 'id' => $query['id'],
                 'manifest' => $manifest,
                 'links' =>  [
                     'plugins' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.index'),
+                        'link' => router()->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                     ],
                     'plugins_name' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.information') . '?id=' . $query['id'],
+                        'link' => router()->pathFor('admin.plugins.information') . '?id=' . $query['id'],
                         'title' => $manifest['name'],
                     ],
                 ],
@@ -134,9 +134,9 @@ class PluginsController
         $customPluginManifestFile = PATH['project'] . '/plugins/' . $query['id'] . '/plugin.yaml';
         $customPluginManifestFileContent = Filesystem::read($customPluginManifestFile);
 
-        $pluginsManifest = flextype('serializers')->yaml()->decode($customPluginManifestFileContent);
+        $pluginsManifest = serializers()->yaml()->decode($customPluginManifestFileContent);
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
             'plugins/admin/templates/extends/plugins/settings.html',
             [
@@ -145,11 +145,11 @@ class PluginsController
                 'settings' => $customPluginSettingsFileContent,
                 'links' =>  [
                     'plugins' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.index'),
+                        'link' => router()->pathFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                     ],
                     'plugins_settings' => [
-                        'link' => flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $query['id'],
+                        'link' => router()->pathFor('admin.plugins.settings') . '?id=' . $query['id'],
                         'title' => $pluginsManifest['name']
                     ],
                 ]
@@ -166,16 +166,16 @@ class PluginsController
     public function settingsProcess(Request $request, Response $response): Response
     {
         // Process form
-        $form = flextype('blueprints')->form($request->getParsedBody())->process();
+        $form = blueprints()->form($request->getParsedBody())->process();
 
         $customPluginSettingsFile = PATH['project'] . '/config/plugins/' . $form->get('fields.id') . '/settings.yaml';
 
         if (filesystem()->file($customPluginSettingsFile)->put($form->get('fields.settings'))) {
-            flextype('flash')->addMessage('success', __('admin_message_plugin_settings_saved'));
+            container()->get('flash')->addMessage('success', __('admin_message_plugin_settings_saved'));
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));
+            container()->get('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.plugins.settings') . '?id=' . $form->get('fields.id'));
+        return $response->withRedirect(router()->pathFor('admin.plugins.settings') . '?id=' . $form->get('fields.id'));
     }
 }

@@ -10,14 +10,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class DashboardController
 {
     /**
-     * __construct
-     */
-     public function __construct()
-     {
-
-     }
-
-    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
@@ -25,6 +17,6 @@ class DashboardController
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
     {
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index'));
+        return $response->withRedirect(router()->pathFor('admin.entries.index'));
     }
 }

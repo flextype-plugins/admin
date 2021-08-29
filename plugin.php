@@ -17,7 +17,7 @@ use function Flextype\Component\I18n\__;
 /**
  * Set base admin route
  */
-$admin_route = flextype('registry')->get('plugins.admin.settings.route');
+$adminRoute = registry()->get('plugins.admin.settings.route');
 
 /**
  * Ensure vendor libraries exist
@@ -41,10 +41,10 @@ $adminLoader = require_once $adminAutoload;
 include_once 'routes/web.php';
 
 // Set Default Admin locale
-I18n::$locale = flextype('registry')->get('flextype.settings.locale');
+I18n::$locale = registry()->get('flextype.settings.locale');
 
 // Add Admin Navigation
-flextype('registry')->set('assets.admin.css.admin', ['project/plugins/admin/assets/dist/css/admin.min.css']);
-flextype('registry')->set('assets.admin.js.admin', ['project/plugins/admin/assets/dist/js/admin.min.js']);
+registry()->set('assets.admin.css.admin', ['project/plugins/admin/assets/dist/css/admin.min.css']);
+registry()->set('assets.admin.js.admin', ['project/plugins/admin/assets/dist/js/admin.min.js']);
 
 

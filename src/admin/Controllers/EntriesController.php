@@ -41,8 +41,6 @@ class EntriesController
 
         $this->routable = [true  => __('admin_yes'),
                            false => __('admin_no')];
-
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'newspaper', 'set' => 'bootstrap']]);
     }
 
     /**
@@ -58,21 +56,21 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set entry ID
+        // Set Entry ID
         $query['id'] ??= '';
         
         // Get blueprints
         $blueprints = [];
-        foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
+        foreach(blueprints()->fetch('', ['collection' => true]) as $name => $blueprint) {
             if (!empty($blueprint)) {
                 $blueprints[$name] = $blueprint['title'];
             }
         }
 
-        // Get entries
+        // Get entries collection 
         $entries = [];
         $entriesCollection = [];
-        $entriesCollection = arrays(flextype('entries')->fetch($query['id'], ['collection' => true, 'depth' => ['1']]))
+        $entriesCollection = arrays(entries()->fetch($query['id'], ['collection' => true, 'depth' => ['1']]))
                                 ->sortBy('published_at', 'DESC')
                                 ->toArray();
 
@@ -83,17 +81,16 @@ class EntriesController
             }
         }
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/content/entries/index.html',
+            'plugins/admin/templates/entries/index.html',
             [
-                'menu_item' => 'entries',
                 'entries' => $entries,
                 'blueprints' => $blueprints,
                 'query' => $query,
                 'links' => [
-                    'entries' => [
-                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                    'content' => [
+                        'link' => router()->pathFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -102,7 +99,7 @@ class EntriesController
     }
 
     /**
-     * Create new entry page
+     * Create new content page
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -113,24 +110,23 @@ class EntriesController
     {
         // Get blueprints
         $blueprints = [];
-        foreach(flextype('blueprints')->fetch('', ['collection' => true]) as $name => $blueprint) {
+        foreach(blueprints()->fetch('', ['collection' => true]) as $name => $blueprint) {
             if (!empty($blueprint)) {
                 $blueprints[$name] = $blueprint['title'];
             }
         }
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/content/entries/add.html',
+            'plugins/admin/templates/entries/add.html',
             [
-                'menu_item' => 'entries',
                 'blueprints' => $blueprints,
                 'routable' => $this->routable,
                 'visibility' => $this->visibility,
                 'query' => $request->getQueryParams(),
                 'links' => [
-                    'entries' => [
-                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                    'content' => [
+                        'link' => router()->pathFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -139,7 +135,7 @@ class EntriesController
     }
 
     /**
-     * Create new entry - process
+     * Create new content - process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -152,24 +148,24 @@ class EntriesController
         $data = $request->getParsedBody();
         
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = blueprints()->form($data)->process();
 
-        // Check if entry exists then try to create entry
-        if (!flextype('entries')->has($form->get('fields.id'))) {
-            if (flextype('entries')->create($form->get('fields.id'), $form->copy()->delete('fields.id')->get('fields'))) {
-                flextype('flash')->addMessage('success', $form->get('messages.success'));
+        // Check if content exists then try to create content
+        if (!entries()->has($form->get('fields.id'))) {
+            if (entries()->create($form->get('fields.id'), $form->copy()->delete('fields.id')->get('fields'))) {
+                container()->get('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form->get('messages.error'));
+                container()->get('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form->get('messages.error'));
+            container()->get('flash')->addMessage('error', $form->get('messages.error'));
         }
 
         return $response->withRedirect($form->get('redirect'));
     }
 
     /**
-     * Move entry
+     * Move content
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -181,13 +177,13 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Get entry ID
+        // Get content ID
         $query['id'] ??= '';
 
-        // Get current entry ID
+        // Get current content ID
         $entryCurrentID = arraysFromString($query['id'], '/')->last();
 
-        // Get parrent entry ID
+        // Get parrent content ID
         $entryParentID = arraysFromString($query['id'], '/')->slice(0, -1)->toString('/');
 
         if (empty($entryParentID)) {
@@ -196,32 +192,31 @@ class EntriesController
             $entries['/'] = '/';
         }
 
-        // Fetch entry
-        $entry = flextype('entries')->fetch($query['id'])->toArray();
+        // Fetch content
+        $entry = entries()->fetch($query['id'])->toArray();
 
-        // Get entries
-        foreach (flextype('entries')->fetch('', ['collection' => true, 'find' => ['depth' => '>0'], 'filter' => ['order_by' => ['field' => ['id']]]])->toArray() as $_entry) {
+        // Get enties
+        foreach (entries()->fetch('', ['collection' => true, 'find' => ['depth' => '>0'], 'filter' => ['order_by' => ['field' => ['id']]]])->toArray() as $_entry) {
             if ($_entry['id'] != $query['id'] && $_entry['id'] != $entryParentID) {
                 if ($_entry['id'] != '') {
                     $entries[$_entry['id']] = $_entry['id'];
                 } else {
-                    $entries[flextype('registry')->get('flextype.entries.main')] = flextype('registry')->get('flextype.entries.main');
+                    $entries[registry()->get('flextype.entry.main')] = registry()->get('flextype.entry.main');
                 }
             }
         }
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/content/entries/move.html',
+            'plugins/admin/templates/entries/move.html',
             [
-                'menu_item' => 'entries',
                 'query' => $query,
                 'entries' => $entries,
                 'entryCurrentID' => $entryCurrentID,
                 'entryParentID' => $entryParentID,
                 'links' => [
-                    'entries' => [
-                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                    'content' => [
+                        'link' => router()->pathFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -230,7 +225,7 @@ class EntriesController
     }
 
     /**
-     * Move entry - process
+     * Move content - process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -243,26 +238,26 @@ class EntriesController
         $data = $request->getParsedBody();
 
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = blueprints()->form($data)->process();
 
-        if (!flextype('entries')->has(strings($form->get('fields.to') . '/' . $form->get('fields.entry_current_id'))->trim('/')->toString())) {
-            if (flextype('entries')->move(
+        if (!entries()->has(strings($form->get('fields.to') . '/' . $form->get('fields.content_current_id'))->trim('/')->toString())) {
+            if (entries()->move(
                 $form->get('fields.id'),
-                strings($form->get('fields.to') . '/' . $form->get('fields.entry_current_id'))->trim('/')->toString()
+                strings($form->get('fields.to') . '/' . $form->get('fields.content_current_id'))->trim('/')->toString()
             )) {
-                flextype('flash')->addMessage('success', $form->get('messages.success'));
+                container()->get('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form->get('messages.error'));
+                container()->get('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form->get('messages.error'));
+            container()->get('flash')->addMessage('error', $form->get('messages.error'));
         }
 
         return $response->withRedirect($form->get('redirect'));
     }
 
     /**
-     * Rename entry
+     * Rename content
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -274,18 +269,17 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set entry ID
+        // Set content ID
         $query['id'] ??= '';
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/content/entries/rename.html',
+            'plugins/admin/templates/entries/rename.html',
             [
-                'menu_item' => 'entries',
                 'query' => $query,
                 'links' => [
-                    'entries' => [
-                        'link' => flextype('router')->pathFor('admin.entries.index'),
+                    'content' => [
+                        'link' => router()->pathFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -294,7 +288,7 @@ class EntriesController
     }
 
     /**
-     * Rename entry - process
+     * Rename content - process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -307,22 +301,22 @@ class EntriesController
         $data = $request->getParsedBody();
 
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = blueprints()->form($data)->process();
 
-        if (flextype('entries')->move(
+        if (entries()->move(
             $form->get('fields.id'),
             $form->get('fields.new_id'))
         ) {
-            flextype('flash')->addMessage('success', $form->get('messages.success'));
+            container()->get('flash')->addMessage('success', $form->get('messages.success'));
         } else {
-            flextype('flash')->addMessage('error', $form->get('messages.error'));
+            container()->get('flash')->addMessage('error', $form->get('messages.error'));
         }
 
         return $response->withRedirect($form->get('redirect'));
     }
 
     /**
-     * Delete entry - process
+     * Delete content - process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -335,19 +329,19 @@ class EntriesController
         $data = $request->getParsedBody();
 
         $id             = $data['id'];
-        $entryCurrentID = $data['id-current'];
+        $contentCurrentID = $data['id-current'];
 
-        if (flextype('entries')->delete($id)) {
-            flextype('flash')->addMessage('success', __('admin_message_entry_deleted'));
+        if (entries()->delete($id)) {
+            container()->get('flash')->addMessage('success', __('admin_message_entries_deleted'));
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_entry_was_not_deleted'));
+            container()->get('flash')->addMessage('error', __('admin_message_entries_was_not_deleted'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $entryCurrentID);
+        return $response->withRedirect(router()->pathFor('admin.entries.index') . '?id=' . $contentCurrentID);
     }
 
     /**
-     * Duplicate entry - process
+     * Duplicate content - process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -364,18 +358,18 @@ class EntriesController
         $parentID  = arraysFromString($id, '/')->slice(0, -1)->toString('/');
         $newID     = $id . '-copy-' . date("Ymd-His");
 
-        // Get current entry title, copy current entry and update title for new entry
-        $title = flextype('entries')->fetch($id)['title'];
-        flextype('entries')->copy($id, $newID, true);
-        flextype('entries')->update($newID, ['title' => $title . ' copy']);
+        // Get current content title, copy current content and update title for new content
+        $title = entries()->fetch($id)['title'];
+        entries()->copy($id, $newID, true);
+        entries()->update($newID, ['title' => $title . ' copy']);
 
-        flextype('flash')->addMessage('success', __('admin_message_entry_duplicated'));
+        container()->get('flash')->addMessage('success', __('admin_message_entries_duplicated'));
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.entries.index') . '?id=' . $parentID);
+        return $response->withRedirect(router()->pathFor('admin.entries.index') . '?id=' . $parentID);
     }
 
     /**
-     * Edit entry
+     * Edit content
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -387,28 +381,27 @@ class EntriesController
         // Get Query Params
         $query = $request->getQueryParams();
 
-        // Set entry ID
+        // Set content ID
         $query['id'] ??= '';
 
-        // Disable entry parsers
-        flextype('registry')->set('entries.fields.parsers.settings.enabled', false);
+        // Disable content parsers
+        registry()->set('entry.fields.parsers.settings.enabled', false);
 
-        // Fetch entry
-        $entry = flextype('entries')->fetch($query['id'])->toArray();
+        // Fetch content
+        $entry = entries()->fetch($query['id'])->toArray();
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
-            'plugins/admin/templates/content/entries/edit.html',
+            'plugins/admin/templates/entries/edit.html',
             [
-                'menu_item' => 'entries',
                 'id' => $query['id'],
                 'entry' => $entry,
                 'routable' => $this->routable,
                 'visibility' => $this->visibility,
                 'query' => $query,
                 'links' => [
-                    'entries' => [
-                        'link' => flextype('router')->pathFor('admin.entries.index') . '?id=' . arraysFromString($query['id'], '/')->slice(0, -1)->toString('/'),
+                    'entry' => [
+                        'link' => router()->pathFor('admin.entries.index') . '?id=' . arraysFromString($query['id'], '/')->slice(0, -1)->toString('/'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -417,7 +410,7 @@ class EntriesController
     }
 
     /**
-     * Edit entry process
+     * Edit content process
      *
      * @param Request  $request  PSR7 request
      * @param Response $response PSR7 response
@@ -430,12 +423,12 @@ class EntriesController
         $data = $request->getParsedBody();
 
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = blueprints()->form($data)->process();
 
-        if (flextype('entries')->update($form->get('fields.id'), $form->copy()->delete('fields.id')->get('fields'))) {
-            flextype('flash')->addMessage('success', $form->get('messages.success'));
+        if (entries()->update($form->get('fields.id'), $form->copy()->delete('fields.id')->get('fields'))) {
+            container()->get('flash')->addMessage('success', $form->get('messages.success'));
         } else {
-            flextype('flash')->addMessage('error', $form->get('messages.error'));
+            container()->get('flash')->addMessage('error', $form->get('messages.error'));
         }
 
         return $response->withRedirect($form->get('redirect'));  

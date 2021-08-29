@@ -23,7 +23,7 @@ class ApiController
      */
     public function __construct()
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
+        registry()->set('workspace', ['icon' => ['name' => 'diagram-3', 'set' => 'bootstrap']]);
     }
 
     /**
@@ -41,7 +41,7 @@ class ApiController
                       'folders' => $this->getStats('folders'),
                       'access' => $this->getStats('access')];
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
             'plugins/admin/templates/system/api/index.html',
             [
@@ -71,7 +71,7 @@ class ApiController
                              ],
                 'links' =>  [
                     'api' => [
-                        'link' => flextype('router')->pathFor('admin.api.index'),
+                        'link' => router()->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                         'active' => true,
                     ],
@@ -89,15 +89,15 @@ class ApiController
 
         if (filesystem()->directory($apiTokenDirPath)->delete()) {
             if (filesystem()->directory($apiTokenDirPath)->create()) {
-                flextype('flash')->addMessage('success', __('admin_message_api_tokens_deleted'));
+                container()->get('flash')->addMessage('success', __('admin_message_api_tokens_deleted'));
             } else {
-                flextype('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
+                container()->get('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
             }
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
+            container()->get('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.api.index'));
+        return $response->withRedirect(router()->pathFor('admin.api.index'));
     }
 
     /**
@@ -121,7 +121,7 @@ class ApiController
             }
         }
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
             'plugins/admin/templates/system/api/tokens.html',
             [
@@ -137,11 +137,11 @@ class ApiController
                 'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
-                        'link' => flextype('router')->pathFor('admin.api.index'),
+                        'link' => router()->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_tokens' => [
-                        'link' => flextype('router')->pathFor('admin.api.tokens') . '?api=' . $query['api'],
+                        'link' => router()->pathFor('admin.api.tokens') . '?api=' . $query['api'],
                         'title' => __('admin_' . $query['api'])
                     ],
                 ]
@@ -159,21 +159,21 @@ class ApiController
     {
         $query = $request->getQueryParams();
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
             'plugins/admin/templates/system/api/add.html',
             [
                 'menu_item' => 'api',
                 'query' => $query,
                 'uuid' => Uuid::uuid4()->toString(),
-                'time' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
+                'time' => date(registry()->get('flextype.settings.date_format'), time()),
                 'links' =>  [
                     'api' => [
-                        'link' => flextype('router')->pathFor('admin.api.index'),
+                        'link' => router()->pathFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_tokens' => [
-                        'link' => flextype('router')->pathFor('admin.api.tokens') . '?api=' . $query['api'],
+                        'link' => router()->pathFor('admin.api.tokens') . '?api=' . $query['api'],
                         'title' => __('admin_' . $query['api'])
                     ],
                 ]
@@ -193,7 +193,7 @@ class ApiController
         $data = $request->getParsedBody();
 
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = blueprints()->form($data)->process();
 
         // Generate API token
         $APIToken = bin2hex(random_bytes(16));
@@ -203,15 +203,15 @@ class ApiController
 
         if (!filesystem()->file($apiTokenFilePath)->exists()) {
             $result = filesystem()->directory($apiTokenDirPath)->create(0755, true);
-            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode($form->copy()->delete('fields.api')->get('fields')));
+            $result = filesystem()->file($apiTokenFilePath)->put(serializers()->yaml()->encode($form->copy()->delete('fields.api')->get('fields')));
 
             if ($result) {
-                flextype('flash')->addMessage('success', $form->get('messages.success'));
+                container()->get('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form->get('messages.error'));
+                container()->get('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form->get('messages.error'));
+            container()->get('flash')->addMessage('error', $form->get('messages.error'));
         }
 
         return $response->withRedirect($form->get('redirect'));
@@ -228,9 +228,9 @@ class ApiController
         $query = $request->getQueryParams();
 
         $token      = $query['token'];
-        $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $query['api'] . '/' . $token . '/token.yaml'));
+        $tokenData  = serializers()->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $query['api'] . '/' . $token . '/token.yaml'));
 
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
             'plugins/admin/templates/system/api/edit.html',
             [
@@ -238,14 +238,14 @@ class ApiController
                 'token' => $token,
                 'tokenData' => $tokenData,
                 'query' => $query,
-                'time' => date(flextype('registry')->get('flextype.settings.date_format'), time()),
+                'time' => date(registry()->get('flextype.settings.date_format'), time()),
                 'links' =>  [
                     'api' => [
-                        'link' => flextype('router')->pathFor('admin.api.index'),
+                        'link' => router()->pathFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
                     'api_tokens' => [
-                        'link' => flextype('router')->pathFor('admin.api.tokens') . '?api=' . $query['api'],
+                        'link' => router()->pathFor('admin.api.tokens') . '?api=' . $query['api'],
                         'title' => __('admin_' . $query['api'])
                     ],
                 ]
@@ -265,23 +265,23 @@ class ApiController
         $data = $request->getParsedBody();
 
         // Process form
-        $form = flextype('blueprints')->form($data)->process();
+        $form = blueprints()->form($data)->process();
 
         $apiTokenFilePath = PATH['project'] . '/tokens/'. $form->get('fields.api') .'/' . $form->get('fields.token') . '/' . 'token.yaml';
 
         if (filesystem()->file($apiTokenFilePath)->exists()) {
           
-            $tokenData  = flextype('serializers')->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $form->get('fields.api') . '/' . $form->get('fields.token') . '/token.yaml'));
+            $tokenData  = serializers()->yaml()->decode(Filesystem::read(PATH['project'] . '/tokens/' . $form->get('fields.api') . '/' . $form->get('fields.token') . '/token.yaml'));
 
-            $result = filesystem()->file($apiTokenFilePath)->put(flextype('serializers')->yaml()->encode(array_merge($tokenData, $form->copy()->delete('fields.api')->delete('fields.token')->get('fields'))));
+            $result = filesystem()->file($apiTokenFilePath)->put(serializers()->yaml()->encode(array_merge($tokenData, $form->copy()->delete('fields.api')->delete('fields.token')->get('fields'))));
 
             if ($result) {
-                flextype('flash')->addMessage('success', $form->get('messages.success'));
+                container()->get('flash')->addMessage('success', $form->get('messages.success'));
             } else {
-                flextype('flash')->addMessage('error', $form->get('messages.error'));
+                container()->get('flash')->addMessage('error', $form->get('messages.error'));
             }
         } else {
-            flextype('flash')->addMessage('error', $form->get('messages.error'));
+            container()->get('flash')->addMessage('error', $form->get('messages.error'));
         }
 
         return $response->withRedirect($form->get('redirect'));
@@ -301,12 +301,12 @@ class ApiController
         $apiTokenDirPath = PATH['project'] . '/tokens/' . $data['api'] . '/' . $data['token'];
 
         if (Filesystem::deleteDir($apiTokenDirPath)) {
-            flextype('flash')->addMessage('success', __('admin_message_'. $data['api'] .'_api_token_deleted'));
+            container()->get('flash')->addMessage('success', __('admin_message_'. $data['api'] .'_api_token_deleted'));
         } else {
-            flextype('flash')->addMessage('error', __('admin_message_'. $data['api'] .'_api_token_was_not_deleted'));
+            container()->get('flash')->addMessage('error', __('admin_message_'. $data['api'] .'_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect(flextype('router')->pathFor('admin.api.tokens') . '?api=' . $data['api']);
+        return $response->withRedirect(router()->pathFor('admin.api.tokens') . '?api=' . $data['api']);
     }
 
     private function getStats(string $api) {
@@ -316,7 +316,7 @@ class ApiController
         $data = [];
 
         foreach ($files as $file) {
-            $calls = flextype('serializers')->yaml()->decode(filesystem()->file($file)->get())['calls'] ?? 0;
+            $calls = serializers()->yaml()->decode(filesystem()->file($file)->get())['calls'] ?? 0;
             $data['tokens'] = ++$i;
             $data['calls'] = $calls++;
         }

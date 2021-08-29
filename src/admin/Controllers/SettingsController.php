@@ -20,7 +20,7 @@ class SettingsController
      */
     public function __construct()
     {
-        flextype('registry')->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
+        registry()->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
     }
 
     /**
@@ -31,7 +31,7 @@ class SettingsController
      */
     public function index(Request $request, Response $response): Response
     {
-        return flextype('twig')->render(
+        return twig()->render(
             $response,
             'plugins/admin/templates/system/settings/index.html',
             [
@@ -39,7 +39,7 @@ class SettingsController
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [
-                        'link' => flextype('router')->pathFor('admin.settings.index'),
+                        'link' => router()->pathFor('admin.settings.index'),
                         'title' => __('admin_settings')
                     ],
                 ]
@@ -56,12 +56,12 @@ class SettingsController
     public function updateSettingsProcess(Request $request, Response $response): Response
     {
         // Process form
-        $form = flextype('blueprints')->form($request->getParsedBody())->process();
+        $form = blueprints()->form($request->getParsedBody())->process();
 
         if (filesystem()->file(PATH['project'] . '/config/flextype/settings.yaml')->put($form['fields']['settings'])) {
-            flextype('flash')->addMessage('success', $form['messages']['success']);
+            container()->get('flash')->addMessage('success', $form['messages']['success']);
         } else {
-            flextype('flash')->addMessage('error', $form['messages']['error']);
+            container()->get('flash')->addMessage('error', $form['messages']['error']);
         }
 
         return $response->withRedirect($form['redirect']); 

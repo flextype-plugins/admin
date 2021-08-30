@@ -39,7 +39,7 @@ class SettingsController
                 'menu_item' => 'settings',
                 'links' => [
                     'settings' => [
-                        'link' => router()->pathFor('admin.settings.index'),
+                        'link' => urlFor('admin.settings.index'),
                         'title' => __('admin_settings')
                     ],
                 ]

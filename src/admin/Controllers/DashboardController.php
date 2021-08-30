@@ -17,6 +17,6 @@ class DashboardController
      */
     public function index(/** @scrutinizer ignore-unused */ Request $request, Response $response): Response
     {
-        return $response->withRedirect(router()->pathFor('admin.entries.index'));
+        return $response->withRedirect(urlFor('admin.entries.index'));
     }
 }

@@ -44,7 +44,7 @@ class PluginsController
                 'menu_item' => 'plugins',
                 'links' =>  [
                     'plugins' => [
-                        'link' => router()->pathFor('admin.plugins.index'),
+                        'link' => urlFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                         'active' => true
                     ],
@@ -78,7 +78,7 @@ class PluginsController
         filesystem()->directory(PATH['tmp'] . '/data')->delete(true);
 
         // Redirect to plugins index page
-        return $response->withRedirect(router()->pathFor('admin.plugins.index'));
+        return $response->withRedirect(urlFor('admin.plugins.index'));
     }
 
     /**
@@ -107,11 +107,11 @@ class PluginsController
                 'manifest' => $manifest,
                 'links' =>  [
                     'plugins' => [
-                        'link' => router()->pathFor('admin.plugins.index'),
+                        'link' => urlFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                     ],
                     'plugins_name' => [
-                        'link' => router()->pathFor('admin.plugins.information') . '?id=' . $query['id'],
+                        'link' => urlFor('admin.plugins.information') . '?id=' . $query['id'],
                         'title' => $manifest['name'],
                     ],
                 ],
@@ -145,11 +145,11 @@ class PluginsController
                 'settings' => $customPluginSettingsFileContent,
                 'links' =>  [
                     'plugins' => [
-                        'link' => router()->pathFor('admin.plugins.index'),
+                        'link' => urlFor('admin.plugins.index'),
                         'title' => __('admin_plugins'),
                     ],
                     'plugins_settings' => [
-                        'link' => router()->pathFor('admin.plugins.settings') . '?id=' . $query['id'],
+                        'link' => urlFor('admin.plugins.settings') . '?id=' . $query['id'],
                         'title' => $pluginsManifest['name']
                     ],
                 ]
@@ -176,6 +176,6 @@ class PluginsController
             container()->get('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));
         }
 
-        return $response->withRedirect(router()->pathFor('admin.plugins.settings') . '?id=' . $form->get('fields.id'));
+        return $response->withRedirect(urlFor('admin.plugins.settings') . '?id=' . $form->get('fields.id'));
     }
 }

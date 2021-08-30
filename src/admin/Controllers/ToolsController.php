@@ -62,7 +62,7 @@ class ToolsController
                 ],
                 'links' =>  [
                     'tools' => [
-                        'link' => router()->pathFor('admin.tools.index'),
+                        'link' => urlFor('admin.tools.index'),
                         'title' => __('admin_tools')
                     ],
                 ],
@@ -88,11 +88,11 @@ class ToolsController
                 'php_sapi_name' => php_sapi_name(),
                 'links' =>  [
                     'tools' => [
-                        'link' => router()->pathFor('admin.tools.index'),
+                        'link' => urlFor('admin.tools.index'),
                         'title' => __('admin_tools')
                     ],
                     'information' => [
-                        'link' => router()->pathFor('admin.tools.information'),
+                        'link' => urlFor('admin.tools.information'),
                         'title' => __('admin_information'),
 
                     ],
@@ -120,12 +120,12 @@ class ToolsController
                 'preflight_size' => Number::byteFormat($this->getDirectorySize(PATH['tmp'] . '/preflight')),
                 'links' =>  [
                     'tools' => [
-                        'link' => router()->pathFor('admin.tools.index'),
+                        'link' => urlFor('admin.tools.index'),
                         'title' => __('admin_tools'),
 
                     ],
                     'cache' => [
-                        'link' => router()->pathFor('admin.tools.cache'),
+                        'link' => urlFor('admin.tools.cache'),
                         'title' => __('admin_cache'),
                         'active' => true
                     ],
@@ -150,12 +150,12 @@ class ToolsController
                 'registryDump' => registry()->copy()->dot()->all(),
                 'links' =>  [
                     'tools' => [
-                        'link' => router()->pathFor('admin.tools.index'),
+                        'link' => urlFor('admin.tools.index'),
                         'title' => __('admin_tools'),
 
                     ],
                     'registry' => [
-                        'link' => router()->pathFor('admin.tools.registry'),
+                        'link' => urlFor('admin.tools.registry'),
                         'title' => __('admin_registry'),
                         'active' => true
                     ],
@@ -196,7 +196,7 @@ class ToolsController
 
         container()->get('flash')->addMessage('success', __('admin_message_cache_cleared'));
 
-        return $response->withRedirect(router()->pathFor('admin.tools.cache'));
+        return $response->withRedirect(urlFor('admin.tools.cache'));
     }
 
     /**
@@ -219,7 +219,7 @@ class ToolsController
             container()->get('flash')->addMessage('error', __('admin_message_cache_was_not_cleared'));
         }
 
-        return $response->withRedirect(router()->pathFor('admin.tools.cache'));
+        return $response->withRedirect(urlFor('admin.tools.cache'));
     }
 
     /**

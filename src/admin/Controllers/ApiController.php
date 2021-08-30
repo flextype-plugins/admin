@@ -71,7 +71,7 @@ class ApiController
                              ],
                 'links' =>  [
                     'api' => [
-                        'link' => router()->pathFor('admin.api.index'),
+                        'link' => urlFor('admin.api.index'),
                         'title' => __('admin_api'),
                         'active' => true,
                     ],
@@ -97,7 +97,7 @@ class ApiController
             container()->get('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
         }
 
-        return $response->withRedirect(router()->pathFor('admin.api.index'));
+        return $response->withRedirect(urlFor('admin.api.index'));
     }
 
     /**
@@ -137,11 +137,11 @@ class ApiController
                 'tokens' => $tokens,
                 'links' =>  [
                     'api' => [
-                        'link' => router()->pathFor('admin.api.index'),
+                        'link' => urlFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_tokens' => [
-                        'link' => router()->pathFor('admin.api.tokens') . '?api=' . $query['api'],
+                        'link' => urlFor('admin.api.tokens') . '?api=' . $query['api'],
                         'title' => __('admin_' . $query['api'])
                     ],
                 ]
@@ -169,11 +169,11 @@ class ApiController
                 'time' => date(registry()->get('flextype.settings.date_format'), time()),
                 'links' =>  [
                     'api' => [
-                        'link' => router()->pathFor('admin.api.index'),
+                        'link' => urlFor('admin.api.index'),
                         'title' => __('admin_api'),
                     ],
                     'api_tokens' => [
-                        'link' => router()->pathFor('admin.api.tokens') . '?api=' . $query['api'],
+                        'link' => urlFor('admin.api.tokens') . '?api=' . $query['api'],
                         'title' => __('admin_' . $query['api'])
                     ],
                 ]
@@ -241,11 +241,11 @@ class ApiController
                 'time' => date(registry()->get('flextype.settings.date_format'), time()),
                 'links' =>  [
                     'api' => [
-                        'link' => router()->pathFor('admin.api.index'),
+                        'link' => urlFor('admin.api.index'),
                         'title' => __('admin_api')
                     ],
                     'api_tokens' => [
-                        'link' => router()->pathFor('admin.api.tokens') . '?api=' . $query['api'],
+                        'link' => urlFor('admin.api.tokens') . '?api=' . $query['api'],
                         'title' => __('admin_' . $query['api'])
                     ],
                 ]
@@ -306,7 +306,7 @@ class ApiController
             container()->get('flash')->addMessage('error', __('admin_message_'. $data['api'] .'_api_token_was_not_deleted'));
         }
 
-        return $response->withRedirect(router()->pathFor('admin.api.tokens') . '?api=' . $data['api']);
+        return $response->withRedirect(urlFor('admin.api.tokens') . '?api=' . $data['api']);
     }
 
     private function getStats(string $api) {

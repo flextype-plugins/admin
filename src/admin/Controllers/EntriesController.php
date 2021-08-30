@@ -90,7 +90,7 @@ class EntriesController
                 'query' => $query,
                 'links' => [
                     'content' => [
-                        'link' => router()->pathFor('admin.entries.index'),
+                        'link' => urlFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -126,7 +126,7 @@ class EntriesController
                 'query' => $request->getQueryParams(),
                 'links' => [
                     'content' => [
-                        'link' => router()->pathFor('admin.entries.index'),
+                        'link' => urlFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -216,7 +216,7 @@ class EntriesController
                 'entryParentID' => $entryParentID,
                 'links' => [
                     'content' => [
-                        'link' => router()->pathFor('admin.entries.index'),
+                        'link' => urlFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -279,7 +279,7 @@ class EntriesController
                 'query' => $query,
                 'links' => [
                     'content' => [
-                        'link' => router()->pathFor('admin.entries.index'),
+                        'link' => urlFor('admin.entries.index'),
                         'title' => __('admin_entries')
                     ]
                 ]
@@ -337,7 +337,7 @@ class EntriesController
             container()->get('flash')->addMessage('error', __('admin_message_entries_was_not_deleted'));
         }
 
-        return $response->withRedirect(router()->pathFor('admin.entries.index') . '?id=' . $contentCurrentID);
+        return $response->withRedirect(urlFor('admin.entries.index') . '?id=' . $contentCurrentID);
     }
 
     /**
@@ -365,7 +365,7 @@ class EntriesController
 
         container()->get('flash')->addMessage('success', __('admin_message_entries_duplicated'));
 
-        return $response->withRedirect(router()->pathFor('admin.entries.index') . '?id=' . $parentID);
+        return $response->withRedirect(urlFor('admin.entries.index') . '?id=' . $parentID);
     }
 
     /**
@@ -401,7 +401,7 @@ class EntriesController
                 'query' => $query,
                 'links' => [
                     'entry' => [
-                        'link' => router()->pathFor('admin.entries.index') . '?id=' . arraysFromString($query['id'], '/')->slice(0, -1)->toString('/'),
+                        'link' => urlFor('admin.entries.index') . '?id=' . arraysFromString($query['id'], '/')->slice(0, -1)->toString('/'),
                         'title' => __('admin_entries')
                     ]
                 ]

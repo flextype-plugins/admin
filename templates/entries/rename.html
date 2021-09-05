@@ -1,0 +1,23 @@
+{% extends "plugins/admin/templates/entries/partials/base.html" %}
+
+{% block content %}
+    {% if arraysFromString(query.id, '/')|length > 1 %}
+    {% set parentEntry = entries().fetch(arraysFromString(query.id, '/').slice(0, -1).toString('/')) %}
+    {% if parentEntry.blueprint %}
+        {% set blueprint = parentEntry.blueprint ~ '/rename' %}
+    {% else %}
+        {% set blueprint = 'admin/entries/default' ~ '/rename' %}
+    {% endif %}
+    {% else %}
+    {% set parentEntry = entries().fetch(query.id) %}
+    {% if parentEntry.blueprint %}
+        {% set blueprint = parentEntry.blueprint ~ '/rename' %}
+    {% else %}
+        {% set blueprint = 'admin/entries/default' ~ '/rename' %}
+    {% endif %}
+    {% endif %}
+
+    {{ blueprint }}
+
+    {{ blueprints().render(blueprint, {}, {'query': query}) }}
+{% endblock %}

@@ -16,22 +16,22 @@
         align-items: center;
         justify-content: center;
         background: #fbfbfb;">
-            <img src="{{ url() }}/project/media/{{ id }}" style="max-height: 450px; max-width: 700px;
+            <img src="{{ getBaseUrl() }}/project/media/{{ id }}" style="max-height: 450px; max-width: 700px;
                         display: block;" alt="">
         </div>
     </div>
     <div class="col-md-4">
         <div class="workspace-rounded px-4 py-4 mb-3">
-            {{ flextype.form.render(flextype.serializers.yaml.decode(filesystem().file(PATH_PROJECT ~ '/fieldsets/media-file.yaml').get()), meta_data)|raw }}
+            {{ flextype.form.render(serializers().yaml.decode(filesystem().file(PATH_PROJECT ~ '/fieldsets/media-file.yaml').get()), meta_data)|raw }}
         </div>
         <div class="workspace-rounded px-4 py-4 mb-3">
             <div class="mb-3">
                 <label for="" class="form-label">{{ __('admin_direct_link') }}</label>
-                <input type="text" class="form-control" id="" value="{{ url() }}/project/media/{{ id }}" readonly>
+                <input type="text" class="form-control" id="" value="{{ getBaseUrl() }}/project/media/{{ id }}" readonly>
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">{{ __('admin_images_api_link') }}</label>
-                <input type="text" class="form-control" id="" value="{{ url() }}/api/images/{{ id }}?token={{ flextype.registry.get('flextype.settings.api.images.default_token') }}" readonly>
+                <input type="text" class="form-control" id="" value="{{ getBaseUrl() }}/api/images/{{ id }}?token={{ registry().get('flextype.settings.api.images.default_token') }}" readonly>
             </div>
         </div>
     </div>

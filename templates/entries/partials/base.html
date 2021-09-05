@@ -11,11 +11,11 @@
             {% set entryID = strings(entryID ~ '/' ~ part).trimLeft('/') %}
             {% if (part != parts|last) %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ entryID }}">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title ?: flextype.entries.fetch(entryID).slug }}{% else %}{{ part }}{% endif %}</a>
+                    <a class="nav-link" href="{{ urlFor('admin.entries.index') }}?id={{ entryID }}">{% if entries().has(entryID) %}{{ entries().fetch(entryID).title ?: entries().fetch(entryID).slug }}{% else %}{{ part }}{% endif %}</a>
                 </li>
             {% elseif (part) %}
             <li class="nav-item">
-                <a class="nav-link">{% if flextype.entries.has(entryID) %}{{ flextype.entries.fetch(entryID).title ?: flextype.entries.fetch(entryID).slug }}{% else %}{{ part }}{% endif %}</a>
+                <a class="nav-link">{% if entries().has(entryID) %}{{ entries().fetch(entryID).title ?: entries().fetch(entryID).slug }}{% else %}{{ part }}{% endif %}</a>
             </li>
             {% endif %}
         {% endfor %}
@@ -41,7 +41,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>{{ __('admin_confirmation_required_for_entry_delete') }}</p>
+            <p>{{ __('admin_confirmation_required_for_entries_delete') }}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('admin_cancel') }}</button>

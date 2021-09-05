@@ -1,8 +1,0 @@
-{% extends "plugins/admin/templates/content/entries/partials/base.html" %}
-
-{% block content %}
-    {{ flextype.blueprints.render('admin/content/entries/move', {}, {'entryCurrentID': entryCurrentID,
-                                                             'entryParentID': entryParentID,
-                                                             'entries': entries,
-                                                             'query': query}) }}
-{% endblock %}

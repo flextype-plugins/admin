@@ -1,0 +1,34 @@
+{% extends "plugins/admin/templates/entries/partials/base.html" %}
+
+{% block content %}
+    {% if entries|length > 0 %}
+        {#{ blueprints().render(flex, {}, {'query': query}) }#}
+        {#% set e = blueprints().fetch('admin/entries/accounts/account').get('admin.entries.accounts.account.item') %#}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {% set blueprint = [] %}
+                    {% for entry in entries %}
+                        {{ entry.id }}
+                        
+                        {{ blueprints().render('admin/entries/accounts/account/item',
+                                                                {}, 
+                                                                {'entry': entry, 'query': query}) }}
+                                                                
+                        {#{ blueprints().renderFromArray(blueprints().fetch(entry.blueprint ~ '/account/item').toArray(),
+                                                                {}, 
+                                                                {'entry': entry, 'query': query}) }#}
+                    {% endfor %}
+                    {% do arrays(blueprint).dump('dump') %}
+
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="workspace-message">
+            <div class="workspace-message__icon">{{ icon('newspaper', 'bootstrap') }}</div>
+            <h3 class="workspace-message__title">{{ __('admin_you_have_not_created_any_entries_yet') }}</h3>
+            <a class="workspace-message__button btn btn-primary" href="{{ urlFor('admin.entries.add') }}">{{ __('admin_create_new_content') }}</a>
+        </div>
+    {% endif %}
+{% endblock %}

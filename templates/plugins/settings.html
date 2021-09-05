@@ -1,0 +1,5 @@
+{% extends "plugins/admin/templates/partials/base.html" %}
+
+{% block content %}
+    {{ blueprints().render('admin/plugins/settings', {'settings': settings}, {'query': query}) }}
+{% endblock %}

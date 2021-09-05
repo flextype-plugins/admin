@@ -1,7 +1,7 @@
 {% extends "plugins/admin/templates/partials/base.html" %}
 
 {% block content %}
-{{ flextype.blueprints.render('admin/system/tools/registry', {}, {'query': query}) }}
+{{ blueprints().render('admin/system/tools/registry', {}, {'query': query}) }}
 <div class="container">
     <div class="row">
         <div class="col-md-12">

@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if (tokens|length > 0) %}
-        {{ flextype.blueprints.render('admin/system/api/' ~ query.api, {}, {'query': query}) }}
+        {{ blueprints().render('admin/system/api/' ~ query.api, {}, {'query': query}) }}
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -26,7 +26,7 @@
                             {% for key, token in tokens %}
                                 {% set token_file_path = PATH_PROJECT ~ '/tokens/' ~ query.api ~ '/' ~ token.dirname ~ '/' ~ 'token.yaml' %}
                                 {% if filesystem().file(token_file_path).exists() %}
-                                    {% set token_data = flextype.serializers.yaml.decode(filesystem().file(token_file_path).get()) %}
+                                    {% set token_data = serializers().yaml.decode(filesystem().file(token_file_path).get()) %}
                                 {% endif %}
                                 <tr>
                                     <td class="text-center {% if token_data.state == 'disabled' %}opacity-50{% endif %}">

@@ -1,8 +1,8 @@
-{% extends "plugins/admin/templates/content/entries/partials/base.html" %}
+{% extends "plugins/admin/templates/entries/partials/base.html" %}
 
 {% block content %}
     {% set templates = [] %}
-    {% for template in filesystem().find().depth(0).in(PATH_PROJECT ~ '/themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/').files() %}
+    {% for template in filesystem().find().depth(0).in(PATH_PROJECT ~ '/themes/' ~ registry().get('plugins.site.settings.theme') ~ '/templates/').files() %}
         {% if template.getExtension() == 'html' %}
             {% set templateName = template.getBasename('.html') %}
             {% set templates = templates|merge({(templateName): templateName}) %}
@@ -10,9 +10,9 @@
     {% endfor %}
 
     {% if entry['blueprint'] %} 
-        {% set blueprint = flextype.blueprints.fetch(entry['blueprint']) %}
+        {% set blueprint = blueprints().fetch(entry['blueprint']) %}
     {% else %}
-        {% set blueprint = flextype.blueprints.fetch('default') %}
+        {% set blueprint = blueprints().fetch('default') %}
     {% endif %}
 
     {% if entry['blocks'] %}
@@ -21,7 +21,7 @@
 
     {% set blueprint = blueprint.toArray() %}
 
-    {{ flextype.blueprints.renderFromArray(blueprint, entry, {'templates': templates,
+    {{ blueprints().renderFromArray(blueprint, entry, {'templates': templates,
                                                               'routable': routable,
                                                               'entry': entry,
                                                               'visibility': visibility,

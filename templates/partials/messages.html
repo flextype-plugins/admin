@@ -1,4 +1,4 @@
-{% for message in flextype.flash.getMessages()['success'] %}
+{% for message in flash().getMessages()['success'] %}
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
       <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
         <div class="toast-body">
@@ -9,7 +9,7 @@
     <script>document.addEventListener("DOMContentLoaded", function(event) { toastShow(); });</script>
 {% endfor %}
 
-{% for message in flextype.flash.getMessages()['warning'] %}
+{% for message in flash().getMessages()['warning'] %}
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
       <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
         <div class="toast-body">
@@ -20,7 +20,7 @@
     <script>document.addEventListener("DOMContentLoaded", function(event) { toastShow(); });</script>
 {% endfor %}
 
-{% for message in flextype.flash.getMessages()['error'] %}
+{% for message in flash().getMessages()['error'] %}
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
       <div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" data-bs-autohide="true">
         <div class="toast-body">

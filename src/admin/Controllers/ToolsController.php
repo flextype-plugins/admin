@@ -196,7 +196,7 @@ class ToolsController
 
         container()->get('flash')->addMessage('success', __('admin_message_cache_cleared'));
 
-        return $response->withRedirect(urlFor('admin.tools.cache'));
+        return redirect('admin.tools.cache');
     }
 
     /**
@@ -219,7 +219,7 @@ class ToolsController
             container()->get('flash')->addMessage('error', __('admin_message_cache_was_not_cleared'));
         }
 
-        return $response->withRedirect(urlFor('admin.tools.cache'));
+        return redirect('admin.tools.cache');
     }
 
     /**

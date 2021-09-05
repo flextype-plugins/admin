@@ -38,7 +38,7 @@ $adminLoader = require_once $adminAutoload;
 /**
  * Include web routes
  */
-include_once 'routes/web.php';
+include_once 'src/routes/web.php';
 
 // Set Default Admin locale
 I18n::$locale = registry()->get('flextype.settings.locale');

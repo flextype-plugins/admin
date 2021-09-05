@@ -97,7 +97,7 @@ class ApiController
             container()->get('flash')->addMessage('error', __('admin_message_api_tokens_was_not_deleted'));
         }
 
-        return $response->withRedirect(urlFor('admin.api.index'));
+        return redirect('admin.api.index');
     }
 
     /**

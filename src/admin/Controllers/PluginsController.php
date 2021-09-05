@@ -78,7 +78,7 @@ class PluginsController
         filesystem()->directory(PATH['tmp'] . '/data')->delete(true);
 
         // Redirect to plugins index page
-        return $response->withRedirect(urlFor('admin.plugins.index'));
+        return redirect('admin.plugins.index');
     }
 
     /**
@@ -176,6 +176,6 @@ class PluginsController
             container()->get('flash')->addMessage('error', __('admin_message_plugin_settings_not_saved'));
         }
 
-        return $response->withRedirect(urlFor('admin.plugins.settings') . '?id=' . $form->get('fields.id'));
+        return redirect('admin.plugins.settings') . '?id=' . $form->get('fields.id');
     }
 }

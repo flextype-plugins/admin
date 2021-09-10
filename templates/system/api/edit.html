@@ -1,5 +1,0 @@
-{% extends "plugins/admin/templates/system/api/partials/base.html" %}
-
-{% block content %}
-    {{ blueprints().render('admin/system/api/' ~ query.api ~ '/edit', tokenData, {'query': query, 'time': time}) }}
-{% endblock %}

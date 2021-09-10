@@ -10,13 +10,6 @@ use Flextype\Plugin\Admin\Controllers\SettingsController;
 use Flextype\Plugin\Admin\Controllers\PluginsController;
 use Flextype\Plugin\Admin\Controllers\EntriesController;
 use Flextype\Plugin\Admin\Controllers\ToolsController;
-use Flextype\Plugin\Admin\Controllers\ApiController;
-use Flextype\Plugin\Admin\Controllers\ApiImagesController;
-use Flextype\Plugin\Admin\Controllers\ApiRegistryController;
-use Flextype\Plugin\Admin\Controllers\ApiContentController;
-use Flextype\Plugin\Admin\Controllers\ApiFilesController;
-use Flextype\Plugin\Admin\Controllers\ApiFoldersController;
-use Flextype\Plugin\Admin\Controllers\ApiAccessController;
 use Slim\Routing\RouteCollectorProxy;
 
 app()->group('/' . $adminRoute, function (RouteCollectorProxy $group) : void {

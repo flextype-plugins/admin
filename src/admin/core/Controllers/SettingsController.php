@@ -16,14 +16,6 @@ use function Flextype\Component\I18n\__;
 class SettingsController
 {
     /**
-     * __construct()
-     */
-    public function __construct()
-    {
-        registry()->set('workspace', ['icon' => ['name' => 'gear', 'set' => 'bootstrap']]);
-    }
-
-    /**
      * Index page
      *
      * @param Request  $request  PSR7 request

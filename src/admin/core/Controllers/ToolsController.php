@@ -23,14 +23,6 @@ use function realpath;
 class ToolsController
 {
     /**
-     * __construct()
-     */
-    public function __construct()
-    {
-        registry()->set('workspace', ['icon' => ['name' => 'briefcase', 'set' => 'bootstrap']]);
-    }
-
-    /**
      * Index page
      *
      * @param Request  $request  PSR7 request

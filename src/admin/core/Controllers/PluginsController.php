@@ -16,14 +16,6 @@ use function trim;
 class PluginsController
 {
     /**
-     * __construct()
-     */
-    public function __construct()
-    {
-        registry()->set('workspace', ['icon' => ['name' => 'box', 'set' => 'bootstrap']]);
-    }
-
-    /**
      * Index page
      *
      * @param Request  $request  PSR7 request
